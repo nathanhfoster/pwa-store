@@ -1,25 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { lazy } from 'react';
+import { connect } from 'store';
+import { Route, Switch, Redirect } from 'react-router-dom';
+import { Helmet } from 'views';
+import { RouteMap } from 'utils';
 
-function App() {
+const Home = lazy(() => import('./views/Home'));
+const PageNotFound = lazy(() => import('./views/PageNotFound'));
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <main className='App'>
+      <Helmet />
+      <header className='App-header'>
+        <Switch>
+          <Route exact path={[RouteMap.ROOT, RouteMap.HOME]} component={Home} />
+          <Route render={() => <PageNotFound />} />
+        </Switch>
       </header>
-    </div>
+    </main>
   );
-}
+};
 
-export default App;
+const mapStateToProps = ({}) => ({});
+
+export default connect(mapStateToProps)(App);

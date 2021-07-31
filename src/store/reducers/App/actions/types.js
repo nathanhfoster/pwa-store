@@ -1,0 +1,1 @@
+export const APP_SET_VERSION = 'APP_SET_VERSION';
