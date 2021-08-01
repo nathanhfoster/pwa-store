@@ -1,0 +1,13 @@
+.App {
+}
+.App-header {
+  /* Height of the Navbar */
+  padding-top: 64px;
+}
+
+@media screen and (max-width: 768px) {
+  .App-header {
+    /* Height of the Navbar */
+    padding-top: 56px;
+  }
+}

@@ -1,1 +1,2 @@
 export const APP_SET_VERSION = 'APP_SET_VERSION';
+export const APP_TOGGLE_NAV_BAR = 'APP_TOGGLE_NAV_BAR';

@@ -1,4 +1,3 @@
-export const RouteMap = {
-  ROOT: '/',
-  HOME: '/home'
-};
+import * as RouteMap from './RouteMap';
+
+export { RouteMap };

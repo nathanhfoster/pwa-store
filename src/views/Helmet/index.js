@@ -6,7 +6,7 @@ import { Helmet } from 'react-helmet';
 const HelmetContainer = ({}) => {
   const { pathname } = useLocation();
   const title = useMemo(() => {
-    let title = 'Astral Tree';
+    let title = 'PWA Store';
 
     return title;
   }, []);
@@ -38,7 +38,7 @@ const HelmetContainer = ({}) => {
     <Helmet>
       {/* Controlled */}
       <title>{title}</title>
-      <meta charset="utf-8" />
+      <meta charset='utf-8' />
       <meta name='apple-mobile-web-app-title' content={title} />
       <meta name='apple-mobile-web-app-status-bar-style' content={themeColor} />
       <meta name='msapplication-TileColor' content={themeColor} />
