@@ -30,6 +30,7 @@ import FlightTakeoffIcon from '@material-ui/icons/FlightTakeoff';
 import StarIcon from '@material-ui/icons/Star';
 import BookIcon from '@material-ui/icons/Book';
 import KeyboardIcon from '@material-ui/icons/Keyboard';
+import SignalWifiOffIcon from '@material-ui/icons/SignalWifiOff';
 
 const categories = [
   'Games',
@@ -46,7 +47,8 @@ const categories = [
   'Travel',
   'Entertainment',
   'Reference',
-  'Productivity'
+  'Productivity',
+  'Offline'
 ];
 
 const categoryIconMap = {
@@ -64,7 +66,8 @@ const categoryIconMap = {
   Travel: FlightTakeoffIcon,
   Entertainment: StarIcon,
   Reference: BookIcon,
-  Productivity: KeyboardIcon
+  Productivity: KeyboardIcon,
+  Offline: SignalWifiOffIcon
 };
 
 const StyledToolbar = styled(Toolbar)((props) => ({
