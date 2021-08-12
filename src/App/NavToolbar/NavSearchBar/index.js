@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import { styled, alpha } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
+import { CircularProgress } from '@material-ui/core';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -44,12 +46,23 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const NavSearchBar = () => {
+  const [loading, setLoading] = useState(false);
+  const [searchkey, setSearchkey] = useState('');
+  const onChange = (e) => {
+    setLoading(true);
+    setSearchkey(e.target.value);
+  }
   return (
     <Search>
       <SearchIconWrapper>
-        <SearchIcon />
+        {loading ? <CircularProgress color="inherit" thickness={5} size={20} /> : <SearchIcon />}
       </SearchIconWrapper>
-      <StyledInputBase placeholder='Search…' inputProps={{ 'aria-label': 'search' }} />
+      <StyledInputBase
+        value={searchkey}
+        onChange={onChange}
+        placeholder='Search…'
+        inputProps={{ 'aria-label': 'search' }}
+      />
     </Search>
   );
 };
