@@ -11,7 +11,7 @@ import { GetPwaDetailUrl } from 'utils/RouteMap';
 
 const DEFAULT_IMAGE = 'https://gpndata.com/blog/wp-content/uploads/2016/09/Cover1-1024x1024.jpg';
 
-const IMAGE_SIZE = 134;
+const IMAGE_SIZE = 140;
 
 const cardStyles = { textAlign: 'center' };
 
@@ -22,7 +22,7 @@ const noWrapStyles = {
   maxWidth: '100%'
 };
 
-const Pwa = ({ id, name, description, views, ratings, organization, tags, last_modified }) => {
+const Pwa = ({ id, name, short_description, description, views, ratings, organization, tags, last_modified }) => {
   const history = useHistory();
   const [isHovered, toggleIsHovered] = useBooleanReducer(false);
 
