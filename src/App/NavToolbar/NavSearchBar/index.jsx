@@ -6,6 +6,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import useMounted from 'hooks/useMounted';
 import useDebounce from 'hooks/useDebounce';
 import { SetPwasSearch, SearchPwas } from 'store/reducers/Pwas/actions';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -47,7 +48,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   }
 }));
 
-const NavSearchBar = ({ search, SetPwasSearch, SearchPwas }) => {
+const NavSearchBar = ({ search, isLoading, SetPwasSearch, SearchPwas }) => {
   const mounted = useMounted();
   const debouncedSearch = useDebounce(search);
 
@@ -63,9 +64,11 @@ const NavSearchBar = ({ search, SetPwasSearch, SearchPwas }) => {
 
   return (
     <Search>
-      <SearchIconWrapper>
-        <SearchIcon />
-      </SearchIconWrapper>
+      {!isLoading && (
+        <SearchIconWrapper>
+          <SearchIcon />
+        </SearchIconWrapper>
+      )}
       <StyledInputBase
         fullWidth
         placeholder='Search…'
@@ -73,11 +76,12 @@ const NavSearchBar = ({ search, SetPwasSearch, SearchPwas }) => {
         onChange={onSearch}
         value={search}
       />
+      {isLoading && <LinearProgress />}
     </Search>
   );
 };
 
-const mapStateToProps = ({ Pwas: { search } }) => ({ search });
+const mapStateToProps = ({ Pwas: { search, isLoading } }) => ({ search, isLoading });
 const mapDispatchToProps = { SetPwasSearch, SearchPwas };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavSearchBar);
