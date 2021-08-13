@@ -9,7 +9,9 @@ import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import { LoadingScreen } from 'components';
 import reportWebVitals from './reportWebVitals';
-import * as serviceWorker from './serviceWorker';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+import serviceWorkerConfig from './serviceWorkerConfig';
+
 import blue from '@material-ui/core/colors/blue';
 
 const theme = createTheme({
@@ -45,4 +47,4 @@ reportWebVitals();
 
 const store = storeFactory.getStore(RootStoreContext);
 
-serviceWorker.register(serviceWorker.serviceWorkerConfig(store));
+serviceWorkerRegistration.register(serviceWorkerConfig(store));
