@@ -9,14 +9,15 @@ import NavToolbar from './NavToolbar';
 import AppRouter from 'views';
 import NavDrawer from './NavDrawer';
 
-import { GetPwas } from 'store/reducers/Pwas/actions/api';
+import { GetPwas, GetPwaTags } from 'store/reducers/Pwas/actions/api';
 
 const DRAWER_WIDTH = 240;
 const DRAWER_HEIGHT = 64;
 
-const App = ({ GetPwas }) => {
+const App = ({ GetPwas, GetPwaTags }) => {
   useEffect(() => {
     GetPwas();
+    GetPwaTags();
   }, []);
 
   return (
@@ -55,6 +56,6 @@ App.propTypes = {
 
 const mapStateToProps = ({}) => ({});
 
-const mapDispatchToProps = { GetPwas };
+const mapDispatchToProps = { GetPwas, GetPwaTags };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

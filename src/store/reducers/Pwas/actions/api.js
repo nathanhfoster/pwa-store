@@ -1,11 +1,21 @@
 import { Axios } from '../../Axios';
-import { ToogleIsLoading, SetPwas, SetPwasSearch, MergeFilterPwas } from './redux';
+import { ToogleIsLoading, SetPwas, SetPwaTags, SetPwasSearch, MergeFilterPwas } from './redux';
 
 export const GetPwas = (pagination) => (dispatch) =>
   Axios({ pagination })
     .get(!pagination ? 'pwas' : undefined)
     .then(({ data }) => {
       return dispatch(SetPwas(data));
+    })
+    .catch((e) => {
+      console.error(e);
+    });
+
+export const GetPwaTags = () => (dispatch) =>
+  Axios()
+    .get('tags')
+    .then(({ data }) => {
+      return dispatch(SetPwaTags(data));
     })
     .catch((e) => {
       console.error(e);

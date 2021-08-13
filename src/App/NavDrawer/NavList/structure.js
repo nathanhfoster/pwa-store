@@ -14,8 +14,10 @@ import StarIcon from '@material-ui/icons/Star';
 import BookIcon from '@material-ui/icons/Book';
 import KeyboardIcon from '@material-ui/icons/Keyboard';
 import SignalWifiOffIcon from '@material-ui/icons/SignalWifiOff';
+import SettingsBrightnessIcon from '@material-ui/icons/SettingsBrightness';
+import ForumIcon from '@material-ui/icons/Forum';
 
-const categories = [
+const tags = [
   'Games',
   'Tools',
   'Social',
@@ -34,7 +36,7 @@ const categories = [
   'Offline'
 ];
 
-const categoryIconMap = {
+const tagIconMap = {
   Games: VideogameAssetIcon,
   Tools: BuildIcon,
   Social: SentimentVerySatisfiedIcon,
@@ -50,7 +52,9 @@ const categoryIconMap = {
   Entertainment: StarIcon,
   Reference: BookIcon,
   Productivity: KeyboardIcon,
-  Offline: SignalWifiOffIcon
+  Offline: SignalWifiOffIcon,
+  Themed: SettingsBrightnessIcon,
+  Communication: ForumIcon
 };
 
-export { categories, categoryIconMap };
+export { tags, tagIconMap };

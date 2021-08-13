@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import connect from 'store/connect';
 import { styled } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import { HOME, GetPwaTagDetailUrl } from 'utils/RouteMap';
@@ -11,7 +13,7 @@ import AppsIcon from '@material-ui/icons/Apps';
 import ListItemText from '@material-ui/core/ListItemText';
 import IconButton from '@material-ui/core/IconButton';
 import HomeIcon from '@material-ui/icons/Home';
-import { categories, categoryIconMap } from './structure';
+import {  tagIconMap } from './structure';
 
 const StyledToolbar = styled(Toolbar)((props) => ({
   display: 'flex',
@@ -25,7 +27,7 @@ const StyledHomeIcon = styled(HomeIcon)((props) => ({
   '&:hover': { color: props.theme.palette.primary.main }
 }));
 
-const NavList = () => {
+const NavList = ({ tags }) => {
   const history = useHistory();
 
   const handleHomeClick = () => {
@@ -41,14 +43,14 @@ const NavList = () => {
       </StyledToolbar>
       <Divider />
       <List>
-        {categories.map((category) => {
-          const Icon = categoryIconMap[category] || AppsIcon;
+        {tags.map(({ name }) => {
+          const Icon = tagIconMap[name] || AppsIcon;
           return (
-            <ListItem button key={category} onClick={() => history.push(GetPwaTagDetailUrl(category))}>
+            <ListItem button key={name} onClick={() => history.push(GetPwaTagDetailUrl(name))}>
               <ListItemIcon>
                 <Icon />
               </ListItemIcon>
-              <ListItemText primary={category} />
+              <ListItemText primary={name} />
             </ListItem>
           );
         })}
@@ -57,5 +59,6 @@ const NavList = () => {
     </div>
   );
 };
+const mapStateToProps = ({ Pwas: { tags } }) => ({ tags });
 
-export default NavList;
+export default connect(mapStateToProps)(NavList);

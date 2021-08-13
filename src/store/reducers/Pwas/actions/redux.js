@@ -7,6 +7,8 @@ export const SetPwas = (payload) => ({
   payload
 });
 
+export const SetPwaTags = (payload) => ({ type: ActionTypes.PWAS_SET_TAGS, payload });
+
 export const SetPwasSearch = (payload) => ({ type: ActionTypes.PWAS_SET_SEARCH, payload });
 
 export const MergeFilterPwas = (payload, search) => ({

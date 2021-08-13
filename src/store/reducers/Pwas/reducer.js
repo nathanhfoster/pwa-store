@@ -9,7 +9,8 @@ export const DEFAULT_STATE = {
   next: null,
   previous: null,
   items: [],
-  filteredItems: []
+  filteredItems: [],
+  tags: []
 };
 
 const Pwas = (state = DEFAULT_STATE, action) => {
@@ -31,6 +32,12 @@ const Pwas = (state = DEFAULT_STATE, action) => {
         next: payload.next,
         previous: payload.previous,
         items: nextItems
+      };
+
+    case ActionTypes.PWAS_SET_TAGS:
+      return {
+        ...state,
+        tags: payload
       };
 
     case ActionTypes.PWAS_SET_SEARCH:
