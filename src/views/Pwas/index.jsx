@@ -22,7 +22,7 @@ const Pwas = ({ pwas, SearchPwas }) => {
   return (
     <Grid container spacing={2}>
       {pwas.map((item) => (
-        <Grid key={item.id} item>
+        <Grid key={item.id} item xs={6} sm={4} md={4} lg={3} xl={2}>
           <Pwa {...item} />
         </Grid>
       ))}
