@@ -22,7 +22,18 @@ const noWrapStyles = {
   maxWidth: '100%'
 };
 
-const Pwa = ({ id, name, short_description, description, views, ratings, organization, tags, last_modified }) => {
+const Pwa = ({
+  id,
+  name,
+  icon_url,
+  short_description,
+  description,
+  views,
+  ratings,
+  organization,
+  tags,
+  last_modified
+}) => {
   const history = useHistory();
   const [isHovered, toggleIsHovered] = useBooleanReducer(false);
 
@@ -40,7 +51,7 @@ const Pwa = ({ id, name, short_description, description, views, ratings, organiz
       onClick={handleCardClick}
     >
       <CardActionArea>
-        <CardMedia sx={{ height: IMAGE_SIZE, width: IMAGE_SIZE }} image={DEFAULT_IMAGE} title={name} />
+        <CardMedia sx={{ height: IMAGE_SIZE, width: IMAGE_SIZE }} image={icon_url || DEFAULT_IMAGE} title={name} />
         <CardContent>
           <Typography gutterBottom variant='span' component='div' style={noWrapStyles}>
             {name}
