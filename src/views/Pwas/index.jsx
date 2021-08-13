@@ -17,7 +17,7 @@ const Pwas = ({ pwas, SearchPwas }) => {
       // TODO
       SearchPwas(tagName);
     }
-  }, [tagName]);
+  }, [mounted, tagName]);
 
   return (
     <Grid container spacing={2}>
