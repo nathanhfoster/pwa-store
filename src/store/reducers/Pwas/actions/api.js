@@ -44,3 +44,15 @@ export const SearchPwas = (category) => (dispatch, getState) => {
       console.error(e);
     });
 };
+
+export const GetPwaManifest = (url) =>
+  Axios()
+    .get(`pwas/get_manifest?url=${url}`)
+    .then(({ data }) => {
+      console.log(data);
+      return Promise.resolve(data);
+    })
+    .catch((e) => {
+      console.error(e);
+      return Promise.reject(e);
+    });
