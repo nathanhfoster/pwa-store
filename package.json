@@ -16,7 +16,7 @@
     "react-helmet": "^6.1.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3",
-    "resurrection": "^1.0.62",
+    "resurrection": "^1.0.63",
     "web-vitals": "^1.0.1"
   },
   "devDependencies": {

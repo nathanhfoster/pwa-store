@@ -1,7 +1,7 @@
 import React from 'react';
 import { styled } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
-import { HOME } from 'utils/RouteMap';
+import { HOME, GetPwaTagDetailUrl } from 'utils/RouteMap';
 import Toolbar from '@material-ui/core/Toolbar';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
@@ -44,7 +44,7 @@ const NavList = () => {
         {categories.map((category) => {
           const Icon = categoryIconMap[category] || AppsIcon;
           return (
-            <ListItem button key={category}>
+            <ListItem button key={category} onClick={() => history.push(GetPwaTagDetailUrl(category))}>
               <ListItemIcon>
                 <Icon />
               </ListItemIcon>

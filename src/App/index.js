@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './index.css';
 import PropTypes from 'prop-types';
 import connect from 'store/connect';
@@ -9,10 +9,16 @@ import NavToolbar from './NavToolbar';
 import AppRouter from 'views';
 import NavDrawer from './NavDrawer';
 
+import { GetPwas } from 'store/reducers/Pwas/actions/api';
+
 const DRAWER_WIDTH = 240;
 const DRAWER_HEIGHT = 64;
 
-const App = () => {
+const App = ({ GetPwas }) => {
+  useEffect(() => {
+    GetPwas();
+  }, []);
+
   return (
     <Box sx={{ display: 'flex' }}>
       <AppBar
@@ -49,6 +55,6 @@ App.propTypes = {
 
 const mapStateToProps = ({}) => ({});
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = { GetPwas };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

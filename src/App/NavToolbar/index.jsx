@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState } from 'react';
 import connect from 'store/connect';
 import Box from '@material-ui/core/Box';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -30,7 +30,7 @@ const NavToolbar = ({ ToggleAppNavBar }) => {
   };
 
   return (
-    <Fragment>
+    <>
       <Toolbar>
         <IconButton
           color='inherit'
@@ -88,7 +88,7 @@ const NavToolbar = ({ ToggleAppNavBar }) => {
         mobileMenuId={mobileMenuId}
         handleProfileMenuOpen={handleProfileMenuOpen}
       />
-    </Fragment>
+    </>
   );
 };
 

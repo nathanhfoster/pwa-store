@@ -1,6 +1,11 @@
+import React, { useEffect } from 'react';
+import connect from 'store/connect';
 import { styled, alpha } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
+import useMounted from 'hooks/useMounted';
+import useDebounce from 'hooks/useDebounce';
+import { SetPwasSearch, SearchPwas } from 'store/reducers/Pwas/actions';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -11,7 +16,6 @@ const Search = styled('div')(({ theme }) => ({
   },
   marginRight: theme.spacing(2),
   marginLeft: 0,
-  width: '100%',
   [theme.breakpoints.up('sm')]: {
     marginLeft: theme.spacing(1),
     width: 'auto'
@@ -43,15 +47,37 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   }
 }));
 
-const NavSearchBar = () => {
+const NavSearchBar = ({ search, SetPwasSearch, SearchPwas }) => {
+  const mounted = useMounted();
+  const debouncedSearch = useDebounce(search);
+
+  const onSearch = ({ target: { value } }) => {
+    SetPwasSearch(value);
+  };
+
+  useEffect(() => {
+    if (mounted) {
+      SearchPwas(debouncedSearch);
+    }
+  }, [debouncedSearch]);
+
   return (
     <Search>
       <SearchIconWrapper>
         <SearchIcon />
       </SearchIconWrapper>
-      <StyledInputBase placeholder='Search…' inputProps={{ 'aria-label': 'search' }} />
+      <StyledInputBase
+        fullWidth
+        placeholder='Search…'
+        inputProps={{ 'aria-label': 'search' }}
+        onChange={onSearch}
+        value={search}
+      />
     </Search>
   );
 };
 
-export default NavSearchBar;
+const mapStateToProps = ({ Pwas: { search } }) => ({ search });
+const mapDispatchToProps = { SetPwasSearch, SearchPwas };
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavSearchBar);
