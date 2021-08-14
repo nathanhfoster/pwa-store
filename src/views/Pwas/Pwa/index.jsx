@@ -37,7 +37,7 @@ const Pwa = ({
   ratings,
   organization,
   tags,
-  last_modified
+  updated_at
 }) => {
   // const dispatch = useDispatch();
   // const [isHovered, toggleIsHovered] = useBooleanReducer(false);

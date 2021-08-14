@@ -5,7 +5,7 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
-const PwaDetail = ({ id, name, description, views, launches, ratings, organization, tags, last_modified }) => {
+const PwaDetail = ({ id, name, description, views, launches, ratings, organization, tags, updated_at }) => {
   const averageRating = useMemo(() => {
     if (!ratings) return null;
     const sum = ratings.reduce((acc, curr) => acc + curr.value, 0);

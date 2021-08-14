@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState } from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -29,7 +29,7 @@ const NavMenu = ({
   };
 
   return (
-    <Fragment>
+    <>
       <Menu
         anchorEl={anchorEl}
         anchorOrigin={{
@@ -93,7 +93,7 @@ const NavMenu = ({
           <p>Profile</p>
         </MenuItem>
       </Menu>
-    </Fragment>
+    </>
   );
 };
 

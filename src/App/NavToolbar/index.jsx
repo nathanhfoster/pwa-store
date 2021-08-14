@@ -37,7 +37,7 @@ const NavToolbar = ({ ToggleAppNavBar }) => {
           aria-label='open drawer'
           edge='start'
           onClick={ToggleAppNavBar}
-          sx={{ mr: 2, display: { sm: 'none' } }}
+          sx={{ mr: 1, display: { sm: 'none' } }}
         >
           <MenuIcon />
         </IconButton>
