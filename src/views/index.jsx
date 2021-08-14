@@ -7,6 +7,7 @@ const Home = lazy(() => import('./Home'));
 const Pwas = lazy(() => import('./Pwas'));
 const PageNotFound = lazy(() => import('./PageNotFound'));
 const PwaDetail = lazy(() => import('./PwaDetail'));
+const Login = lazy(() => import('./Account/Login'));
 
 const AppRouter = () => (
   <>
@@ -15,7 +16,7 @@ const AppRouter = () => (
       <Route exact path={[RouteMap.ROOT, RouteMap.HOME]} component={Home} />
       <Route exact path={[RouteMap.PWA_DETAIL]} render={({ match: { params } }) => <PwaDetail {...params} />} />
       <Route exact path={[RouteMap.PWA_TAG_FILTER]} component={Pwas} />
-
+      <Route exact path={[RouteMap.LOGIN]} component={Login} />
       <Route render={() => <PageNotFound />} />
     </Switch>
   </>

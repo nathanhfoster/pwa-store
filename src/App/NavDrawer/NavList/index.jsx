@@ -1,6 +1,7 @@
 import React, { lazy } from 'react';
 import PropTypes from 'prop-types';
 import connect from 'store/connect';
+import { ToggleAppNavBar } from 'store/reducers/App/actions';
 import { ResetPwasFilter } from 'store/reducers/Pwas/actions/redux';
 import { styled } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
@@ -8,10 +9,6 @@ import { HOME } from 'utils/RouteMap';
 import Toolbar from '@material-ui/core/Toolbar';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import AppsIcon from '@material-ui/icons/Apps';
-import ListItemText from '@material-ui/core/ListItemText';
 import IconButton from '@material-ui/core/IconButton';
 import HomeIcon from '@material-ui/icons/Home';
 
@@ -23,18 +20,21 @@ const StyledToolbar = styled(Toolbar)((props) => ({
   color: props.theme.palette.primary.main
 }));
 
+const HOME_ICON_SIZE = 32;
+
 const StyledHomeIcon = styled(HomeIcon)((props) => ({
-  width: 32,
-  height: 32,
+  width: HOME_ICON_SIZE,
+  height: HOME_ICON_SIZE,
   '&:hover': { color: props.theme.palette.primary.main }
 }));
 
-const NavList = ({ tags, ResetPwasFilter }) => {
+const NavList = ({ tags, ResetPwasFilter, ToggleAppNavBar }) => {
   const history = useHistory();
 
   const handleHomeClick = () => {
     history.push(HOME);
     ResetPwasFilter();
+    ToggleAppNavBar(false);
   };
 
   return (
@@ -55,6 +55,6 @@ const NavList = ({ tags, ResetPwasFilter }) => {
   );
 };
 const mapStateToProps = ({ Pwas: { tags } }) => ({ tags });
-const mapDispatchToProps = { ResetPwasFilter };
+const mapDispatchToProps = { ResetPwasFilter, ToggleAppNavBar };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavList);

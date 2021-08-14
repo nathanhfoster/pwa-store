@@ -36,10 +36,12 @@ const Pwas = (state = DEFAULT_STATE, action) => {
 
   switch (type) {
     case ActionTypes.PWAS_TOGGLE_IS_LOADING:
-      return {
-        ...state,
-        isLoading: toggleBooleanReducer(state.isLoading, payload)
-      };
+      return payload !== state.isLoading
+        ? {
+            ...state,
+            isLoading: toggleBooleanReducer(state.isLoading, payload)
+          }
+        : state;
 
     case ActionTypes.PWAS_SET:
       nextItems = mergePwas(state.items, payload.results);
