@@ -60,7 +60,6 @@ const Pwas = (state = DEFAULT_STATE, action) => {
     case ActionTypes.PWAS_SET_SEARCH:
       return {
         ...state,
-        ...handleFilterItems(state.items.concat(state.filteredItems), payload),
         search: payload
       };
 

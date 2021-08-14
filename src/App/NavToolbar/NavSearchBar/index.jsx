@@ -5,7 +5,7 @@ import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import useMounted from 'hooks/useMounted';
 import useDebounce from 'hooks/useDebounce';
-import { SetPwasSearch, SearchPwas } from 'store/reducers/Pwas/actions';
+import { SetPwasSearch, SearchPwas, MergeFilterPwas } from 'store/reducers/Pwas/actions';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 const Search = styled('div')(({ theme }) => ({
@@ -48,7 +48,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   }
 }));
 
-const NavSearchBar = ({ search, isLoading, SetPwasSearch, SearchPwas }) => {
+const NavSearchBar = ({ search, isLoading, SetPwasSearch, SearchPwas, MergeFilterPwas }) => {
   const mounted = useMounted();
   const debouncedSearch = useDebounce(search);
 
@@ -59,6 +59,7 @@ const NavSearchBar = ({ search, isLoading, SetPwasSearch, SearchPwas }) => {
   useEffect(() => {
     if (mounted) {
       SearchPwas(debouncedSearch);
+      MergeFilterPwas([], debouncedSearch);
     }
   }, [debouncedSearch]);
 
@@ -82,6 +83,6 @@ const NavSearchBar = ({ search, isLoading, SetPwasSearch, SearchPwas }) => {
 };
 
 const mapStateToProps = ({ Pwas: { search, isLoading } }) => ({ search, isLoading });
-const mapDispatchToProps = { SetPwasSearch, SearchPwas };
+const mapDispatchToProps = { SetPwasSearch, SearchPwas, MergeFilterPwas };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavSearchBar);
