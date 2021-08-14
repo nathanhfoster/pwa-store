@@ -17,25 +17,6 @@ import SignalWifiOffIcon from '@material-ui/icons/SignalWifiOff';
 import SettingsBrightnessIcon from '@material-ui/icons/SettingsBrightness';
 import ForumIcon from '@material-ui/icons/Forum';
 
-const tags = [
-  'Games',
-  'Tools',
-  'Social',
-  'News',
-  'Shopping',
-  'Food & Drink',
-  'Lifestyle',
-  'Business',
-  'Music',
-  'Sports',
-  'Education',
-  'Travel',
-  'Entertainment',
-  'Reference',
-  'Productivity',
-  'Offline'
-];
-
 const tagIconMap = {
   Games: VideogameAssetIcon,
   Tools: BuildIcon,
@@ -57,4 +38,4 @@ const tagIconMap = {
   Communication: ForumIcon
 };
 
-export { tags, tagIconMap };
+export { tagIconMap };
