@@ -10,6 +10,7 @@ export const GetPwas = (pagination) => (dispatch) => {
       return dispatch(SetPwas(data));
     })
     .catch((e) => {
+      dispatch(ToogleIsLoading(false));
       console.error(e);
     });
 };
@@ -23,6 +24,7 @@ export const GetPwaTags = () => (dispatch) => {
       return dispatch(SetPwaTags(data));
     })
     .catch((e) => {
+      dispatch(ToogleIsLoading(false));
       console.error(e);
     });
 };
@@ -47,6 +49,7 @@ export const SearchPwas = (category) => (dispatch, getState) => {
       return results;
     })
     .catch((e) => {
+      dispatch(ToogleIsLoading(false));
       console.error(e);
     });
 };
