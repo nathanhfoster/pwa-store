@@ -1,31 +1,37 @@
 import { Axios } from '../../Axios';
-import { ToogleIsLoading, SetPwas, SetPwaTags, SetPwasSearch, MergeFilterPwas } from './redux';
+import { ToogleIsLoading, SetPwas, SetPwaTags, SetPwasSearch, MergeFilterPwas, FilterPwas } from './redux';
 
-export const GetPwas = (pagination) => (dispatch) =>
-  Axios({ pagination })
+export const GetPwas = (pagination) => (dispatch) => {
+  dispatch(ToogleIsLoading(true));
+  return Axios({ pagination })
     .get(!pagination ? 'pwas' : undefined)
     .then(({ data }) => {
+      dispatch(ToogleIsLoading(false));
       return dispatch(SetPwas(data));
     })
     .catch((e) => {
       console.error(e);
     });
+};
 
-export const GetPwaTags = () => (dispatch) =>
-  Axios()
+export const GetPwaTags = () => (dispatch) => {
+  dispatch(ToogleIsLoading(true));
+  return Axios()
     .get('tags')
     .then(({ data }) => {
+      dispatch(ToogleIsLoading(false));
       return dispatch(SetPwaTags(data));
     })
     .catch((e) => {
       console.error(e);
     });
+};
 
 export const SearchPwas = (category) => (dispatch, getState) => {
   const { search } = getState().Pwas;
 
   if (!(category || search)) {
-    dispatch(MergeFilterPwas([]));
+    dispatch(FilterPwas());
     return Promise.reject;
   }
 

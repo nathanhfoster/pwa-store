@@ -16,3 +16,7 @@ export const MergeFilterPwas = (payload, search) => ({
   payload,
   search
 });
+
+export const FilterPwas = (search) => MergeFilterPwas([], search);
+
+export const ResetPwasFilter = () => FilterPwas('');

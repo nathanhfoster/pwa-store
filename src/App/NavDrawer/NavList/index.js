@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import connect from 'store/connect';
+import { ResetPwasFilter } from 'store/reducers/Pwas/actions/redux';
 import { styled } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import { HOME, GetPwaTagDetailUrl } from 'utils/RouteMap';
@@ -13,7 +14,7 @@ import AppsIcon from '@material-ui/icons/Apps';
 import ListItemText from '@material-ui/core/ListItemText';
 import IconButton from '@material-ui/core/IconButton';
 import HomeIcon from '@material-ui/icons/Home';
-import {  tagIconMap } from './structure';
+import { tagIconMap } from './structure';
 
 const StyledToolbar = styled(Toolbar)((props) => ({
   display: 'flex',
@@ -27,11 +28,12 @@ const StyledHomeIcon = styled(HomeIcon)((props) => ({
   '&:hover': { color: props.theme.palette.primary.main }
 }));
 
-const NavList = ({ tags }) => {
+const NavList = ({ tags, ResetPwasFilter }) => {
   const history = useHistory();
 
   const handleHomeClick = () => {
     history.push(HOME);
+    ResetPwasFilter();
   };
 
   return (
@@ -45,8 +47,9 @@ const NavList = ({ tags }) => {
       <List>
         {tags.map(({ name }) => {
           const Icon = tagIconMap[name] || AppsIcon;
+          const onTagClick = () => history.push(GetPwaTagDetailUrl(name));
           return (
-            <ListItem button key={name} onClick={() => history.push(GetPwaTagDetailUrl(name))}>
+            <ListItem button key={name} onClick={onTagClick}>
               <ListItemIcon>
                 <Icon />
               </ListItemIcon>
@@ -60,5 +63,6 @@ const NavList = ({ tags }) => {
   );
 };
 const mapStateToProps = ({ Pwas: { tags } }) => ({ tags });
+const mapDispatchToProps = { ResetPwasFilter };
 
-export default connect(mapStateToProps)(NavList);
+export default connect(mapStateToProps, mapDispatchToProps)(NavList);

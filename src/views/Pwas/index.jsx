@@ -1,4 +1,4 @@
-import React, { useEffect, lazy } from 'react';
+import React, { useLayoutEffect, lazy } from 'react';
 import Grid from '@material-ui/core/Grid';
 import { connect } from 'store';
 import useMounted from 'hooks/useMounted';
@@ -12,18 +12,17 @@ const Pwas = ({ pwas, SearchPwas }) => {
   const query = useQuery();
   const tagName = query.get('tagName');
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (mounted) {
-      // TODO
       SearchPwas(tagName);
     }
   }, [mounted, tagName]);
 
   return (
     <Grid container>
-      {pwas.map((item) => (
-        <Grid key={item.id} item spacing={1} >
-          <Pwa {...item} />
+      {pwas.map((pwa) => (
+        <Grid key={pwa.id} item spacing={1}>
+          <Pwa {...pwa} />
         </Grid>
       ))}
     </Grid>

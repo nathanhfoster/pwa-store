@@ -35,7 +35,7 @@ const App = ({ GetPwas, GetPwaTags }) => {
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <NavDrawer drawerWidth={DRAWER_WIDTH} />
       </Box>
-      <Box component='main' sx={{ flexGrow: 1, p: 3 }}>
+      <Box component='main' sx={{ flexGrow: 1, p: 1 }}>
         <main className='App'>
           <header className='App-header'>
             <AppRouter />
