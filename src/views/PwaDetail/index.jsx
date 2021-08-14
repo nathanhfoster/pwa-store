@@ -5,7 +5,17 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
-const PwaDetail = ({ id, name, description, views, launches, ratings, organization, tags, updated_at }) => {
+const PwaDetail = ({
+  id,
+  name,
+  description,
+  pwa_analytics: { view_count, launch_count },
+
+  ratings,
+  organization,
+  tags,
+  updated_at
+}) => {
   const averageRating = useMemo(() => {
     if (!ratings) return null;
     const sum = ratings.reduce((acc, curr) => acc + curr.value, 0);
@@ -27,10 +37,10 @@ const PwaDetail = ({ id, name, description, views, launches, ratings, organizati
         <Typography variant='h3'>{name}</Typography>
       </Grid>
       <Grid item xs={2}>
-        <Typography variant='h6'>Views: {views}</Typography>
+        <Typography variant='h6'>Views: {view_count}</Typography>
       </Grid>
       <Grid item xs={2}>
-        <Typography variant='h6'>Launches: {launches}</Typography>
+        <Typography variant='h6'>Launches: {launch_count}</Typography>
       </Grid>
       <Grid item xs={2}>
         <Typography variant='h6'>Average Rating: {averageRating}</Typography>

@@ -33,8 +33,7 @@ const Pwa = ({
   icon_url,
   short_description,
   description,
-  views,
-  ratings,
+  pwa_analytics: { view_count, launch_count },
   organization,
   tags,
   updated_at
