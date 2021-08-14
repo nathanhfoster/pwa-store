@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { lazy } from 'react';
 import PropTypes from 'prop-types';
 import connect from 'store/connect';
 import { ResetPwasFilter } from 'store/reducers/Pwas/actions/redux';
 import { styled } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
-import { HOME, GetPwaTagDetailUrl } from 'utils/RouteMap';
+import { HOME } from 'utils/RouteMap';
 import Toolbar from '@material-ui/core/Toolbar';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
@@ -14,7 +14,8 @@ import AppsIcon from '@material-ui/icons/Apps';
 import ListItemText from '@material-ui/core/ListItemText';
 import IconButton from '@material-ui/core/IconButton';
 import HomeIcon from '@material-ui/icons/Home';
-import { tagIconMap } from './structure';
+
+const NavItem = lazy(() => import('./NavItem'));
 
 const StyledToolbar = styled(Toolbar)((props) => ({
   display: 'flex',
@@ -45,18 +46,9 @@ const NavList = ({ tags, ResetPwasFilter }) => {
       </StyledToolbar>
       <Divider />
       <List>
-        {tags.map(({ name }) => {
-          const Icon = tagIconMap[name] || AppsIcon;
-          const onTagClick = () => history.push(GetPwaTagDetailUrl(name));
-          return (
-            <ListItem button key={name} onClick={onTagClick}>
-              <ListItemIcon>
-                <Icon />
-              </ListItemIcon>
-              <ListItemText primary={name} />
-            </ListItem>
-          );
-        })}
+        {tags.map((tag) => (
+          <NavItem key={tag.name} {...tag} />
+        ))}
       </List>
       <Divider />
     </div>
