@@ -27,7 +27,7 @@ const Pwas = ({ pwas, SearchPwas }) => {
      alignItems="flex-start"
      >
       {pwas.map((pwa) => (
-        <Grid key={pwa.id} item xs="auto">
+        <Grid key={pwa.id} item xs="auto" p={1}>
           <Pwa {...pwa} />
         </Grid>
       ))}
