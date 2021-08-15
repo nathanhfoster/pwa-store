@@ -5,15 +5,22 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import Stack from '@material-ui/core/Stack';
-import { DEFAULT_PWA_IMAGE } from '../../constants';
-import { PwaType } from "store/reducers/Pwas/types";
+import { DEFAULT_PWA_IMAGE, DEFAULT_PWA_IMAGE_SIZE } from '../../constants';
+import { PwaType } from 'store/reducers/Pwas/types';
+
+const detailContainerStyles = {
+  bgcolor: 'background.paper',
+  borderBottom: '1px solid rgba(0,0,0,0.05)',
+  p: 3,
+  mb: 3
+};
 
 const Detail = lazy(() => import('./Detail'));
 
 const PwaDetail = ({
   id,
   name,
+  short_description,
   description,
   url,
   image_url,
@@ -25,13 +32,21 @@ const PwaDetail = ({
   updated_at
 }) => {
   const { view_count = 0, launch_count = 0 } = pwa_analytics || {};
-  const averageRating = useMemo(() => {
-    if (!ratings) return null;
-    const sum = ratings.reduce((acc, curr) => acc + curr.value, 0);
-    if (sum === 0) return 0;
-    const average = sum / ratings.length;
-    return average;
-  }, [ratings]);
+  const renderScreenShots = useMemo(
+    () =>
+      pwa_screenshots.map(({ image_url, caption }) => (
+        <Grid key={image_url} item xs='auto' mx={3} sx={{ height: DEFAULT_PWA_IMAGE_SIZE * 2 }}>
+          <img
+            src={`${image_url}?w=164&h=164&fit=crop&auto=format`}
+            srcSet={`${image_url}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+            alt={name}
+            loading='lazy'
+            height='100%'
+          />
+        </Grid>
+      )),
+    [pwa_screenshots]
+  );
 
   if (!id) {
     return (
@@ -43,33 +58,41 @@ const PwaDetail = ({
 
   const imageSrc = image_url || DEFAULT_PWA_IMAGE;
 
+  const pwaDescription = short_description || description;
+
   return (
-    <Box p={3}>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Detail
-            src={imageSrc}
-            name={name}
-            tags={tags}
-            url={url}
-            view_count={view_count}
-            launch_count={launch_count}
-          />
+    <>
+      <Box sx={detailContainerStyles}>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Detail
+              src={imageSrc}
+              name={name}
+              tags={tags}
+              url={url}
+              view_count={view_count}
+              launch_count={launch_count}
+              ratings={ratings}
+            />
+          </Grid>
+          {pwaDescription && (
+            <Grid item xs={12}>
+              <Typography variant='body1'>{pwaDescription}</Typography>
+            </Grid>
+          )}
         </Grid>
-        <Grid item xs={3}>
-          <Typography variant='h6'>Views: {view_count}</Typography>
-        </Grid>
-        <Grid item xs={3}>
-          <Typography variant='h6'>Launches: {launch_count}</Typography>
-        </Grid>
-        <Grid item xs={3}>
-          <Typography variant='h6'>Average Rating: {averageRating}</Typography>
-        </Grid>
-        <Grid item xs={12}>
-          <Typography variant='body1'>{description}</Typography>
-        </Grid>
+      </Box>
+      <Grid
+        container
+        spacing={0}
+        direction='row'
+        justifyContent='flex-start'
+        alignItems='baseline'
+        sx={{ flexWrap: 'nowrap', overflowX: 'auto' }}
+      >
+        {renderScreenShots}
       </Grid>
-    </Box>
+    </>
   );
 };
 
@@ -78,6 +101,11 @@ const mapStateToProps = ({ Pwas: { items, filteredItems } }, { pwaId }) =>
 
 const mapDispatchToProps = {};
 
-PwaDetail.propTypes = PwaType
+PwaDetail.propTypes = PwaType;
+
+PwaDetail.defaultProps = {
+  pwa_screenshots: [],
+  pwa_analytics: {}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(PwaDetail);
