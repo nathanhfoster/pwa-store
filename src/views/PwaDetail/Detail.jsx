@@ -39,18 +39,18 @@ const Detail = ({ src, name, tags, url, ratings, view_count, launch_count }) => 
   return (
     <Box sx={{ maxWidth: 500, flexGrow: 1 }}>
       <Grid container spacing={0}>
-        <Grid item>
-          <ButtonBase sx={imageButtonStyles}>
-            <Img
-              src={`${src}?w=164&h=164&fit=crop&auto=format`}
-              srcSet={`${src}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-              alt={name}
-              loading='lazy'
-            />
-          </ButtonBase>
-        </Grid>
         <Grid item xs={12} sm container zeroMinWidth>
-          <Grid item xs container direction='column' spacing={2}>
+          <Grid item xs={12} sm={4}>
+            <ButtonBase sx={imageButtonStyles}>
+              <Img
+                src={`${src}?w=164&h=164&fit=crop&auto=format`}
+                srcSet={`${src}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                alt={name}
+                loading='lazy'
+              />
+            </ButtonBase>
+          </Grid>
+          <Grid item xs md={8} container direction='column' spacing={2}>
             <Grid item xs>
               <Typography variant='h4' sx={{ fontWeight: 600 }}>
                 {name}
