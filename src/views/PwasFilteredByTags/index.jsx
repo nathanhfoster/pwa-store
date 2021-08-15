@@ -11,7 +11,7 @@ const IMAGE_SIZE = 128;
 const PwasFilteredByTags = ({ pwas = [] }) => {
   usePwaSearchOnQueryChange();
   return (
-    <Box px={3}>
+    <Box px={{ sm: 3 }}>
       <PwasStack
         // TODO: need images that are 16:9
         detailed={false}
