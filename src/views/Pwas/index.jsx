@@ -1,6 +1,5 @@
 import React, { lazy } from 'react';
 import { PwasType } from 'store/reducers/Pwas/types';
-import Box from '@material-ui/core/Box';
 import { connect } from 'resurrection';
 import usePwaSearchOnQueryChange from 'hooks/usePwaSearchOnQueryChange';
 
@@ -11,7 +10,7 @@ const IMAGE_SIZE = 128;
 const Pwas = ({ pwas }) => {
   usePwaSearchOnQueryChange();
   return (
-    <Box px={3}>
+    <>
       <PwasStack
         // TODO: need images that are 16:9
         detailed={false}
@@ -32,7 +31,7 @@ const Pwas = ({ pwas }) => {
         pwas={pwas}
         imageSize={IMAGE_SIZE}
       />
-    </Box>
+    </>
   );
 };
 
