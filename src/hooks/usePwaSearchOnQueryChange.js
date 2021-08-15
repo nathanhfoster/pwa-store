@@ -1,7 +1,6 @@
 import { useLayoutEffect } from 'react';
 import { useDispatch } from 'resurrection';
 import { SearchPwas } from 'store/reducers/Pwas/actions/api';
-import useMounted from './useMounted';
 import useQuery from './useQuery';
 
 /**
@@ -10,17 +9,16 @@ import useQuery from './useQuery';
  * @returns {string} - The queryString inside the url
  */
 const usePwaSearchOnQueryChange = (queryKey = 'tagName') => {
-  const mounted = useMounted();
   const dispatch = useDispatch();
 
   const query = useQuery();
   const queryString = query.get(queryKey);
 
   useLayoutEffect(() => {
-    if (mounted) {
+    if (queryString) {
       dispatch(SearchPwas(queryString));
     }
-  }, [mounted, queryString]);
+  }, [queryString]);
 
   return queryString
 };
