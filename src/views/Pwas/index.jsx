@@ -23,8 +23,8 @@ const Pwas = ({ pwas, SearchPwas }) => {
      container
      spacing={0.5}
      direction="row"
-     justifyContent="space-evenly"
-     alignItems="flex-start"
+     justifyContent="flex-start"
+     alignItems="baseline"
      >
       {pwas.map((pwa) => (
         <Grid key={pwa.id} item xs="auto" p={1}>
