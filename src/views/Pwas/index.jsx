@@ -19,7 +19,7 @@ const Pwas = ({ pwas, SearchPwas }) => {
   }, [mounted, tagName]);
 
   return (
-    <Grid container>
+    <Grid container spacing={0.5}>
       {pwas.map((pwa) => (
         <Grid key={pwa.id} item>
           <Pwa {...pwa} />
