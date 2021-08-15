@@ -7,6 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Stack from '@material-ui/core/Stack';
 import { DEFAULT_PWA_IMAGE } from '../../constants';
+import { PwaType } from "store/reducers/Pwas/types";
 
 const Detail = lazy(() => import('./Detail'));
 
@@ -16,6 +17,7 @@ const PwaDetail = ({
   description,
   url,
   image_url,
+  pwa_screenshots,
   pwa_analytics,
   ratings,
   organization,
@@ -75,5 +77,7 @@ const mapStateToProps = ({ Pwas: { items, filteredItems } }, { pwaId }) =>
   (filteredItems.length > 0 ? items.concat(filteredItems) : items).find(({ id }) => id == pwaId);
 
 const mapDispatchToProps = {};
+
+PwaDetail.propTypes = PwaType
 
 export default connect(mapStateToProps, mapDispatchToProps)(PwaDetail);
