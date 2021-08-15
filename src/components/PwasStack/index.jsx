@@ -15,7 +15,7 @@ const PwasStack = ({ title, subtitle, detailed, pwas, imageSize, flexWrap }) => 
       </Typography>
     )}
     {subtitle && (
-      <Typography variant='subtitle2' color='text.secondary' mx={2}>
+      <Typography variant='subtitle2' color='text.secondary' mx={2} mb={2}>
         {subtitle}
       </Typography>
     )}
