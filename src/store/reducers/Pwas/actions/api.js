@@ -58,6 +58,7 @@ export const GetPwaManifest = (url) =>
   Axios()
     .get(`pwas/get_manifest?url=${url}`)
     .then(({ data }) => {
+      // TODO: put this is a reducer
       console.log(data);
       return Promise.resolve(data);
     })

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import connect from 'store/connect';
+import { connect } from 'resurrection';
 import { styled, alpha } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';

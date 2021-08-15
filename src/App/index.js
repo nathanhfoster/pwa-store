@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import connect from 'store/connect';
+import { connect } from 'resurrection';
 import AppBar from '@material-ui/core/AppBar';
 import Box from '@material-ui/core/Box';
 
@@ -37,6 +37,7 @@ const App = ({ GetPwas, GetPwaTags }) => {
       <Box
         component='main'
         sx={{
+          width: { xs: '100vw', sm: `calc(100vw - ${DRAWER_WIDTH}px)` },
           flexGrow: 1,
           mt: { xs: '56px', sm: '64px' }
         }}

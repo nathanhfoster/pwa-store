@@ -1,6 +1,6 @@
 import React, { lazy } from 'react';
 import PropTypes from 'prop-types';
-import connect from 'store/connect';
+import { connect } from 'resurrection';
 import { ToggleAppNavBar } from 'store/reducers/App/actions';
 import { ResetPwasFilter } from 'store/reducers/Pwas/actions/redux';
 import { styled } from '@material-ui/core/styles';

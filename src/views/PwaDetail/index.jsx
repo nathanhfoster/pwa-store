@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import connect from 'store/connect';
+import { connect } from 'resurrection';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
@@ -9,7 +9,7 @@ import Button from '@material-ui/core/Button';
 import Stack from '@material-ui/core/Stack';
 
 const PwaDetail = ({ id, name, description, url, pwa_analytics, ratings, organization, tags, updated_at }) => {
-  const { view_count = 0, launch_count = 0 } = pwa_analytics;
+  const { view_count = 0, launch_count = 0 } = pwa_analytics || {};
   const averageRating = useMemo(() => {
     if (!ratings) return null;
     const sum = ratings.reduce((acc, curr) => acc + curr.value, 0);
