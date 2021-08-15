@@ -5,8 +5,6 @@ import usePwaSearchOnQueryChange from 'hooks/usePwaSearchOnQueryChange';
 
 const PwasStack = lazy(() => import('../../components/PwasStack'));
 
-const IMAGE_SIZE = 128;
-
 const Pwas = ({ pwas }) => {
   const queryString = usePwaSearchOnQueryChange();
   return (
@@ -17,19 +15,12 @@ const Pwas = ({ pwas }) => {
         title='Featured apps'
         subtitle='Our favorite Progressive Web Apps'
         pwas={pwas}
-        imageSize={IMAGE_SIZE}
       />
-      <PwasStack
-        title='Top apps'
-        subtitle='The best and most popular Progressive Web Apps at the moment'
-        pwas={pwas}
-        imageSize={IMAGE_SIZE}
-      />
+      <PwasStack title='Top apps' subtitle='The best and most popular Progressive Web Apps at the moment' pwas={pwas} />
       <PwasStack
         title='New apps'
         subtitle='Recently added Progressive Web Apps that are worth checking out'
         pwas={pwas}
-        imageSize={IMAGE_SIZE}
       />
     </>
   );

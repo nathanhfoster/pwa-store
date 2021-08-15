@@ -2,15 +2,22 @@ import React, { lazy, memo } from 'react';
 import PropTypes from 'prop-types';
 import { PwasType } from 'store/reducers/Pwas/types';
 import Grid from '@material-ui/core/Grid';
-
+import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
+import { DEFAULT_PWA_IMAGE_SIZE } from '../../constants';
+
+const containerStyles = {
+  bgcolor: 'background.paper',
+  borderBottom: '1px solid rgba(0,0,0,0.05)',
+  py: 2
+};
 
 const Pwa = lazy(() => import('./Pwa'));
 
 const PwasStack = ({ title, subtitle, detailed, pwas, imageSize, flexWrap }) => (
-  <>
+  <Box sx={containerStyles}>
     {title && (
-      <Typography variant='h6' m={2}>
+      <Typography variant='h6' mx={2}>
         {title}
       </Typography>
     )}
@@ -33,7 +40,7 @@ const PwasStack = ({ title, subtitle, detailed, pwas, imageSize, flexWrap }) => 
         </Grid>
       ))}
     </Grid>
-  </>
+  </Box>
 );
 
 PwasStack.propTypes = {
@@ -47,7 +54,7 @@ PwasStack.propTypes = {
 
 PwasStack.defaultProps = {
   detailed: false,
-  imageSize: 124,
+  imageSize: DEFAULT_PWA_IMAGE_SIZE,
   flexWrap: 'nowrap'
 };
 

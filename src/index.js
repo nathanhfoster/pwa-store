@@ -19,6 +19,9 @@ const theme = createTheme({
     mode: 'light',
     primary: {
       main: blue[500]
+    },
+    info: {
+      main: blue[200]
     }
   }
 });

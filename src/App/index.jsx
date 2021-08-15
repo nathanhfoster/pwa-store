@@ -7,11 +7,8 @@ import Box from '@material-ui/core/Box';
 import NavToolbar from './NavToolbar';
 import AppRouter from 'views';
 import NavDrawer from './NavDrawer';
-
 import { GetPwas, GetPwaTags } from 'store/reducers/Pwas/actions/api';
-
-const DRAWER_WIDTH = 240;
-const DRAWER_HEIGHT = 64;
+import { APP_DRAWER_WIDTH } from '../constants';
 
 const App = ({ GetPwas, GetPwaTags }) => {
   useEffect(() => {
@@ -24,20 +21,20 @@ const App = ({ GetPwas, GetPwaTags }) => {
       <AppBar
         position='fixed'
         sx={{
-          width: { sm: `calc(100% - ${DRAWER_WIDTH}px)` },
-          ml: { sm: `${DRAWER_WIDTH}px` }
+          width: { sm: `calc(100% - ${APP_DRAWER_WIDTH}px)` },
+          ml: { sm: `${APP_DRAWER_WIDTH}px` }
         }}
       >
         <NavToolbar />
       </AppBar>
-      <Box component='nav' sx={{ width: { sm: DRAWER_WIDTH }, flexShrink: { sm: 0 } }}>
+      <Box component='nav' sx={{ width: { sm: APP_DRAWER_WIDTH }, flexShrink: { sm: 0 } }}>
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-        <NavDrawer drawerWidth={DRAWER_WIDTH} />
+        <NavDrawer drawerWidth={APP_DRAWER_WIDTH} />
       </Box>
       <Box
         component='main'
         sx={{
-          width: { xs: '100vw', sm: `calc(100vw - ${DRAWER_WIDTH}px)` },
+          width: { xs: '100vw', sm: `calc(100vw - ${APP_DRAWER_WIDTH}px)` },
           flexGrow: 1,
           mt: { xs: '56px', sm: '64px' }
         }}

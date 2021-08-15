@@ -5,8 +5,6 @@ import usePwaSearchOnQueryChange from 'hooks/usePwaSearchOnQueryChange';
 
 const PwasStack = lazy(() => import('../../components/PwasStack'));
 
-const IMAGE_SIZE = 128;
-
 const PwasFilteredByTags = ({ pwas }) => {
   const queryString = usePwaSearchOnQueryChange();
   return (
@@ -16,7 +14,6 @@ const PwasFilteredByTags = ({ pwas }) => {
       flexWrap='wrap'
       title={queryString}
       pwas={pwas}
-      imageSize={IMAGE_SIZE}
     />
   );
 };

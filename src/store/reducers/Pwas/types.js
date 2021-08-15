@@ -20,7 +20,7 @@ export const PwaType = {
   slug: PropTypes.string,
   organization: PropTypes.number,
   tags: PropTypes.arrayOf(PropTypes.shape(PwaTagType)),
-  icon_url: PropTypes.string,
+  image_url: PropTypes.string,
   short_description: PropTypes.string,
   description: PropTypes.string,
   published: PropTypes.bool,

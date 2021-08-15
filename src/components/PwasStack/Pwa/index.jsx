@@ -12,8 +12,7 @@ import { CardActionArea } from '@material-ui/core';
 // import { useDispatch } from 'resurrection';
 // import { GetPwaManifest } from 'store/reducers/Pwas/actions/api';
 import { GetPwaDetailUrl } from 'utils/RouteMap';
-
-const DEFAULT_IMAGE = 'https://gpndata.com/blog/wp-content/uploads/2016/09/Cover1-1024x1024.jpg';
+import { DEFAULT_PWA_IMAGE } from '../../../constants';
 
 const noWrapStyles = {
   whiteSpace: 'nowrap',
@@ -28,7 +27,7 @@ const Pwa = ({
   id,
   name,
   url,
-  icon_url,
+  image_url,
   short_description,
   description,
   pwa_analytics,
@@ -73,7 +72,7 @@ const Pwa = ({
                 }
               : { height: imageSize, width: imageSize }
           }
-          image={icon_url || DEFAULT_IMAGE}
+          image={image_url || DEFAULT_PWA_IMAGE}
           title={name}
         />
         <CardContent>
