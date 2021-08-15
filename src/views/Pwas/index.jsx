@@ -21,9 +21,9 @@ const Pwas = ({ pwas, SearchPwas }) => {
   return (
     <Grid
      container
-     spacing={0.5}
+     spacing="auto"
      direction="row"
-     justifyContent="center"
+     justifyContent="flex-start"
      alignItems="baseline"
      >
       {pwas.map((pwa) => (
