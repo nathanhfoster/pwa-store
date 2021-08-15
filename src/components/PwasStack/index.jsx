@@ -10,12 +10,12 @@ const Pwa = lazy(() => import('./Pwa'));
 const PwasStack = ({ title, subtitle, detailed, pwas, imageSize, flexWrap }) => (
   <>
     {title && (
-      <Typography variant='h6' mt={2}>
+      <Typography variant='h6' m={2}>
         {title}
       </Typography>
     )}
     {subtitle && (
-      <Typography variant='subtitle2' color='text.secondary'>
+      <Typography variant='subtitle2' color='text.secondary' mx={2}>
         {subtitle}
       </Typography>
     )}
@@ -28,7 +28,7 @@ const PwasStack = ({ title, subtitle, detailed, pwas, imageSize, flexWrap }) => 
       sx={{ flexWrap: flexWrap, overflowX: 'auto' }}
     >
       {pwas.map((pwa) => (
-        <Grid item key={pwa.id} xs='auto'>
+        <Grid item key={pwa.id} xs='auto' mx={2}>
           <Pwa {...pwa} detailed={detailed} imageSize={imageSize} />
         </Grid>
       ))}
