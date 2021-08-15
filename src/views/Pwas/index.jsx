@@ -19,9 +19,15 @@ const Pwas = ({ pwas, SearchPwas }) => {
   }, [mounted, tagName]);
 
   return (
-    <Grid container spacing={0.5}>
+    <Grid
+     container
+     spacing={0.5}
+     direction="row"
+     justifyContent="flex-start"
+     alignItems="flex-start"
+     >
       {pwas.map((pwa) => (
-        <Grid key={pwa.id} item>
+        <Grid key={pwa.id} item xs="auto">
           <Pwa {...pwa} />
         </Grid>
       ))}
