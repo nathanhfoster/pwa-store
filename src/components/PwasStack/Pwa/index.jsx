@@ -62,7 +62,7 @@ const Pwa = ({
       // onMouseEnter={toggleIsHovered}
       // onMouseLeave={toggleIsHovered}
     >
-      <CardActionArea>
+      <CardActionArea sx={{ width: imageSize }}>
         <CardMedia
           sx={
             detailed
