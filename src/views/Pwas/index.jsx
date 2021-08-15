@@ -8,7 +8,7 @@ const PwasStack = lazy(() => import('../../components/PwasStack'));
 const IMAGE_SIZE = 128;
 
 const Pwas = ({ pwas }) => {
-  usePwaSearchOnQueryChange();
+  const queryString = usePwaSearchOnQueryChange();
   return (
     <>
       <PwasStack
