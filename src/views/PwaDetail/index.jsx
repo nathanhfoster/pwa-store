@@ -13,6 +13,7 @@ const PwaDetail = ({
   id,
   name,
   description,
+  url,
   pwa_analytics: { view_count, launch_count },
   ratings,
   organization,
