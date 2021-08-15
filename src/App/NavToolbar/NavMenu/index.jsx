@@ -28,8 +28,6 @@ const NavMenu = ({
     handleMobileMenuClose();
   };
 
-  console.log(isMenuOpen)
-
   return (
     <>
       <Menu

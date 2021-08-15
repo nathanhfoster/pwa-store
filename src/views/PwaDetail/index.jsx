@@ -8,18 +8,8 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Stack from '@material-ui/core/Stack';
 
-
-const PwaDetail = ({
-  id,
-  name,
-  description,
-  url,
-  pwa_analytics: { view_count, launch_count },
-  ratings,
-  organization,
-  tags,
-  updated_at
-}) => {
+const PwaDetail = ({ id, name, description, url, pwa_analytics, ratings, organization, tags, updated_at }) => {
+  const { view_count = 0, launch_count = 0 } = pwa_analytics;
   const averageRating = useMemo(() => {
     if (!ratings) return null;
     const sum = ratings.reduce((acc, curr) => acc + curr.value, 0);
@@ -41,7 +31,9 @@ const PwaDetail = ({
         <Typography variant='h3'>{name}</Typography>
       </Grid>
       <Grid item xs={3}>
-        <Button variant='contained' disabled={!url} href={url} target='_blank'>Launch App</Button>
+        <Button variant='contained' disabled={!url} href={url} target='_blank'>
+          Launch App
+        </Button>
       </Grid>
       <Grid item xs={3}>
         <Typography variant='h6'>Views: {view_count}</Typography>

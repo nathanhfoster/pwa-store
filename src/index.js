@@ -16,6 +16,7 @@ import blue from '@material-ui/core/colors/blue';
 
 const theme = createTheme({
   palette: {
+    mode: 'light',
     primary: {
       main: blue[500]
     }
@@ -23,20 +24,18 @@ const theme = createTheme({
 });
 
 ReactDOM.render(
-  <React.StrictMode>
-    <StyledEngineProvider injectFirst>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <ContextProvider name='App' reducers={RootReducer} context={RootStoreContext}>
-          <Suspense fallback={<LoadingScreen />}>
-            <BrowserRouter>
-              <App />
-            </BrowserRouter>
-          </Suspense>
-        </ContextProvider>
-      </ThemeProvider>
-    </StyledEngineProvider>
-  </React.StrictMode>,
+  <StyledEngineProvider injectFirst>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <ContextProvider name='App' reducers={RootReducer} context={RootStoreContext}>
+        <Suspense fallback={<LoadingScreen />}>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </Suspense>
+      </ContextProvider>
+    </ThemeProvider>
+  </StyledEngineProvider>,
   document.getElementById('root')
 );
 
