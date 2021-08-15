@@ -23,7 +23,7 @@ const Pwas = ({ pwas, SearchPwas }) => {
      container
      spacing={0.5}
      direction="row"
-     justifyContent="flex-start"
+     justifyContent="space-evenly"
      alignItems="flex-start"
      >
       {pwas.map((pwa) => (
