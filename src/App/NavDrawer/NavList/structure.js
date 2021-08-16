@@ -37,7 +37,7 @@ const tagIconMap = {
   Offline: SignalWifiOffIcon,
   Themed: SettingsBrightnessIcon,
   Communication: ForumIcon,
-Photography: PhotoCameraIcon
+  Photography: PhotoCameraIcon
 };
 
 export { tagIconMap };
