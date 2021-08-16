@@ -16,6 +16,7 @@ import KeyboardIcon from '@material-ui/icons/Keyboard';
 import SignalWifiOffIcon from '@material-ui/icons/SignalWifiOff';
 import SettingsBrightnessIcon from '@material-ui/icons/SettingsBrightness';
 import ForumIcon from '@material-ui/icons/Forum';
+import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
 
 const tagIconMap = {
   Games: VideogameAssetIcon,
@@ -35,7 +36,8 @@ const tagIconMap = {
   Productivity: KeyboardIcon,
   Offline: SignalWifiOffIcon,
   Themed: SettingsBrightnessIcon,
-  Communication: ForumIcon
+  Communication: ForumIcon,
+Photography: PhotoCameraIcon
 };
 
 export { tagIconMap };
