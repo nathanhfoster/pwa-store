@@ -1,3 +1,5 @@
+import { SetServiceWorkerRegistration } from 'store/reducers/App/actions';
+import { storeFactory } from 'resurrection';
 const { PUBLIC_URL } = process.env;
 
 const receivePushNotification = (event, registration) => {
@@ -52,7 +54,9 @@ const config = (store) => ({
       waitingServiceWorker.addEventListener('statechange', (event) => {
         if (event.target.state === 'activated') {
           alert('Update Available! Please refresh your browser.');
-          if (store) {
+          const store = storeFactory.getStore();
+          if (store?.dispatch) {
+            store.dispatch(SetServiceWorkerRegistration(registration));
           } else {
             window.location.reload();
           }

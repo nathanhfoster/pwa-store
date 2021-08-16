@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import { RootReducer } from './store';
-import { storeFactory, ContextProvider } from 'resurrection';
+import { ContextProvider } from 'resurrection';
 import './styles/index.css';
 import { StyledEngineProvider, createTheme, ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -50,6 +50,4 @@ ReactDOM.render(
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
 
-const store = storeFactory.getStore();
-
-serviceWorkerRegistration.register(serviceWorkerConfig(store));
+serviceWorkerRegistration.register(serviceWorkerConfig());
