@@ -14,11 +14,14 @@ import serviceWorkerConfig from './serviceWorkerConfig';
 
 import blue from '@material-ui/core/colors/blue';
 
+// https://next.material-ui.com/customization/palette/
 const theme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: blue[500]
+      light: '#38b6ff',
+      main: '#3498db',
+      dark: '#004aad'
     },
     info: {
       main: blue[200]
