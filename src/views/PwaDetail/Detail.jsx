@@ -41,7 +41,7 @@ const Detail = ({ src, name, tags, url, ratings, view_count, launch_count }) => 
       <Grid container spacing={0}>
         <Grid item xs={12} sm container zeroMinWidth>
           <Grid item xs={12} sm={4}>
-            <ButtonBase sx={imageButtonStyles}>
+            <ButtonBase href={url} sx={imageButtonStyles}>
               <Img
                 src={`${src}?w=164&h=164&fit=crop&auto=format`}
                 srcSet={`${src}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
