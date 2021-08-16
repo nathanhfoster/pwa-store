@@ -19,6 +19,7 @@ const App = ({ GetPwas, GetPwaTags }) => {
   return (
     <Box sx={{ display: 'flex', height: '100vh', width: '100vw' }}>
       <AppBar
+        color='primary.dark'
         position='fixed'
         sx={{
           width: { sm: `calc(100% - ${APP_DRAWER_WIDTH}px)` },
