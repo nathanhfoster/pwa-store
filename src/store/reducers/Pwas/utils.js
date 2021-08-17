@@ -1,6 +1,6 @@
 import { objectToArray, stringMatch } from 'utils';
 
-const getLastModifiedDate = (pwa) => new Date(pwa.last_modified);
+const getLastModifiedDate = (pwa) => new Date(pwa.updated_at);
 
 const getMostRecent = (storeData, newData) => {
   if (newData.views > storeData.views) {
@@ -49,7 +49,7 @@ const handleFilterItems = (items, search) => {
   var cachedItems = [];
 
   const newItems = items.filter((item) => {
-    const { id, name, description, views, launches, ratings, organization, tags, last_modified } = item;
+    const { id, name, description, views, launches, ratings, organization, tags, updated_at } = item;
 
     if (stringMatch(name, search) || stringMatch(description, search) || tagMatch(tags, search)) {
       return true;

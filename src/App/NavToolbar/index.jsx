@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import connect from 'store/connect';
+import { connect } from 'resurrection';
 import Box from '@material-ui/core/Box';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -37,7 +37,7 @@ const NavToolbar = ({ ToggleAppNavBar }) => {
           aria-label='open drawer'
           edge='start'
           onClick={ToggleAppNavBar}
-          sx={{ mr: 2, display: { sm: 'none' } }}
+          sx={{ mr: 1, display: { sm: 'none' } }}
         >
           <MenuIcon />
         </IconButton>

@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
-import './index.css';
 import PropTypes from 'prop-types';
-import connect from 'store/connect';
+import { connect } from 'resurrection';
 import AppBar from '@material-ui/core/AppBar';
 import Box from '@material-ui/core/Box';
 
@@ -21,7 +20,7 @@ const App = ({ GetPwas, GetPwaTags }) => {
   }, []);
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', height: '100vh', width: '100vw' }}>
       <AppBar
         position='fixed'
         sx={{
@@ -35,12 +34,17 @@ const App = ({ GetPwas, GetPwaTags }) => {
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <NavDrawer drawerWidth={DRAWER_WIDTH} />
       </Box>
-      <Box component='main' sx={{ flexGrow: 1, p: 3 }}>
-        <main className='App'>
-          <header className='App-header'>
-            <AppRouter />
-          </header>
-        </main>
+      <Box
+        component='main'
+        sx={{
+          width: { xs: '100vw', sm: `calc(100vw - ${DRAWER_WIDTH}px)` },
+          flexGrow: 1,
+          mt: { xs: '56px', sm: '64px' }
+        }}
+      >
+        <Box component='header'>
+          <AppRouter />
+        </Box>
       </Box>
     </Box>
   );

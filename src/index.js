@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
-import { RootStoreContext, RootReducer } from './store';
+import { RootReducer } from './store';
 import { storeFactory, ContextProvider } from 'resurrection';
 import './styles/index.css';
 import { StyledEngineProvider, createTheme, ThemeProvider } from '@material-ui/core/styles';
@@ -16,6 +16,7 @@ import blue from '@material-ui/core/colors/blue';
 
 const theme = createTheme({
   palette: {
+    mode: 'light',
     primary: {
       main: blue[500]
     }
@@ -23,20 +24,18 @@ const theme = createTheme({
 });
 
 ReactDOM.render(
-  <React.StrictMode>
-    <StyledEngineProvider injectFirst>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <ContextProvider name='App' reducers={RootReducer} context={RootStoreContext}>
-          <Suspense fallback={<LoadingScreen />}>
-            <BrowserRouter>
-              <App />
-            </BrowserRouter>
-          </Suspense>
-        </ContextProvider>
-      </ThemeProvider>
-    </StyledEngineProvider>
-  </React.StrictMode>,
+  <StyledEngineProvider injectFirst>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <ContextProvider name='App' reducers={RootReducer}>
+        <Suspense fallback={<LoadingScreen />}>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </Suspense>
+      </ContextProvider>
+    </ThemeProvider>
+  </StyledEngineProvider>,
   document.getElementById('root')
 );
 
@@ -45,6 +44,6 @@ ReactDOM.render(
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
 
-const store = storeFactory.getStore(RootStoreContext);
+const store = storeFactory.getStore();
 
 serviceWorkerRegistration.register(serviceWorkerConfig(store));

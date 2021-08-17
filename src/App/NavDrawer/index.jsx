@@ -1,6 +1,6 @@
-import React, { lazy, Fragment } from 'react';
+import React, { lazy } from 'react';
 import Drawer from '@material-ui/core/Drawer';
-import connect from 'store/connect';
+import { connect } from 'resurrection';
 import { ToggleAppNavBar } from 'store/reducers/App/actions';
 
 const NavList = lazy(() => import('./NavList'));
@@ -9,7 +9,7 @@ const NavDrawer = ({ drawerWidth, navBarIsOpen, ToggleAppNavBar, window }) => {
   const container = () => window?.().document.body;
 
   return (
-    <Fragment>
+    <>
       {navBarIsOpen && (
         <Drawer
           container={container}
@@ -37,7 +37,7 @@ const NavDrawer = ({ drawerWidth, navBarIsOpen, ToggleAppNavBar, window }) => {
       >
         <NavList />
       </Drawer>
-    </Fragment>
+    </>
   );
 };
 

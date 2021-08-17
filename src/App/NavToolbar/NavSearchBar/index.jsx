@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
-import connect from 'store/connect';
+import { connect } from 'resurrection';
 import { styled, alpha } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import useMounted from 'hooks/useMounted';
 import useDebounce from 'hooks/useDebounce';
-import { SetPwasSearch, SearchPwas, MergeFilterPwas } from 'store/reducers/Pwas/actions';
+import { SetPwasSearch, SearchPwas, FilterPwas } from 'store/reducers/Pwas/actions';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 const Search = styled('div')(({ theme }) => ({
@@ -48,7 +48,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   }
 }));
 
-const NavSearchBar = ({ search, isLoading, SetPwasSearch, SearchPwas, MergeFilterPwas }) => {
+const NavSearchBar = ({ search, isLoading, SetPwasSearch, SearchPwas, FilterPwas }) => {
   const mounted = useMounted();
   const debouncedSearch = useDebounce(search);
 
@@ -59,7 +59,7 @@ const NavSearchBar = ({ search, isLoading, SetPwasSearch, SearchPwas, MergeFilte
   useEffect(() => {
     if (mounted) {
       SearchPwas(debouncedSearch);
-      MergeFilterPwas([], debouncedSearch);
+      FilterPwas(debouncedSearch);
     }
   }, [debouncedSearch]);
 
@@ -73,7 +73,7 @@ const NavSearchBar = ({ search, isLoading, SetPwasSearch, SearchPwas, MergeFilte
       <StyledInputBase
         fullWidth
         placeholder='Search…'
-        inputProps={{ 'aria-label': 'search' }}
+        inputProps={{ type: 'search', 'aria-label': 'search' }}
         onChange={onSearch}
         value={search}
       />
@@ -83,6 +83,6 @@ const NavSearchBar = ({ search, isLoading, SetPwasSearch, SearchPwas, MergeFilte
 };
 
 const mapStateToProps = ({ Pwas: { search, isLoading } }) => ({ search, isLoading });
-const mapDispatchToProps = { SetPwasSearch, SearchPwas, MergeFilterPwas };
+const mapDispatchToProps = { SetPwasSearch, SearchPwas, FilterPwas };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavSearchBar);
