@@ -41,7 +41,7 @@ const openPushNotification = (event) => {
   // event.waitUntil(clients.openWindow(event.notification.data))
 };
 
-const config = (store) => ({
+const config = () => ({
   // onUpdate: (registration) => {
   //   registration.unregister().then(() => {
   //     window.location.reload()
@@ -53,11 +53,11 @@ const config = (store) => ({
     if (waitingServiceWorker) {
       waitingServiceWorker.addEventListener('statechange', (event) => {
         if (event.target.state === 'activated') {
-          alert('Update Available! Please refresh your browser.');
           const store = storeFactory.getStore();
           if (store?.dispatch) {
             store.dispatch(SetServiceWorkerRegistration(registration));
           } else {
+            alert('Update Available! Please refresh your browser.');
             window.location.reload();
           }
         }
