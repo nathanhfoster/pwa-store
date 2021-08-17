@@ -14,17 +14,10 @@ import SearchBar from './NavSearchBar';
 import NavMenu from './NavMenu';
 import { ToggleAppNavBar } from 'store/reducers/App/actions';
 
-const menuId = 'SearchBarMenu';
-
 const mobileMenuId = 'SearchBarMenuMobile';
 
 const NavToolbar = ({ addToHomeScreenPrompt, ToggleAppNavBar }) => {
-  const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
-
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
 
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
@@ -40,7 +33,7 @@ const NavToolbar = ({ addToHomeScreenPrompt, ToggleAppNavBar }) => {
           aria-label='open drawer'
           edge='start'
           onClick={ToggleAppNavBar}
-          sx={{ mr: 1, display: { sm: 'none' } }}
+          sx={{ display: { sm: 'none' } }}
         >
           <MenuIcon />
         </IconButton>
@@ -59,11 +52,9 @@ const NavToolbar = ({ addToHomeScreenPrompt, ToggleAppNavBar }) => {
           </IconButton>
           <IconButton
             size='large'
-            edge={addToHomeScreenPrompt ? 'start' : 'end'}
+            edge={addToHomeScreenPrompt ? false : 'end'}
             aria-label='account of current user'
-            aria-controls={menuId}
             aria-haspopup='true'
-            onClick={handleProfileMenuOpen}
             color='inherit'
           >
             <AccountCircle />
@@ -92,19 +83,16 @@ const NavToolbar = ({ addToHomeScreenPrompt, ToggleAppNavBar }) => {
             aria-haspopup='true'
             onClick={handleMobileMenuOpen}
             color='inherit'
+            sx={{ p: 0 }}
           >
             <MoreIcon />
           </IconButton>
         </Box>
       </Toolbar>
       <NavMenu
-        anchorEl={anchorEl}
-        menuId={menuId}
-        setAnchorEl={setAnchorEl}
         mobileMoreAnchorEl={mobileMoreAnchorEl}
         setMobileMoreAnchorEl={setMobileMoreAnchorEl}
         mobileMenuId={mobileMenuId}
-        handleProfileMenuOpen={handleProfileMenuOpen}
       />
     </>
   );

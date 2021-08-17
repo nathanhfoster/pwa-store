@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { connect } from 'resurrection';
+import React, { memo } from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -7,51 +6,16 @@ import Menu from '@material-ui/core/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import SystemUpdateIcon from '@material-ui/icons/SystemUpdate';
 
-const NavMenu = ({
-  anchorEl,
-  menuId,
-  setAnchorEl,
-  mobileMoreAnchorEl,
-  setMobileMoreAnchorEl,
-  mobileMenuId,
-  handleProfileMenuOpen,
-  addToHomeScreenPrompt
-}) => {
-  const isMenuOpen = Boolean(anchorEl);
+const NavMenu = ({ mobileMoreAnchorEl, setMobileMoreAnchorEl, mobileMenuId, handleProfileMenuOpen }) => {
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
   };
 
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
-  };
-
   return (
     <>
-      <Menu
-        anchorEl={anchorEl}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right'
-        }}
-        id={menuId}
-        keepMounted
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right'
-        }}
-        open={isMenuOpen}
-        onClose={handleMenuClose}
-      >
-        <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-        <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-      </Menu>
-
       <Menu
         anchorEl={mobileMoreAnchorEl}
         anchorOrigin={{
@@ -95,19 +59,9 @@ const NavMenu = ({
           </IconButton>
           <p>Profile</p>
         </MenuItem>
-        {addToHomeScreenPrompt && (
-          <MenuItem>
-            <IconButton size='large' aria-label='prompt to install pwa' aria-haspopup='true' color='inherit'>
-              <SystemUpdateIcon />
-            </IconButton>
-            <p>Install</p>
-          </MenuItem>
-        )}
       </Menu>
     </>
   );
 };
 
-const mapStateToProps = ({ App: { addToHomeScreenPrompt } }) => ({ addToHomeScreenPrompt });
-
-export default connect(mapStateToProps)(NavMenu);
+export default memo(NavMenu);
