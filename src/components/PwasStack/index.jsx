@@ -17,7 +17,7 @@ const Pwa = lazy(() => import('./Pwa'));
 const PwasStack = ({ title, subtitle, detailed, pwas, imageSize, flexWrap }) => (
   <Box sx={containerStyles}>
     {title && (
-      <Typography variant='h6' mx={2}>
+      <Typography variant={detailed ? 'h4' : 'h6'} mx={2} mb={1}>
         {title}
       </Typography>
     )}

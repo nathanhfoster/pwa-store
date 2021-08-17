@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import connect from 'resurrection/connect';
+import { connect } from 'resurrection';
 import Box from '@material-ui/core/Box';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -83,7 +83,7 @@ const NavToolbar = ({ addToHomeScreenPrompt, ToggleAppNavBar }) => {
             aria-haspopup='true'
             onClick={handleMobileMenuOpen}
             color='inherit'
-            sx={{ p: 1 }}
+            sx={{ p: 0.5 }}
           >
             <MoreIcon />
           </IconButton>
