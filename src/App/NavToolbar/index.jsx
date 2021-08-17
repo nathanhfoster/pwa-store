@@ -33,7 +33,7 @@ const NavToolbar = ({ addToHomeScreenPrompt, ToggleAppNavBar }) => {
           aria-label='open drawer'
           edge='start'
           onClick={ToggleAppNavBar}
-          sx={{ display: { sm: 'none' } }}
+          sx={{ mr: 1, display: { sm: 'none' } }}
         >
           <MenuIcon />
         </IconButton>
