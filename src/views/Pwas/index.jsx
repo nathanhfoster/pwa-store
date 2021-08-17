@@ -22,6 +22,11 @@ const Pwas = ({ pwas }) => {
         subtitle='Recently added Progressive Web Apps that are worth checking out'
         pwas={pwas}
       />
+     <PwasStack
+        title='Random apps'
+        subtitle='Discover random apps'
+        pwas={pwas}
+      />
     </>
   );
 };
