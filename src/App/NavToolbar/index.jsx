@@ -83,7 +83,7 @@ const NavToolbar = ({ addToHomeScreenPrompt, ToggleAppNavBar }) => {
             aria-haspopup='true'
             onClick={handleMobileMenuOpen}
             color='inherit'
-            sx={{ p: 0 }}
+            sx={{ p: 1 }}
           >
             <MoreIcon />
           </IconButton>
