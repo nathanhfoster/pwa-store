@@ -6,6 +6,7 @@ import Menu from '@material-ui/core/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import { RouteMap } from 'utils';
 
 const NavMenu = ({ mobileMoreAnchorEl, setMobileMoreAnchorEl, mobileMenuId, handleProfileMenuOpen }) => {
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -54,10 +55,11 @@ const NavMenu = ({ mobileMoreAnchorEl, setMobileMoreAnchorEl, mobileMenuId, hand
             aria-controls='primary-search-account-menu'
             aria-haspopup='true'
             color='inherit'
+            href={RouteMap.LOGIN}
           >
             <AccountCircle />
           </IconButton>
-          <p>Profile</p>
+          <p>Account</p>
         </MenuItem>
       </Menu>
     </>
