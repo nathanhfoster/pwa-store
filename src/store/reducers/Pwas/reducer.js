@@ -72,10 +72,8 @@ const Pwas = (state = DEFAULT_STATE, action) => {
         ...handleFilterItems(nextItems, search || state.search)
       };
 
-    case ActionTypes.PWA_ANALYTICS_COUNTER:
-        const { view_count, launch_count, pwa_id } = payload;
-        const { items, filteredItems } = updatePwa(state, [{ id: pwa_id }, { pwa_analytics: { view_count, launch_count } }])
-        return { ...state, items, filteredItems };
+    case ActionTypes.PWA_UPDATE:
+      return { ...state, ...updatePwa(state, payload) };
 
     default:
       return state;

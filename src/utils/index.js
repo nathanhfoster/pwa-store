@@ -22,4 +22,6 @@ const stringMatch = (s1, s2, caseSensitive = false) => {
   return s1.match(regexMatch);
 };
 
-export { RouteMap, objectToArray, stringMatch };
+const lazyDelay = (promiseResult, time) => new Promise((resolve) => setTimeout(() => resolve(promiseResult), time));
+
+export { RouteMap, objectToArray, stringMatch, lazyDelay };

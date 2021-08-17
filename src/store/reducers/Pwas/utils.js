@@ -2,28 +2,29 @@ import { objectToArray, stringMatch } from 'utils';
 
 const getLastModifiedDate = (pwa) => new Date(pwa.updated_at);
 
-const getMostRecent = (storeData, newData) => {
-  if (newData.views > storeData.views) {
-    return { ...storeData, ...newData };
+const getMostRecent = (currentStoreItems, newItems) => {
+  // If the new pwa item has a higher view count, update the item with the new data
+  if (newItems.pwa_analytics.view_count > currentStoreItems.pwa_analytics.view_count) {
+    return { ...currentStoreItems, ...newItems };
   }
 
-  const reduxDataLastUpdated = getLastModifiedDate(storeData);
-  const newDataLastUpdated = getLastModifiedDate(newData);
+  const reduxDataLastUpdated = getLastModifiedDate(currentStoreItems);
+  const newDataLastUpdated = getLastModifiedDate(newItems);
 
   const hasValidDates = newDataLastUpdated && reduxDataLastUpdated;
 
   const overWriteWithNewData = hasValidDates && newDataLastUpdated > reduxDataLastUpdated;
 
   if (overWriteWithNewData) {
-    return { ...storeData, ...newData };
+    return { ...currentStoreItems, ...newItems };
   }
 
-  return { ...newData, ...storeData };
+  return { ...newItems, ...currentStoreItems };
 };
 
-const mergePwas = (storeData, newData, key = 'id') => {
-  // Order matters. You want to merge the storeData into the newData
-  const allData = storeData.concat(newData);
+const mergePwas = (currentStoreItems, newItems, key = 'id') => {
+  // Order matters. You want to merge the currentStoreItems into the newItems
+  const allData = currentStoreItems.concat(newItems);
   let mergeMap = {};
 
   for (let i = 0; i < allData.length; i++) {
@@ -66,9 +67,9 @@ const handleFilterItems = (items, search) => {
 };
 
 const updatePwa = ({ items, filteredItems }, pwa) => {
-  const newItems = items.map((obj) => (obj.id === pwa[0].id ? { ...obj, ...pwa[1] } : obj));
-  const newFilters = filteredItems.map((obj) => (obj.id === pwa[0].id ? { ...obj, ...pwa[1] } : obj));
+  const newItems = items.map((obj) => (obj.id === pwa.id ? { ...obj, ...pwa } : obj));
+  const newFilters = filteredItems.map((obj) => (obj.id === pwa.id ? { ...obj, ...pwa } : obj));
   return { items: newItems, filteredItems: newFilters };
-}
+};
 
 export { mergePwas, handleFilterItems, updatePwa };

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, lazy } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'resurrection';
 import AppBar from '@material-ui/core/AppBar';
@@ -10,6 +10,8 @@ import { SetAddToHomeScreenPrompt } from 'store/reducers/App/actions';
 import { GetPwas, GetPwaTags } from 'store/reducers/Pwas/actions/api';
 import { APP_DRAWER_WIDTH } from '../constants';
 import useAddToHomescreenPrompt from 'hooks/useAddToHomescreenPrompt';
+
+const Alerts = lazy(() => import('./Alerts'));
 
 const App = ({ GetPwas, SetAddToHomeScreenPrompt, GetPwaTags }) => {
   const [prompt] = useAddToHomescreenPrompt();
@@ -26,6 +28,7 @@ const App = ({ GetPwas, SetAddToHomeScreenPrompt, GetPwaTags }) => {
   return (
     <>
       <div id='login-portal' />
+      <Alerts />
       <Box sx={{ display: 'flex', height: '100vh', width: '100vw' }}>
         <AppBar
           color='primary'

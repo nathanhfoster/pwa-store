@@ -48,14 +48,13 @@ const NavMenu = ({ mobileMoreAnchorEl, setMobileMoreAnchorEl, mobileMenuId, hand
           </IconButton>
           <p>Notifications</p>
         </MenuItem>
-        <MenuItem onClick={handleProfileMenuOpen}>
+        <MenuItem href={RouteMap.LOGIN} component='a'>
           <IconButton
             size='large'
+            title='Account'
             aria-label='account of current user'
-            aria-controls='primary-search-account-menu'
             aria-haspopup='true'
             color='inherit'
-            href={RouteMap.LOGIN}
           >
             <AccountCircle />
           </IconButton>

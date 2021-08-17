@@ -3,4 +3,4 @@ export const PWAS_SET = 'PWAS_SET';
 export const PWAS_SET_TAGS = 'PWAS_SET_TAGS';
 export const PWAS_SET_SEARCH = 'PWAS_SET_SEARCH';
 export const PWAS_MERGE_FILTER = 'PWAS_MERGE_FILTER';
-export const PWA_ANALYTICS_COUNTER = 'PWA_ANALYTICS_COUNTER';
+export const PWA_UPDATE = 'PWA_UPDATE';

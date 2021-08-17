@@ -5,7 +5,8 @@ export const DEFAULT_STATE = {
   version: '1.0',
   navBarIsOpen: false,
   serviceWorkerRegistration: null,
-  addToHomeScreenPrompt: null
+  addToHomeScreenPrompt: null,
+  alerts: []
 };
 
 const App = (state = DEFAULT_STATE, action) => {
@@ -20,6 +21,12 @@ const App = (state = DEFAULT_STATE, action) => {
 
     case ActionTypes.APP_SET_ADD_TO_HOME_SCREEN_PROMPT:
       return { ...state, addToHomeScreenPrompt: payload };
+
+    case ActionTypes.APP_PUSH_ALERT:
+      return { ...state, alerts: [...state.alerts, payload] };
+
+    case ActionTypes.APP_DELETE_ALERT:
+      return { ...state, alerts: state.alerts.filter((alert) => alert.id !== payload) };
 
     default:
       return state;

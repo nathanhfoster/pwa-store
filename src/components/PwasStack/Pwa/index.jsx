@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { PwaType } from 'store/reducers/Pwas/types';
 import Tags from './Tags';
 import { Link } from 'react-router-dom';
+import { styled } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -13,6 +14,15 @@ import { CardActionArea } from '@material-ui/core';
 // import { GetPwaManifest } from 'store/reducers/Pwas/actions/api';
 import { GetPwaDetailUrl } from 'utils/RouteMap';
 import { DEFAULT_PWA_IMAGE } from '../../../constants';
+
+const StyledCard = styled(Card)((props) => ({
+  textAlign: 'center',
+  boxShadow: 'none',
+  textDecoration: 'none',
+  '&:hover': {
+    color: props.theme.palette.primary.main
+  }
+}));
 
 const noWrapStyles = {
   whiteSpace: 'nowrap',
@@ -48,20 +58,20 @@ const Pwa = ({
   // }, [url]);
 
   return (
-    <Card
+    <StyledCard
       component={Link}
       to={pwaRoute}
-      // variant='outlined'
       raised={false}
-      sx={{
-        textAlign: 'center',
-        boxShadow: 'none',
-        textDecoration: 'none'
-      }}
       // onMouseEnter={toggleIsHovered}
       // onMouseLeave={toggleIsHovered}
     >
-      <CardActionArea sx={{ width: imageSize }}>
+      <CardActionArea
+        sx={{
+          width: imageSize,
+          backgroundColor: 'transparent',
+          '&:hover': { background: 'transparent', backgroundColor: 'transparent' }
+        }}
+      >
         <CardMedia
           sx={
             detailed
@@ -84,7 +94,7 @@ const Pwa = ({
           </Typography>
         </CardContent>
       </CardActionArea>
-    </Card>
+    </StyledCard>
   );
 };
 

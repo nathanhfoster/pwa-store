@@ -1,5 +1,5 @@
 const containerStyles = {
-  zIndex: 9999,
+  zIndex: 2,
   position: 'absolute',
   top: 0,
   bottom: 0,
@@ -13,7 +13,6 @@ const containerStyles = {
 };
 
 const imageStyles = {
-  maxHeight: '100vh',
   maxWidth: '100vw'
 };
 

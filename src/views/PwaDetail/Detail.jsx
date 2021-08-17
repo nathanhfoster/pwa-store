@@ -64,16 +64,13 @@ const Detail = ({ id, src, name, tags, url, ratings, view_count, launch_count, U
             </Grid>
             <Grid item xs>
               <Typography variant='body2' color='text.secondary'>
-                View count:
-                {view_count}
+                View count: {view_count}
               </Typography>
               <Typography variant='body2' color='text.secondary'>
-                Launch count:
-                {launch_count}
+                Launch count: {launch_count}
               </Typography>
               <Typography variant='body2' color='text.secondary'>
-                Average rating:
-                {averageRating}
+                Average rating: {averageRating}
               </Typography>
             </Grid>
             <Grid item xs>
@@ -107,4 +104,3 @@ const Detail = ({ id, src, name, tags, url, ratings, view_count, launch_count, U
 
 const mapStateToProps = ({}) => ({});
 export default connect(mapStateToProps, { UpdateAnalytics })(memo(Detail));
-
