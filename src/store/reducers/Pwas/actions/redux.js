@@ -20,3 +20,5 @@ export const MergeFilterPwas = (payload, search) => ({
 export const FilterPwas = (search) => MergeFilterPwas([], search);
 
 export const ResetPwasFilter = () => FilterPwas('');
+
+export const PwaAanalyticsCounter = (payload) => ({ type: ActionTypes.PWA_ANALYTICS_COUNTER, payload });

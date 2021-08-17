@@ -1,6 +1,6 @@
 {
-  "name": "PWA Store",
-  "short_name": "PWA Store",
+  "name": "Pwa Store",
+  "short_name": "Pwa Store",
   "description": "Discover the future of progressive web apps",
   "author": "Nathan Foster",
   "keywords": [
@@ -43,8 +43,8 @@
       ]
     }
   ],
-  "background_color": "#29303b",
-  "theme_color": "#29303b",
+  "background_color": "#004aad",
+  "theme_color": "#004aad",
   "start_url": "/home",
   "scope": "/",
   "display": "standalone",

@@ -65,4 +65,10 @@ const handleFilterItems = (items, search) => {
   };
 };
 
-export { mergePwas, handleFilterItems };
+const updatePwa = ({ items, filteredItems }, pwa) => {
+  const newItems = items.map((obj) => (obj.id === pwa[0].id ? { ...obj, ...pwa[1] } : obj));
+  const newFilters = filteredItems.map((obj) => (obj.id === pwa[0].id ? { ...obj, ...pwa[1] } : obj));
+  return { items: newItems, filteredItems: newFilters };
+}
+
+export { mergePwas, handleFilterItems, updatePwa };

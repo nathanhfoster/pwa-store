@@ -1,21 +1,52 @@
-import React, { useMemo } from 'react';
+import React, { lazy, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'resurrection';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import Stack from '@material-ui/core/Stack';
+import { DEFAULT_PWA_IMAGE, DEFAULT_PWA_IMAGE_SIZE } from '../../constants';
+import { PwaType } from 'store/reducers/Pwas/types';
 
-const PwaDetail = ({ id, name, description, url, pwa_analytics, ratings, organization, tags, updated_at }) => {
+const detailContainerStyles = {
+  bgcolor: 'background.paper',
+  borderBottom: '1px solid rgba(0,0,0,0.05)',
+  p: 3,
+  mb: 3
+};
+
+const Detail = lazy(() => import('./Detail'));
+
+const PwaDetail = ({
+  id,
+  name,
+  short_description,
+  description,
+  url,
+  image_url,
+  pwa_screenshots,
+  pwa_analytics,
+  ratings,
+  organization,
+  tags,
+  updated_at
+}) => {
   const { view_count = 0, launch_count = 0 } = pwa_analytics || {};
-  const averageRating = useMemo(() => {
-    if (!ratings) return null;
-    const sum = ratings.reduce((acc, curr) => acc + curr.value, 0);
-    const average = sum / ratings.length;
-    return average;
-  }, [ratings]);
+  const renderScreenShots = useMemo(
+    () =>
+      pwa_screenshots.map(({ image_url, caption }) => (
+        <Grid key={image_url} item xs='auto' mx={3} sx={{ height: DEFAULT_PWA_IMAGE_SIZE * 2 }}>
+          <img
+            src={`${image_url}?w=164&h=164&fit=crop&auto=format`}
+            srcSet={`${image_url}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+            alt={name}
+            loading='lazy'
+            height='100%'
+          />
+        </Grid>
+      )),
+    [pwa_screenshots]
+  );
 
   if (!id) {
     return (
@@ -25,29 +56,44 @@ const PwaDetail = ({ id, name, description, url, pwa_analytics, ratings, organiz
     );
   }
 
+  const imageSrc = image_url || DEFAULT_PWA_IMAGE;
+
+  const pwaDescription = short_description || description;
+
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <Typography variant='h3'>{name}</Typography>
+    <>
+      <Box sx={detailContainerStyles}>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Detail
+              id={id}
+              src={imageSrc}
+              name={name}
+              tags={tags}
+              url={url}
+              view_count={view_count}
+              launch_count={launch_count}
+              ratings={ratings}
+            />
+          </Grid>
+          {pwaDescription && (
+            <Grid item xs={12}>
+              <Typography variant='body1'>{pwaDescription}</Typography>
+            </Grid>
+          )}
+        </Grid>
+      </Box>
+      <Grid
+        container
+        spacing={0}
+        direction='row'
+        justifyContent='flex-start'
+        alignItems='baseline'
+        sx={{ flexWrap: 'nowrap', overflowX: 'auto' }}
+      >
+        {renderScreenShots}
       </Grid>
-      <Grid item xs={3}>
-        <Button variant='contained' disabled={!url} href={url} target='_blank'>
-          Launch App
-        </Button>
-      </Grid>
-      <Grid item xs={3}>
-        <Typography variant='h6'>Views: {view_count}</Typography>
-      </Grid>
-      <Grid item xs={3}>
-        <Typography variant='h6'>Launches: {launch_count}</Typography>
-      </Grid>
-      <Grid item xs={3}>
-        <Typography variant='h6'>Average Rating: {averageRating}</Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <Typography variant='body1'>{description}</Typography>
-      </Grid>
-    </Grid>
+    </>
   );
 };
 
@@ -55,5 +101,12 @@ const mapStateToProps = ({ Pwas: { items, filteredItems } }, { pwaId }) =>
   (filteredItems.length > 0 ? items.concat(filteredItems) : items).find(({ id }) => id == pwaId);
 
 const mapDispatchToProps = {};
+
+PwaDetail.propTypes = PwaType;
+
+PwaDetail.defaultProps = {
+  pwa_screenshots: [],
+  pwa_analytics: {}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(PwaDetail);

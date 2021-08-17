@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import { RootReducer } from './store';
-import { storeFactory, ContextProvider } from 'resurrection';
+import { ContextProvider } from 'resurrection';
 import './styles/index.css';
 import { StyledEngineProvider, createTheme, ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -14,11 +14,17 @@ import serviceWorkerConfig from './serviceWorkerConfig';
 
 import blue from '@material-ui/core/colors/blue';
 
+// https://next.material-ui.com/customization/palette/
 const theme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: blue[500]
+      light: '#38b6ff',
+      main: '#3498db',
+      dark: '#004aad'
+    },
+    info: {
+      main: blue[200]
     }
   }
 });
@@ -44,6 +50,4 @@ ReactDOM.render(
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
 
-const store = storeFactory.getStore();
-
-serviceWorkerRegistration.register(serviceWorkerConfig(store));
+serviceWorkerRegistration.register(serviceWorkerConfig());

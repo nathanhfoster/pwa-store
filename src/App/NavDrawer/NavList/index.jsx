@@ -10,7 +10,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import IconButton from '@material-ui/core/IconButton';
-import HomeIcon from '@material-ui/icons/Home';
+import HomeIcon from '@material-ui/icons/StoreMallDirectory';
 
 const NavItem = lazy(() => import('./NavItem'));
 
@@ -38,7 +38,7 @@ const NavList = ({ tags, ResetPwasFilter, ToggleAppNavBar }) => {
   };
 
   return (
-    <div>
+    <>
       <StyledToolbar test='test'>
         <IconButton edge='start' onClick={handleHomeClick}>
           <StyledHomeIcon />
@@ -51,7 +51,7 @@ const NavList = ({ tags, ResetPwasFilter, ToggleAppNavBar }) => {
         ))}
       </List>
       <Divider />
-    </div>
+    </>
   );
 };
 const mapStateToProps = ({ Pwas: { tags } }) => ({ tags });

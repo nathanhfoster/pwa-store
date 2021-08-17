@@ -9,25 +9,21 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import SystemUpdateIcon from '@material-ui/icons/SystemUpdate';
 import SearchBar from './NavSearchBar';
 import NavMenu from './NavMenu';
 import { ToggleAppNavBar } from 'store/reducers/App/actions';
 
-const menuId = 'SearchBarMenu';
-
 const mobileMenuId = 'SearchBarMenuMobile';
 
-const NavToolbar = ({ ToggleAppNavBar }) => {
-  const [anchorEl, setAnchorEl] = useState(null);
+const NavToolbar = ({ addToHomeScreenPrompt, ToggleAppNavBar }) => {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
-
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
 
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+
+  const handleInstallToHomeScreen = () => addToHomeScreenPrompt.prompt();
 
   return (
     <>
@@ -56,16 +52,29 @@ const NavToolbar = ({ ToggleAppNavBar }) => {
           </IconButton>
           <IconButton
             size='large'
-            edge='end'
+            edge={addToHomeScreenPrompt ? false : 'end'}
             aria-label='account of current user'
-            aria-controls={menuId}
             aria-haspopup='true'
-            onClick={handleProfileMenuOpen}
             color='inherit'
           >
             <AccountCircle />
           </IconButton>
         </Box>
+        {addToHomeScreenPrompt && (
+          <Box>
+            <IconButton
+              size='large'
+              edge='end'
+              title='Install to home screen'
+              aria-label='prompt to install pwa'
+              aria-haspopup='true'
+              color='inherit'
+              onClick={handleInstallToHomeScreen}
+            >
+              <SystemUpdateIcon />
+            </IconButton>
+          </Box>
+        )}
         <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
           <IconButton
             size='large'
@@ -74,25 +83,22 @@ const NavToolbar = ({ ToggleAppNavBar }) => {
             aria-haspopup='true'
             onClick={handleMobileMenuOpen}
             color='inherit'
+            sx={{ p: 0.5 }}
           >
             <MoreIcon />
           </IconButton>
         </Box>
       </Toolbar>
       <NavMenu
-        anchorEl={anchorEl}
-        menuId={menuId}
-        setAnchorEl={setAnchorEl}
         mobileMoreAnchorEl={mobileMoreAnchorEl}
         setMobileMoreAnchorEl={setMobileMoreAnchorEl}
         mobileMenuId={mobileMenuId}
-        handleProfileMenuOpen={handleProfileMenuOpen}
       />
     </>
   );
 };
 
-const mapStateToProps = ({ App: { navBarIsOpen } }) => ({ navBarIsOpen });
+const mapStateToProps = ({ App: { addToHomeScreenPrompt } }) => ({ addToHomeScreenPrompt });
 
 const mapDispatchToProps = { ToggleAppNavBar };
 

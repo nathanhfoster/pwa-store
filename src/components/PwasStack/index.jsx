@@ -2,20 +2,27 @@ import React, { lazy, memo } from 'react';
 import PropTypes from 'prop-types';
 import { PwasType } from 'store/reducers/Pwas/types';
 import Grid from '@material-ui/core/Grid';
-
+import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
+import { DEFAULT_PWA_IMAGE_SIZE } from '../../constants';
+
+const containerStyles = {
+  bgcolor: 'background.paper',
+  borderBottom: '1px solid rgba(0,0,0,0.05)',
+  py: 2
+};
 
 const Pwa = lazy(() => import('./Pwa'));
 
 const PwasStack = ({ title, subtitle, detailed, pwas, imageSize, flexWrap }) => (
-  <>
+  <Box sx={containerStyles}>
     {title && (
-      <Typography variant='h6' mt={2}>
+      <Typography variant={detailed ? 'h4' : 'h6'} mx={2} mb={1}>
         {title}
       </Typography>
     )}
     {subtitle && (
-      <Typography variant='subtitle2' color='text.secondary'>
+      <Typography variant='subtitle2' color='text.secondary' mx={2} mb={2}>
         {subtitle}
       </Typography>
     )}
@@ -28,12 +35,12 @@ const PwasStack = ({ title, subtitle, detailed, pwas, imageSize, flexWrap }) => 
       sx={{ flexWrap: flexWrap, overflowX: 'auto' }}
     >
       {pwas.map((pwa) => (
-        <Grid item key={pwa.id} xs={4} sm='auto'>
+        <Grid item key={pwa.id} xs='auto' mx={2}>
           <Pwa {...pwa} detailed={detailed} imageSize={imageSize} />
         </Grid>
       ))}
     </Grid>
-  </>
+  </Box>
 );
 
 PwasStack.propTypes = {
@@ -47,7 +54,7 @@ PwasStack.propTypes = {
 
 PwasStack.defaultProps = {
   detailed: false,
-  imageSize: 124,
+  imageSize: DEFAULT_PWA_IMAGE_SIZE,
   flexWrap: 'nowrap'
 };
 

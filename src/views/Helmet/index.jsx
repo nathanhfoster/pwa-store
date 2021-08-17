@@ -30,7 +30,7 @@ const HelmetContainer = ({}) => {
   }, []);
 
   const themeColor = useMemo(() => {
-    let themeColor = '#29303b';
+    let themeColor = '#004aad';
     return themeColor;
   }, []);
 

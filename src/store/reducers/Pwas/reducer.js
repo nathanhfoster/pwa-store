@@ -1,5 +1,5 @@
 import * as ActionTypes from './actions/types';
-import { mergePwas, handleFilterItems } from './utils';
+import { mergePwas, handleFilterItems, updatePwa } from './utils';
 import { toggleBooleanReducer } from 'resurrection';
 
 export const DEFAULT_STATE = {
@@ -71,6 +71,11 @@ const Pwas = (state = DEFAULT_STATE, action) => {
         ...state,
         ...handleFilterItems(nextItems, search || state.search)
       };
+
+    case ActionTypes.PWA_ANALYTICS_COUNTER:
+        const { view_count, launch_count, pwa_id } = payload;
+        const { items, filteredItems } = updatePwa(state, [{ id: pwa_id }, { pwa_analytics: { view_count, launch_count } }])
+        return { ...state, items, filteredItems };
 
     default:
       return state;

@@ -1,5 +1,5 @@
 import { Axios } from '../../Axios';
-import { ToogleIsLoading, SetPwas, SetPwaTags, SetPwasSearch, MergeFilterPwas, FilterPwas } from './redux';
+import { ToogleIsLoading, SetPwas, SetPwaTags, PwaAanalyticsCounter, SetPwasSearch, MergeFilterPwas, FilterPwas } from './redux';
 
 export const GetPwas = (pagination) => (dispatch) => {
   dispatch(ToogleIsLoading(true));
@@ -66,3 +66,16 @@ export const GetPwaManifest = (url) =>
       console.error(e);
       return Promise.reject(e);
     });
+
+
+export const UpdateAnalytics = (data) => (dispatch, getState) => {
+  return Axios()
+    .patch('pwas/analytics-counter/', data)
+    .then((res) => {
+      dispatch(PwaAanalyticsCounter({ ...res.data, pwa_id: data.pwa_id }))
+    })
+    .catch((e) => {
+      console.error(e);
+      return Promise.reject(e);
+    })
+}
