@@ -18,7 +18,7 @@ const AppRouter = ({ userIsLoggedIn }) => {
         <Route exact path={[RouteMap.ROOT, RouteMap.HOME]} component={Home} />
         <Route exact path={[RouteMap.PWA_DETAIL]} render={({ match: { params } }) => <PwaDetail {...params} />} />
         <Route exact path={[RouteMap.PWA_TAG_FILTER]} component={PwasFilteredByTags} />
-        {userIsLoggedIn ? <Redirect to={RouteMap.HOME} /> : <Route exact path={[RouteMap.LOGIN]} component={Login} />}
+        <Route exact path={[RouteMap.LOGIN]} render={() => userIsLoggedIn ? <Redirect to={RouteMap.HOME} /> : <Login /> } />
         <Route render={() => <PageNotFound />} />
       </Switch>
     </>
