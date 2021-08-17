@@ -1,19 +1,23 @@
 import * as ActionTypes from './actions/types';
 import { toggleBooleanReducer } from 'resurrection';
 
-export const DEFAULT_STATE = {
-  isLoading: false,
-  token: '',
-  id: null,
-  username: '',
-  name: '',
-  email: '',
-  is_active: false,
-  is_superuser: false,
-  is_staff: false,
-  last_login: '',
-  date_joined: ''
-};
+const localUser = localStorage.getItem('User');
+
+export const DEFAULT_STATE = localUser
+  ? JSON.parse(localUser)
+  : {
+      isLoading: false,
+      token: '',
+      id: null,
+      username: '',
+      name: '',
+      email: '',
+      is_active: false,
+      is_superuser: false,
+      is_staff: false,
+      last_login: '',
+      date_joined: ''
+    };
 
 const User = (state = DEFAULT_STATE, action) => {
   const { type, payload } = action;

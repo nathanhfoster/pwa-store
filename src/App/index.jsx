@@ -24,34 +24,37 @@ const App = ({ GetPwas, SetAddToHomeScreenPrompt, GetPwaTags }) => {
   }, []);
 
   return (
-    <Box sx={{ display: 'flex', height: '100vh', width: '100vw' }}>
-      <AppBar
-        color='primary'
-        position='fixed'
-        sx={{
-          width: { sm: `calc(100% - ${APP_DRAWER_WIDTH}px)` },
-          ml: { sm: `${APP_DRAWER_WIDTH}px` }
-        }}
-      >
-        <NavToolbar />
-      </AppBar>
-      <Box component='nav' sx={{ width: { sm: APP_DRAWER_WIDTH }, flexShrink: { sm: 0 } }}>
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-        <NavDrawer drawerWidth={APP_DRAWER_WIDTH} />
-      </Box>
-      <Box
-        component='main'
-        sx={{
-          width: { xs: '100vw', sm: `calc(100vw - ${APP_DRAWER_WIDTH}px)` },
-          flexGrow: 1,
-          mt: { xs: '56px', sm: '64px' }
-        }}
-      >
-        <Box component='header'>
-          <AppRouter />
+    <>
+      <div id='login-portal' />
+      <Box sx={{ display: 'flex', height: '100vh', width: '100vw' }}>
+        <AppBar
+          color='primary'
+          position='fixed'
+          sx={{
+            width: { sm: `calc(100% - ${APP_DRAWER_WIDTH}px)` },
+            ml: { sm: `${APP_DRAWER_WIDTH}px` }
+          }}
+        >
+          <NavToolbar />
+        </AppBar>
+        <Box component='nav' sx={{ width: { sm: APP_DRAWER_WIDTH }, flexShrink: { sm: 0 } }}>
+          {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+          <NavDrawer drawerWidth={APP_DRAWER_WIDTH} />
+        </Box>
+        <Box
+          component='main'
+          sx={{
+            width: { xs: '100vw', sm: `calc(100vw - ${APP_DRAWER_WIDTH}px)` },
+            flexGrow: 1,
+            mt: { xs: '56px', sm: '64px' }
+          }}
+        >
+          <Box component='header'>
+            <AppRouter />
+          </Box>
         </Box>
       </Box>
-    </Box>
+    </>
   );
 };
 

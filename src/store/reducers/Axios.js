@@ -1,3 +1,4 @@
+import { storeFactory } from 'resurrection';
 import axios from 'axios';
 
 /**
@@ -25,12 +26,6 @@ const baseHeaders = {
   'Content-Type': 'application/x-www-form-urlencoded'
 };
 
-const baseFormHeaders = (payload) => ({
-  ...base,
-  'Accept-Language': 'en-US,en;q=0.8',
-  'Content-Type': `multipart/form-data; boundary=${payload._boundary}`
-});
-
 /*
 Axios request response : https://kapeli.com/cheat_sheets/Axios.docset/Contents/Resources/Documents/index
 {
@@ -53,45 +48,20 @@ Axios request response : https://kapeli.com/cheat_sheets/Axios.docset/Contents/R
 */
 
 export const Axios = (props) => {
-  const { authToken, pagination, responseType = 'json' } = props || {};
+  const store = storeFactory.getStore();
+  const { token } = store?.getState()?.User;
+  const { pagination, responseType = 'json' } = props || {};
 
   return axios.create({
     ...axiosDefaults,
     baseURL: pagination || axiosDefaults.baseURL,
     withCredentials: true,
     responseType,
-    headers: authToken
+    headers: token
       ? {
-          Authorization: `Token ${authToken}`,
+          Authorization: `Token ${token}`,
           ...baseHeaders
         }
       : baseHeaders
   });
 };
-
-export const AxiosForm = (props) => {
-  const { authToken, payload } = props || {};
-
-  return axios.create({
-    ...axiosDefaults,
-    headers: authToken
-      ? {
-          Authorization: `Token ${authToken}`,
-          ...baseFormHeaders(payload)
-        }
-      : baseFormHeaders(payload)
-  });
-};
-
-export const AxiosData = (authToken, payload) =>
-  axios.create({
-    ...axiosDefaults,
-    withCredentials: authToken ? true : false,
-    headers: authToken
-      ? {
-          Authorization: `Token ${authToken}`,
-          ...baseHeaders
-        }
-      : baseHeaders,
-    data: payload
-  });
