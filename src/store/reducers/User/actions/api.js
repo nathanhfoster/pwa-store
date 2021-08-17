@@ -3,9 +3,14 @@ import { ToogleIsLoading, SetUser } from './redux';
 
 export const UserLogin = (payload) => (dispatch) => {
   dispatch(ToogleIsLoading(true));
-  return Axios('login/')
-    .post(payload)
+  return Axios({})
+    .post('auth/login', payload, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
     .then(({ data }) => {
+      localStorage.setItem('User', JSON.stringify(data));
       dispatch(ToogleIsLoading(false));
       return dispatch(SetUser(data));
     })

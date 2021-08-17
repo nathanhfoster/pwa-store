@@ -13,6 +13,7 @@ import SystemUpdateIcon from '@material-ui/icons/SystemUpdate';
 import SearchBar from './NavSearchBar';
 import NavMenu from './NavMenu';
 import { ToggleAppNavBar } from 'store/reducers/App/actions';
+import { RouteMap } from 'utils';
 
 const mobileMenuId = 'SearchBarMenuMobile';
 
@@ -52,7 +53,9 @@ const NavToolbar = ({ addToHomeScreenPrompt, ToggleAppNavBar }) => {
           </IconButton>
           <IconButton
             size='large'
+            href={RouteMap.LOGIN}
             edge={addToHomeScreenPrompt ? false : 'end'}
+            title='Account'
             aria-label='account of current user'
             aria-haspopup='true'
             color='inherit'
