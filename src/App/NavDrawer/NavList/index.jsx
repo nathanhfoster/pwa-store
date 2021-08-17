@@ -38,7 +38,7 @@ const NavList = ({ tags, ResetPwasFilter, ToggleAppNavBar }) => {
   };
 
   return (
-    <div>
+    <>
       <StyledToolbar test='test'>
         <IconButton edge='start' onClick={handleHomeClick}>
           <StyledHomeIcon />
@@ -51,7 +51,7 @@ const NavList = ({ tags, ResetPwasFilter, ToggleAppNavBar }) => {
         ))}
       </List>
       <Divider />
-    </div>
+    </>
   );
 };
 const mapStateToProps = ({ Pwas: { tags } }) => ({ tags });
