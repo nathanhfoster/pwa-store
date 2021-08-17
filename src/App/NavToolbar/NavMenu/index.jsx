@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { connect } from 'resurrection';
 import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -6,6 +7,7 @@ import Menu from '@material-ui/core/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import SystemUpdateIcon from '@material-ui/icons/SystemUpdate';
 
 const NavMenu = ({
   anchorEl,
@@ -14,7 +16,8 @@ const NavMenu = ({
   mobileMoreAnchorEl,
   setMobileMoreAnchorEl,
   mobileMenuId,
-  handleProfileMenuOpen
+  handleProfileMenuOpen,
+  addToHomeScreenPrompt
 }) => {
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -92,9 +95,19 @@ const NavMenu = ({
           </IconButton>
           <p>Profile</p>
         </MenuItem>
+        {addToHomeScreenPrompt && (
+          <MenuItem>
+            <IconButton size='large' aria-label='prompt to install pwa' aria-haspopup='true' color='inherit'>
+              <SystemUpdateIcon />
+            </IconButton>
+            <p>Install</p>
+          </MenuItem>
+        )}
       </Menu>
     </>
   );
 };
 
-export default NavMenu;
+const mapStateToProps = ({ App: { addToHomeScreenPrompt } }) => ({ addToHomeScreenPrompt });
+
+export default connect(mapStateToProps)(NavMenu);

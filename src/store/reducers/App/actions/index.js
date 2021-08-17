@@ -11,3 +11,8 @@ export const SetServiceWorkerRegistration = (payload) => ({
   type: ActionTypes.APP_SET_SERVICE_WORKER_REGISTERATION,
   payload
 });
+
+export const SetAddToHomeScreenPrompt = (payload) => ({
+  type: ActionTypes.APP_SET_ADD_TO_HOME_SCREEN_PROMPT,
+  payload
+});

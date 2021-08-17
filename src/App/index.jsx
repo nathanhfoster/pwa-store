@@ -3,14 +3,21 @@ import PropTypes from 'prop-types';
 import { connect } from 'resurrection';
 import AppBar from '@material-ui/core/AppBar';
 import Box from '@material-ui/core/Box';
-
 import NavToolbar from './NavToolbar';
 import AppRouter from 'views';
 import NavDrawer from './NavDrawer';
+import { SetAddToHomeScreenPrompt } from 'store/reducers/App/actions';
 import { GetPwas, GetPwaTags } from 'store/reducers/Pwas/actions/api';
 import { APP_DRAWER_WIDTH } from '../constants';
+import useAddToHomescreenPrompt from 'hooks/useAddToHomescreenPrompt';
 
-const App = ({ GetPwas, GetPwaTags }) => {
+const App = ({ GetPwas, SetAddToHomeScreenPrompt, GetPwaTags }) => {
+  const [prompt] = useAddToHomescreenPrompt();
+
+  useEffect(() => {
+    SetAddToHomeScreenPrompt(prompt);
+  }, [prompt]);
+
   useEffect(() => {
     GetPwas();
     GetPwaTags();
@@ -58,6 +65,6 @@ App.propTypes = {
 
 const mapStateToProps = ({}) => ({});
 
-const mapDispatchToProps = { GetPwas, GetPwaTags };
+const mapDispatchToProps = { SetAddToHomeScreenPrompt, GetPwas, GetPwaTags };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
