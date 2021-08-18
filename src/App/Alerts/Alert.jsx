@@ -14,7 +14,13 @@ const Alert = ({ id, title, message, props = { severity: 'info' }, onClick }) =>
   };
 
   return (
-    <MaterialAlert key={id} {...props} onClick={onClick} onClose={handleAlertDelete}>
+    <MaterialAlert
+      key={id}
+      sx={{ cursor: onClick ? 'pointer' : 'default' }}
+      {...props}
+      onClick={onClick}
+      onClose={handleAlertDelete}
+    >
       {title && <MaterialAlertTitle>{title}</MaterialAlertTitle>}
       <MaterialTypography variant='body2'>{message}</MaterialTypography>
     </MaterialAlert>
