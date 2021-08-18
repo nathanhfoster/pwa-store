@@ -61,7 +61,7 @@ const NavSearchBar = ({ search, isLoading, SetPwasSearch, SearchPwas, FilterPwas
     <Search>
       {!isLoading && (
         <SearchIconWrapper>
-          <SearchIcon />
+          <SearchIcon sx={{ animation: 'grow 200ms' }} />
         </SearchIconWrapper>
       )}
       <StyledInputBase

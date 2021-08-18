@@ -1,5 +1,5 @@
 import { storeFactory } from 'resurrection';
-import { SetServiceWorkerRegistration, PushAlertWithTimeout } from 'store/reducers/App/actions';
+import { SetServiceWorkerRegistration, PushAlert } from 'store/reducers/App/actions';
 const { PUBLIC_URL } = process.env;
 
 const receivePushNotification = (event, registration) => {
@@ -64,7 +64,7 @@ const config = () => ({
               onClick: handleReloadWindow,
               props: { severity: 'info' }
             };
-            store.dispatch(PushAlertWithTimeout(alertPayload));
+            store.dispatch(PushAlert(alertPayload));
             store.dispatch(SetServiceWorkerRegistration(registration));
           } else {
             alert('Update Available! Please refresh your browser.');
@@ -77,12 +77,15 @@ const config = () => ({
   },
   onSuccess: (registration) => {
     const store = storeFactory.getStore();
-    const alertPayload = {
-      title: 'Succes',
-      message: 'Service worker on success state.',
-      props: { severity: 'info' }
-    };
-    store.dispatch(PushAlertWithTimeout(alertPayload, 3000));
+
+    if (store?.dispatch) {
+      const alertPayload = {
+        title: 'Succes',
+        message: 'Service worker on success state.',
+        props: { severity: 'info' }
+      };
+      store.dispatch(PushAlert(alertPayload));
+    }
 
     window.addEventListener('push', (e) => receivePushNotification(e, registration));
     window.addEventListener('notificationclick', openPushNotification);

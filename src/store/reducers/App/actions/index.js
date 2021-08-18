@@ -25,7 +25,7 @@ export const PushAlert = (payload, id = getReduxAlertId()) => ({
 
 export const DeleteAlert = (id) => ({ type: ActionTypes.APP_DELETE_ALERT, payload: id });
 
-export const PushAlertWithTimeout = (payload, time) => (dispatch) => {
+export const PushAlertWithTimeout = (payload, time = DEFAULT_ALERT_TIMEOUT) => (dispatch) => {
   const id = getReduxAlertId();
 
   dispatch(PushAlert(payload, id));

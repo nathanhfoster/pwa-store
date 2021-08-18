@@ -1,2 +1,3 @@
 export const USER_SET = 'USER_SET';
+export const USER_DELETE = 'USER_DELETE';
 export const USER_TOGGLE_IS_LOADING = 'USER_TOGGLE_IS_LOADING';

@@ -36,7 +36,6 @@ const HelmetContainer = ({}) => {
 
   return (
     <Helmet>
-      {/* Controlled */}
       <title>{title}</title>
       <meta charset='utf-8' />
       <meta name='apple-mobile-web-app-title' content={title} />
@@ -52,21 +51,6 @@ const HelmetContainer = ({}) => {
       <meta property='og:image:secure_url' content='%PUBLIC_URL%/assets/android-chrome-512x512.png' />
       <link rel='canonical' href={url} />
       <link rel='mask-icon' href='%PUBLIC_URL%/assets/safari-pinned-tab.svg' color={themeColor} />
-
-      {/* Uncontrolled */}
-      <meta charSet='utf-8' />
-      <meta name='google-site-verification' content='DA3iwihIocY8D3JG-RYePClt2-875l4DzElohuFij2Q' />
-      <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0' />
-      <meta property='og:type' content='website' />
-      <meta property='og:locale' content='en_US' />
-      <meta property='og:locale:alternate' content='fr_EU' />
-      <base href='/' />
-      <meta name='format-detection' content='telephone=no' />
-      <meta name='msapplication-tap-highlight' content='no' />
-      <meta name='mobile-web-app-capable' content='yes' />
-      <meta name='apple-mobile-web-app-capable' content='yes' />
-
-      <script src='https://kit.fontawesome.com/d1e21014e5.js' crossorigin='anonymous'></script>
     </Helmet>
   );
 };
