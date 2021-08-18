@@ -8,7 +8,7 @@ const containerStyles = {
   display: 'flex',
   justifyContent: 'center',
   alignContent: 'center',
-  background: #004aad
+  background: '#004aad'
 };
 
 const imageStyles = {
