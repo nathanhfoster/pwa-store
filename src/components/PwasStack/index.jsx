@@ -35,7 +35,7 @@ const PwasStack = ({ title, subtitle, detailed, pwas, imageSize, flexWrap }) => 
       sx={{ flexWrap: flexWrap, overflowX: 'auto' }}
     >
       {pwas.map((pwa) => (
-        <Grid item key={pwa.id} xs='auto' mx={2} sx={{ animation: 'grow 200ms' }}>
+        <Grid item key={pwa.id} xs='auto' mx={2}>
           <Pwa {...pwa} detailed={detailed} imageSize={imageSize} />
         </Grid>
       ))}

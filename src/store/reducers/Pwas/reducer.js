@@ -31,7 +31,7 @@ export const DEFAULT_STATE = {
 };
 
 const Pwas = (state = DEFAULT_STATE, action) => {
-  const { id, type, search, payload } = action;
+  const { type, search, id, payload } = action;
   let nextItems;
 
   switch (type) {
