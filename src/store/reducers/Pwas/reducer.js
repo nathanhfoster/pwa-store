@@ -31,7 +31,7 @@ export const DEFAULT_STATE = {
 };
 
 const Pwas = (state = DEFAULT_STATE, action) => {
-  const { type, search, payload } = action;
+  const { id, type, search, payload } = action;
   let nextItems;
 
   switch (type) {
@@ -73,7 +73,7 @@ const Pwas = (state = DEFAULT_STATE, action) => {
       };
 
     case ActionTypes.PWA_UPDATE:
-      return { ...state, ...updatePwa(state, payload) };
+      return { ...state, ...updatePwa(state, id, payload) };
 
     default:
       return state;

@@ -75,12 +75,11 @@ export const GetPwaManifest = (url) =>
       return Promise.reject(e);
     });
 
-export const UpdateAnalytics = (data) => (dispatch, getState) => {
+export const UpdateAnalytics = (obj) => (dispatch, getState) => {
   return Axios()
-    .patch('pwas/analytics-counter/', data)
+    .patch('pwas/analytics-counter/', obj)
     .then(({ data }) => {
-      const { pwa_id, ...restOfData } = data;
-      dispatch(UpdateReduxPwa(data.pwa_id, restOfData));
+      dispatch(UpdateReduxPwa(obj.pwa_id, data));
     })
     .catch((e) => {
       console.error(e);

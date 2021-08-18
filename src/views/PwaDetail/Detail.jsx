@@ -43,6 +43,10 @@ const Detail = ({ id, src, name, tags, url, ratings, view_count, launch_count, U
     return average;
   }, [ratings]);
 
+  const onLaunch = () => {
+    UpdateAnalytics({ incr_launch: true, pwa_id: id });
+  }
+
   return (
     <Box sx={{ maxWidth: 500, flexGrow: 1 }}>
       <Grid container spacing={0}>
@@ -98,6 +102,7 @@ const Detail = ({ id, src, name, tags, url, ratings, view_count, launch_count, U
                 href={url}
                 target='_blank'
                 sx={{ animation: 'grow 200ms' }}
+                onClick={onLaunch}
               >
                 <LaunchIcon sx={{ mr: 1 }} />
                 Launch app
