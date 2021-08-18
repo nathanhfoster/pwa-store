@@ -16,7 +16,7 @@ const imageStyles = {
   maxWidth: '100vw'
 };
 
-const AppIcon = `${process.env.PUBLIC_URL}/assets/android-chrome-512x512.png`;
+const AppIcon = `${process.env.PUBLIC_URL}/assets/icon.png`;
 
 const LoadingScreen = () => (
   <div style={containerStyles}>
