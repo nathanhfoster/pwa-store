@@ -25,6 +25,7 @@ const HOME_ICON_SIZE = 32;
 const StyledHomeIcon = styled(HomeIcon)((props) => ({
   width: HOME_ICON_SIZE,
   height: HOME_ICON_SIZE,
+  animation: 'grow 200ms',
   '&:hover': { color: props.theme.palette.primary.main }
 }));
 

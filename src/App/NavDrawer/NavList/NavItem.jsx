@@ -23,7 +23,7 @@ const NavItem = ({ name, navBarIsOpen, ToggleAppNavBar }) => {
   return (
     <ListItem button onClick={onTagClick}>
       <ListItemIcon>
-        <Icon />
+        <Icon sx={{ animation: 'grow 200ms' }} />
       </ListItemIcon>
       <ListItemText primary={name} />
     </ListItem>

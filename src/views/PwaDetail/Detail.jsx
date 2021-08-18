@@ -16,7 +16,8 @@ const Img = styled('img')({
   margin: 'auto',
   display: 'block',
   maxWidth: '100%',
-  maxHeight: '100%'
+  maxHeight: '100%',
+  animation: 'grow 200ms'
 });
 
 const imageButtonStyles = { width: DEFAULT_PWA_IMAGE_SIZE, height: DEFAULT_PWA_IMAGE_SIZE };
@@ -90,7 +91,14 @@ const Detail = ({ id, src, name, tags, url, ratings, view_count, launch_count, U
               </Stack>
             </Grid>
             <Grid item xs>
-              <LaunchButton size='small' variant='contained' disabled={!url} href={url} target='_blank'>
+              <LaunchButton
+                size='small'
+                variant='contained'
+                disabled={!url}
+                href={url}
+                target='_blank'
+                sx={{ animation: 'grow 200ms' }}
+              >
                 <LaunchIcon sx={{ mr: 1 }} />
                 Launch app
               </LaunchButton>
