@@ -3,18 +3,22 @@ import PropTypes from 'prop-types';
 import { connect } from 'resurrection';
 import AppBar from '@material-ui/core/AppBar';
 import Box from '@material-ui/core/Box';
+import { ThemeProvider } from '@material-ui/core/styles';
+import { SetAddToHomeScreenPrompt } from 'store/reducers/App/actions';
+import { GetPwas, GetPwaTags } from 'store/reducers/Pwas/actions/api';
+import useAddToHomescreenPrompt from 'hooks/useAddToHomescreenPrompt';
+
+import theme from './theme';
 import NavToolbar from './NavToolbar';
 import AppRouter from 'views';
 import NavDrawer from './NavDrawer';
-import { SetAddToHomeScreenPrompt } from 'store/reducers/App/actions';
-import { GetPwas, GetPwaTags } from 'store/reducers/Pwas/actions/api';
 import { APP_DRAWER_WIDTH } from '../constants';
-import useAddToHomescreenPrompt from 'hooks/useAddToHomescreenPrompt';
 
 const Alerts = lazy(() => import('./Alerts'));
 
-const App = ({ GetPwas, SetAddToHomeScreenPrompt, GetPwaTags }) => {
+const App = ({ GetPwas, SetAddToHomeScreenPrompt, GetPwaTags, User }) => {
   const [prompt] = useAddToHomescreenPrompt();
+  const appTheme = theme(User.setting.mode);
 
   useEffect(() => {
     SetAddToHomeScreenPrompt(prompt);
@@ -26,7 +30,7 @@ const App = ({ GetPwas, SetAddToHomeScreenPrompt, GetPwaTags }) => {
   }, []);
 
   return (
-    <>
+    <ThemeProvider theme={appTheme}>
       <div id='login-portal' />
       <Alerts />
       <Box sx={{ display: 'flex', height: '100vh', width: '100vw' }}>
@@ -57,7 +61,7 @@ const App = ({ GetPwas, SetAddToHomeScreenPrompt, GetPwaTags }) => {
           </Box>
         </Box>
       </Box>
-    </>
+    </ThemeProvider>
   );
 };
 
@@ -69,7 +73,7 @@ App.propTypes = {
   window: PropTypes.func
 };
 
-const mapStateToProps = ({}) => ({});
+const mapStateToProps = ({ User }) => ({ User });
 
 const mapDispatchToProps = { SetAddToHomeScreenPrompt, GetPwas, GetPwaTags };
 
