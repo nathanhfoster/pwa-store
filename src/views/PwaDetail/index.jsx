@@ -48,7 +48,7 @@ const PwaDetail = ({
             srcSet={`${image_url}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
             alt={name}
             loading='lazy'
-            height='100%'
+            height={375}
           />
         </Grid>
       )),
