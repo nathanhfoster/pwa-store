@@ -59,7 +59,7 @@ const Detail = ({ id, src, name, tags, url, ratings, view_count, launch_count })
               />
             </ButtonBase>
           </Grid>
-          <Grid item xs md={8} container direction='column' spacing={2}>
+          <Grid item xs sm={8} container direction='column' spacing={2}>
             <Grid item xs>
               <Typography variant='h4' sx={{ fontWeight: 600 }}>
                 {name}
