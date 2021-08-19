@@ -9,6 +9,8 @@ export const PwaAnalyticsType = { id: PropTypes.number, view_count: PropTypes.nu
 
 export const PwaScreenshotsType = { id: PropTypes.number, image_url: PropTypes.string, caption: PropTypes.string };
 
+export const PwaOrganizationType = { id: PropTypes.number, name: PropTypes.string, image_url: PropTypes.string };
+
 export const PwaType = {
   id: PropTypes.number,
   archived: PropTypes.bool,
@@ -20,7 +22,7 @@ export const PwaType = {
   name: PropTypes.string,
   url: PropTypes.string,
   slug: PropTypes.string,
-  organization: PropTypes.number,
+  organization: PropTypes.shape(PwaOrganizationType),
   tags: PropTypes.arrayOf(PropTypes.shape(PwaTagType)),
   image_url: PropTypes.string,
   short_description: PropTypes.string,

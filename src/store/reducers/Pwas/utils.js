@@ -42,7 +42,17 @@ const mergePwas = (currentStoreItems, newItems, key = 'id') => {
   return objectToArray(mergeMap);
 };
 
-const tagMatch = (tags, search) => tags?.some((tag) => stringMatch(tag?.name, search));
+const match = (obj, search, key) => {
+  if (Array.isArray(obj)) {
+    return obj?.some((e) => stringMatch(key ? e[key] : e, search));
+  }
+
+  if (typeof obj === 'object') {
+    return stringMatch(key ? obj[key] : obj, search);
+  }
+
+  return stringMatch(obj, search);
+};
 
 const handleFilterItems = (items, search) => {
   if (!search) return { items, filteredItems: [] };
@@ -50,9 +60,30 @@ const handleFilterItems = (items, search) => {
   var cachedItems = [];
 
   const newItems = items.filter((item) => {
-    const { id, name, description, views, launches, ratings, organization, tags, updated_at } = item;
+    const {
+      id,
+      name,
+      url,
+      slug,
+      short_description,
+      description,
+      views,
+      launches,
+      ratings,
+      organization,
+      tags,
+      updated_at
+    } = item;
 
-    if (stringMatch(name, search) || stringMatch(description, search) || tagMatch(tags, search)) {
+    if (
+      match(name, search) ||
+      match(url, search) ||
+      match(short_description, search) ||
+      match(description, search) ||
+      match(tags, search, 'name') ||
+      match(organization, search, 'name') ||
+      match(organization, search, 'description')
+    ) {
       return true;
     } else {
       cachedItems.push(item);

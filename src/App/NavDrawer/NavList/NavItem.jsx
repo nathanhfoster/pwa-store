@@ -9,6 +9,11 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import AppsIcon from '@material-ui/icons/Apps';
 import ListItemText from '@material-ui/core/ListItemText';
 import { tagIconMap } from './structure';
+import { styled } from '@material-ui/core/styles';
+
+const StyledListItem = styled(ListItem)((props) => ({
+  '&:hover': { color: props.theme.palette.primary.main }
+}));
 
 const NavItem = ({ name, navBarIsOpen, ToggleAppNavBar }) => {
   const history = useHistory();
@@ -21,12 +26,12 @@ const NavItem = ({ name, navBarIsOpen, ToggleAppNavBar }) => {
   };
 
   return (
-    <ListItem button onClick={onTagClick}>
+    <StyledListItem button onClick={onTagClick}>
       <ListItemIcon>
         <Icon sx={{ animation: 'grow 200ms' }} />
       </ListItemIcon>
       <ListItemText primary={name} />
-    </ListItem>
+    </StyledListItem>
   );
 };
 
