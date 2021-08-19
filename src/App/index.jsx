@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'resurrection';
 import AppBar from '@material-ui/core/AppBar';
 import Box from '@material-ui/core/Box';
-import { ThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider, styled } from '@material-ui/core/styles';
 import { SetAddToHomeScreenPrompt } from 'store/reducers/App/actions';
+import { GetUserSettings } from 'store/reducers/User/actions';
 import { GetPwas, GetPwaTags } from 'store/reducers/Pwas/actions/api';
 import useAddToHomescreenPrompt from 'hooks/useAddToHomescreenPrompt';
 
@@ -16,15 +17,24 @@ import { APP_DRAWER_WIDTH } from '../constants';
 
 const Alerts = lazy(() => import('./Alerts'));
 
-const App = ({ GetPwas, SetAddToHomeScreenPrompt, GetPwaTags, User }) => {
+const Container = styled(Box)((props) => ({
+  display: 'flex',
+  height: '100vh',
+  width: '100vw',
+  background: props.theme.palette.background.paper,
+  color: props.theme.palette.text.primary
+}));
+
+const App = ({ GetUserSettings, GetPwas, SetAddToHomeScreenPrompt, GetPwaTags, User }) => {
   const [prompt] = useAddToHomescreenPrompt();
-  const appTheme = theme(User.setting.mode);
+  const appTheme = theme(User.setting);
 
   useEffect(() => {
     SetAddToHomeScreenPrompt(prompt);
   }, [prompt]);
 
   useEffect(() => {
+    GetUserSettings();
     GetPwas();
     GetPwaTags();
   }, []);
@@ -33,7 +43,7 @@ const App = ({ GetPwas, SetAddToHomeScreenPrompt, GetPwaTags, User }) => {
     <ThemeProvider theme={appTheme}>
       <div id='login-portal' />
       <Alerts />
-      <Box sx={{ display: 'flex', height: '100vh', width: '100vw' }}>
+      <Container>
         <AppBar
           color='primary'
           position='fixed'
@@ -60,7 +70,7 @@ const App = ({ GetPwas, SetAddToHomeScreenPrompt, GetPwaTags, User }) => {
             <AppRouter />
           </Box>
         </Box>
-      </Box>
+      </Container>
     </ThemeProvider>
   );
 };
@@ -75,6 +85,6 @@ App.propTypes = {
 
 const mapStateToProps = ({ User }) => ({ User });
 
-const mapDispatchToProps = { SetAddToHomeScreenPrompt, GetPwas, GetPwaTags };
+const mapDispatchToProps = { GetUserSettings, SetAddToHomeScreenPrompt, GetPwas, GetPwaTags };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

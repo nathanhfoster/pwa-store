@@ -2,7 +2,7 @@ import { createTheme } from '@material-ui/core/styles';
 import blue from '@material-ui/core/colors/blue';
 
 // https://next.material-ui.com/customization/palette/
-const theme = (mode) => {
+const theme = ({ mode }) => {
   return createTheme({
     palette: {
       mode,
@@ -16,6 +16,6 @@ const theme = (mode) => {
       }
     }
   });
-}
+};
 
 export default theme;

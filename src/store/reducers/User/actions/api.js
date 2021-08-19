@@ -23,3 +23,20 @@ export const UserLogin = (payload) => (dispatch) => {
       console.error(e);
     });
 };
+
+export const GetUserSettings = () => (dispatch, getState) => {
+  const { id, token } = getState().User;
+  if (!(id && token)) {
+    return;
+  }
+  dispatch(ToogleIsLoading(true));
+  return Axios({ token })
+    .get(`users/${id}`)
+    .then(({ data }) => {
+      return dispatch(SetUser(data));
+    })
+    .catch((e) => {
+      dispatch(ToogleIsLoading(false));
+      console.error(e);
+    });
+};
