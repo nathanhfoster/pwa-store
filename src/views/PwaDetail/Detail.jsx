@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button';
 import LaunchIcon from '@material-ui/icons/Launch';
 import Chip from '@material-ui/core/Chip';
 import Stack from '@material-ui/core/Stack';
-import { connect } from 'resurrection';
+import { useDispatch } from 'resurrection';
 import { UpdateAnalytics } from '../../store/reducers/Pwas/actions/api';
 import { APP_DRAWER_WIDTH, DEFAULT_PWA_IMAGE_SIZE } from '../../constants';
 
@@ -26,10 +26,8 @@ const LaunchButton = styled(Button)({
   borderRadius: '1rem'
 });
 
-const Detail = ({ id, src, name, tags, url, ratings, view_count, launch_count, UpdateAnalytics }) => {
-  useEffect(() => {
-    UpdateAnalytics({ incr_view: true, pwa_id: id });
-  }, []);
+const Detail = ({ id, src, name, tags, url, ratings, view_count, launch_count }) => {
+  const dispatch = useDispatch();
 
   const renderTags = useMemo(
     () => tags.map(({ name }) => <Chip key={name} label={name} color='info' size='small' />),
@@ -44,8 +42,8 @@ const Detail = ({ id, src, name, tags, url, ratings, view_count, launch_count, U
   }, [ratings]);
 
   const onLaunch = () => {
-    UpdateAnalytics({ incr_launch: true, pwa_id: id });
-  }
+    dispatch(UpdateAnalytics({ incr_launch: true, pwa_id: id }));
+  };
 
   return (
     <Box sx={{ maxWidth: 500, flexGrow: 1 }}>
@@ -115,5 +113,4 @@ const Detail = ({ id, src, name, tags, url, ratings, view_count, launch_count, U
   );
 };
 
-const mapStateToProps = ({}) => ({});
-export default connect(mapStateToProps, { UpdateAnalytics })(memo(Detail));
+export default memo(Detail);

@@ -1,12 +1,16 @@
-import React, { lazy, useMemo } from 'react';
+import React, { useEffect, lazy, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'resurrection';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import { UpdateAnalytics } from '../../store/reducers/Pwas/actions/api';
 import { DEFAULT_PWA_IMAGE, DEFAULT_PWA_IMAGE_SIZE } from '../../constants';
 import { PwaType } from 'store/reducers/Pwas/types';
+
+const Detail = lazy(() => import('./Detail'));
+const Rating = lazy(() => import('./Rating'));
 
 const detailContainerStyles = {
   bgcolor: 'background.paper',
@@ -14,8 +18,6 @@ const detailContainerStyles = {
   p: 3,
   mb: 3
 };
-
-const Detail = lazy(() => import('./Detail'));
 
 const PwaDetail = ({
   id,
@@ -29,13 +31,18 @@ const PwaDetail = ({
   ratings,
   organization,
   tags,
-  updated_at
+  updated_at,
+  UpdateAnalytics
 }) => {
+  useEffect(() => {
+    UpdateAnalytics({ incr_view: true, pwa_id: id });
+  }, []);
+
   const { view_count = 0, launch_count = 0 } = pwa_analytics || {};
   const renderScreenShots = useMemo(
     () =>
       pwa_screenshots.map(({ image_url, caption }) => (
-        <Grid key={image_url} item xs='auto' mx={3} sx={{ height: DEFAULT_PWA_IMAGE_SIZE * 2 }}>
+        <Grid key={image_url} item xs='auto'>
           <img
             src={`${image_url}?w=164&h=164&fit=crop&auto=format`}
             srcSet={`${image_url}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
@@ -46,6 +53,16 @@ const PwaDetail = ({
         </Grid>
       )),
     [pwa_screenshots]
+  );
+
+  const renderRatings = useMemo(
+    () =>
+      ratings.map((rating) => (
+        <Grid key={rating.created_by} item xs={12}>
+          <Rating {...rating} />
+        </Grid>
+      )),
+    [ratings]
   );
 
   if (!id) {
@@ -93,6 +110,7 @@ const PwaDetail = ({
       >
         {renderScreenShots}
       </Grid>
+      <Grid container>{renderRatings}</Grid>
     </>
   );
 };
@@ -100,11 +118,12 @@ const PwaDetail = ({
 const mapStateToProps = ({ Pwas: { items, filteredItems } }, { pwaId }) =>
   (filteredItems.length > 0 ? items.concat(filteredItems) : items).find(({ id }) => id == pwaId);
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = { UpdateAnalytics };
 
 PwaDetail.propTypes = PwaType;
 
 PwaDetail.defaultProps = {
+  ratings: [],
   pwa_screenshots: [],
   pwa_analytics: {}
 };

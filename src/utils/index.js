@@ -24,4 +24,14 @@ const stringMatch = (s1, s2, caseSensitive = false) => {
 
 const lazyDelay = (promiseResult, time) => new Promise((resolve) => setTimeout(() => resolve(promiseResult), time));
 
-export { RouteMap, objectToArray, stringMatch, lazyDelay };
+const getLocalDateTimeNoSeconds = (date, displaySeconds = false) => {
+  const newDate = new Date(date);
+  const time = newDate.getTime();
+  const timeZoneOffset = new Date().getTimezoneOffset() * -60 * 1000;
+  const timeWithZoneOffset = new Date(time + timeZoneOffset);
+  const timeISOString = timeWithZoneOffset.toISOString();
+
+  return displaySeconds ? timeISOString : timeISOString.slice(0, 19);
+};
+
+export { RouteMap, objectToArray, stringMatch, lazyDelay, getLocalDateTimeNoSeconds };
