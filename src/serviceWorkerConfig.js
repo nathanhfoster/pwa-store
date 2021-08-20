@@ -80,9 +80,8 @@ const config = () => ({
 
     if (store?.dispatch) {
       const alertPayload = {
-        title: 'Succes',
-        message: 'Service worker on success state.',
-        props: { severity: 'info' }
+        title: 'Offline mode enabled',
+        message: 'App is cached for offline use'
       };
       store.dispatch(PushAlert(alertPayload));
     }
