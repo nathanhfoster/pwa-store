@@ -4,6 +4,7 @@ import { connect } from 'resurrection';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
+import Backdrop from '@material-ui/core/Backdrop';
 import Typography from '@material-ui/core/Typography';
 import { UpdateAnalytics } from '../../store/reducers/Pwas/actions/api';
 import { DEFAULT_PWA_IMAGE, DEFAULT_PWA_IMAGE_SIZE } from '../../constants';
@@ -67,9 +68,9 @@ const PwaDetail = ({
 
   if (!id) {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
-        <CircularProgress size={100} />
-      </Box>
+      <Backdrop sx={{ color: 'inherit', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={!id}>
+        <CircularProgress color='primary' size={100} />
+      </Backdrop>
     );
   }
 

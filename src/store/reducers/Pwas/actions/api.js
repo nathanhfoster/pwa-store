@@ -64,7 +64,7 @@ export const SearchPwas = (category) => (dispatch, getState) => {
 
 export const GetPwaManifest = (url) =>
   Axios()
-    .get(`pwas/get_manifest?url=${url}`)
+    .get(`pwas/get-manifest?url=${url}`)
     .then(({ data }) => {
       // TODO: put this is a reducer
       console.log(data);

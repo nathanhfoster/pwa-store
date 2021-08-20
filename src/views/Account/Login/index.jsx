@@ -92,10 +92,10 @@ const SignInSide = ({}) => {
                 margin='normal'
                 required
                 fullWidth
+                id='password'
                 name='password'
                 label='Password'
                 type='password'
-                id='password'
                 autoComplete='current-password'
               />
               <FormControlLabel control={<Checkbox value='remember' color='primary' />} label='Remember me' />

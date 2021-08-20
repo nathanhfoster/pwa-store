@@ -1,4 +1,5 @@
 export const ROOT = '/';
+export const ACCOUNT = '/account';
 export const HOME = '/home';
 export const PWA_DETAIL = '/pwas/:pwaId';
 export const GetPwaDetailUrl = (id) => PWA_DETAIL.replace(':pwaId', id);

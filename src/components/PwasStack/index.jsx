@@ -1,10 +1,14 @@
-import React, { lazy, memo } from 'react';
+import React, { useMemo, lazy, memo } from 'react';
 import PropTypes from 'prop-types';
 import { PwasType } from 'store/reducers/Pwas/types';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
+import Skeleton from '@material-ui/core/Skeleton';
 import { DEFAULT_PWA_IMAGE_SIZE } from '../../constants';
+import { connect } from 'resurrection';
+
+const LENGTH_OF_SKELETON_ARRAY = { length: 8 };
 
 const containerStyles = {
   bgcolor: 'background.paper',
@@ -14,34 +18,48 @@ const containerStyles = {
 
 const Pwa = lazy(() => import('./Pwa'));
 
-const PwasStack = ({ title, subtitle, detailed, pwas, imageSize, flexWrap }) => (
-  <Box sx={containerStyles}>
-    {title && (
-      <Typography variant={detailed ? 'h4' : 'h6'} mx={2} mb={1}>
-        {title}
-      </Typography>
-    )}
-    {subtitle && (
-      <Typography variant='subtitle2' color='text.secondary' mx={2} mb={2}>
-        {subtitle}
-      </Typography>
-    )}
-    <Grid
-      container
-      spacing={0}
-      direction='row'
-      justifyContent='flex-start'
-      alignItems='baseline'
-      sx={{ flexWrap: flexWrap, overflowX: 'auto' }}
-    >
-      {pwas.map((pwa) => (
-        <Grid item key={pwa.id} xs='auto' mx={2}>
-          <Pwa {...pwa} detailed={detailed} imageSize={imageSize} />
+const PwasStack = ({ title, subtitle, detailed, pwas, imageSize, flexWrap, isLoading }) => {
+  const renderPwas = useMemo(() => {
+    if (isLoading) {
+      return Array.from(LENGTH_OF_SKELETON_ARRAY, (_, i) => (
+        <Grid item key={i} xs='auto' mx={2}>
+          <Skeleton variant='rectangular' width={imageSize} height={imageSize} />
         </Grid>
-      ))}
-    </Grid>
-  </Box>
-);
+      ));
+    }
+
+    return pwas.map((pwa) => (
+      <Grid item key={pwa.id} xs='auto' mx={2}>
+        <Pwa {...pwa} detailed={detailed} imageSize={imageSize} />
+      </Grid>
+    ));
+  }, [detailed, imageSize, isLoading, pwas]);
+
+  return (
+    <Box sx={containerStyles}>
+      {title && (
+        <Typography variant={detailed ? 'h4' : 'h6'} mx={2} mb={1}>
+          {title}
+        </Typography>
+      )}
+      {subtitle && (
+        <Typography variant='subtitle2' color='text.secondary' mx={2} mb={2}>
+          {subtitle}
+        </Typography>
+      )}
+      <Grid
+        container
+        spacing={0}
+        direction='row'
+        justifyContent='flex-start'
+        alignItems='baseline'
+        sx={{ flexWrap: flexWrap, overflowX: 'auto' }}
+      >
+        {renderPwas}
+      </Grid>
+    </Box>
+  );
+};
 
 PwasStack.propTypes = {
   title: PropTypes.string,
@@ -58,4 +76,8 @@ PwasStack.defaultProps = {
   flexWrap: 'nowrap'
 };
 
-export default memo(PwasStack);
+const mapStateToProps = ({ Pwas: { isLoading: isLoadingFromStore } }, { isLoading: isLoadingFromProps }) => ({
+  isLoading: isLoadingFromProps || isLoadingFromStore
+});
+
+export default connect(mapStateToProps)(PwasStack);

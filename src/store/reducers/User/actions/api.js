@@ -1,7 +1,6 @@
 import { Axios } from '../../Axios';
-import { ToogleIsLoading, SetUser } from './redux';
+import { ToogleIsLoading, SetUser, SetUserError } from './redux';
 import { PushAlertWithTimeout } from '../../App/actions';
-import { USER_LOCAL_STORAGE_KEY } from '../utils';
 
 export const UserLogin = (payload) => (dispatch) => {
   dispatch(ToogleIsLoading(true));
@@ -12,7 +11,6 @@ export const UserLogin = (payload) => (dispatch) => {
       }
     })
     .then(({ data }) => {
-      localStorage.setItem(USER_LOCAL_STORAGE_KEY, JSON.stringify(data));
       dispatch(ToogleIsLoading(false));
       const alertPayload = { title: 'Sign in', message: 'Welcome back!', props: { severity: 'success' } };
       dispatch(PushAlertWithTimeout(alertPayload));
@@ -20,6 +18,35 @@ export const UserLogin = (payload) => (dispatch) => {
     })
     .catch((e) => {
       dispatch(ToogleIsLoading(false));
+      dispatch(SetUserError(e));
+      console.error(e);
+    });
+};
+
+export const UpdateUser = (payload) => (dispatch, getState) => {
+  const { id, token } = getState().User;
+  dispatch(ToogleIsLoading(true));
+  return Axios({ token })
+    .patch(`users/${id}/`, payload, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    .then(({ data }) => {
+      dispatch(ToogleIsLoading(false));
+      const alertPayload = {
+        title: 'Update account success',
+        message: 'Your account was successfully updated!',
+        props: { severity: 'success' }
+      };
+      dispatch(PushAlertWithTimeout(alertPayload));
+      return dispatch(SetUser(data));
+    })
+    .catch((e) => {
+      dispatch(ToogleIsLoading(false));
+      dispatch(SetUserError(e));
+      const alertPayload = { title: 'Update account failure', message: e.message, props: { severity: 'error' } };
+      dispatch(PushAlertWithTimeout(alertPayload));
       console.error(e);
     });
 };
@@ -37,6 +64,7 @@ export const GetUserSettings = () => (dispatch, getState) => {
     })
     .catch((e) => {
       dispatch(ToogleIsLoading(false));
+      dispatch(SetUserError(e));
       console.error(e);
     });
 };

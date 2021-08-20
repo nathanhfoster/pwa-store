@@ -6,8 +6,31 @@ const localUser = localStorage.getItem(USER_LOCAL_STORAGE_KEY);
 
 export const DEFAULT_USER_STATE = {
   isLoading: false,
-  token: '',
+  error: {
+    message: '',
+    name: '',
+    stack: '',
+    config: {
+      url: '',
+      method: '',
+      data: {},
+      headers: {},
+      baseURL: '',
+      transformRequest: [],
+      transformResponse: [],
+      timeout: 0,
+      withCredentials: true,
+      adapter: '',
+      responseType: '',
+      xsrfCookieName: '',
+      xsrfHeaderName: '',
+      maxContentLength: -1,
+      maxBodyLength: -1,
+      validateStatus: ''
+    }
+  },
   id: null,
+  token: '',
   username: '',
   name: '',
   email: '',
@@ -23,6 +46,7 @@ export const DEFAULT_STATE = localUser ? JSON.parse(localUser) : DEFAULT_USER_ST
 
 const User = (state = DEFAULT_STATE, action) => {
   const { type, payload } = action;
+  let nextItem;
 
   switch (type) {
     case ActionTypes.USER_TOGGLE_IS_LOADING:
@@ -34,14 +58,23 @@ const User = (state = DEFAULT_STATE, action) => {
         : state;
 
     case ActionTypes.USER_SET:
-      return {
+      nextItem = {
         ...state,
         ...payload
       };
+      localStorage.setItem(USER_LOCAL_STORAGE_KEY, JSON.stringify(nextItem));
+      return nextItem;
 
     case ActionTypes.USER_DELETE:
+      localStorage.removeItem(USER_LOCAL_STORAGE_KEY);
       return {
         ...DEFAULT_USER_STATE
+      };
+
+    case ActionTypes.USER_SET_ERROR:
+      return {
+        ...state,
+        error: payload
       };
 
     default:

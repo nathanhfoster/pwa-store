@@ -9,7 +9,8 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import SearchBar from './NavSearchBar';
 import NavMenu from './NavMenu';
 import { ToggleAppNavBar } from 'store/reducers/App/actions';
-import LoginButton from './Buttons/LoginLogoutButton';
+import LoginLogoutButton from './Buttons/LoginLogoutButton';
+import AccountButton from './Buttons/AccountButton';
 import NotificationsButton from './Buttons/NotificationsButton';
 import AddToHomeScreenButton from './Buttons/AddToHomeScreenButton';
 
@@ -39,7 +40,8 @@ const NavToolbar = ({ ToggleAppNavBar }) => {
         <AddToHomeScreenButton />
         <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
           <NotificationsButton />
-          <LoginButton />
+          <AccountButton />
+          <LoginLogoutButton />
         </Box>
         <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
           <IconButton

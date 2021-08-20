@@ -43,6 +43,13 @@
       ]
     }
   ],
+  "screenshots": [
+    {
+      "src": "assets/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
   "background_color": "#004aad",
   "theme_color": "#004aad",
   "start_url": "/home",

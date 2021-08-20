@@ -1,11 +1,13 @@
-import React, { memo } from 'react';
+import React from 'react';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import { RouteMap } from 'utils';
 import NotificationsButton from '../Buttons/NotificationsButton';
-import LoginButton from '../Buttons/LoginLogoutButton';
+import LoginLogoutButton from '../Buttons/LoginLogoutButton';
+import AccountButton from '../Buttons/AccountButton';
+import { connect } from 'resurrection';
 
-const NavMenu = ({ mobileMoreAnchorEl, setMobileMoreAnchorEl, mobileMenuId, handleProfileMenuOpen }) => {
+const NavMenu = ({ mobileMoreAnchorEl, setMobileMoreAnchorEl, mobileMenuId, userIsLoggedIn }) => {
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const handleMobileMenuClose = () => {
@@ -35,13 +37,22 @@ const NavMenu = ({ mobileMoreAnchorEl, setMobileMoreAnchorEl, mobileMenuId, hand
           </NotificationsButton>
         </MenuItem>
         <MenuItem href={RouteMap.LOGIN} component='a'>
-          <LoginButton>
+          <LoginLogoutButton>
+            <p>{userIsLoggedIn ? 'Logout' : 'Login'}</p>
+          </LoginLogoutButton>
+        </MenuItem>
+        <MenuItem href={RouteMap.ACCOUNT} component='a'>
+          <AccountButton>
             <p>Account</p>
-          </LoginButton>
+          </AccountButton>
         </MenuItem>
       </Menu>
     </>
   );
 };
 
-export default memo(NavMenu);
+const mapStateToProps = ({ User: { id, token } }) => ({
+  userIsLoggedIn: Boolean(id && token)
+});
+
+export default connect(mapStateToProps)(NavMenu);
