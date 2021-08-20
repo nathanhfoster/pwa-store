@@ -88,3 +88,19 @@ export const GetUserPwas = () => (dispatch, getState) => {
       console.error(e);
     });
 };
+
+export const ChangeMode = (payload) => (dispatch, getState) => {
+  const { token, setting } = getState().User;
+  return Axios({ token })
+    .patch(`auth/update-settings/${setting.id}`, { ...payload }, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(({ data }) => {
+      dispatch(SetUser({ setting: data }));
+    })
+    .catch((e) => {
+      console.info('whats up', e);
+    });
+}

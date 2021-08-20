@@ -13,6 +13,7 @@ import LoginLogoutButton from './Buttons/LoginLogoutButton';
 import AccountButton from './Buttons/AccountButton';
 import NotificationsButton from './Buttons/NotificationsButton';
 import AddToHomeScreenButton from './Buttons/AddToHomeScreenButton';
+import ThemeButton from './Buttons/ThemeButton';
 
 const mobileMenuId = 'SearchBarMenuMobile';
 
@@ -42,6 +43,7 @@ const NavToolbar = ({ ToggleAppNavBar }) => {
           <NotificationsButton />
           <AccountButton />
           <LoginLogoutButton />
+          <ThemeButton />
         </Box>
         <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
           <IconButton
