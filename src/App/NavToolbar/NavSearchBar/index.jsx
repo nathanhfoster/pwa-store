@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
-import { connect } from 'resurrection';
+import { connect, useMounted } from 'resurrection';
 import { styled, alpha } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
-import useMounted from 'hooks/useMounted';
 import useDebounce from 'hooks/useDebounce';
 import { SetPwasSearch, SearchPwas, FilterPwas } from 'store/reducers/Pwas/actions';
 import LinearProgress from '@material-ui/core/LinearProgress';

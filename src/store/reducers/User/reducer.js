@@ -5,7 +5,21 @@ import { USER_LOCAL_STORAGE_KEY } from './utils';
 const localUser = localStorage.getItem(USER_LOCAL_STORAGE_KEY);
 
 export const DEFAULT_USER_STATE = {
+  // Database
+  id: null,
+  token: '',
+  username: '',
+  name: '',
+  email: '',
+  setting: { mode: 'light' },
+  is_active: false,
+  is_superuser: false,
+  is_staff: false,
+  last_login: '',
+  date_joined: '',
+  // Store
   isLoading: false,
+  pwas: [],
   error: {
     message: '',
     name: '',
@@ -28,18 +42,7 @@ export const DEFAULT_USER_STATE = {
       maxBodyLength: -1,
       validateStatus: ''
     }
-  },
-  id: null,
-  token: '',
-  username: '',
-  name: '',
-  email: '',
-  setting: { mode: 'light' },
-  is_active: false,
-  is_superuser: false,
-  is_staff: false,
-  last_login: '',
-  date_joined: ''
+  }
 };
 
 export const DEFAULT_STATE = localUser ? JSON.parse(localUser) : DEFAULT_USER_STATE;

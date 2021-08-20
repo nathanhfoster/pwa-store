@@ -1,6 +1,7 @@
 import { Axios } from '../../Axios';
 import { ToogleIsLoading, SetUser, SetUserError } from './redux';
 import { PushAlertWithTimeout } from '../../App/actions';
+import { MergeFilterPwas } from '../../Pwas/actions/redux';
 
 export const UserLogin = (payload) => (dispatch) => {
   dispatch(ToogleIsLoading(true));
@@ -61,6 +62,25 @@ export const GetUserSettings = () => (dispatch, getState) => {
     .get(`users/${id}`)
     .then(({ data }) => {
       return dispatch(SetUser(data));
+    })
+    .catch((e) => {
+      dispatch(ToogleIsLoading(false));
+      dispatch(SetUserError(e));
+      console.error(e);
+    });
+};
+
+export const GetUserPwas = () => (dispatch, getState) => {
+  const { id, token } = getState().User;
+  if (!(id && token)) {
+    return;
+  }
+  dispatch(ToogleIsLoading(true));
+  return Axios({ token })
+    .get(`users/${id}/pwas/`)
+    .then(({ data }) => {
+      dispatch(MergeFilterPwas(data));
+      return dispatch(SetUser({ pwas: data }));
     })
     .catch((e) => {
       dispatch(ToogleIsLoading(false));

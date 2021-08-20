@@ -1,17 +1,40 @@
-import React from 'react';
+import React, { useState, lazy } from 'react';
 import PropTypes from 'prop-types';
-import Grid from '@material-ui/core/Grid';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import { styled } from '@material-ui/core/styles';
 import { connect } from 'resurrection';
-import { UpdateUser } from 'store/reducers/User/actions/api';
 
-const StyledForm = styled('form')((props) => ({
-  // color: props.theme.palette.primary.main
-}));
+const UserPwas = lazy(() => import('./UserPwas'));
+const UserForm = lazy(() => import('./UserForm'));
+
+const TabPanel = ({ value, index, children, ...other }) => (
+  <div
+    role='tabpanel'
+    hidden={value !== index}
+    id={`account-tabpanel-${index}`}
+    aria-labelledby={`account-tab-${index}`}
+    {...other}
+  >
+    {value === index && (
+      <Box sx={{ p: 3 }}>
+        <Typography>{children}</Typography>
+      </Box>
+    )}
+  </div>
+);
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired
+};
+
+const a11yProps = (index) => ({
+  id: `account-tab-${index}`,
+  'aria-controls': `account-tabpanel-${index}`
+});
 
 const UserAccount = ({
   isLoading,
@@ -27,36 +50,34 @@ const UserAccount = ({
   is_staff,
   last_login,
   date_joined,
-  error: { message },
-  UpdateUser
+  error: { message }
 }) => {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const payload = new FormData(event.currentTarget);
-    UpdateUser(payload);
+  const [value, setValue] = useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
   };
   return (
-    <Grid container spacing={3} p={4}>
-      <Grid item xs={12}>
-        <Typography variant='h6'>Account</Typography>
-      </Grid>
-      <Grid item>
-        <Box as={StyledForm} noValidate={false} autoComplete='off' onSubmit={handleSubmit}>
-          <TextField id='username' label='Username' name='username' fullWidth defaultValue={username} />
-          <TextField id='email' name='email' label='email' type='email' fullWidth defaultValue={email} />
-          <TextField id='password' name='password' label='New Password' type='password' fullWidth defaultValue='' />
-          <Button type='submit' fullWidth variant='contained' sx={{ mt: 3, mb: 2, bgcolor: 'primary.dark' }}>
-            Update
-          </Button>
-        </Box>
-      </Grid>
-    </Grid>
+    <Box sx={{ width: '100%' }}>
+      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Tabs value={value} onChange={handleChange} aria-label='basic tabs example'>
+          <Tab label='Pwas' {...a11yProps(0)} />
+          <Tab label='Update porfile' {...a11yProps(1)} />
+        </Tabs>
+      </Box>
+      <TabPanel value={value} index={0}>
+        <UserPwas />
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+        <UserForm />
+      </TabPanel>
+    </Box>
   );
 };
 
 const mapStateToProps = ({ User }) => ({ ...User });
 
-const mapDispatchToProps = { UpdateUser };
+const mapDispatchToProps = {};
 
 UserAccount.propTypes = {};
 

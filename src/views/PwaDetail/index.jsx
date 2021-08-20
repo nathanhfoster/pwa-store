@@ -36,8 +36,10 @@ const PwaDetail = ({
   UpdateAnalytics
 }) => {
   useEffect(() => {
-    UpdateAnalytics({ incr_view: true, pwa_id: id });
-  }, []);
+    if (id) {
+      UpdateAnalytics({ incr_view: true, pwa_id: id });
+    }
+  }, [id]);
 
   const { view_count = 0, launch_count = 0 } = pwa_analytics || {};
   const renderScreenShots = useMemo(
