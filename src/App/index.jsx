@@ -21,6 +21,7 @@ const Container = styled(Box)((props) => ({
   display: 'flex',
   height: '100vh',
   width: '100vw',
+  overflow: 'hidden',
   background: props.theme.palette.background.paper,
   color: props.theme.palette.text.primary
 }));
