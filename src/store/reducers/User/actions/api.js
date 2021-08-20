@@ -92,7 +92,7 @@ export const GetUserPwas = () => (dispatch, getState) => {
 export const ChangeMode = (payload) => (dispatch, getState) => {
   const { token, setting } = getState().User;
   return Axios({ token })
-    .patch(`auth/update-settings/${setting.id}`, { ...payload }, {
+    .patch(`auth/update-settings/${setting.id}`, payload, {
       headers: {
         'Content-Type': 'application/json'
       }
@@ -103,4 +103,4 @@ export const ChangeMode = (payload) => (dispatch, getState) => {
     .catch((e) => {
       console.info('whats up', e);
     });
-}
+};

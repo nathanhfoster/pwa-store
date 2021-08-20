@@ -30,7 +30,10 @@ const Detail = ({ id, src, name, tags, url, ratings, view_count, launch_count })
   const dispatch = useDispatch();
 
   const renderTags = useMemo(
-    () => tags.map(({ name }) => <Chip key={name} label={name} color='info' size='small' />),
+    () =>
+      tags.map(({ name }) => (
+        <Chip key={name} label={name} sx={{ backgroundColor: 'primary.dark', color: 'white' }} size='small' />
+      )),
     [tags]
   );
   const averageRating = useMemo(() => {
@@ -99,7 +102,7 @@ const Detail = ({ id, src, name, tags, url, ratings, view_count, launch_count })
                 disabled={!url}
                 href={url}
                 target='_blank'
-                sx={{ animation: 'grow 200ms' }}
+                sx={{ animation: 'grow 200ms', backgroundColor: 'primary.dark' }}
                 onClick={onLaunch}
               >
                 <LaunchIcon sx={{ mr: 1 }} />

@@ -11,7 +11,7 @@ export const DEFAULT_USER_STATE = {
   username: '',
   name: '',
   email: '',
-  setting: { id: null, mode: 'light' },
+  setting: { mode: 'light' },
   is_active: false,
   is_superuser: false,
   is_staff: false,

@@ -1,4 +1,4 @@
-import React, { useMemo, lazy, memo } from 'react';
+import React, { useMemo, lazy } from 'react';
 import PropTypes from 'prop-types';
 import { PwasType } from 'store/reducers/Pwas/types';
 import Grid from '@material-ui/core/Grid';

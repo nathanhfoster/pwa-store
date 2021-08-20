@@ -85,3 +85,14 @@ export const UpdateAnalytics = (payload) => (dispatch) =>
       console.error(e);
       return Promise.reject(e);
     });
+
+export const PostPwa = (payload) => (dispatch) =>
+  Axios()
+    .post('pwas')
+    .then(({ data }) => {
+      dispatch(MergeFilterPwas([data]));
+    })
+    .catch((e) => {
+      dispatch(ToogleIsLoading(false));
+      console.error(e);
+    });

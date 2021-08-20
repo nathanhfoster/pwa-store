@@ -11,6 +11,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import FileUpload from 'components/FileUpload';
 import { connect, useBooleanReducer } from 'resurrection';
 
 const ITEM_HEIGHT = 48;
@@ -135,7 +136,7 @@ const AddPwa = ({ userId, pwaTags }) => {
               />
             )
           )}
-
+          <FileUpload />
           <Button type='submit' fullWidth variant='contained' sx={{ mt: 3, mb: 2, bgcolor: 'primary.dark' }}>
             Post
           </Button>
