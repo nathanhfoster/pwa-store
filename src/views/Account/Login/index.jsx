@@ -12,7 +12,7 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import Portal from 'components/Portal';
+import Portal from '@material-ui/core/Portal';
 import { useDispatch } from 'resurrection';
 import { UserLogin } from 'store/reducers/User/actions/api';
 
@@ -45,8 +45,8 @@ const SignInSide = ({}) => {
   };
 
   return (
-    <Portal id='login-portal' style={portalStyles}>
-      <Grid container sx={{ height: '100vh' }}>
+    <Portal container={() => document.getElementById('portal-root')}>
+      <Grid container sx={portalStyles}>
         <Grid
           item
           xs={false}

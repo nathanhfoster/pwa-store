@@ -41,7 +41,7 @@ const App = ({ GetUserSettings, GetPwas, SetAddToHomeScreenPrompt, GetPwaTags, U
 
   return (
     <ThemeProvider theme={appTheme}>
-      <div id='login-portal' />
+      <div id='portal-root' />
       <Alerts />
       <Container>
         <AppBar
