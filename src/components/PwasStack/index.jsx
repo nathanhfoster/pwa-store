@@ -22,7 +22,7 @@ const PwasStack = ({ title, subtitle, detailed, pwas, imageSize, flexWrap, isLoa
   const renderPwas = useMemo(() => {
     if (isLoading) {
       return Array.from(LENGTH_OF_SKELETON_ARRAY, (_, i) => (
-        <Grid item key={i} xs='auto' mx={2}>
+        <Grid item key={i} xs='auto' m={2}>
           <Skeleton variant='rectangular' width={imageSize} height={imageSize} />
         </Grid>
       ));
