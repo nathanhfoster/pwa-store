@@ -41,10 +41,11 @@ const NavMenu = ({ mobileMoreAnchorEl, setMobileMoreAnchorEl, mobileMenuId, user
             <p>{userIsLoggedIn ? 'Logout' : 'Login'}</p>
           </LoginLogoutButton>
         </MenuItem>
-        <MenuItem href={RouteMap.ACCOUNT} component='a'>
+        { userIsLoggedIn && ( <MenuItem href={RouteMap.ACCOUNT} component='a'>
           <AccountButton>
             <p>Account</p>
-          </AccountButton>
+          </AccountButton>)
+        }
         </MenuItem>
       </Menu>
     </>
