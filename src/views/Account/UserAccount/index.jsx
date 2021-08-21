@@ -18,22 +18,7 @@ const a11yProps = (index) => ({
   'aria-controls': `account-tabpanel-${index}`
 });
 
-const UserAccount = ({
-  isLoading,
-  error,
-  token,
-  id,
-  username,
-  name,
-  email,
-  setting: { mode },
-  is_active,
-  is_superuser,
-  is_staff,
-  last_login,
-  date_joined,
-  error: { message }
-}) => {
+const UserAccount = ({ isMobile }) => {
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
@@ -48,7 +33,7 @@ const UserAccount = ({
           aria-label='basic tabs example'
           indicatorColor='primary'
           textColor='inherit'
-          variant='scrollable'
+          variant={isMobile ? 'fullWidth' : 'scrollable'}
         >
           <Tab icon={<AppsIcon />} label='Pwas' {...a11yProps(0)} />
           <Tab icon={<AccountCircleIcon />} label='Update' {...a11yProps(1)} />
@@ -65,14 +50,12 @@ const UserAccount = ({
   );
 };
 
-const mapStateToProps = ({ User }) => ({ ...User });
+const mapStateToProps = ({ Window: { isMobile } }) => ({ isMobile });
 
 const mapDispatchToProps = {};
 
-UserAccount.propTypes = {};
+UserAccount.propTypes = { isMobile: PropTypes.bool.isRequired };
 
-UserAccount.defaultProps = {
-  error: {}
-};
+UserAccount.defaultProps = {};
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserAccount);

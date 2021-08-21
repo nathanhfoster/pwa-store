@@ -97,10 +97,4 @@ const handleFilterItems = (items, search) => {
   };
 };
 
-const updatePwa = ({ items, filteredItems }, id, pwa) => {
-  const newItems = items.map((obj) => (obj.id === id ? { ...obj, ...pwa } : obj));
-  const newFilters = filteredItems.map((obj) => (obj.id === id ? { ...obj, ...pwa } : obj));
-  return { items: newItems, filteredItems: newFilters };
-};
-
-export { mergePwas, handleFilterItems, updatePwa };
+export { mergePwas, handleFilterItems };
