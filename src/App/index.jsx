@@ -76,11 +76,7 @@ const App = ({ GetUserSettings, GetPwas, SetAddToHomeScreenPrompt, GetPwaTags, U
 };
 
 App.propTypes = {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
-  window: PropTypes.func
+  User: PropTypes.object.isRequired
 };
 
 const mapStateToProps = ({ User }) => ({ User });
