@@ -50,7 +50,9 @@ const NavMenu = ({ mobileMoreAnchorEl, setMobileMoreAnchorEl, mobileMenuId, user
           </LoginLogoutButton>
         </MenuItem>
         <MenuItem>
-          <ThemeButton />
+          <ThemeButton>
+            <p>Mode</p>
+          </ThemeButton>
         </ MenuItem>
       </Menu>
     </>
