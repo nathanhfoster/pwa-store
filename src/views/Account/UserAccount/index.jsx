@@ -42,7 +42,14 @@ const UserAccount = ({
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} aria-label='basic tabs example'>
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          aria-label='basic tabs example'
+          indicatorColor='primary'
+          textColor='inherit'
+          variant='scrollable'
+        >
           <Tab icon={<AppsIcon />} label='Pwas' {...a11yProps(0)} />
           <Tab icon={<AccountCircleIcon />} label='Update' {...a11yProps(1)} />
           <TabControls index={value} />

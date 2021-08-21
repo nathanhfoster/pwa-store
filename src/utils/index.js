@@ -34,4 +34,6 @@ const getLocalDateTimeNoSeconds = (date, displaySeconds = false) => {
   return displaySeconds ? timeISOString : timeISOString.slice(0, 19);
 };
 
-export { RouteMap, objectToArray, stringMatch, lazyDelay, getLocalDateTimeNoSeconds };
+const isFunction = (value) => value instanceof Function || typeof value === 'function';
+
+export { RouteMap, objectToArray, stringMatch, lazyDelay, getLocalDateTimeNoSeconds, isFunction };

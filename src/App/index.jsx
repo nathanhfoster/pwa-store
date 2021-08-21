@@ -8,6 +8,7 @@ import { SetAddToHomeScreenPrompt } from 'store/reducers/App/actions';
 import { GetUserSettings } from 'store/reducers/User/actions';
 import { GetPwas, GetPwaTags } from 'store/reducers/Pwas/actions/api';
 import useAddToHomescreenPrompt from 'hooks/useAddToHomescreenPrompt';
+import useWindow from 'hooks/useWindow';
 
 import theme from './theme';
 import NavToolbar from './NavToolbar';
@@ -28,6 +29,7 @@ const Container = styled(Box)((props) => ({
 const App = ({ GetUserSettings, GetPwas, SetAddToHomeScreenPrompt, GetPwaTags, User }) => {
   const [prompt] = useAddToHomescreenPrompt();
   const appTheme = theme(User.setting);
+  useWindow();
 
   useEffect(() => {
     SetAddToHomeScreenPrompt(prompt);

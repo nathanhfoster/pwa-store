@@ -53,7 +53,7 @@ const NavMenu = ({ mobileMoreAnchorEl, setMobileMoreAnchorEl, mobileMenuId, user
           <ThemeButton>
             <p>Mode</p>
           </ThemeButton>
-        </ MenuItem>
+        </MenuItem>
       </Menu>
     </>
   );
