@@ -5,7 +5,7 @@ import { connect } from 'resurrection';
 import Base from './Base';
 import { ChangeMode } from '../../../store/reducers/User/actions/api';
 
-const ThemeButton = ({ userIsLoggedIn, children, setting, ChangeMode }) => {
+const ThemeButton = ({ userIsLoggedIn, setting, children, ChangeMode }) => {
 
   const changeMode = () => {
     ChangeMode({ mode: setting.mode === 'light' ? 'dark' : 'light' });
@@ -16,7 +16,6 @@ const ThemeButton = ({ userIsLoggedIn, children, setting, ChangeMode }) => {
     <>
       <Base
         aria-label='Mode of user'
-        aria-controls='primary-search-account-menu'
         onClick={changeMode}
       >
         {setting.mode === 'light' ? <WbSunny /> : <Brightness3Icon />}
