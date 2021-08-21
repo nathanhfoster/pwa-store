@@ -67,8 +67,8 @@ const config = () => ({
             store.dispatch(PushAlert(alertPayload));
             store.dispatch(SetServiceWorkerRegistration(registration));
           } else {
-            alert('Update Available! Please refresh your browser.');
             handleReloadWindow();
+            alert('Update Available! Please refresh your browser.');
           }
         }
       });
