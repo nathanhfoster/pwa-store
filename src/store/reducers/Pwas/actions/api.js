@@ -79,7 +79,7 @@ export const UpdateAnalytics = (payload) => (dispatch) =>
   Axios()
     .patch('pwas/analytics-counter/', payload)
     .then(({ data }) => {
-      dispatch(UpdateReduxPwa(payload.pwa_id, data));
+      dispatch(UpdateReduxPwa(data));
     })
     .catch((e) => {
       console.error(e);

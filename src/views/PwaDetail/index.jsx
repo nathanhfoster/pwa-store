@@ -1,4 +1,5 @@
 import React, { useEffect, lazy, useMemo } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'resurrection';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Box from '@material-ui/core/Box';
@@ -21,6 +22,7 @@ const detailContainerStyles = {
 };
 
 const PwaDetail = ({
+  pwaId, // From react-router
   id,
   name,
   short_description,
@@ -36,10 +38,9 @@ const PwaDetail = ({
   UpdateAnalytics
 }) => {
   useEffect(() => {
-    if (id) {
-      UpdateAnalytics({ incr_view: true, pwa_id: id });
-    }
-  }, [id]);
+    UpdateAnalytics({ incr_view: true, pwa_id: pwaId });
+  }, [pwaId]);
+
   const { view_count = 0, launch_count = 0 } = pwa_analytics || {};
   const renderScreenShots = useMemo(
     () =>
@@ -125,7 +126,7 @@ const mapStateToProps = ({ Pwas: { items, filteredItems } }, { pwaId }) =>
 
 const mapDispatchToProps = { UpdateAnalytics };
 
-PwaDetail.propTypes = PwaType;
+PwaDetail.propTypes = { pwaId: PropTypes.string.isRequired, ...PwaType };
 
 PwaDetail.defaultProps = {
   ratings: [],

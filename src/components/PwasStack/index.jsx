@@ -10,19 +10,13 @@ import { connect } from 'resurrection';
 
 const LENGTH_OF_SKELETON_ARRAY = { length: 12 };
 
-const containerStyles = {
-  bgcolor: 'background.paper',
-  borderBottom: '1px solid rgba(0,0,0,0.05)',
-  py: 2
-};
-
 const Pwa = lazy(() => import('./Pwa'));
 
 const PwasStack = ({ title, subtitle, detailed, pwas, imageSize, flexWrap, isLoading }) => {
   const renderPwas = useMemo(() => {
     if (isLoading) {
       return Array.from(LENGTH_OF_SKELETON_ARRAY, (_, i) => (
-        <Grid item key={i} xs='auto' m={2}>
+        <Grid item key={i} xs='auto'>
           <Skeleton variant='rectangular' width={imageSize} height={imageSize} />
         </Grid>
       ));
@@ -36,7 +30,13 @@ const PwasStack = ({ title, subtitle, detailed, pwas, imageSize, flexWrap, isLoa
   }, [detailed, imageSize, isLoading, pwas]);
 
   return (
-    <Box sx={containerStyles}>
+    <Box
+      sx={{
+        bgcolor: 'background.paper',
+        borderBottom: '1px solid rgba(0,0,0,0.05)',
+        py: 2
+      }}
+    >
       {title && (
         <Typography variant={detailed ? 'h4' : 'h6'} mx={2} mb={1}>
           {title}
@@ -49,11 +49,12 @@ const PwasStack = ({ title, subtitle, detailed, pwas, imageSize, flexWrap, isLoa
       )}
       <Grid
         container
-        spacing={0}
-        direction='row'
-        justifyContent='flex-start'
-        alignItems='baseline'
-        sx={{ flexWrap: flexWrap, overflowX: 'auto' }}
+        sx={{
+          flexWrap,
+          overflow: 'auto',
+          justifyContent: flexWrap === 'wrap' ? 'space-around' : 'flex-start',
+          alignItems: 'center'
+        }}
       >
         {renderPwas}
       </Grid>
