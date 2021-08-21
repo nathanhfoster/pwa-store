@@ -21,7 +21,7 @@ const AppRouter = ({ userIsLoggedIn }) => {
         <Route
           exact
           path={[RouteMap.ACCOUNT]}
-          render={() => (userIsLoggedIn ? <Redirect to={RouteMap.HOME} /> : <UserAccount />)}
+          render={() => (userIsLoggedIn ? <UserAccount />) : <Redirect to={RouteMap.HOME} />}
         />
         <Route exact path={[RouteMap.PWA_DETAIL]} render={({ match: { params } }) => <PwaDetail {...params} />} />
         <Route exact path={[RouteMap.PWA_TAG_FILTER]} component={PwasFilteredByTags} />
