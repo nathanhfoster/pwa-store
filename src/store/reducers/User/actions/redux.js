@@ -6,6 +6,15 @@ export const SetUser = (payload) => ({
   payload
 });
 
+export const SetUserPwas = (pwasFromApi) => (dispatch, getState) => {
+  const {
+    User: { id },
+    Pwas: { items, filteredItems }
+  } = getState();
+  const userPwas = items.concat(filteredItems).filter((pwa) => pwa.id == id);
+  return { type: ActionTypes.USER_SET_PWAS, payload: userPwas.concat(pwasFromApi) };
+};
+
 export const DeleteUser = () => (dispatch) => {
   dispatch({ type: ActionTypes.USER_DELETE });
 

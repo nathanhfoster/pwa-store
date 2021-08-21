@@ -1,4 +1,5 @@
 import * as ActionTypes from './actions/types';
+import * as UserActionTypes from '../User/actions/types';
 import { mergePwas, handleFilterItems, updatePwa } from './utils';
 import { toggleBooleanReducer } from 'resurrection';
 
@@ -65,6 +66,7 @@ const Pwas = (state = DEFAULT_STATE, action) => {
         search: payload
       };
 
+    case UserActionTypes.USER_SET_PWAS:
     case ActionTypes.PWAS_MERGE_FILTER:
       nextItems = mergePwas(state.items.concat(state.filteredItems), payload);
       return {

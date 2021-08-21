@@ -1,6 +1,8 @@
 import * as ActionTypes from './actions/types';
+import * as PwaActionTypes from '../Pwas/actions/types';
 import { toggleBooleanReducer } from 'resurrection';
 import { USER_LOCAL_STORAGE_KEY } from './utils';
+import { handleFilterItems, mergePwas } from '../Pwas/utils';
 
 const localUser = localStorage.getItem(USER_LOCAL_STORAGE_KEY);
 
@@ -20,6 +22,7 @@ export const DEFAULT_USER_STATE = {
   // Store
   isLoading: false,
   pwas: [],
+  filteredPwas: [],
   error: {
     message: '',
     name: '',
@@ -48,8 +51,8 @@ export const DEFAULT_USER_STATE = {
 export const DEFAULT_STATE = localUser ? JSON.parse(localUser) : DEFAULT_USER_STATE;
 
 const User = (state = DEFAULT_STATE, action) => {
-  const { type, payload } = action;
-  let nextItem;
+  const { type, search, payload } = action;
+  let nextItem, nextItems;
 
   switch (type) {
     case ActionTypes.USER_TOGGLE_IS_LOADING:
@@ -68,6 +71,17 @@ const User = (state = DEFAULT_STATE, action) => {
       localStorage.setItem(USER_LOCAL_STORAGE_KEY, JSON.stringify(nextItem));
       return nextItem;
 
+    case ActionTypes.USER_SET_PWAS:
+      nextItems = mergePwas(state.pwas.concat(state.filteredPwas), payload);
+      nextItem = handleFilterItems(nextItems, search);
+      nextItem = {
+        ...state,
+        pwas: nextItem.items,
+        filteredPwas: nextItem.filteredItems
+      };
+      localStorage.setItem(USER_LOCAL_STORAGE_KEY, JSON.stringify(nextItem));
+      return nextItem;
+
     case ActionTypes.USER_DELETE:
       localStorage.removeItem(USER_LOCAL_STORAGE_KEY);
       return {
@@ -78,6 +92,15 @@ const User = (state = DEFAULT_STATE, action) => {
       return {
         ...state,
         error: payload
+      };
+
+    case PwaActionTypes.PWAS_MERGE_FILTER:
+      nextItems = state.pwas.concat(state.filteredPwas);
+      nextItem = handleFilterItems(nextItems, search);
+      return {
+        ...state,
+        pwas: nextItem.items,
+        filteredPwas: nextItem.filteredItems
       };
 
     default:
