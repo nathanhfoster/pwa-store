@@ -40,11 +40,10 @@ const useLighthouse = (initialUrl = '') => {
             const { lighthouseResult } = data;
             const getAuditScore = (auditKey) => {
               const { audits } = lighthouseResult;
-              const { score } = audits[auditKey];
-              console.log(audits, score);
-              return score;
+              return audits[auditKey];
             };
-            const iosIconTest = getAuditScore(LIGHTHOUSE_RESULT_MAP.IOS_ICON) > 0;
+            const iosAuditScore = getAuditScore(LIGHTHOUSE_RESULT_MAP.IOS_ICON);
+            const iosIconTest = iosAuditScore > 0;
             const installableTest = getAuditScore(LIGHTHOUSE_RESULT_MAP.INSTALLABLE_MANIFEST) > 0;
             const worksOfflineTest = getAuditScore(LIGHTHOUSE_RESULT_MAP.SERVICE_WORKER) > 0;
             setTests((prevTests) => [
@@ -58,7 +57,7 @@ const useLighthouse = (initialUrl = '') => {
               },
               ...prevTests.filter((t) => t.url !== url)
             ]);
-            //passed all tests.
+            // passed all tests.
           } else {
             console.error(`No lighthouse result`);
           }
