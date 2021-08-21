@@ -31,4 +31,6 @@ const mapStateToProps = ({ User: { id, token, setting } }) => ({
   setting
 });
 
-export default connect(mapStateToProps, { ChangeMode })(ThemeButton);
+const mapDispatchToProps = { ChangeMode };
+
+export default connect(mapStateToProps, mapDispatchToProps)(ThemeButton);
