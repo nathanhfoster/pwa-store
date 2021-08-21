@@ -13,13 +13,19 @@ export const UserLogin = (payload) => (dispatch) => {
     })
     .then(({ data }) => {
       dispatch(ToogleIsLoading(false));
-      const alertPayload = { title: 'Sign in', message: 'Welcome back!', props: { severity: 'success' } };
+      const alertPayload = { title: 'Sign in success', message: 'Welcome back!', props: { severity: 'success' } };
       dispatch(PushAlertWithTimeout(alertPayload));
       return dispatch(SetUser(data));
     })
     .catch((e) => {
       dispatch(ToogleIsLoading(false));
       dispatch(SetUserError(e));
+      const alertPayload = {
+        title: 'Sign in error',
+        message: `${e.message}. Please check your username and password.`,
+        props: { severity: 'error' }
+      };
+      dispatch(PushAlertWithTimeout(alertPayload));
       console.error(e);
     });
 };
@@ -90,7 +96,12 @@ export const GetUserPwas = () => (dispatch, getState) => {
 };
 
 export const ChangeMode = (payload) => (dispatch, getState) => {
-  const { token, setting } = getState().User;
+  const { id, token, setting } = getState().User;
+
+  if (!(id && token)) {
+    return dispatch(SetUser({ setting: { ...setting, ...payload } }));
+  }
+
   return Axios({ token })
     .patch(`auth/update-settings/${setting.id}`, payload, {
       headers: {

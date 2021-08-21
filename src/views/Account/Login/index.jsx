@@ -25,7 +25,7 @@ const AppIcon = styled('img')((props) => ({
   margin: props.theme.spacing(2, 'auto')
 }));
 
-const portalStyles = { position: 'absolute', zIndex: 9999, left: 0, right: 0 };
+const portalStyles = { position: 'absolute', zIndex: 1201, left: 0, right: 0 };
 
 const Copyright = (props) => {
   const year = new Date().getFullYear();
