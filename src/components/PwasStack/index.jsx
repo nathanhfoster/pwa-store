@@ -8,7 +8,7 @@ import Skeleton from '@material-ui/core/Skeleton';
 import { DEFAULT_PWA_IMAGE_SIZE } from '../../constants';
 import { connect } from 'resurrection';
 
-const LENGTH_OF_SKELETON_ARRAY = { length: 8 };
+const LENGTH_OF_SKELETON_ARRAY = { length: 12 };
 
 const containerStyles = {
   bgcolor: 'background.paper',
