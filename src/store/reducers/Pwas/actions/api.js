@@ -96,3 +96,17 @@ export const PostPwa = (payload) => (dispatch) =>
       dispatch(ToogleIsLoading(false));
       console.error(e);
     });
+
+export const PostRating = (payload) => (dispatch) =>
+  Axios()
+    .post('pwas/post-rating/', payload, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(({ data }) => {
+      console.info('data');
+    })
+    .catch((e) => {
+      console.log('error', e);
+    })
