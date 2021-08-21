@@ -51,6 +51,9 @@ const Rating = ({ created_by, created_by_name, updated_at, value, comment }) => 
           </Grid>
           <Grid container item zeroMinWidth xs={10} md={11}>
             <Grid item xs={12}>
+              <Grid item xs={12}>
+                <Typography variant="h6">{created_by.name}</Typography>
+              </Grid>
               <Stack direction='row' spacing={0.5} alignContent='center'>
                 <StarRating value={value} />
                 <DateTime readOnly id='rating-time' name='rating-time' type='datetime-local' value={updatedDate} />

@@ -6,7 +6,7 @@ import { MergeFilterPwas } from '../../Pwas/actions/redux';
 export const UserLogin = (payload) => (dispatch) => {
   dispatch(ToogleIsLoading(true));
   return Axios()
-    .post('auth/login', payload, {
+    .post('auth/login/', payload, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }

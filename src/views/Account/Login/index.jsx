@@ -36,8 +36,9 @@ const Copyright = (props) => {
   );
 };
 
-const SignInSide = ({}) => {
+const SignInSide = () => {
   const dispatch = useDispatch();
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const payload = new FormData(event.currentTarget);

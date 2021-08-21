@@ -1,14 +1,14 @@
 import React, { useEffect, lazy, useMemo } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'resurrection';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Backdrop from '@material-ui/core/Backdrop';
 import Typography from '@material-ui/core/Typography';
+import { PwaType } from 'store/reducers/Pwas/types';
 import { UpdateAnalytics } from '../../store/reducers/Pwas/actions/api';
 import { DEFAULT_PWA_IMAGE, DEFAULT_PWA_IMAGE_SIZE } from '../../constants';
-import { PwaType } from 'store/reducers/Pwas/types';
+import RatingForm from './RatingForm';
 
 const Detail = lazy(() => import('./Detail'));
 const Rating = lazy(() => import('./Rating'));
@@ -40,7 +40,6 @@ const PwaDetail = ({
       UpdateAnalytics({ incr_view: true, pwa_id: id });
     }
   }, [id]);
-
   const { view_count = 0, launch_count = 0 } = pwa_analytics || {};
   const renderScreenShots = useMemo(
     () =>
@@ -112,6 +111,9 @@ const PwaDetail = ({
         sx={{ flexWrap: 'nowrap', overflowX: 'auto' }}
       >
         {renderScreenShots}
+      </Grid>
+      <Grid container>
+        <RatingForm />
       </Grid>
       <Grid container>{renderRatings}</Grid>
     </>
