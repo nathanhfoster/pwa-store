@@ -6,7 +6,7 @@ import Helmet from './Helmet';
 import Box from '@material-ui/core/Box';
 
 const Home = lazy(() => import('./Home'));
-const UserAccount = lazy(() => import('./Account/UserAccount'))
+const UserAccount = lazy(() => import('./Account/UserAccount'));
 const PwasFilteredByTags = lazy(() => import('./PwasFilteredByTags'));
 const PageNotFound = lazy(() => import('./PageNotFound'));
 const PwaDetail = lazy(() => import('./PwaDetail'));
@@ -18,7 +18,11 @@ const AppRouter = ({ userIsLoggedIn }) => {
       <Helmet />
       <Switch>
         <Route exact path={[RouteMap.ROOT, RouteMap.HOME]} component={Home} />
-        <Route exact path={[RouteMap.ACCOUNT]} render={() => userIsLoggedIn ? <Redirect to={RouteMap.HOME} /> : <UserAccount />} />
+        <Route
+          exact
+          path={[RouteMap.ACCOUNT]}
+          render={() => (userIsLoggedIn ? <Redirect to={RouteMap.HOME} /> : <UserAccount />)}
+        />
         <Route exact path={[RouteMap.PWA_DETAIL]} render={({ match: { params } }) => <PwaDetail {...params} />} />
         <Route exact path={[RouteMap.PWA_TAG_FILTER]} component={PwasFilteredByTags} />
         <Route
