@@ -5,6 +5,7 @@ import { RouteMap } from 'utils';
 import NotificationsButton from '../Buttons/NotificationsButton';
 import LoginLogoutButton from '../Buttons/LoginLogoutButton';
 import AccountButton from '../Buttons/AccountButton';
+import ThemeButton from '../Buttons/ThemeButton';
 import { connect } from 'resurrection';
 
 const NavMenu = ({ mobileMoreAnchorEl, setMobileMoreAnchorEl, mobileMenuId, userIsLoggedIn }) => {
@@ -36,11 +37,6 @@ const NavMenu = ({ mobileMoreAnchorEl, setMobileMoreAnchorEl, mobileMenuId, user
             <p>Notifications</p>
           </NotificationsButton>
         </MenuItem>
-        <MenuItem href={RouteMap.LOGIN} component='a'>
-          <LoginLogoutButton>
-            <p>{userIsLoggedIn ? 'Logout' : 'Login'}</p>
-          </LoginLogoutButton>
-        </MenuItem>
         {userIsLoggedIn && (
           <MenuItem href={RouteMap.ACCOUNT} component='a'>
             <AccountButton>
@@ -48,6 +44,14 @@ const NavMenu = ({ mobileMoreAnchorEl, setMobileMoreAnchorEl, mobileMenuId, user
             </AccountButton>
           </MenuItem>
         )}
+        <MenuItem href={RouteMap.LOGIN} component='a'>
+          <LoginLogoutButton>
+            <p>{userIsLoggedIn ? 'Logout' : 'Login'}</p>
+          </LoginLogoutButton>
+        </MenuItem>
+        <MenuItem>
+          <ThemeButton />
+        </ MenuItem>
       </Menu>
     </>
   );
