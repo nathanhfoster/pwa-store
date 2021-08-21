@@ -3,6 +3,7 @@ import { connect } from 'resurrection';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { RouteMap } from 'utils';
 import Helmet from './Helmet';
+import Box from '@material-ui/core/Box';
 
 const Home = lazy(() => import('./Home'));
 const UserAccount = lazy(() => import('./Account/UserAccount'))
@@ -13,7 +14,7 @@ const Login = lazy(() => import('./Account/Login'));
 
 const AppRouter = ({ userIsLoggedIn }) => {
   return (
-    <>
+    <Box component='header'>
       <Helmet />
       <Switch>
         <Route exact path={[RouteMap.ROOT, RouteMap.HOME]} component={Home} />
@@ -27,7 +28,7 @@ const AppRouter = ({ userIsLoggedIn }) => {
         />
         <Route render={() => <PageNotFound />} />
       </Switch>
-    </>
+    </Box>
   );
 };
 
