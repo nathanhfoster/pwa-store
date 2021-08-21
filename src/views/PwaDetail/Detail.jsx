@@ -106,7 +106,7 @@ const Detail = ({ id, src, name, tags, url, ratings, view_count, launch_count })
                 onClick={onLaunch}
               >
                 <LaunchIcon sx={{ mr: 1 }} />
-                Launch app
+                Launch pwa
               </LaunchButton>
             </Grid>
           </Grid>
