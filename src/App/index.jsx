@@ -67,9 +67,7 @@ const App = ({ GetUserSettings, GetPwas, SetAddToHomeScreenPrompt, GetPwaTags, U
             mt: { xs: '56px', sm: '64px' }
           }}
         >
-          <Box component='header' sx={{ overflowY: 'auto' }}>
-            <AppRouter />
-          </Box>
+          <AppRouter />
         </Box>
       </Container>
     </ThemeProvider>
