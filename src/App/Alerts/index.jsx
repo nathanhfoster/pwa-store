@@ -6,7 +6,7 @@ import Stack from '@material-ui/core/Stack';
 import Alert from './Alert';
 import { AlertsType } from 'store/reducers/App/types';
 
-const containerStyles = { position: 'absolute', top: 80, right: 0, zIndex: 1202 };
+const containerStyles = { position: 'absolute', top: 80, right: 0, zIndex: 1301 };
 
 const Alerts = ({ alerts }) => {
   return (

@@ -85,12 +85,13 @@ export const GetLighthouseData = (url) =>
       const { status, data: lighthouseData } = lighthouseResponse;
       if (status === 200) {
         const { manifestUrl } = lighthouseData.lighthouseResult.audits['installable-manifest'].details.debugData;
-        return await GetPwaManifest(manifestUrl).then(({ data: manifestData }) => {
+        return await GetPwaManifest(manifestUrl).then(({ data: manifestJson }) => {
           return {
             ...lighthouseResponse,
             data: {
               ...lighthouseData,
-              manifestJson: manifestData
+              manifestUrl,
+              manifestJson
             }
           };
         });
@@ -113,9 +114,14 @@ export const UpdateAnalytics = (payload) => (dispatch) =>
       return Promise.reject(e);
     });
 
-export const PostPwa = (payload) => (dispatch) =>
-  Axios()
-    .post('pwas')
+export const PostPwa = (payload) => (dispatch) => {
+  const jsonPayload = JSON.stringify(payload);
+  return Axios()
+    .post('pwas', jsonPayload, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
     .then(({ data }) => {
       dispatch(MergeFilterPwas([data]));
     })
@@ -123,6 +129,7 @@ export const PostPwa = (payload) => (dispatch) =>
       dispatch(ToogleIsLoading(false));
       console.error(e);
     });
+};
 
 export const PostRating = (payload) => (dispatch) =>
   Axios()

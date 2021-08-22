@@ -25,8 +25,8 @@ export const MANIFEST_TO_FORM_MAP = {
   description: 'description'
 };
 
-export const mergeManifestWithForm = ({ pwaToUpload: { form } }, manifestJson) => {
-  console.log(form, manifestJson);
+export const mergeManifestWithForm = ({ pwaToUpload: { form } }, manifestUrl, manifestJson) => {
+  console.log(form, manifestUrl, manifestJson);
   const {
     url,
     tags: { options: pwaTags }
@@ -65,19 +65,17 @@ export const mergeManifestWithForm = ({ pwaToUpload: { form } }, manifestJson) =
         })[0].src
       : form.image_url.value;
 
-  if (!stringMatch(url, newIconUrl, true)) {
-    newIconUrl = `${url}/${newIconUrl}`;
-  }
-  if (!validUrl(newIconUrl)) {
-    newIconUrl = `https://${newIconUrl}`;
-  }
+  newIconUrl = manifestUrl.replace('manifest.json', newIconUrl);
 
   let nextFormState = {
     ...form,
     name: { ...form.name, value: name },
-    image_url: { ...form.image_url, value: newIconUrl },
+    slug: { ...form.slug, placeholder: name?.toLowerCase().join('-') },
     description: { ...form.description, value: description },
-    tags: { ...form.tags, value: newOptionsValue }
+    tags: { ...form.tags, value: newOptionsValue },
+    manifest_url: { ...form.manifest_json, value: manifestUrl },
+    manifest_json: { ...form.manifest_json, value: manifestJson },
+    image_url: { ...form.image_url, value: newIconUrl }
   };
 
   return nextFormState;

@@ -1,6 +1,6 @@
 import * as ActionTypes from './actions/types';
 import * as UserActionTypes from '../User/actions/types';
-import { mergePwas, handleFilterItems, updatePwa } from './utils';
+import { mergePwas, handleFilterItems } from './utils';
 import { toggleBooleanReducer } from 'resurrection';
 
 export const DEFAULT_STATE = {

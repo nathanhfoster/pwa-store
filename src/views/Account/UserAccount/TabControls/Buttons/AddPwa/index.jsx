@@ -7,7 +7,7 @@ import PwaForm from './PwaForm';
 import { connect, useBooleanReducer } from 'resurrection';
 import useLighthouse from 'hooks/useLighthouse';
 
-const AddPwa = ({ userId, urlValue, manifest }) => {
+const AddPwa = ({ userId, urlValue, imageUrlValue }) => {
   const [isModalOpen, toggleIsModalOpen] = useBooleanReducer(false);
 
   const [lightHouseIsLoading, lightHouseTests] = useLighthouse(urlValue);
@@ -34,7 +34,7 @@ const AddPwa = ({ userId, urlValue, manifest }) => {
           overflowY: 'auto'
         }}
         disablePortal
-        hideBackdrop
+        // hideBackdrop
         open={isModalOpen}
         onClose={toggleIsModalOpen}
         aria-labelledby='modal-modal-title'
@@ -58,13 +58,23 @@ const AddPwa = ({ userId, urlValue, manifest }) => {
             height: shouldRenderAllFields ? '100%' : 'auto',
             width: { xs: '100%', sm: 800 },
             boxShadow: 24,
-            p: 4
+            px: 4,
+            py: 1
           }}
           justifyContent='center'
           noValidate={false}
           autoComplete='off'
           onSubmit={handleSubmit}
         >
+          {imageUrlValue && (
+            <img
+              alt='Pwa Icon'
+              src={`${imageUrlValue}?w=164&h=164&fit=crop&auto=format`}
+              srcSet={`${imageUrlValue}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+              loading='lazy'
+              height={375}
+            />
+          )}
           <PwaForm shouldRenderAllFields={shouldRenderAllFields} lightHouseIsLoading={lightHouseIsLoading} />
           {shouldRenderAllFields && (
             <Button
@@ -88,11 +98,11 @@ const mapStateToProps = ({
     id,
     pwaToUpload: {
       form: {
-        url: { value }
-      },
-      manifest
+        url: { value: urlValue },
+        image_url: { value: imageUrlValue }
+      }
     }
   }
-}) => ({ userId: id, urlValue: value, manifest });
+}) => ({ userId: id, urlValue, imageUrlValue });
 
 export default connect(mapStateToProps)(AddPwa);

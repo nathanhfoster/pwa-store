@@ -1,27 +1,54 @@
 import React, { useCallback } from 'react';
 import { connect } from 'resurrection';
+import { styled } from '@material-ui/styles';
 import FormControl from '@material-ui/core/FormControl';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { SetUserPwaForm } from 'store/reducers/User/actions/redux';
 import MaterialTextField from '@material-ui/core/TextField';
+import MaterialTextArea from '@material-ui/core/TextareaAutosize';
 
-const TextField = ({ name, autoFocus, value, disabled, label, required, SetUserPwaForm }) => {
+const StyledTextArea = styled(MaterialTextArea)((props) => ({
+  minHeight: 56,
+  maxHeight: 56 * 3,
+  padding: 16,
+  fontSize: 'inherit',
+  width: '100%',
+  resize: 'vertical',
+  background: 'inherit',
+  color: 'inherit'
+}));
+
+const TextField = ({ type, name, autoFocus, placeholder, value, disabled, label, required, SetUserPwaForm }) => {
+  let FieldComponent;
+  let fieldValue = value;
+
   const handleFormChange = useCallback(({ target: { name, value } }) => {
     SetUserPwaForm(name, value);
   }, []);
 
+  switch (type) {
+    case 'textarea':
+      FieldComponent = StyledTextArea;
+      fieldValue = typeof fieldValue === 'object' ? JSON.stringify(fieldValue) : fieldValue;
+      break;
+    default:
+      FieldComponent = MaterialTextField;
+  }
+
   return (
-    <FormControl id={name} label={label} name={name} margin='normal' fullWidth>
-      <MaterialTextField
+    <FormControl type={type} id={name} label={label} name={name} margin='normal' fullWidth>
+      <FieldComponent
+        type={type}
         autoFocus={autoFocus}
         id={name}
         label={label}
         name={name}
         required={required}
         disabled={disabled}
-        value={value}
+        value={fieldValue}
+        placeholder={placeholder}
         onChange={handleFormChange}
-        margin='normal'
+        margin='none'
         fullWidth
       />
       {disabled && <LinearProgress />}
@@ -39,5 +66,9 @@ const mapStateToProps = (
 ) => form[name];
 
 const mapDispatchToProps = { SetUserPwaForm };
+
+TextField.defaultProps = {
+  type: 'text'
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(TextField);

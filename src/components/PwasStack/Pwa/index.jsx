@@ -71,19 +71,7 @@ const Pwa = ({
           '&:hover': { background: 'transparent', backgroundColor: 'transparent' }
         }}
       >
-        <CardMedia
-          sx={
-            detailed
-              ? {
-                  height: 0,
-                  paddingTop: '56.25%', // 16:9
-                  width: imageSize
-                }
-              : { height: imageSize, width: imageSize }
-          }
-          image={image_url || DEFAULT_PWA_IMAGE}
-          title={name}
-        />
+        <CardMedia sx={{ height: imageSize, width: imageSize }} image={image_url || DEFAULT_PWA_IMAGE} title={name} />
         <CardContent>
           <Typography gutterBottom variant='span' component='div' style={nameStyles}>
             {name}

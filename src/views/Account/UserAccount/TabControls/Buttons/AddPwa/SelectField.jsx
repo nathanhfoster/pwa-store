@@ -23,7 +23,7 @@ const getStyles = (name, array, theme) => ({
   fontWeight: array.indexOf(name) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium
 });
 
-const SelectField = ({ name, label, options, value, disabled, SetUserPwaForm }) => {
+const SelectField = ({ name, label, options, value, disabled, required, SetUserPwaForm }) => {
   const theme = useTheme();
 
   const handleFormChange = useCallback(({ target: { name, value } }) => {
@@ -35,7 +35,7 @@ const SelectField = ({ name, label, options, value, disabled, SetUserPwaForm }) 
   }, []);
 
   return (
-    <FormControl id={name} label={label} name={name} margin='normal' fullWidth>
+    <FormControl id={name} label={label} name={name} required={required} margin='normal' fullWidth>
       <InputLabel id={name}>{label}</InputLabel>
       <Select
         id={name}
@@ -44,8 +44,9 @@ const SelectField = ({ name, label, options, value, disabled, SetUserPwaForm }) 
         name={name}
         multiple
         value={value}
+        required={required}
         onChange={handleFormChange}
-        input={<OutlinedInput id={name} label={label} name={name} fullWidth />}
+        input={<OutlinedInput id={name} label={label} name={name} required={required} fullWidth />}
         MenuProps={MenuProps}
         disabled={disabled}
       >

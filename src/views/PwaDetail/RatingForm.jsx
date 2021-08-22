@@ -6,9 +6,13 @@ import { useDispatch } from 'resurrection';
 import { PostRating } from '../../store/reducers/Pwas/actions/api';
 
 const TextArea = styled(TextareaAutosize)((props) => ({
+  minHeight: 56,
+  maxHeight: 56 * 3,
+  padding: 16,
+  fontSize: 'inherit',
+  width: '100%',
+  resize: 'vertical',
   flex: 1,
-  padding: 10,
-  fontSize: 16,
   borderRadius: 10,
   background: props.theme.palette.background.paper,
   color: props.theme.palette.text.primary

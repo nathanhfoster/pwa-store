@@ -29,15 +29,28 @@ export const DEFAULT_STATE = {
   isLoading: false,
   pwaToUpload: {
     form: {
-      url: { autoFocus: true, label: 'Url', required: true, value: '' },
+      url: { type: 'url', autoFocus: true, label: 'Url', required: true, value: '' },
+      slug: { type: 'url', label: 'Custom url', placeholder: 'google-photos', value: '' },
       name: { label: 'Name', required: true, value: '' },
-      slug: { label: 'Custom url', value: '' },
-      image_url: { label: 'Image url', required: true, value: '' },
-      description: { label: 'Description', required: true, value: '' },
-      tags: { label: 'Tags', options: [], required: true, value: [] }
+      description: {
+        type: 'textarea',
+        placeholder: 'Description',
+        label: 'Description',
+        required: true,
+        value: ''
+      },
+      tags: { type: 'select', label: 'Tags', options: [], required: true, value: [] },
+      manifest_url: { type: 'url', label: 'Manifest url', required: true, value: '' },
+      manifest_json: {
+        type: 'textarea',
+        placeholder: 'Manifest Json',
+        label: 'Manifest Json',
+        required: true,
+        value: ''
+      },
+      image_url: { type: 'url', label: 'Image url', required: true, value: '' }
       // organization: { label: 'Organization', value: '' }
-    },
-    manifest: undefined
+    }
   },
   pwas: [],
   filteredPwas: [],
@@ -135,8 +148,7 @@ const User = (state = DEFAULT_STATE, action) => {
         ...state,
         pwaToUpload: {
           ...state.pwaToUpload,
-          form: mergeManifestWithForm(state.pwaToUpload.form, payload),
-          manifest: payload
+          form: mergeManifestWithForm(state, id, payload)
         }
       };
 

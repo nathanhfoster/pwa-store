@@ -5,11 +5,14 @@ import TextField from './TextField';
 
 const PwaForm = ({ form, shouldRenderAllFields, lightHouseIsLoading }) => {
   return (shouldRenderAllFields ? Object.keys(form) : ['url']).map((fieldKey) => {
-    return fieldKey === 'tags' ? (
-      <SelectField key={fieldKey} name={fieldKey} disabled={lightHouseIsLoading} />
-    ) : (
-      <TextField key={fieldKey} name={fieldKey} disabled={lightHouseIsLoading} />
-    );
+    const { type } = form[fieldKey];
+
+    switch (type) {
+      case 'select':
+        return <SelectField key={fieldKey} name={fieldKey} disabled={lightHouseIsLoading} />;
+      default:
+        return <TextField key={fieldKey} name={fieldKey} disabled={lightHouseIsLoading} />;
+    }
   });
 };
 

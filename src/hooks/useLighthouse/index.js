@@ -3,6 +3,7 @@ import { useBooleanReducer, useMounted, useDispatch } from 'resurrection';
 import useDebounce from '../useDebounce';
 import { GetLighthouseData } from 'store/reducers/Pwas/actions/api';
 import { SetPwaManifest } from 'store/reducers/User/actions/redux';
+import { PushAlert } from 'store/reducers/App/actions';
 
 const LIGHTHOUSE_RESULT_MAP = {
   IOS_ICON: 'apple-touch-icon',
@@ -34,8 +35,8 @@ const useLighthouse = (url, debounce = 400) => {
         .then(({ status, data }) => {
           if (status === 200) {
             if (data?.lighthouseResult) {
-              console.log(status, data);
               const {
+                manifestUrl,
                 manifestJson,
                 captchaResult,
                 kind,
@@ -209,7 +210,7 @@ const useLighthouse = (url, debounce = 400) => {
               const iosIconTest = appleTouchIcon.score > 0;
               const installableTest = installableManifest.score > 0;
               const worksOfflineTest = serviceWorker.score > 0;
-              dispatch(SetPwaManifest(manifestJson));
+              dispatch(SetPwaManifest(manifestUrl, manifestJson));
               setTests((prevTests) => [
                 {
                   pass: iosIconTest && installableTest && worksOfflineTest,
@@ -229,7 +230,12 @@ const useLighthouse = (url, debounce = 400) => {
           }
         })
         .catch((e) => {
-          console.error(`Issue getting lighthouse data: ${e.message}`);
+          const alertPayload = {
+            title: 'App update',
+            message: e.message,
+            props: { severity: 'error' }
+          };
+          dispatch(PushAlert(alertPayload));
 
           setTests((prevTests) => [
             {
