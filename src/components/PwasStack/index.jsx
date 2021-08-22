@@ -12,18 +12,36 @@ const LENGTH_OF_SKELETON_ARRAY = { length: 12 };
 
 const Pwa = lazy(() => import('./Pwa'));
 
+const gridItemMargin = {
+  xs: 0,
+  sm: 2
+};
+
+const gridItemStyles = {
+  xs: 6,
+  sm: 4,
+  md: 3,
+  lg: 2,
+  xl: 1,
+  m: gridItemMargin,
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'baseline',
+  alignContent: 'flex-start'
+};
+
 const PwasStack = ({ title, subtitle, detailed, pwas, imageSize, flexWrap, isLoading }) => {
   const renderPwas = useMemo(() => {
     if (isLoading) {
       return Array.from(LENGTH_OF_SKELETON_ARRAY, (_, i) => (
-        <Grid item key={i} xs='auto'>
+        <Grid item key={i} {...gridItemStyles}>
           <Skeleton variant='rectangular' width={imageSize} height={imageSize} />
         </Grid>
       ));
     }
 
     return pwas.map((pwa) => (
-      <Grid item key={pwa.id} xs='auto' mx={2}>
+      <Grid item key={pwa.id} {...gridItemStyles}>
         <Pwa {...pwa} detailed={detailed} imageSize={imageSize} />
       </Grid>
     ));
@@ -34,7 +52,8 @@ const PwasStack = ({ title, subtitle, detailed, pwas, imageSize, flexWrap, isLoa
       sx={{
         bgcolor: 'background.paper',
         borderBottom: '1px solid rgba(0,0,0,0.05)',
-        py: 2
+        py: 2,
+        px: 0
       }}
     >
       {title && (
@@ -52,8 +71,9 @@ const PwasStack = ({ title, subtitle, detailed, pwas, imageSize, flexWrap, isLoa
         sx={{
           flexWrap,
           overflow: 'auto',
-          justifyContent: flexWrap === 'wrap' ? 'space-around' : 'flex-start',
-          alignItems: 'center'
+          justifyContent: 'flex-start',
+          alignItems: 'baseline',
+          alignContent: 'flex-start'
         }}
       >
         {renderPwas}

@@ -64,8 +64,11 @@ const App = ({ GetUserSettings, GetPwas, SetAddToHomeScreenPrompt, GetPwaTags, U
           component='main'
           sx={{
             width: { xs: '100vw', sm: `calc(100vw - ${APP_DRAWER_WIDTH}px)` },
+            height: '100%',
+            overflowY: 'auto',
             flexGrow: 1,
-            mt: { xs: '56px', sm: '64px' }
+            mt: { xs: '56px', sm: '64px' },
+            background: 'inherit'
           }}
         >
           <AppRouter />

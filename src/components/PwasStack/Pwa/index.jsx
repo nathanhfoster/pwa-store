@@ -8,7 +8,6 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
-import { CardActionArea } from '@material-ui/core';
 // import { useBooleanReducer } from 'resurrection';
 // import { useDispatch } from 'resurrection';
 // import { GetPwaManifest } from 'store/reducers/Pwas/actions/api';
@@ -19,6 +18,7 @@ const StyledCard = styled(Card)((props) => ({
   textAlign: 'center',
   boxShadow: 'none',
   textDecoration: 'none',
+  backgroundImage: 'none',
   '&:hover': {
     color: props.theme.palette.primary.main
   }
@@ -60,27 +60,23 @@ const Pwa = ({
     <StyledCard
       component={Link}
       to={pwaRoute}
-      raised={false}
+      raised={true}
       // onMouseEnter={toggleIsHovered}
       // onMouseLeave={toggleIsHovered}
     >
-      <CardActionArea
-        sx={{
-          width: imageSize,
-          backgroundColor: 'transparent',
-          '&:hover': { background: 'transparent', backgroundColor: 'transparent' }
-        }}
-      >
-        <CardMedia sx={{ height: imageSize, width: imageSize }} image={image_url || DEFAULT_PWA_IMAGE} title={name} />
-        <CardContent>
-          <Typography gutterBottom variant='span' component='div' style={nameStyles}>
-            {name}
-          </Typography>
-          <Typography variant='subtitle2' color='text.secondary' style={noWrapStyles}>
-            <Tags tags={tags} />
-          </Typography>
-        </CardContent>
-      </CardActionArea>
+      <CardMedia
+        sx={{ m: '0 auto', height: imageSize, width: imageSize }}
+        image={image_url || DEFAULT_PWA_IMAGE}
+        title={name}
+      />
+      <CardContent>
+        <Typography gutterBottom variant='span' component='div' style={nameStyles}>
+          {name}
+        </Typography>
+        <Typography variant='subtitle2' color='text.secondary' style={noWrapStyles}>
+          <Tags tags={tags} />
+        </Typography>
+      </CardContent>
     </StyledCard>
   );
 };

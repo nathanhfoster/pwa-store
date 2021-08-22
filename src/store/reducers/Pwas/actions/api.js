@@ -83,8 +83,10 @@ export const GetLighthouseData = (url) =>
     })
     .then(async (lighthouseResponse) => {
       const { status, data: lighthouseData } = lighthouseResponse;
+      console.log(status, lighthouseData);
       if (status === 200) {
-        const { manifestUrl } = lighthouseData.lighthouseResult.audits['installable-manifest'].details.debugData;
+        const { manifestUrl = `${url}/manifest.json` } =
+          lighthouseData.lighthouseResult.audits['installable-manifest'].details.debugData;
         return await GetPwaManifest(manifestUrl).then(({ data: manifestJson }) => {
           return {
             ...lighthouseResponse,
@@ -141,7 +143,7 @@ export const PostRating = (payload) => (dispatch, getState) =>
     .then(({ data }) => {
       const { items, filteredItems } = getState().Pwas;
       const obj = items.concat(filteredItems).find((i) => i.id === payload.pwa_id);
-      const newRatings = [{ ...data }, ...obj.ratings]
+      const newRatings = [{ ...data }, ...obj.ratings];
       dispatch(UpdateReduxPwa({ id: payload.pwa_id, ratings: newRatings }));
     })
     .catch((e) => {

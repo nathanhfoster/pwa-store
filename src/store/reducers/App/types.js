@@ -22,7 +22,7 @@ export const AlertPropsType = {
 };
 
 export const AlertType = {
-  id: PropTypes.number,
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   title: PropTypes.string,
   message: PropTypes.string,
   props: PropTypes.shape(AlertPropsType),

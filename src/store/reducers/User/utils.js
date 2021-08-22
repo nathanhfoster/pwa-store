@@ -25,7 +25,7 @@ export const MANIFEST_TO_FORM_MAP = {
   description: 'description'
 };
 
-export const mergeManifestWithForm = ({ pwaToUpload: { form } }, manifestUrl, manifestJson) => {
+export const mergeManifestWithForm = ({ pwaToUpload: { form } }, manifestUrl = '', manifestJson) => {
   console.log(form, manifestUrl, manifestJson);
   const {
     url,
@@ -65,7 +65,7 @@ export const mergeManifestWithForm = ({ pwaToUpload: { form } }, manifestUrl, ma
         })[0].src
       : form.image_url.value;
 
-  newIconUrl = manifestUrl.replace('manifest.json', newIconUrl);
+  newIconUrl = manifestUrl?.replace('manifest.json', newIconUrl) || '';
 
   let nextFormState = {
     ...form,
@@ -73,8 +73,13 @@ export const mergeManifestWithForm = ({ pwaToUpload: { form } }, manifestUrl, ma
     slug: { ...form.slug, placeholder: name?.toLowerCase().join('-') },
     description: { ...form.description, value: description },
     tags: { ...form.tags, value: newOptionsValue },
-    manifest_url: { ...form.manifest_json, value: manifestUrl },
-    manifest_json: { ...form.manifest_json, value: manifestJson },
+    manifest_url: {
+      ...form.manifest_json,
+      placeholder: form.url.value?.replace(/\/(?=[^\/]*$)/, '/manifest.json') || 'https://pwa.com/manifest.json',
+      value: manifestUrl,
+      disabled: manifestUrl ? true : false
+    },
+    manifest_json: { ...form.manifest_json, value: manifestJson, disabled: true },
     image_url: { ...form.image_url, value: newIconUrl }
   };
 

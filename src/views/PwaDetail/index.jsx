@@ -15,6 +15,8 @@ const Detail = lazy(() => import('./Detail'));
 const Rating = lazy(() => import('./Rating'));
 
 const detailContainerStyles = {
+  height: '100%',
+  overflowY: 'auto',
   bgcolor: 'background.paper',
   borderBottom: '1px solid rgba(0,0,0,0.05)',
   p: 3,
@@ -43,27 +45,33 @@ const PwaDetail = ({
   const { view_count = 0, launch_count = 0 } = pwa_analytics || {};
   const renderScreenShots = useMemo(
     () =>
-      pwa_screenshots.map(({ image_url, caption }) => (
-        <Grid key={image_url} item xs='auto'>
-          <img
-            src={`${image_url}?w=164&h=164&fit=crop&auto=format`}
-            srcSet={`${image_url}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-            alt={name}
-            loading='lazy'
-            height={375}
-          />
-        </Grid>
-      )),
+      pwa_screenshots
+        .concat(pwa_screenshots)
+        .concat(pwa_screenshots)
+        .map(({ image_url, caption }) => (
+          <Grid key={image_url} item xs='auto' mx={4}>
+            <img
+              src={`${image_url}?w=164&h=164&fit=crop&auto=format`}
+              srcSet={`${image_url}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+              alt={name}
+              loading='lazy'
+              height={375}
+            />
+          </Grid>
+        )),
     [pwa_screenshots]
   );
 
   const renderRatings = useMemo(
     () =>
-      ratings.map((rating) => (
-        <Grid key={rating.created_by} item xs={12}>
-          <Rating {...rating} />
-        </Grid>
-      )),
+      ratings
+        .concat(ratings)
+        .concat(ratings)
+        .map((rating) => (
+          <Grid key={rating.created_by} item xs={12}>
+            <Rating {...rating} />
+          </Grid>
+        )),
     [ratings]
   );
 
@@ -102,18 +110,27 @@ const PwaDetail = ({
       </Box>
       <Grid
         container
-        spacing={0}
         direction='row'
+        flexWrap='nowrap'
         justifyContent='flex-start'
         alignItems='baseline'
-        sx={{ flexWrap: 'nowrap', overflowX: 'auto' }}
+        sx={{ overflowX: 'auto', mb: 4 }}
       >
         {renderScreenShots}
       </Grid>
       <Grid container>
         <RatingForm pwa_id={id} />
       </Grid>
-      <Grid container>{renderRatings}</Grid>
+      <Grid
+        container
+        direction='row'
+        flexWrap='wrap'
+        justifyContent='center'
+        alignItems='baseline'
+        sx={{ overflowY: 'auto', mb: 2 }}
+      >
+        {renderRatings}
+      </Grid>
     </>
   );
 };

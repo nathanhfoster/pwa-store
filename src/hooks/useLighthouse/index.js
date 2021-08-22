@@ -126,7 +126,7 @@ const useLighthouse = (url, debounce = 400) => {
                     'apple-touch-icon': appleTouchIcon
                   },
                   categories: {
-                    pwa: { id: pwaCategoryId, title, description, score, manualDescription, auditRefs }
+                    pwa: { id: pwaCategoryId, title, description, score: lightHouseScore, manualDescription, auditRefs }
                   },
                   categoryGroups: {
                     'a11y-audio-video': allyAudioVideo,
@@ -219,7 +219,7 @@ const useLighthouse = (url, debounce = 400) => {
                   iosIcon: iosIconTest,
                   installable: installableTest,
                   worksOffline: worksOfflineTest,
-                  data
+                  lightHouseScore
                 },
                 ...prevTests.filter((t) => t.url !== url)
               ]);
@@ -245,7 +245,7 @@ const useLighthouse = (url, debounce = 400) => {
               installable: false,
               worksOffline: false,
               error: true,
-              data: {}
+              lightHouseScore: 0
             },
             ...prevTests.filter((t) => t.url !== url)
           ]);

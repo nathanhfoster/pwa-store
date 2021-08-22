@@ -27,6 +27,12 @@
       "src": "assets/android-chrome-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
+    },
+    {
+      "src": "assets/icon.png",
+      "sizes": "1500x1500",
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ],
   "shortcuts": [
