@@ -1,5 +1,6 @@
 import { storeFactory } from 'resurrection';
 import axios from 'axios';
+import { getUserTokenAndIdLocalStorage } from 'store/reducers/User/utils';
 
 /**
  * Config global for axios/django
@@ -49,7 +50,11 @@ Axios request response : https://kapeli.com/cheat_sheets/Axios.docset/Contents/R
 
 export const Axios = (props) => {
   const store = storeFactory.getStore();
-  const { token = store?.getState()?.User.token, pagination, responseType = 'json' } = props || {};
+  const {
+    token = store?.getState()?.User.token || getUserTokenAndIdLocalStorage()[0],
+    pagination,
+    responseType = 'json'
+  } = props || {};
 
   return axios.create({
     ...axiosDefaults,

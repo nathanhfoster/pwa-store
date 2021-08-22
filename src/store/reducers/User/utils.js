@@ -1,9 +1,15 @@
-import { stringMatch, validUrl } from 'utils';
 export const USER_ID_LOCAL_STORAGE_KEY = 'USER_ID_LOCAL_STORAGE_KEY';
 export const USER_TOKEN_LOCAL_STORAGE_KEY = 'USER_TOKEN_LOCAL_STORAGE_KEY';
 export const USER_MODE_LOCAL_STORAGE_KEY = 'USER_MODE_LOCAL_STORAGE_KEY';
 
-export getUserModeLocalStorage = () => {
+export const getUserTokenAndIdLocalStorage = () => {
+  const lodalUserToken = localStorage.getItem(USER_TOKEN_LOCAL_STORAGE_KEY) || '';
+  const localUserId = parseInt(localStorage.getItem(USER_ID_LOCAL_STORAGE_KEY)) || null;
+
+  return [lodalUserToken, localUserId];
+};
+
+export const getUserModeLocalStorage = () => {
   const userPrefersDark = window?.matchMedia('(prefers-color-scheme: dark)').matches;
   const defaultMode = userPrefersDark ? 'dark' : 'light';
   const localMode = localStorage.getItem(USER_MODE_LOCAL_STORAGE_KEY);

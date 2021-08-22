@@ -2,9 +2,7 @@ import * as ActionTypes from './actions/types';
 import * as PwaActionTypes from '../Pwas/actions/types';
 import { toggleBooleanReducer } from 'resurrection';
 import {
-  USER_ID_LOCAL_STORAGE_KEY,
-  USER_TOKEN_LOCAL_STORAGE_KEY,
-  USER_MODE_LOCAL_STORAGE_KEY,
+  getUserTokenAndIdLocalStorage,
   getUserModeLocalStorage,
   setUserTokenAndIdLocalStorage,
   deleteUserLocalStorage,
@@ -13,11 +11,12 @@ import {
 } from './utils';
 import { handleFilterItems, mergePwas } from '../Pwas/utils';
 
+const [token, id] = getUserTokenAndIdLocalStorage();
 
 export const DEFAULT_STATE = {
   // Database
-  id: parseInt(localStorage.getItem(USER_ID_LOCAL_STORAGE_KEY)) || null,
-  token: localStorage.getItem(USER_TOKEN_LOCAL_STORAGE_KEY) || '',
+  token,
+  id,
   username: '',
   name: '',
   email: '',
