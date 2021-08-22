@@ -12,18 +12,13 @@ const LENGTH_OF_SKELETON_ARRAY = { length: 12 };
 
 const Pwa = lazy(() => import('./Pwa'));
 
-const gridItemMargin = {
-  xs: 0,
-  sm: 2
-};
-
 const gridItemStyles = {
   xs: 6,
   sm: 4,
   md: 3,
   lg: 2,
   xl: 1,
-  m: gridItemMargin,
+  m: 2,
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'baseline',
