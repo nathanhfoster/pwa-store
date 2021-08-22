@@ -12,6 +12,8 @@ import {
 } from './utils';
 import { handleFilterItems, mergePwas } from '../Pwas/utils';
 
+const defaultMode = window.matchMedia('(prefers-color-scheme)').media === 'dark' ? 'dark' : 'light';
+
 export const DEFAULT_STATE = {
   // Database
   id: parseInt(localStorage.getItem(USER_ID_LOCAL_STORAGE_KEY)) || null,
@@ -19,7 +21,7 @@ export const DEFAULT_STATE = {
   username: '',
   name: '',
   email: '',
-  setting: { mode: localStorage.getItem(USER_MODE_LOCAL_STORAGE_KEY) || 'light' },
+  setting: { mode: localStorage.getItem(USER_MODE_LOCAL_STORAGE_KEY) || defaultMode },
   is_active: false,
   is_superuser: false,
   is_staff: false,
