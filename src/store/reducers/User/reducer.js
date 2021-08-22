@@ -12,7 +12,8 @@ import {
 } from './utils';
 import { handleFilterItems, mergePwas } from '../Pwas/utils';
 
-const defaultMode = window.matchMedia('(prefers-color-scheme)').media === 'dark' ? 'dark' : 'light';
+const userPrefersDark = window?.matchMedia('(prefers-color-scheme: dark)').matches;
+const defaultMode = userPrefersDark ? 'dark' : 'light';
 
 export const DEFAULT_STATE = {
   // Database
