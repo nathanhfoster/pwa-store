@@ -25,3 +25,5 @@ export const DeleteUser = () => (dispatch) => {
 export const ToogleIsLoading = (payload) => ({ type: ActionTypes.USER_TOGGLE_IS_LOADING, payload });
 
 export const SetUserError = (payload) => ({ type: ActionTypes.USER_SET_ERROR, payload });
+
+export const SetUserPwaForm = (name, value) => ({ type: ActionTypes.USER_SET_PWA_FORM, id: name, payload: value });

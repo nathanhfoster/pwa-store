@@ -1,15 +1,18 @@
 import * as ActionTypes from './actions/types';
 import * as PwaActionTypes from '../Pwas/actions/types';
 import { toggleBooleanReducer } from 'resurrection';
-import { USER_LOCAL_STORAGE_KEY } from './utils';
+import {
+  setUserTokenAndId,
+  removeUserTokenAndId,
+  USER_ID_LOCAL_STORAGE_KEY,
+  USER_TOKEN_LOCAL_STORAGE_KEY
+} from './utils';
 import { handleFilterItems, mergePwas } from '../Pwas/utils';
 
-const localUser = localStorage.getItem(USER_LOCAL_STORAGE_KEY);
-
-export const DEFAULT_USER_STATE = {
+export const DEFAULT_STATE = {
   // Database
-  id: null,
-  token: '',
+  id: parseInt(localStorage.getItem(USER_ID_LOCAL_STORAGE_KEY)),
+  token: localStorage.getItem(USER_TOKEN_LOCAL_STORAGE_KEY),
   username: '',
   name: '',
   email: '',
@@ -21,6 +24,19 @@ export const DEFAULT_USER_STATE = {
   date_joined: '',
   // Store
   isLoading: false,
+  pwaToUpload: {
+    form: {
+      url: { autoFocus: true, label: 'Url', required: true, value: '' },
+      name: { label: 'Name', required: true, value: '' },
+      slug: { label: 'Custom url', value: '' },
+      tags: { label: 'Tags', options: [], required: true, value: [] },
+      image_url: { label: 'Image url', value: '' },
+      short_description: { label: 'Short Description', required: true, value: '' },
+      description: { label: 'Description', value: '' }
+      // organization: { label: 'Organization', value: '' }
+    },
+    manifest: undefined
+  },
   pwas: [],
   filteredPwas: [],
   error: {
@@ -48,10 +64,8 @@ export const DEFAULT_USER_STATE = {
   }
 };
 
-export const DEFAULT_STATE = localUser ? JSON.parse(localUser) : DEFAULT_USER_STATE;
-
 const User = (state = DEFAULT_STATE, action) => {
-  const { type, search, payload } = action;
+  const { type, id, search, payload } = action;
   let nextItem, nextItems;
 
   switch (type) {
@@ -68,7 +82,7 @@ const User = (state = DEFAULT_STATE, action) => {
         ...state,
         ...payload
       };
-      localStorage.setItem(USER_LOCAL_STORAGE_KEY, JSON.stringify(nextItem));
+      setUserTokenAndId(nextItem);
       return nextItem;
 
     case ActionTypes.USER_SET_PWAS:
@@ -79,19 +93,31 @@ const User = (state = DEFAULT_STATE, action) => {
         pwas: nextItem.items,
         filteredPwas: nextItem.filteredItems
       };
-      localStorage.setItem(USER_LOCAL_STORAGE_KEY, JSON.stringify(nextItem));
+      setUserTokenAndId(nextItem);
       return nextItem;
 
     case ActionTypes.USER_DELETE:
-      localStorage.removeItem(USER_LOCAL_STORAGE_KEY);
+      removeUserTokenAndId();
       return {
-        ...DEFAULT_USER_STATE
+        ...DEFAULT_STATE
       };
 
     case ActionTypes.USER_SET_ERROR:
       return {
         ...state,
         error: payload
+      };
+
+    case ActionTypes.USER_SET_PWA_FORM:
+      return {
+        ...state,
+        pwaToUpload: {
+          ...state.pwaToUpload,
+          form: {
+            ...state.pwaToUpload.form,
+            [id]: { ...state.pwaToUpload.form[id], value: payload }
+          }
+        }
       };
 
     case PwaActionTypes.PWAS_MERGE_FILTER:
@@ -101,6 +127,27 @@ const User = (state = DEFAULT_STATE, action) => {
         ...state,
         pwas: nextItem.items,
         filteredPwas: nextItem.filteredItems
+      };
+
+    case PwaActionTypes.PWA_SET_MANIFEST:
+      return {
+        ...state,
+        pwaToUpload: {
+          ...state.pwaToUpload,
+          manifest: payload
+        }
+      };
+
+    case PwaActionTypes.PWAS_SET_TAGS:
+      return {
+        ...state,
+        pwaToUpload: {
+          ...state.pwaToUpload,
+          form: {
+            ...state.pwaToUpload.form,
+            tags: { ...state.pwaToUpload.form.tags, options: payload }
+          }
+        }
       };
 
     default:
