@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { styled } from '@material-ui/core/styles';
-import { TextareaAutosize, Stack, Box, Button, Grid, Paper, Typography } from '@material-ui/core';
+import { TextareaAutosize, Stack, Box, Button, Grid, Paper } from '@material-ui/core';
 import StarPicker from 'components/StarPicker';
-import { connect } from 'resurrection';
+import { useDispatch } from 'resurrection';
 import { PostRating } from '../../store/reducers/Pwas/actions/api';
 
 const TextArea = styled(TextareaAutosize)((props) => ({
@@ -14,16 +14,17 @@ const TextArea = styled(TextareaAutosize)((props) => ({
   color: props.theme.palette.text.primary
 }));
 
-const RatingForm = ({ pwa_id, PostRating }) => {
+const RatingForm = ({ pwa_id }) => {
+  const dispatch = useDispatch();
   const [rating, updateRating] = useState(0);
   const [comment, updateComment] = useState('');
 
   const onSubmit = (e) => {
     e.preventDefault();
-    PostRating({ pwa_id, rating, comment });
+    dispatch(PostRating({ pwa_id, rating, comment }));
     updateRating(0);
     updateComment('');
-  }
+  };
 
   return (
     <Box sx={{ flexGrow: 1, overflow: 'hidden', px: 3 }}>
@@ -32,14 +33,14 @@ const RatingForm = ({ pwa_id, PostRating }) => {
           <Grid sm={12}>
             <StarPicker onChange={updateRating} noOfStar={rating} />
           </Grid>
-          <Stack direction='row' justifyContent="flex-end" style={{ width: '100%' }} flexWrap="wrap" spacing={0.5}>
+          <Stack direction='row' justifyContent='flex-end' style={{ width: '100%' }} flexWrap='wrap' spacing={0.5}>
             <TextArea
               minRows={4}
-              placeholder="Write a review"
+              placeholder='Write a review'
               onChange={(e) => updateComment(e.target.value)}
               value={comment}
             />
-            <Button onClick={onSubmit} sx={{ backgroundColor: 'primary.dark' }} variant="contained">
+            <Button onClick={onSubmit} sx={{ backgroundColor: 'primary.dark' }} variant='contained'>
               Submit
             </Button>
           </Stack>
@@ -49,4 +50,4 @@ const RatingForm = ({ pwa_id, PostRating }) => {
   );
 };
 
-export default connect({}, { PostRating })(RatingForm);
+export default RatingForm;
