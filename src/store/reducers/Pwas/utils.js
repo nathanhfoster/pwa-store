@@ -65,7 +65,6 @@ const handleFilterItems = (items, search) => {
       name,
       url,
       slug,
-      short_description,
       description,
       views,
       launches,
@@ -78,7 +77,6 @@ const handleFilterItems = (items, search) => {
     if (
       match(name, search) ||
       match(url, search) ||
-      match(short_description, search) ||
       match(description, search) ||
       match(tags, search, 'name') ||
       match(organization, search, 'name') ||

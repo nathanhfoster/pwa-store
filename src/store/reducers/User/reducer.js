@@ -2,12 +2,13 @@ import * as ActionTypes from './actions/types';
 import * as PwaActionTypes from '../Pwas/actions/types';
 import { toggleBooleanReducer } from 'resurrection';
 import {
+  USER_ID_LOCAL_STORAGE_KEY,
+  USER_TOKEN_LOCAL_STORAGE_KEY,
+  USER_MODE_LOCAL_STORAGE_KEY,
   setUserTokenAndIdLocalStorage,
   deleteUserLocalStorage,
   setUserModeLocalStorage,
-  USER_ID_LOCAL_STORAGE_KEY,
-  USER_TOKEN_LOCAL_STORAGE_KEY,
-  USER_MODE_LOCAL_STORAGE_KEY
+  mergeManifestWithForm
 } from './utils';
 import { handleFilterItems, mergePwas } from '../Pwas/utils';
 
@@ -31,10 +32,9 @@ export const DEFAULT_STATE = {
       url: { autoFocus: true, label: 'Url', required: true, value: '' },
       name: { label: 'Name', required: true, value: '' },
       slug: { label: 'Custom url', value: '' },
-      tags: { label: 'Tags', options: [], required: true, value: [] },
-      image_url: { label: 'Image url', value: '' },
-      short_description: { label: 'Short Description', required: true, value: '' },
-      description: { label: 'Description', value: '' }
+      image_url: { label: 'Image url', required: true, value: '' },
+      description: { label: 'Description', required: true, value: '' },
+      tags: { label: 'Tags', options: [], required: true, value: [] }
       // organization: { label: 'Organization', value: '' }
     },
     manifest: undefined
@@ -130,6 +130,16 @@ const User = (state = DEFAULT_STATE, action) => {
         }
       };
 
+    case ActionTypes.USER_SET_PWA_FORM_MANIFEST:
+      return {
+        ...state,
+        pwaToUpload: {
+          ...state.pwaToUpload,
+          form: mergeManifestWithForm(state.pwaToUpload.form, payload),
+          manifest: payload
+        }
+      };
+
     case PwaActionTypes.PWAS_MERGE_FILTER:
       nextItems = state.pwas.concat(state.filteredPwas);
       nextItem = handleFilterItems(nextItems, search);
@@ -137,15 +147,6 @@ const User = (state = DEFAULT_STATE, action) => {
         ...state,
         pwas: nextItem.items,
         filteredPwas: nextItem.filteredItems
-      };
-
-    case PwaActionTypes.PWA_SET_MANIFEST:
-      return {
-        ...state,
-        pwaToUpload: {
-          ...state.pwaToUpload,
-          manifest: payload
-        }
       };
 
     case PwaActionTypes.PWAS_SET_TAGS:

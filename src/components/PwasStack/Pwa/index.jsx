@@ -38,7 +38,6 @@ const Pwa = ({
   name,
   url,
   image_url,
-  short_description,
   description,
   pwa_analytics,
   organization,

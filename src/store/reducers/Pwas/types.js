@@ -25,7 +25,6 @@ export const PwaType = {
   organization: PropTypes.shape(PwaOrganizationType),
   tags: PropTypes.arrayOf(PropTypes.shape(PwaTagType)),
   image_url: PropTypes.string,
-  short_description: PropTypes.string,
   description: PropTypes.string,
   published: PropTypes.bool,
   pwa_analytics: PropTypes.shape(PwaAnalyticsType),

@@ -25,7 +25,6 @@ const PwaDetail = ({
   pwaId, // From react-router
   id,
   name,
-  short_description,
   description,
   url,
   image_url,
@@ -78,8 +77,6 @@ const PwaDetail = ({
 
   const imageSrc = image_url || DEFAULT_PWA_IMAGE;
 
-  const pwaDescription = short_description || description;
-
   return (
     <>
       <Box sx={detailContainerStyles}>
@@ -96,9 +93,9 @@ const PwaDetail = ({
               ratings={ratings}
             />
           </Grid>
-          {pwaDescription && (
+          {description && (
             <Grid item xs={12}>
-              <Typography variant='body1'>{pwaDescription}</Typography>
+              <Typography variant='body1'>{description}</Typography>
             </Grid>
           )}
         </Grid>

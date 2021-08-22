@@ -36,4 +36,18 @@ const getLocalDateTimeNoSeconds = (date, displaySeconds = false) => {
 
 const isFunction = (value) => value instanceof Function || typeof value === 'function';
 
-export { RouteMap, objectToArray, stringMatch, lazyDelay, getLocalDateTimeNoSeconds, isFunction };
+const validUrl = (url) => /^https?:\/\/(.*)/.test(url);
+const validEmail = (email) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
+const noSpecialChars = (s) => !/[^a-zA-Z0-9\s]/.test(s);
+
+export {
+  RouteMap,
+  objectToArray,
+  stringMatch,
+  lazyDelay,
+  getLocalDateTimeNoSeconds,
+  isFunction,
+  validUrl,
+  validEmail,
+  noSpecialChars
+};

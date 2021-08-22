@@ -30,3 +30,5 @@ export const SetUserError = (payload) => ({ type: ActionTypes.USER_SET_ERROR, pa
 export const SetUserSetting = (payload) => ({ type: ActionTypes.USER_SET_SETTING, payload });
 
 export const SetUserPwaForm = (name, value) => ({ type: ActionTypes.USER_SET_PWA_FORM, id: name, payload: value });
+
+export const SetPwaManifest = (payload) => ({ type: ActionTypes.USER_SET_PWA_FORM_MANIFEST, payload });

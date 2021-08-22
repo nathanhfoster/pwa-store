@@ -1,4 +1,5 @@
 import { Axios } from '../../Axios';
+import axios from 'axios';
 import {
   ToogleIsLoading,
   SetPwas,
@@ -65,10 +66,36 @@ export const SearchPwas = (category) => (dispatch, getState) => {
 export const GetPwaManifest = (url) =>
   Axios()
     .get(`pwas/get-manifest?url=${url}`)
-    .then(({ data }) => {
-      // TODO: put this is a reducer
-      console.log(data);
-      return Promise.resolve(data);
+    .then((response) => response)
+    .catch((e) => {
+      console.error(e);
+      return Promise.reject(e);
+    });
+
+export const GetLighthouseData = (url) =>
+  axios
+    .request({
+      url: `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${url}&category=PWA`,
+      method: 'GET',
+      headers: {
+        Accept: 'application/json'
+      }
+    })
+    .then(async (lighthouseResponse) => {
+      const { status, data: lighthouseData } = lighthouseResponse;
+      if (status === 200) {
+        const { manifestUrl } = lighthouseData.lighthouseResult.audits['installable-manifest'].details.debugData;
+        return await GetPwaManifest(manifestUrl).then(({ data: manifestData }) => {
+          return {
+            ...lighthouseResponse,
+            data: {
+              ...lighthouseData,
+              manifestJson: manifestData
+            }
+          };
+        });
+      }
+      return lighthouseResponse;
     })
     .catch((e) => {
       console.error(e);
@@ -109,4 +136,4 @@ export const PostRating = (payload) => (dispatch) =>
     })
     .catch((e) => {
       console.log('error', e);
-    })
+    });

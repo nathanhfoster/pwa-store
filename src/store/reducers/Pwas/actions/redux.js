@@ -22,5 +22,3 @@ export const FilterPwas = (search) => MergeFilterPwas([], search);
 export const ResetPwasFilter = () => FilterPwas('');
 
 export const UpdateReduxPwa = (pwa) => MergeFilterPwas([pwa]);
-
-export const SetPwaManifest = (payload) => ({ type: ActionTypes.PWA_SET_MANIFEST, payload });
