@@ -114,7 +114,7 @@ const PwaDetail = ({
         {renderScreenShots}
       </Grid>
       <Grid container>
-        <RatingForm />
+        <RatingForm pwa_id={id} />
       </Grid>
       <Grid container>{renderRatings}</Grid>
     </>
