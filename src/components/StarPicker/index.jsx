@@ -7,7 +7,7 @@ const StarPicker = ({ onChange, noOfStar }) => {
 
   useEffect(() => {
     setHover(noOfStar);
-  }, []);
+  }, [noOfStar]);
 
   return (
     <>

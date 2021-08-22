@@ -131,7 +131,7 @@ export const PostPwa = (payload) => (dispatch) => {
     });
 };
 
-export const PostRating = (payload) => (dispatch) =>
+export const PostRating = (payload) => (dispatch, getState) =>
   Axios()
     .post('pwas/post-rating/', payload, {
       headers: {
@@ -139,7 +139,10 @@ export const PostRating = (payload) => (dispatch) =>
       }
     })
     .then(({ data }) => {
-      console.info('data');
+      const { items, filteredItems } = getState().Pwas;
+      const obj = items.concat(filteredItems).find((i) => i.id === payload.pwa_id);
+      const newRatings = [{ ...data }, ...obj.ratings]
+      dispatch(UpdateReduxPwa({ id: payload.pwa_id, ratings: newRatings }));
     })
     .catch((e) => {
       console.log('error', e);

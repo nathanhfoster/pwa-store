@@ -24,7 +24,17 @@ const getMostRecent = (currentStoreItems, newItems) => {
 
 const mergePwas = (currentStoreItems, newItems, key = 'id') => {
   // Order matters. You want to merge the currentStoreItems into the newItems
-  const allData = currentStoreItems.concat(newItems);
+  let allData = [];
+  if (newItems.length === 1 && currentStoreItems.find(o => o.id === newItems[0].id)) {
+    allData = currentStoreItems.map(o => {
+      if (o.id === newItems[0].id) {
+        return {...o, ...newItems[0] };
+      }
+      return o;
+    })
+  } else {
+    allData = currentStoreItems.concat(newItems);
+  }
   let mergeMap = {};
 
   for (let i = 0; i < allData.length; i++) {
