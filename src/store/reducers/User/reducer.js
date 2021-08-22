@@ -5,6 +5,7 @@ import {
   USER_ID_LOCAL_STORAGE_KEY,
   USER_TOKEN_LOCAL_STORAGE_KEY,
   USER_MODE_LOCAL_STORAGE_KEY,
+  getUserModeLocalStorage,
   setUserTokenAndIdLocalStorage,
   deleteUserLocalStorage,
   setUserModeLocalStorage,
@@ -12,8 +13,6 @@ import {
 } from './utils';
 import { handleFilterItems, mergePwas } from '../Pwas/utils';
 
-const userPrefersDark = window?.matchMedia('(prefers-color-scheme: dark)').matches;
-const defaultMode = userPrefersDark ? 'dark' : 'light';
 
 export const DEFAULT_STATE = {
   // Database
@@ -22,7 +21,7 @@ export const DEFAULT_STATE = {
   username: '',
   name: '',
   email: '',
-  setting: { mode: localStorage.getItem(USER_MODE_LOCAL_STORAGE_KEY) || defaultMode },
+  setting: { mode: getUserModeLocalStorage() },
   is_active: false,
   is_superuser: false,
   is_staff: false,
