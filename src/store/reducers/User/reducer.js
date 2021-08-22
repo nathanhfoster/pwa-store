@@ -2,21 +2,23 @@ import * as ActionTypes from './actions/types';
 import * as PwaActionTypes from '../Pwas/actions/types';
 import { toggleBooleanReducer } from 'resurrection';
 import {
-  setUserTokenAndId,
-  removeUserTokenAndId,
+  setUserTokenAndIdLocalStorage,
+  deleteUserLocalStorage,
+  setUserModeLocalStorage,
   USER_ID_LOCAL_STORAGE_KEY,
-  USER_TOKEN_LOCAL_STORAGE_KEY
+  USER_TOKEN_LOCAL_STORAGE_KEY,
+  USER_MODE_LOCAL_STORAGE_KEY
 } from './utils';
 import { handleFilterItems, mergePwas } from '../Pwas/utils';
 
 export const DEFAULT_STATE = {
   // Database
-  id: parseInt(localStorage.getItem(USER_ID_LOCAL_STORAGE_KEY)),
-  token: localStorage.getItem(USER_TOKEN_LOCAL_STORAGE_KEY),
+  id: parseInt(localStorage.getItem(USER_ID_LOCAL_STORAGE_KEY)) || null,
+  token: localStorage.getItem(USER_TOKEN_LOCAL_STORAGE_KEY) || '',
   username: '',
   name: '',
   email: '',
-  setting: { mode: 'light' },
+  setting: { mode: localStorage.getItem(USER_MODE_LOCAL_STORAGE_KEY) || 'light' },
   is_active: false,
   is_superuser: false,
   is_staff: false,
@@ -82,7 +84,16 @@ const User = (state = DEFAULT_STATE, action) => {
         ...state,
         ...payload
       };
-      setUserTokenAndId(nextItem);
+      setUserTokenAndIdLocalStorage(nextItem);
+      setUserModeLocalStorage(nextItem.setting);
+      return nextItem;
+
+    case ActionTypes.USER_SET_SETTING:
+      nextItem = {
+        ...state,
+        setting: { ...state.setting, ...payload }
+      };
+      setUserModeLocalStorage(nextItem.setting);
       return nextItem;
 
     case ActionTypes.USER_SET_PWAS:
@@ -93,11 +104,10 @@ const User = (state = DEFAULT_STATE, action) => {
         pwas: nextItem.items,
         filteredPwas: nextItem.filteredItems
       };
-      setUserTokenAndId(nextItem);
       return nextItem;
 
     case ActionTypes.USER_DELETE:
-      removeUserTokenAndId();
+      deleteUserLocalStorage();
       return {
         ...DEFAULT_STATE
       };

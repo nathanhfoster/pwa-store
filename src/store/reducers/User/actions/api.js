@@ -1,5 +1,5 @@
 import { Axios } from '../../Axios';
-import { ToogleIsLoading, SetUser, SetUserPwas, SetUserError } from './redux';
+import { ToogleIsLoading, SetUser, SetUserPwas, SetUserSetting, SetUserError } from './redux';
 import { PushAlertWithTimeout } from '../../App/actions';
 import { MergeFilterPwas } from '../../Pwas/actions/redux';
 
@@ -109,7 +109,7 @@ export const ChangeMode = (payload) => (dispatch, getState) => {
       }
     })
     .then(({ data }) => {
-      dispatch(SetUser({ setting: data }));
+      dispatch(SetUserSetting(data));
     })
     .catch((e) => {
       console.info('whats up', e);

@@ -18,7 +18,7 @@ const LoginButton = ({ addToHomeScreenPrompt, userIsLoggedIn, DeleteUser, childr
         aria-label='account of current user'
         aria-haspopup='true'
       >
-        <Icon sx={{ animation: 'grow 200ms' }} />
+        <Icon />
       </Base>
       {children}
     </>

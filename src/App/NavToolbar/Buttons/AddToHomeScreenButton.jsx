@@ -20,7 +20,7 @@ const AddToHomeScreenButton = ({ addToHomeScreenPrompt, children }) => {
         aria-haspopup='true'
         onClick={handleInstallToHomeScreen}
       >
-        <SystemUpdateIcon sx={{ animation: 'grow 200ms' }} />
+        <SystemUpdateIcon />
       </Base>
       {children}
     </>
