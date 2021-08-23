@@ -1,8 +1,17 @@
 {
+  "manifest_version": 3,
+  "version": "3.0.0",
+  "version_name": "1.0.0 beta",
   "name": "Pwa Store",
   "short_name": "Pwa Store",
+  "default_locale": "en",
   "description": "Discover the future of progressive web apps",
   "author": "Nathan Foster",
+  "offline_enabled": true,
+  "background": {
+    "persistent": true,
+    "service_worker": "service-worker.js"
+  },
   "keywords": [
     "react",
     "redux",

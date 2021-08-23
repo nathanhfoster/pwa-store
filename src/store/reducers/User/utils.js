@@ -1,3 +1,4 @@
+import { capitalize } from 'utils';
 export const USER_ID_LOCAL_STORAGE_KEY = 'USER_ID_LOCAL_STORAGE_KEY';
 export const USER_TOKEN_LOCAL_STORAGE_KEY = 'USER_TOKEN_LOCAL_STORAGE_KEY';
 export const USER_MODE_LOCAL_STORAGE_KEY = 'USER_MODE_LOCAL_STORAGE_KEY';
@@ -51,8 +52,9 @@ export const mergeManifestWithForm = ({ pwaToUpload: { form } }, manifestUrl = '
     categories = [],
     icons = [],
     description = '',
+    automation = false,
     author = '',
-    background,
+    background = {},
     browser_action,
     browser_specific_settings,
     chrome_settings_overrides,
@@ -61,14 +63,14 @@ export const mergeManifestWithForm = ({ pwaToUpload: { form } }, manifestUrl = '
     content_scripts,
     content_security_policy,
     default_locale,
-    developer,
+    developer = '',
     devtools_page,
     dictionaries,
     externally_connectable,
-    homepage_url,
+    homepage_url = '',
     incognito,
-    manifest_version,
-    offline_enabled,
+    manifest_version = 1,
+    offline_enabled = false,
     omnibox,
     optional_permissions,
     options_page,
@@ -76,16 +78,18 @@ export const mergeManifestWithForm = ({ pwaToUpload: { form } }, manifestUrl = '
     page_action,
     permissions,
     protocol_handlers,
-    short_name,
+    short_name = '',
     sidebar_action,
     storage,
     theme,
     theme_experiment,
     user_scripts,
-    version,
-    version_name,
+    version = 1,
+    version_name = '',
     web_accessible_resources
   } = manifestJson;
+
+  let newName = short_name || name;
 
   if (!Array.isArray(keywords)) {
     keywords = [];

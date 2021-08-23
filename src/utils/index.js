@@ -34,6 +34,8 @@ const getLocalDateTimeNoSeconds = (date, displaySeconds = false) => {
   return displaySeconds ? timeISOString : timeISOString.slice(0, 19);
 };
 
+const capitalize = (s) => `${s[0].toUpperCase()}${s.slice(1).toLowerCase()}`;
+
 const isFunction = (value) => value instanceof Function || typeof value === 'function';
 
 const validUrl = (url) => /^https?:\/\/(.*)/.test(url);
@@ -46,6 +48,7 @@ export {
   stringMatch,
   lazyDelay,
   getLocalDateTimeNoSeconds,
+  capitalize,
   isFunction,
   validUrl,
   validEmail,
