@@ -45,21 +45,21 @@ export const mergeManifestWithForm = ({ pwaToUpload: { form } }, manifestUrl = '
     tags: { options: pwaTags }
   } = form;
 
-  let { name, keywords, tags, icons, description } = manifestJson;
+  let { name, keywords, categories, icons, description } = manifestJson;
 
   if (!Array.isArray(keywords)) {
     keywords = [];
   }
 
-  if (!Array.isArray(tags)) {
-    tags = [];
+  if (!Array.isArray(categories)) {
+    categories = [];
   }
 
   if (!Array.isArray(icons)) {
     icons = [];
   }
 
-  const newOptionsValue = [...keywords, ...tags].reduce((acc, { name }) => {
+  const newOptionsValue = [...keywords, ..categories].reduce((acc, { name }) => {
     if (pwaTags.includes(name)) {
       acc.push(name);
     }
