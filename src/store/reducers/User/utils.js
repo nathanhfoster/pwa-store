@@ -99,9 +99,9 @@ export const mergeManifestWithForm = ({ pwaToUpload: { form } }, manifestUrl = '
     icons = [];
   }
 
-  const newOptionsValue = [...keywords, ...categories].reduce((acc, { name }) => {
-    if (pwaTags.includes(name)) {
-      acc.push(name);
+  const newOptionsValue = [...keywords, ...categories].reduce((acc, tag) => {
+    if (pwaTags.includes(tag)) {
+      acc.push(tag);
     }
     return acc;
   }, []);
@@ -123,7 +123,7 @@ export const mergeManifestWithForm = ({ pwaToUpload: { form } }, manifestUrl = '
   let nextFormState = {
     ...form,
     name: { ...form.name, value: name },
-    slug: { ...form.slug, placeholder: name?.toLowerCase().join('-') },
+    slug: { ...form.slug, placeholder: name?.toLowerCase?.().join('-') },
     description: { ...form.description, value: description },
     tags: { ...form.tags, value: newOptionsValue },
     manifest_url: {
