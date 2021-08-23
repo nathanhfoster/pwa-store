@@ -12,20 +12,20 @@ const LENGTH_OF_SKELETON_ARRAY = { length: 12 };
 
 const Pwa = lazy(() => import('./Pwa'));
 
-const gridItemStyles = {
+const PwasStack = ({ title, subtitle, detailed, pwas, imageSize, flexWrap, isLoading }) => {
+  const gridItemStyles = useMemo(() => ({
   xs: 6,
   sm: 4,
   md: 3,
   lg: 2,
   xl: 1,
-  sx: { m: { xs: 0, sm: 2 } },
+  sx: { m: { xs: flexWrap === 'wrap' ? 0 : 2, sm: 2 } },
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'baseline',
   alignContent: 'flex-start'
-};
+}), [flexWrap]);
 
-const PwasStack = ({ title, subtitle, detailed, pwas, imageSize, flexWrap, isLoading }) => {
   const renderPwas = useMemo(() => {
     if (isLoading) {
       return Array.from(LENGTH_OF_SKELETON_ARRAY, (_, i) => (
