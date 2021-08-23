@@ -45,10 +45,7 @@ const PwaDetail = ({
   const { view_count = 0, launch_count = 0 } = pwa_analytics || {};
   const renderScreenShots = useMemo(
     () =>
-      pwa_screenshots
-        .concat(pwa_screenshots)
-        .concat(pwa_screenshots)
-        .map(({ image_url, caption }) => (
+      pwa_screenshots.map(({ image_url, caption }) => (
           <Grid key={image_url} item xs='auto' mx={4}>
             <img
               src={`${image_url}?w=164&h=164&fit=crop&auto=format`}
@@ -64,10 +61,7 @@ const PwaDetail = ({
 
   const renderRatings = useMemo(
     () =>
-      ratings
-        .concat(ratings)
-        .concat(ratings)
-        .map((rating) => (
+      ratings.map((rating) => (
           <Grid key={rating.created_by} item xs={12}>
             <Rating {...rating} />
           </Grid>
