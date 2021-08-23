@@ -6,12 +6,13 @@
   "keywords": [
     "react",
     "redux",
-    "tree",
     "pwa",
     "store",
     "free",
     "django"
   ],
+  "categories": ["tools", "store", "free", "themed"],
+  "related_applications": [],
   "icons": [
     {
       "src": "assets/android-chrome-144x144.png",
