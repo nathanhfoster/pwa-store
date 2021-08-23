@@ -127,7 +127,7 @@ export const mergeManifestWithForm = ({ pwaToUpload: { form } }, manifestUrl = '
       })[0]?.src) ||
     form.image_url.value;
 
-  newIconUrl = manifestUrl?.replace('manifest.json', newIconUrl) || '';
+  newIconUrl = manifestUrl?.replace('/manifest.json', newIconUrl) || '';
 
   let nextFormState = {
     ...form,

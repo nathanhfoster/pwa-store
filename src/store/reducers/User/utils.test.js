@@ -72,7 +72,7 @@ const generateRandomData = () => {
       disabled: manifestUrl ? true : false
     },
     manifest_json: { ...form.manifest_json, value: manifestJson, disabled: true },
-    image_url: { ...form.image_url, value: manifestUrl?.replace('manifest.json', pwaIconTwo.src) || '' }
+    image_url: { ...form.image_url, value: manifestUrl?.replace('/manifest.json', pwaIconTwo.src) || '' }
   });
 
   return {
