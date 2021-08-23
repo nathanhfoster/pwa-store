@@ -50,7 +50,7 @@ const PwaDetail = ({
           window.open(
             image_url,
             'Image',
-            'height=375,width=375,left=10,top=10,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no,status=yes'
+            'height=auto,width=auto,left=0,top=0,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no,status=yes'
           );
         };
         return (
