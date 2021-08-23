@@ -2,39 +2,35 @@ import { objectToArray, stringMatch } from 'utils';
 
 const getLastModifiedDate = (pwa) => new Date(pwa.updated_at);
 
-const getMostRecent = (currentStoreItems, newItems) => {
-  // If the new pwa item has a higher view count, update the item with the new data
-  if (newItems.pwa_analytics.view_count > currentStoreItems.pwa_analytics.view_count) {
-    return { ...currentStoreItems, ...newItems };
+const handleItemMerge = (currentStoreItem, newItem) => {
+  // When newItem only has partial data merge the new fields with the ones that exits in the currentStoreItem
+  if (!(newItem.pwa_analytics && newItem.updated_at)) {
+    return { ...currentStoreItem, ...newItem };
   }
 
-  const reduxDataLastUpdated = getLastModifiedDate(currentStoreItems);
-  const newDataLastUpdated = getLastModifiedDate(newItems);
+  // If the newItem has a higher view count, update the currentStoreItem with the newItem data
+  if (newItem.pwa_analytics?.view_count > currentStoreItem.pwa_analytics?.view_count) {
+    return { ...currentStoreItem, ...newItem };
+  }
 
+  const reduxDataLastUpdated = getLastModifiedDate(currentStoreItem);
+  const newDataLastUpdated = getLastModifiedDate(newItem);
   const hasValidDates = newDataLastUpdated && reduxDataLastUpdated;
-
   const overWriteWithNewData = hasValidDates && newDataLastUpdated > reduxDataLastUpdated;
 
+  // If the newItem has a higher updated_at date, update the currentStoreItem with the newItem data
   if (overWriteWithNewData) {
-    return { ...currentStoreItems, ...newItems };
+    return { ...currentStoreItem, ...newItem };
   }
 
-  return { ...newItems, ...currentStoreItems };
+  // Else fallback on preserving what exists already in the currentStoreItem
+  return { ...newItem, ...currentStoreItem };
 };
 
 const mergePwas = (currentStoreItems, newItems, key = 'id') => {
-  // Order matters. You want to merge the currentStoreItems into the newItems
-  let allData = [];
-  if (newItems.length === 1 && currentStoreItems.find(o => o.id === newItems[0].id)) {
-    allData = currentStoreItems.map(o => {
-      if (o.id === newItems[0].id) {
-        return {...o, ...newItems[0] };
-      }
-      return o;
-    })
-  } else {
-    allData = currentStoreItems.concat(newItems);
-  }
+  // Order matters. You want the currentStoreItems to always be before the newItems so that the handleItemMerge function works
+  const allData = currentStoreItems.concat(newItems);
+
   let mergeMap = {};
 
   for (let i = 0; i < allData.length; i++) {
@@ -45,7 +41,7 @@ const mergePwas = (currentStoreItems, newItems, key = 'id') => {
       mergeMap[id] = item;
     } else {
       // Merge
-      mergeMap[id] = getMostRecent(mergeMap[id], item);
+      mergeMap[id] = handleItemMerge(mergeMap[id], item);
     }
   }
 
@@ -70,19 +66,7 @@ const handleFilterItems = (items, search) => {
   var cachedItems = [];
 
   const newItems = items.filter((item) => {
-    const {
-      id,
-      name,
-      url,
-      slug,
-      description,
-      views,
-      launches,
-      ratings,
-      organization,
-      tags,
-      updated_at
-    } = item;
+    const { id, name, url, slug, description, views, launches, ratings, organization, tags, updated_at } = item;
 
     if (
       match(name, search) ||

@@ -86,7 +86,7 @@ export const GetUserPwas = () => (dispatch, getState) => {
   return Axios({ token })
     .get(`users/${id}/pwas/`)
     .then(({ data }) => {
-      dispatch(MergeFilterPwas(data));
+      // dispatch(MergeFilterPwas(data));
       return dispatch(SetUserPwas(data));
     })
     .catch((e) => {

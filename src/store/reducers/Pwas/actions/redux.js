@@ -21,4 +21,4 @@ export const FilterPwas = (search) => MergeFilterPwas([], search);
 
 export const ResetPwasFilter = () => FilterPwas('');
 
-export const UpdateReduxPwa = (pwa) => MergeFilterPwas([pwa]);
+export const UpdateReduxPwa = (pwaIdWithRatings) => MergeFilterPwas([pwaIdWithRatings]);
