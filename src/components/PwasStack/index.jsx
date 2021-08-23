@@ -18,7 +18,7 @@ const gridItemStyles = {
   md: 3,
   lg: 2,
   xl: 1,
-  m: 2,
+  sx: { m: { xs: 0, sm: 2 } },
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'baseline',
