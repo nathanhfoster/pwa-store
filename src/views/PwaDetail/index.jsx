@@ -45,7 +45,15 @@ const PwaDetail = ({
   const { view_count = 0, launch_count = 0 } = pwa_analytics || {};
   const renderScreenShots = useMemo(
     () =>
-      pwa_screenshots.map(({ image_url, caption }) => (
+      pwa_screenshots.map(({ image_url, caption }) => {
+        const handleOnImageClick = () => {
+          window.open(
+            image_url,
+            'Image',
+            'height=375,width=375,left=10,top=10,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no,status=yes'
+          );
+        };
+        return (
           <Grid key={image_url} item xs='auto' mx={4}>
             <img
               src={`${image_url}?w=164&h=164&fit=crop&auto=format`}
@@ -53,19 +61,21 @@ const PwaDetail = ({
               alt={name}
               loading='lazy'
               height={375}
+              onClick={handleOnImageClick}
             />
           </Grid>
-        )),
+        );
+      }),
     [pwa_screenshots]
   );
 
   const renderRatings = useMemo(
     () =>
       ratings.map((rating) => (
-          <Grid key={rating.created_by} item xs={12}>
-            <Rating {...rating} />
-          </Grid>
-        )),
+        <Grid key={rating.created_by} item xs={12}>
+          <Rating {...rating} />
+        </Grid>
+      )),
     [ratings]
   );
 
