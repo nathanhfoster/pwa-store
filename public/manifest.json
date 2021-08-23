@@ -11,7 +11,13 @@
     "free",
     "django"
   ],
-  "categories": ["tools", "store", "free", "themed"],
+  "categories": [
+    "tools",
+    "store",
+    "free",
+    "themed",
+    "offline"
+  ],
   "related_applications": [],
   "icons": [
     {

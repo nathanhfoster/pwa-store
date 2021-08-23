@@ -45,7 +45,47 @@ export const mergeManifestWithForm = ({ pwaToUpload: { form } }, manifestUrl = '
     tags: { options: pwaTags }
   } = form;
 
-  let { name, keywords, categories, icons, description } = manifestJson;
+  let {
+    name = '',
+    keywords = [],
+    categories = [],
+    icons = [],
+    description = '',
+    author = '',
+    background,
+    browser_action,
+    browser_specific_settings,
+    chrome_settings_overrides,
+    chrome_url_overrides,
+    commands,
+    content_scripts,
+    content_security_policy,
+    default_locale,
+    developer,
+    devtools_page,
+    dictionaries,
+    externally_connectable,
+    homepage_url,
+    incognito,
+    manifest_version,
+    offline_enabled,
+    omnibox,
+    optional_permissions,
+    options_page,
+    options_ui,
+    page_action,
+    permissions,
+    protocol_handlers,
+    short_name,
+    sidebar_action,
+    storage,
+    theme,
+    theme_experiment,
+    user_scripts,
+    version,
+    version_name,
+    web_accessible_resources
+  } = manifestJson;
 
   if (!Array.isArray(keywords)) {
     keywords = [];
@@ -59,7 +99,7 @@ export const mergeManifestWithForm = ({ pwaToUpload: { form } }, manifestUrl = '
     icons = [];
   }
 
-  const newOptionsValue = [...keywords, ..categories].reduce((acc, { name }) => {
+  const newOptionsValue = [...keywords, ...categories].reduce((acc, { name }) => {
     if (pwaTags.includes(name)) {
       acc.push(name);
     }
