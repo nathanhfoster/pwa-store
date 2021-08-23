@@ -16,7 +16,7 @@ const FileUploadContainer = forwardRef((props, ref) => {
       props={restOfProps}
       initializer={getInitialState}
     >
-      <FileUpload ref={ref}>{children}</FileUpload>
+      <FileUpload forwardedRef={ref}>{children}</FileUpload>
     </ContextProvider>
   );
 });

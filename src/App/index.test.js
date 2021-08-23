@@ -1,8 +1,28 @@
-import { render, screen } from '@testing-library/react';
-import App from './App/App';
+import React, { Suspense } from 'react';
+import { RootReducer } from 'store';
+import { ContextProvider } from 'resurrection';
+import 'styles/index.css';
+import { StyledEngineProvider } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { BrowserRouter } from 'react-router-dom';
+import { LoadingScreen } from 'components';
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+import { render, screen } from '@testing-library/react';
+import App from '.';
+
+test('renders learn react link', async () => {
+  render(
+    <StyledEngineProvider injectFirst>
+      <CssBaseline />
+      <ContextProvider name='App' reducers={RootReducer}>
+        <Suspense fallback={<LoadingScreen />}>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </Suspense>
+      </ContextProvider>
+    </StyledEngineProvider>
+  );
+  const portalElement = await screen.findByTestId('portal-root');
+  expect(portalElement).toBeInTheDocument();
 });

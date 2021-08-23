@@ -1,15 +1,15 @@
-import React, { useEffect, lazy } from 'react';
+import React, { useCallback, useEffect, lazy } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'resurrection';
 import AppBar from '@material-ui/core/AppBar';
 import Box from '@material-ui/core/Box';
 import { ThemeProvider, styled } from '@material-ui/core/styles';
 import { SetAddToHomeScreenPrompt } from 'store/reducers/App/actions';
-import { GetUserSettings } from 'store/reducers/User/actions';
+import { GetUserSettings, SetUserIsOnline } from 'store/reducers/User/actions';
 import { GetPwas, GetPwaTags } from 'store/reducers/Pwas/actions/api';
 import useAddToHomescreenPrompt from 'hooks/useAddToHomescreenPrompt';
 import useWindow from 'hooks/useWindow';
-
+import useOnlineStatus from 'hooks/useOnlineStatus';
 import useTheme from './useTheme';
 import NavToolbar from './NavToolbar';
 import AppRouter from 'views';
@@ -26,9 +26,11 @@ const Container = styled(Box)((props) => ({
   color: props.theme.palette.text.primary
 }));
 
-const App = ({ GetUserSettings, GetPwas, SetAddToHomeScreenPrompt, GetPwaTags, User }) => {
+const App = ({ GetUserSettings, SetUserIsOnline, GetPwas, SetAddToHomeScreenPrompt, GetPwaTags, User }) => {
   const [prompt] = useAddToHomescreenPrompt();
   const appTheme = useTheme(User.setting);
+
+  useOnlineStatus(SetUserIsOnline);
   useWindow();
 
   useEffect(() => {
@@ -43,7 +45,7 @@ const App = ({ GetUserSettings, GetPwas, SetAddToHomeScreenPrompt, GetPwaTags, U
 
   return (
     <ThemeProvider theme={appTheme}>
-      <div id='portal-root' />
+      <div id='portal-root' data-testid='portal-root' />
       <Alerts />
       <Container>
         <AppBar
@@ -84,6 +86,6 @@ App.propTypes = {
 
 const mapStateToProps = ({ User }) => ({ User });
 
-const mapDispatchToProps = { GetUserSettings, SetAddToHomeScreenPrompt, GetPwas, GetPwaTags };
+const mapDispatchToProps = { GetUserSettings, SetUserIsOnline, SetAddToHomeScreenPrompt, GetPwas, GetPwaTags };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

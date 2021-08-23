@@ -1,12 +1,12 @@
-import React, { useRef, useCallback, forwardRef } from 'react';
+import React, { useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
 import { SetInDropZone as SetInDropZoneAction, SetValidatedFiles as SetValidatedFilesAction } from '../state/actions';
 import FileImages from './FileImages';
 import DefaultLabel from './DefaultLabel';
 import { getStylesFromProps, LIGHT_GREY, DROP_ZONE_MIN_HEIGHT, DROP_ZONE_MAX_HEIGHT, preventDefaults } from '../utils';
-import connect from '../state/connect';
+import { connect } from 'resurrection';
 import { childrenPropTypes } from '../state/propTypes';
 
 const useStyles = makeStyles({
@@ -55,8 +55,9 @@ const useStyles = makeStyles({
     })
 });
 
-const FileUpload = forwardRef((props, ref) => {
+const FileUpload = (props) => {
   const {
+    forwardedRef: ref,
     showDefaultLabel,
     children,
     accept,
@@ -149,7 +150,7 @@ const FileUpload = forwardRef((props, ref) => {
       </Button>
     </div>
   );
-});
+};
 
 FileUpload.propTypes = {
   forwardedRef: PropTypes.oneOfType([PropTypes.func, PropTypes.shape({ current: PropTypes.instanceOf(Element) })]),

@@ -32,3 +32,5 @@ export const SetUserSetting = (payload) => ({ type: ActionTypes.USER_SET_SETTING
 export const SetUserPwaForm = (name, value) => ({ type: ActionTypes.USER_SET_PWA_FORM, id: name, payload: value });
 
 export const SetPwaManifest = (url, payload) => ({ type: ActionTypes.USER_SET_PWA_FORM_MANIFEST, id: url, payload });
+
+export const SetUserIsOnline = (payload) => ({ type: ActionTypes.USER_SET_IS_ONLINE, payload });

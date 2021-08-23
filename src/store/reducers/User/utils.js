@@ -1,4 +1,4 @@
-import { capitalize } from 'utils';
+import { capitalize, removeArrayDuplicates } from 'utils';
 export const USER_ID_LOCAL_STORAGE_KEY = 'USER_ID_LOCAL_STORAGE_KEY';
 export const USER_TOKEN_LOCAL_STORAGE_KEY = 'USER_TOKEN_LOCAL_STORAGE_KEY';
 export const USER_MODE_LOCAL_STORAGE_KEY = 'USER_MODE_LOCAL_STORAGE_KEY';
@@ -11,7 +11,7 @@ export const getUserTokenAndIdLocalStorage = () => {
 };
 
 export const getUserModeLocalStorage = () => {
-  const userPrefersDark = window?.matchMedia('(prefers-color-scheme: dark)').matches;
+  const userPrefersDark = window?.matchMedia?.('(prefers-color-scheme: dark)').matches;
   const defaultMode = userPrefersDark ? 'dark' : 'light';
   const localMode = localStorage.getItem(USER_MODE_LOCAL_STORAGE_KEY);
   return localMode || defaultMode;
@@ -39,8 +39,13 @@ export const MANIFEST_TO_FORM_MAP = {
   description: 'description'
 };
 
-export const mergeManifestWithForm = ({ pwaToUpload: { form } }, manifestUrl = '', manifestJson) => {
-  console.log(form, manifestUrl, manifestJson);
+export const getManifestIconWeight = (icon) => {
+  const [width, height] = icon.sizes.split('x');
+
+  return parseInt(width) + parseInt(height);
+};
+
+export const mergeManifestWithForm = ({ pwaToUpload: { form } }, manifestUrl = '', manifestJson = {}) => {
   const {
     url,
     tags: { options: pwaTags }
@@ -103,35 +108,35 @@ export const mergeManifestWithForm = ({ pwaToUpload: { form } }, manifestUrl = '
     icons = [];
   }
 
-  const newOptionsValue = [...keywords, ...categories].reduce((acc, tag) => {
-    if (pwaTags.includes(tag)) {
-      acc.push(tag);
+  const newOptionsValue = removeArrayDuplicates([...keywords, ...categories]).reduce((acc, tag) => {
+    const tagName = capitalize(tag);
+
+    if (pwaTags.includes(tagName)) {
+      acc.push(tagName);
     }
+
     return acc;
   }, []);
 
   let newIconUrl =
-    icons.length > 0
-      ? icons.sort((a, b) => {
-          const [aWidth, aHeight] = a.sizes.split('x');
-          const [bWidth, bHeight] = b.sizes.split('x');
-
-          const aWeight = parseInt(aWidth) + parseInt(aHeight);
-          const bWeight = parseInt(bWidth) + parseInt(bHeight);
-          return bWeight - aWeight;
-        })[0].src
-      : form.image_url.value;
+    (icons.length > 0 &&
+      icons.sort((a, b) => {
+        const aWeight = getManifestIconWeight(a);
+        const bWeight = getManifestIconWeight(b);
+        return bWeight - aWeight;
+      })[0]?.src) ||
+    form.image_url.value;
 
   newIconUrl = manifestUrl?.replace('manifest.json', newIconUrl) || '';
 
   let nextFormState = {
     ...form,
-    name: { ...form.name, value: name },
-    slug: { ...form.slug, placeholder: name?.toLowerCase?.().join('-') },
+    name: { ...form.name, value: newName },
+    slug: { ...form.slug, placeholder: newName?.toLowerCase().split(' ').join('-') },
     description: { ...form.description, value: description },
     tags: { ...form.tags, value: newOptionsValue },
     manifest_url: {
-      ...form.manifest_json,
+      ...form.manifest_url,
       placeholder: form.url.value?.replace(/\/(?=[^\/]*$)/, '/manifest.json') || 'https://pwa.com/manifest.json',
       value: manifestUrl,
       disabled: manifestUrl ? true : false

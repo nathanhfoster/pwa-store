@@ -27,6 +27,7 @@ export const DEFAULT_STATE = {
   last_login: '',
   date_joined: '',
   // Store
+  isOnline: Boolean(typeof window?.navigator?.onLine === 'boolean' ? window?.navigator?.onLine : true),
   isLoading: false,
   pwaToUpload: {
     form: {
@@ -85,6 +86,13 @@ const User = (state = DEFAULT_STATE, action) => {
   let nextItem, nextItems;
 
   switch (type) {
+    case ActionTypes.USER_SET_IS_ONLINE:
+      return payload !== state.isOnline
+        ? {
+            ...state,
+            isOnline: toggleBooleanReducer(state.isOnline, payload)
+          }
+        : state;
     case ActionTypes.USER_TOGGLE_IS_LOADING:
       return payload !== state.isLoading
         ? {

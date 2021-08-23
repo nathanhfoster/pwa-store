@@ -1,6 +1,6 @@
-import * as RouteMap from './RouteMap';
+export * as RouteMap from './RouteMap';
 
-const objectToArray = (
+export const objectToArray = (
   objectOfObjects,
   callback = (acc, e) => {
     acc.push(e);
@@ -9,9 +9,9 @@ const objectToArray = (
   initialValue = []
 ) => Object.values(objectOfObjects).reduce(callback, initialValue);
 
-const escapeRegExp = (string) => string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+export const escapeRegExp = (string) => string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 
-const stringMatch = (s1, s2, caseSensitive = false) => {
+export const stringMatch = (s1, s2, caseSensitive = false) => {
   s1 = s1 || '';
   s2 = s2 || '';
   const flags = caseSensitive ? 'g' : 'gi';
@@ -22,9 +22,10 @@ const stringMatch = (s1, s2, caseSensitive = false) => {
   return s1.match(regexMatch);
 };
 
-const lazyDelay = (promiseResult, time) => new Promise((resolve) => setTimeout(() => resolve(promiseResult), time));
+export const lazyDelay = (promiseResult, time) =>
+  new Promise((resolve) => setTimeout(() => resolve(promiseResult), time));
 
-const getLocalDateTimeNoSeconds = (date, displaySeconds = false) => {
+export const getLocalDateTimeNoSeconds = (date, displaySeconds = false) => {
   const newDate = new Date(date);
   const time = newDate.getTime();
   const timeZoneOffset = new Date().getTimezoneOffset() * -60 * 1000;
@@ -34,23 +35,24 @@ const getLocalDateTimeNoSeconds = (date, displaySeconds = false) => {
   return displaySeconds ? timeISOString : timeISOString.slice(0, 19);
 };
 
-const capitalize = (s) => `${s[0].toUpperCase()}${s.slice(1).toLowerCase()}`;
+export const capitalize = (s) => `${s[0].toUpperCase()}${s.slice(1).toLowerCase()}`;
 
-const isFunction = (value) => value instanceof Function || typeof value === 'function';
+export const isFunction = (value) => value instanceof Function || typeof value === 'function';
 
-const validUrl = (url) => /^https?:\/\/(.*)/.test(url);
-const validEmail = (email) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
-const noSpecialChars = (s) => !/[^a-zA-Z0-9\s]/.test(s);
+export const validUrl = (url) => /^https?:\/\/(.*)/.test(url);
+export const validEmail = (email) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
+export const noSpecialChars = (s) => !/[^a-zA-Z0-9\s]/.test(s);
 
-export {
-  RouteMap,
-  objectToArray,
-  stringMatch,
-  lazyDelay,
-  getLocalDateTimeNoSeconds,
-  capitalize,
-  isFunction,
-  validUrl,
-  validEmail,
-  noSpecialChars
-};
+export const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+
+export const getRandomFloat = (min, max, fix = 3) => (Math.random() * (min - max) + max).toFixedNumber(fix);
+
+export const deepClone = (object) => JSON.parse(JSON.stringify(object));
+
+export const isOnline = (last_login) => new Date() - new Date(last_login) <= 1000 * 60 * 5;
+
+export const findMaxInt = (arrayOfObjs, prop) => Math.max(...arrayOfObjs.map((e) => e[prop]));
+
+export const sortedMap = (map) => new Map([...map.entries()].sort().sort((a, b) => b[1] - a[1]));
+
+export const removeArrayDuplicates = (array) => [...new Set(array)];
