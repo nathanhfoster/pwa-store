@@ -2,26 +2,13 @@
 import { deepClone, capitalize } from 'utils';
 import { mergeManifestWithForm } from './utils';
 import { DEFAULT_STATE } from './reducer';
-import { date, commerce, company, image, internet, datatype, lorem, random } from 'faker';
+import { commerce, company, image, internet, datatype, random } from 'faker';
 const { productName, productDescription } = commerce;
 const { catchPhraseDescriptor } = company;
 const { imageUrl } = image;
 const { url } = internet;
-const { datetime, number, string, json, array } = datatype;
-const {
-  float,
-  arrayElement,
-  arrayElements,
-  objectElement,
-  uuid,
-  boolean,
-  word,
-  words,
-  locale,
-  alpha,
-  alphaNumeric,
-  hexaDecimal
-} = random;
+const { number } = datatype;
+const { word, words } = random;
 
 const generateRandomData = () => {
   const pwaUrl = url();
@@ -110,7 +97,7 @@ describe('User reducer mergeManifestWithForm util', () => {
       }
     });
     const { form } = newState.pwaToUpload;
-    const manifestUrl = 'https://pwa.com/manifest.json';
+    const manifestUrl = null;
     const manifestJson = {
       manifest_version: 3,
       version: '3.0.0',
@@ -155,10 +142,9 @@ describe('User reducer mergeManifestWithForm util', () => {
         ...form.manifest_url,
         placeholder: `https://pwa.com/manifest.json`,
         value: manifestUrl,
-        disabled: true
+        disabled: false
       },
-      manifest_json: { ...form.manifest_json, value: manifestJson, disabled: true },
-      image_url: { ...form.image_url, value: 'https://pwa.com/assets/icon.png' }
+      manifest_json: { ...form.manifest_json, value: manifestJson, disabled: true }
     };
     expect(result).toMatchObject(expected);
   });
