@@ -231,7 +231,7 @@ const useLighthouse = (url, debounce = 400) => {
         })
         .catch((e) => {
           const alertPayload = {
-            title: 'App update',
+            title: 'Lighthouse error',
             message: e.message,
             props: { severity: 'error' }
           };
