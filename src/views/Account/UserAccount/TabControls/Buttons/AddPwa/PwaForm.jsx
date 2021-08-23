@@ -9,9 +9,9 @@ const PwaForm = ({ form, shouldRenderAllFields, lightHouseIsLoading }) => {
 
     switch (type) {
       case 'select':
-        return <SelectField key={fieldKey} name={fieldKey} disabled={lightHouseIsLoading} />;
+        return <SelectField key={fieldKey} name={fieldKey} lightHouseIsLoading={lightHouseIsLoading} />;
       default:
-        return <TextField key={fieldKey} name={fieldKey} disabled={lightHouseIsLoading} />;
+        return <TextField key={fieldKey} name={fieldKey} lightHouseIsLoading={lightHouseIsLoading} />;
     }
   });
 };

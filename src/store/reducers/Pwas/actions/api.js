@@ -16,7 +16,8 @@ export const GetPwas = (pagination) => (dispatch) => {
     .get(!pagination ? 'pwas' : undefined)
     .then(({ data }) => {
       dispatch(ToogleIsLoading(false));
-      return dispatch(SetPwas(data));
+      dispatch(SetPwas(data));
+      return data;
     })
     .catch((e) => {
       dispatch(ToogleIsLoading(false));
@@ -30,7 +31,8 @@ export const GetPwaTags = () => (dispatch) => {
     .get('tags')
     .then(({ data }) => {
       dispatch(ToogleIsLoading(false));
-      return dispatch(SetPwaTags(data));
+      dispatch(SetPwaTags(data));
+      return data;
     })
     .catch((e) => {
       dispatch(ToogleIsLoading(false));
@@ -110,6 +112,7 @@ export const UpdateAnalytics = (payload) => (dispatch) =>
     .patch('pwas/analytics-counter/', payload)
     .then(({ data }) => {
       dispatch(UpdateReduxPwa(data));
+      return data;
     })
     .catch((e) => {
       console.error(e);
@@ -126,6 +129,7 @@ export const PostPwa = (payload) => (dispatch) => {
     })
     .then(({ data }) => {
       dispatch(MergeFilterPwas([data]));
+      return data;
     })
     .catch((e) => {
       dispatch(ToogleIsLoading(false));
@@ -145,6 +149,7 @@ export const PostRating = (payload) => (dispatch, getState) =>
       const obj = items.concat(filteredItems).find((i) => i.id === payload.pwa_id);
       const newRatings = [{ ...data }, ...obj.ratings];
       dispatch(UpdateReduxPwa({ id: payload.pwa_id, ratings: newRatings }));
+      return data;
     })
     .catch((e) => {
       console.log('error', e);

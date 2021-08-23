@@ -3,7 +3,7 @@ import * as UserActionTypes from '../User/actions/types';
 import { mergePwas, handleFilterItems } from './utils';
 import { toggleBooleanReducer } from 'resurrection';
 
-export const DEFAULT_STATE = {
+export const DEFAULT_STATE = Object.freeze({
   search: '',
   isLoading: false,
   count: null,
@@ -29,7 +29,7 @@ export const DEFAULT_STATE = {
     { name: 'Productivity' },
     { name: 'Offline' }
   ]
-};
+});
 
 const Pwas = (state = DEFAULT_STATE, action) => {
   const { type, search, payload } = action;

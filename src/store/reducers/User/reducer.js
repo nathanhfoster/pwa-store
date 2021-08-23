@@ -13,7 +13,7 @@ import { handleFilterItems, mergePwas } from '../Pwas/utils';
 
 const [token, id] = getUserTokenAndIdLocalStorage();
 
-export const DEFAULT_STATE = {
+export const DEFAULT_STATE = Object.freeze({
   // Database
   token,
   id,
@@ -79,7 +79,7 @@ export const DEFAULT_STATE = {
       validateStatus: ''
     }
   }
-};
+});
 
 const User = (state = DEFAULT_STATE, action) => {
   const { type, id, search, payload } = action;
@@ -141,6 +141,7 @@ const User = (state = DEFAULT_STATE, action) => {
       };
 
     case ActionTypes.USER_SET_PWA_FORM:
+      console.log(action);
       return {
         ...state,
         pwaToUpload: {
@@ -150,6 +151,12 @@ const User = (state = DEFAULT_STATE, action) => {
             [id]: { ...state.pwaToUpload.form[id], value: payload }
           }
         }
+      };
+
+    case ActionTypes.USER_RESET_USER_PWA_FORM:
+      return {
+        ...state,
+        pwaToUpload: DEFAULT_STATE.pwaToUpload
       };
 
     case ActionTypes.USER_SET_PWA_FORM_MANIFEST:

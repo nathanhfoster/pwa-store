@@ -1,7 +1,8 @@
 import { Axios } from '../../Axios';
-import { ToogleIsLoading, SetUser, SetUserPwas, SetUserSetting, SetUserError } from './redux';
+import { ToogleIsLoading, SetUser, SetUserPwas, SetUserSetting, SetUserError, ResetUserPwaForm } from './redux';
 import { PushAlertWithTimeout } from '../../App/actions';
 import { MergeFilterPwas } from '../../Pwas/actions/redux';
+import { PostPwa } from '../../Pwas/actions/api';
 
 export const UserLogin = (payload) => (dispatch) => {
   dispatch(ToogleIsLoading(true));
@@ -110,6 +111,18 @@ export const ChangeMode = (payload) => (dispatch, getState) => {
     })
     .then(({ data }) => {
       dispatch(SetUserSetting(data));
+    })
+    .catch((e) => {
+      console.info('whats up', e);
+    });
+};
+
+export const PostUserPwa = () => async (dispatch, getState) => {
+  const payload = {};
+  return await PostPwa(payload)
+    .then((data) => {
+      dispatch(ResetUserPwaForm());
+      return data;
     })
     .catch((e) => {
       console.info('whats up', e);

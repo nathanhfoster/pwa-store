@@ -18,11 +18,23 @@ const StyledTextArea = styled(MaterialTextArea)((props) => ({
   color: 'inherit'
 }));
 
-const TextField = ({ type, name, autoFocus, placeholder, value, disabled, label, required, SetUserPwaForm }) => {
+const TextField = ({
+  type,
+  name,
+  autoFocus,
+  placeholder,
+  value,
+  disabled,
+  label,
+  required,
+  lightHouseIsLoading,
+  SetUserPwaForm
+}) => {
   let FieldComponent;
   let fieldValue = value;
 
   const handleFormChange = useCallback(({ target: { name, value } }) => {
+    console.log(name, value)
     SetUserPwaForm(name, value);
   }, []);
 
@@ -44,14 +56,14 @@ const TextField = ({ type, name, autoFocus, placeholder, value, disabled, label,
         label={label}
         name={name}
         required={required}
-        disabled={disabled}
+        disabled={disabled || lightHouseIsLoading}
         value={fieldValue}
         placeholder={placeholder}
         onChange={handleFormChange}
         margin='none'
         fullWidth
       />
-      {disabled && <LinearProgress />}
+      {lightHouseIsLoading && name === 'url' && <LinearProgress />}
     </FormControl>
   );
 };

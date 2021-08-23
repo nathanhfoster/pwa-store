@@ -23,7 +23,7 @@ const getStyles = (name, array, theme) => ({
   fontWeight: array.indexOf(name) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium
 });
 
-const SelectField = ({ name, label, options, value, disabled, required, SetUserPwaForm }) => {
+const SelectField = ({ name, label, options, value, disabled, required, lightHouseIsLoading, SetUserPwaForm }) => {
   const theme = useTheme();
 
   const handleFormChange = useCallback(({ target: { name, value } }) => {
@@ -48,7 +48,7 @@ const SelectField = ({ name, label, options, value, disabled, required, SetUserP
         onChange={handleFormChange}
         input={<OutlinedInput id={name} label={label} name={name} required={required} fullWidth />}
         MenuProps={MenuProps}
-        disabled={disabled}
+        disabled={disabled || lightHouseIsLoading}
       >
         {options.map(({ name }) => (
           <MenuItem key={name} value={name} style={getStyles(name, value, theme)}>

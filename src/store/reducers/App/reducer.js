@@ -1,13 +1,13 @@
 import * as ActionTypes from './actions/types';
 import { toggleBooleanReducer } from 'resurrection';
 
-export const DEFAULT_STATE = {
+export const DEFAULT_STATE = Object.freeze({
   version: '1.0',
   navBarIsOpen: false,
   serviceWorkerRegistration: null,
   addToHomeScreenPrompt: null,
   alerts: []
-};
+});
 
 const App = (state = DEFAULT_STATE, action) => {
   const { type, payload } = action;
