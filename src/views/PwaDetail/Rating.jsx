@@ -40,7 +40,7 @@ const Rating = ({ created_by, created_by_name, updated_at, rating, comment }) =>
       <Paper sx={{ my: 1, mx: 'auto', p: 2 }}>
         <Grid container spacing={2}>
           <Grid item xs={2} md={1}>
-            <Avatar>{created_by.name.charAt(0).toUpperCase()}</Avatar>
+            <Avatar title={created_by.name}>{created_by.name.charAt(0).toUpperCase()}</Avatar>
           </Grid>
           <Grid container item zeroMinWidth>
             <Grid item xs={12}>
