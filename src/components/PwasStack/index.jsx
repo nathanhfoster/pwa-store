@@ -20,7 +20,7 @@ const PwasStack = ({ title, subtitle, detailed, pwas, imageSize, flexWrap, isLoa
       md: 3,
       lg: 2,
       xl: 1,
-      sx: { m: { xs: isDetailedView ? 0 : 1, sm: 2 } },
+      sx: { m: { xs: isDetailedView ? 0 : 2, sm: 2 } },
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'baseline',
