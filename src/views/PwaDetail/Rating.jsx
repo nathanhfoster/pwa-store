@@ -1,4 +1,5 @@
 import React, { useState, useMemo, memo } from 'react';
+import { PwaRatingType } from 'store/reducers/Pwas/types';
 import { styled } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
@@ -26,7 +27,7 @@ const LaunchButton = styled(Button)({
   borderRadius: '1rem'
 });
 
-const Rating = ({ created_by, created_by_name, updated_at, value, comment }) => {
+const Rating = ({ created_by, created_by_name, updated_at, rating, comment }) => {
   const dispatch = useDispatch();
   const [showFullReview, setShowFullReview] = useState(false);
 
@@ -39,7 +40,7 @@ const Rating = ({ created_by, created_by_name, updated_at, value, comment }) => 
       <Paper sx={{ my: 1, mx: 'auto', p: 2 }}>
         <Grid container spacing={2}>
           <Grid item xs={2} md={1}>
-            <Avatar>P</Avatar>
+            <Avatar>{created_by.name.charAt(0).toUpperCase()}</Avatar>
           </Grid>
           <Grid container item zeroMinWidth>
             <Grid item xs={12}>
@@ -47,7 +48,7 @@ const Rating = ({ created_by, created_by_name, updated_at, value, comment }) => 
                 <Typography variant='h6'>{created_by.name}</Typography>
               </Grid>
               <Stack direction='row' spacing={0.5} alignContent='center'>
-                <StarRating value={value} />
+                <StarRating value={rating} />
                 <DateTime readOnly id='rating-time' name='rating-time' value={updated_at} />
               </Stack>
               <Grid item xs={12}>
@@ -60,5 +61,7 @@ const Rating = ({ created_by, created_by_name, updated_at, value, comment }) => 
     </Box>
   );
 };
+
+Rating.propTypes = PwaRatingType;
 
 export default memo(Rating);
