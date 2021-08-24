@@ -11,6 +11,14 @@ export const PwaScreenshotsType = { id: PropTypes.number, image_url: PropTypes.s
 
 export const PwaOrganizationType = { id: PropTypes.number, name: PropTypes.string, image_url: PropTypes.string };
 
+export const PwaRatingType = {
+  id: PropTypes.number,
+  created_by: PropTypes.shape({ id: PropTypes.number, name: PropTypes.string }),
+  rating: PropTypes.oneOf([0, 1, 2, 3, 4, 5]),
+  comment: PropTypes.string,
+  updated_at: PropTypes.string
+};
+
 export const PwaType = {
   id: PropTypes.number,
   archived: PropTypes.bool,
@@ -26,6 +34,7 @@ export const PwaType = {
   tags: PropTypes.arrayOf(PropTypes.shape(PwaTagType)),
   image_url: PropTypes.string,
   description: PropTypes.string,
+  ratings: PropTypes.arrayOf(PropTypes.shape(PwaRatingType)),
   published: PropTypes.bool,
   pwa_analytics: PropTypes.shape(PwaAnalyticsType),
   pwa_screenshots: PropTypes.arrayOf(PropTypes.shape(PwaScreenshotsType))

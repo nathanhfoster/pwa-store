@@ -56,8 +56,8 @@ const PwaDetail = ({
         return (
           <Grid key={image_url} item xs='auto' mx={4}>
             <img
-              src={`${image_url}?w=164&h=164&fit=crop&auto=format`}
-              srcSet={`${image_url}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+              src={image_url}
+              srcSet={image_url}
               alt={name}
               loading='lazy'
               height={375}

@@ -104,7 +104,7 @@ export const ChangeMode = (payload) => (dispatch, getState) => {
   }
 
   return Axios({ token })
-    .patch(`auth/update-settings/${setting.id}`, payload, {
+    .patch(`auth/update-settings/${setting.id}/`, payload, {
       headers: {
         'Content-Type': 'application/json'
       }

@@ -69,8 +69,8 @@ const AddPwa = ({ userId, urlValue, imageUrlValue }) => {
           {imageUrlValue && (
             <img
               alt='Pwa Icon'
-              src={`${imageUrlValue}?w=164&h=164&fit=crop&auto=format`}
-              srcSet={`${imageUrlValue}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+              src={imageUrlValue}
+              srcSet={imageUrlValue}
               loading='lazy'
               height={375}
             />

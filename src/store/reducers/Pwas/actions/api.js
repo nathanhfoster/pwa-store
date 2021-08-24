@@ -137,9 +137,10 @@ export const PostPwa = (payload) => (dispatch) => {
     });
 };
 
-export const PostRating = (payload) => (dispatch, getState) =>
-  Axios()
-    .post('pwas/post-rating/', payload, {
+export const PostRating = (payload) => (dispatch, getState) => {
+  const jsonPayload = JSON.stringify(payload);
+  return Axios()
+    .post('pwas/post-rating/', jsonPayload, {
       headers: {
         'Content-Type': 'application/json'
       }
@@ -154,3 +155,24 @@ export const PostRating = (payload) => (dispatch, getState) =>
     .catch((e) => {
       console.log('error', e);
     });
+};
+
+export const UpdateRating = (ratingId, payload) => (dispatch, getState) => {
+  const jsonPayload = JSON.stringify(payload);
+  return Axios()
+    .patch(`pwas/${ratingId}/patch-rating/`, jsonPayload, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(({ data }) => {
+      const { items, filteredItems } = getState().Pwas;
+      const obj = items.concat(filteredItems).find((i) => i.id === payload.pwa_id);
+      const newRatings = [{ ...data }, ...obj.ratings];
+      dispatch(UpdateReduxPwa({ id: payload.pwa_id, ratings: newRatings }));
+      return data;
+    })
+    .catch((e) => {
+      console.log('error', e);
+    });
+};

@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { styled } from '@material-ui/core/styles';
-import { TextareaAutosize, Stack, Box, Button, Grid, Paper } from '@material-ui/core';
+import { TextareaAutosize, Box, Button, Grid, Paper } from '@material-ui/core';
 import StarPicker from 'components/StarPicker';
-import { useDispatch } from 'resurrection';
-import { PostRating } from '../../store/reducers/Pwas/actions/api';
+import DateTime from 'components/DateTime';
+import Avatar from '@material-ui/core/Avatar';
+import { PostRating, UpdateRating } from '../../store/reducers/Pwas/actions/api';
+import connect from 'resurrection';
 
 const TextArea = styled(TextareaAutosize)((props) => ({
   minHeight: 56,
@@ -18,40 +20,75 @@ const TextArea = styled(TextareaAutosize)((props) => ({
   color: props.theme.palette.text.primary
 }));
 
-const RatingForm = ({ pwa_id }) => {
-  const dispatch = useDispatch();
+const RatingForm = ({ pwa_id, shouldRender, ratingOwnedByUser, UpdateRating, PostRating }) => {
   const [rating, updateRating] = useState(0);
   const [comment, updateComment] = useState('');
 
+  useEffect(() => {
+    if (ratingOwnedByUser) {
+      updateRating(ratingOwnedByUser.rating);
+      updateComment(ratingOwnedByUser.comment);
+    }
+  }, [ratingOwnedByUser]);
+
+  if (!shouldRender) {
+    return null;
+  }
+
   const onSubmit = (e) => {
     e.preventDefault();
-    dispatch(PostRating({ pwa_id, rating, comment }));
-    updateRating(0);
-    updateComment('');
+    const payload = { pwa_id, rating, comment };
+    if (ratingOwnedByUser) {
+      UpdateRating(ratingOwnedByUser.id, payload);
+    } else {
+      PostRating(payload);
+    }
   };
 
   return (
     <Box sx={{ flexGrow: 1, overflow: 'hidden', px: 3 }}>
       <Paper sx={{ my: 1, mx: 'auto', p: 2 }}>
         <Grid container>
-          <Grid sm={12}>
+          <Grid item xs={2} md={1}>
+            <Avatar>P</Avatar>
+          </Grid>
+          <Grid item xs={10} sx={{ mb: 1 }}>
             <StarPicker onChange={updateRating} noOfStar={rating} />
           </Grid>
-          <Stack direction='row' justifyContent='flex-end' style={{ width: '100%' }} flexWrap='wrap' spacing={0.5}>
+          <Grid item xs={12} sx={{ width: '100%', mb: 1 }}>
             <TextArea
               minRows={4}
               placeholder='Write a review'
               onChange={(e) => updateComment(e.target.value)}
               value={comment}
             />
+          </Grid>
+          <Grid item xs={ratingOwnedByUser ? 4 : 12}>
             <Button onClick={onSubmit} sx={{ backgroundColor: 'primary.dark' }} variant='contained'>
-              Submit
+              {ratingOwnedByUser ? 'Update' : 'Submit'}
             </Button>
-          </Stack>
+          </Grid>
+          {ratingOwnedByUser && (
+            <Grid item xs={8}>
+              <DateTime readOnly id='rating-time' name='rating-time' value={ratingOwnedByUser.updated_at} />
+            </Grid>
+          )}
         </Grid>
       </Paper>
     </Box>
   );
 };
 
-export default RatingForm;
+const mapStateToProps = ({ User: { id: userId, token: userToken }, Pwas: { items, filteredItems } }, { pwa_id }) => ({
+  shouldRender: Boolean(userToken),
+  ratingOwnedByUser: (filteredItems.length > 0 ? items.concat(filteredItems) : items)
+    .find(({ id }) => id == pwa_id)
+    ?.ratings.find(({ created_by }) => created_by?.id == userId)
+});
+
+const mapDispatchToProps = {
+  PostRating,
+  UpdateRating
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RatingForm);

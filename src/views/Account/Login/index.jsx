@@ -116,12 +116,7 @@ const SignInSide = () => {
                 </Grid>
               </Grid>
               <Grid item>
-                <AppIcon
-                  src={`${icon}?w=164&h=164&fit=crop&auto=format`}
-                  srcSet={`${icon}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                  alt='Logo'
-                  loading='lazy'
-                />
+                <AppIcon src={icon} srcSet={icon} alt='Logo' loading='lazy' />
               </Grid>
               <Copyright sx={{ mt: 5 }} />
             </Box>

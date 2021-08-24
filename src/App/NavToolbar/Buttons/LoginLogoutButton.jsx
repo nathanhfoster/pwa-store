@@ -6,7 +6,7 @@ import { RouteMap } from 'utils';
 import { connect } from 'resurrection';
 import { DeleteUser } from 'store/reducers/User/actions';
 
-const LoginButton = ({ addToHomeScreenPrompt, userIsLoggedIn, DeleteUser, children }) => {
+const LoginLogoutButton = ({ addToHomeScreenPrompt, userIsLoggedIn, DeleteUser, children }) => {
   const Icon = useMemo(() => (userIsLoggedIn ? LogoutIcon : LoginIcon), [userIsLoggedIn]);
   return (
     <>
@@ -31,4 +31,4 @@ const mapStateToProps = ({ App: { addToHomeScreenPrompt }, User: { id, token } }
 
 const mapDispatchToProps = { DeleteUser };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginButton);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginLogoutButton);
