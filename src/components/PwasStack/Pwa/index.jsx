@@ -15,6 +15,8 @@ import { GetPwaDetailUrl } from 'utils/RouteMap';
 import { DEFAULT_PWA_IMAGE } from '../../../constants';
 
 const StyledCard = styled(Card)((props) => ({
+  height: props.height,
+  width: props.width,
   textAlign: 'center',
   boxShadow: 'none',
   textDecoration: 'none',
@@ -61,11 +63,13 @@ const Pwa = ({
       component={Link}
       to={pwaRoute}
       title={name}
+      height={imageSize}
+      width={imageSize}
       // onMouseEnter={toggleIsHovered}
       // onMouseLeave={toggleIsHovered}
     >
       <CardMedia
-        sx={{ m: '0 auto', height: imageSize, width: imageSize }}
+        sx={{ m: '0 auto' }}
         image={image_url || DEFAULT_PWA_IMAGE}
         title={name}
       />
