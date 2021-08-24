@@ -8,27 +8,30 @@ import Skeleton from '@material-ui/core/Skeleton';
 import { DEFAULT_PWA_IMAGE_SIZE } from '../../constants';
 import { connect } from 'resurrection';
 
-const LENGTH_OF_SKELETON_ARRAY = { length: 12 };
-
 const Pwa = lazy(() => import('./Pwa'));
 
 const PwasStack = ({ title, subtitle, detailed, pwas, imageSize, flexWrap, isLoading }) => {
-  const gridItemStyles = useMemo(() => ({
-  xs: 6,
-  sm: 4,
-  md: 3,
-  lg: 2,
-  xl: 1,
-  sx: { m: { xs: flexWrap === 'wrap' ? 0 : 2, sm: 2 } },
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'baseline',
-  alignContent: 'flex-start'
-}), [flexWrap]);
+  const isDetailedView = flexWrap === 'wrap';
+
+  const gridItemStyles = useMemo(
+    () => ({
+      xs: 6,
+      sm: 4,
+      md: 3,
+      lg: 2,
+      xl: 1,
+      sx: { m: { xs: isDetailedView ? 0 : 1, sm: 2 } },
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'baseline',
+      alignContent: 'flex-start'
+    }),
+    [isDetailedView]
+  );
 
   const renderPwas = useMemo(() => {
     if (isLoading) {
-      return Array.from(LENGTH_OF_SKELETON_ARRAY, (_, i) => (
+      return Array.from({ length: isDetailedView ? 20 : 12 }, (_, i) => (
         <Grid item key={i} {...gridItemStyles}>
           <Skeleton variant='rectangular' width={imageSize} height={imageSize} />
         </Grid>
@@ -92,8 +95,11 @@ PwasStack.defaultProps = {
   flexWrap: 'nowrap'
 };
 
-const mapStateToProps = ({ Pwas: { items, filteredItems, isLoading: isLoadingFromStore } }, { isLoading: isLoadingFromProps }) => ({
-  isLoading: isLoadingFromProps || (isLoadingFromStore || items.concat(filteredItems).length === 0)
+const mapStateToProps = (
+  { Pwas: { items, filteredItems, isLoading: isLoadingFromStore } },
+  { isLoading: isLoadingFromProps }
+) => ({
+  isLoading: isLoadingFromProps || isLoadingFromStore || items.concat(filteredItems).length === 0
 });
 
 export default connect(mapStateToProps)(PwasStack);
