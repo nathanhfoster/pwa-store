@@ -56,3 +56,9 @@ export const findMaxInt = (arrayOfObjs, prop) => Math.max(...arrayOfObjs.map((e)
 export const sortedMap = (map) => new Map([...map.entries()].sort().sort((a, b) => b[1] - a[1]));
 
 export const removeArrayDuplicates = (array) => [...new Set(array)];
+
+export const getFirstChar = (s, capitalize = true) => {
+  const char = s.charAt(0);
+
+  return capitalize ? char.toUpperCase() : char;
+};

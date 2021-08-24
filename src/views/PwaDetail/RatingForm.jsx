@@ -6,6 +6,7 @@ import DateTime from 'components/DateTime';
 import Avatar from '@material-ui/core/Avatar';
 import { PostRating, UpdateRating } from '../../store/reducers/Pwas/actions/api';
 import connect from 'resurrection';
+import { getFirstChar } from 'utils';
 
 const TextArea = styled(TextareaAutosize)((props) => ({
   minHeight: 56,
@@ -20,7 +21,7 @@ const TextArea = styled(TextareaAutosize)((props) => ({
   color: props.theme.palette.text.primary
 }));
 
-const RatingForm = ({ pwa_id, shouldRender, ratingOwnedByUser, UpdateRating, PostRating }) => {
+const RatingForm = ({ userName, shouldRender, ratingOwnedByUser, pwa_id, UpdateRating, PostRating }) => {
   const [rating, updateRating] = useState(0);
   const [comment, updateComment] = useState('');
 
@@ -50,9 +51,9 @@ const RatingForm = ({ pwa_id, shouldRender, ratingOwnedByUser, UpdateRating, Pos
       <Paper sx={{ my: 1, mx: 'auto', p: 2 }}>
         <Grid container>
           <Grid item xs={2} md={1}>
-            <Avatar>P</Avatar>
+            <Avatar>{getFirstChar(userName)}</Avatar>
           </Grid>
-          <Grid item xs={10} sx={{ mb: 1 }}>
+          <Grid item xs={10} md={11} sx={{ mb: 1 }}>
             <StarPicker onChange={updateRating} noOfStar={rating} />
           </Grid>
           <Grid item xs={12} sx={{ width: '100%', mb: 1 }}>
@@ -63,13 +64,13 @@ const RatingForm = ({ pwa_id, shouldRender, ratingOwnedByUser, UpdateRating, Pos
               value={comment}
             />
           </Grid>
-          <Grid item xs={ratingOwnedByUser ? 4 : 12}>
+          <Grid item xs={ratingOwnedByUser ? 4 : 12} alignItems='center'>
             <Button onClick={onSubmit} sx={{ backgroundColor: 'primary.dark' }} variant='contained'>
               {ratingOwnedByUser ? 'Update' : 'Submit'}
             </Button>
           </Grid>
           {ratingOwnedByUser && (
-            <Grid item xs={8}>
+            <Grid item xs={8} alignItem='center'>
               <DateTime readOnly id='rating-time' name='rating-time' value={ratingOwnedByUser.updated_at} />
             </Grid>
           )}
@@ -79,7 +80,11 @@ const RatingForm = ({ pwa_id, shouldRender, ratingOwnedByUser, UpdateRating, Pos
   );
 };
 
-const mapStateToProps = ({ User: { id: userId, token: userToken }, Pwas: { items, filteredItems } }, { pwa_id }) => ({
+const mapStateToProps = (
+  { User: { id: userId, token: userToken, name: userName }, Pwas: { items, filteredItems } },
+  { pwa_id }
+) => ({
+  userName,
   shouldRender: Boolean(userToken),
   ratingOwnedByUser: (filteredItems.length > 0 ? items.concat(filteredItems) : items)
     .find(({ id }) => id == pwa_id)

@@ -1,31 +1,15 @@
-import React, { useState, useMemo, memo } from 'react';
+import React, { useState, memo } from 'react';
 import { PwaRatingType } from 'store/reducers/Pwas/types';
-import { styled } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Stack from '@material-ui/core/Stack';
-import Button from '@material-ui/core/Button';
 import StarRating from 'components/StarRating';
 import DateTime from 'components/DateTime';
 import { useDispatch } from 'resurrection';
 import Avatar from '@material-ui/core/Avatar';
-import { APP_DRAWER_WIDTH, DEFAULT_PWA_IMAGE_SIZE } from '../../constants';
-
-const Img = styled('img')({
-  margin: 'auto',
-  display: 'block',
-  maxWidth: '100%',
-  maxHeight: '100%',
-  animation: 'grow 200ms'
-});
-
-const imageButtonStyles = { width: DEFAULT_PWA_IMAGE_SIZE, height: DEFAULT_PWA_IMAGE_SIZE };
-
-const LaunchButton = styled(Button)({
-  borderRadius: '1rem'
-});
+import { getFirstChar } from 'utils';
 
 const Rating = ({ created_by, created_by_name, updated_at, rating, comment }) => {
   const dispatch = useDispatch();
@@ -40,21 +24,18 @@ const Rating = ({ created_by, created_by_name, updated_at, rating, comment }) =>
       <Paper sx={{ my: 1, mx: 'auto', p: 2 }}>
         <Grid container spacing={2}>
           <Grid item xs={2} md={1}>
-            <Avatar title={created_by.name}>{created_by.name.charAt(0).toUpperCase()}</Avatar>
+            <Avatar title={created_by.name}>{getFirstChar(created_by.name)}</Avatar>
           </Grid>
-          <Grid container item zeroMinWidth>
-            <Grid item xs={12}>
-              <Grid item xs={12}>
-                <Typography variant='h6'>{created_by.name}</Typography>
-              </Grid>
-              <Stack direction='row' spacing={0.5} alignContent='center'>
-                <StarRating value={rating} />
-                <DateTime readOnly id='rating-time' name='rating-time' value={updated_at} />
-              </Stack>
-              <Grid item xs={12}>
-                <Typography>{comment}</Typography>
-              </Grid>
-            </Grid>
+
+          <Grid item xs={10} md={11}>
+            <Typography variant='h6'>{created_by.name}</Typography>
+          </Grid>
+          <Grid item display='flex' justifyContent='center' alignItems='center'>
+            <StarRating value={rating} />
+            <DateTime readOnly id='rating-time' name='rating-time' value={updated_at} />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography>{comment}</Typography>
           </Grid>
         </Grid>
       </Paper>
