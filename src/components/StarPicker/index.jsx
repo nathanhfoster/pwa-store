@@ -14,6 +14,7 @@ const StarPicker = ({ onChange, noOfStar }) => {
       {stars.map((star, idx) => {
         return (
           <span
+            key={idx}
             type='button'
             key={`star-${idx}`}
             onClick={() => onChange(idx + 1)}
