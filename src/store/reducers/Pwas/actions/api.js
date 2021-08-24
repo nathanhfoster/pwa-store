@@ -167,8 +167,8 @@ export const UpdateRating = (ratingId, payload) => (dispatch, getState) => {
     })
     .then(({ data }) => {
       const { items, filteredItems } = getState().Pwas;
-      const obj = items.concat(filteredItems).find((i) => i.id === payload.pwa_id);
-      const newRatings = [{ ...data }, ...obj.ratings];
+      const pwa = items.concat(filteredItems).find((i) => i.id === payload.pwa_id);
+      const newRatings = pwa.ratings.map((r) => (r.id == ratingId ? { ...r, ...data } : r));
       dispatch(UpdateReduxPwa({ id: payload.pwa_id, ratings: newRatings }));
       return data;
     })
