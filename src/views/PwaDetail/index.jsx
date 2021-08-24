@@ -72,7 +72,7 @@ const PwaDetail = ({
   const renderRatings = useMemo(
     () =>
       ratings.map((rating) => (
-        <Grid key={rating.created_by} item xs={12}>
+        <Grid key={rating.created_by.id} item xs={12}>
           <Rating {...rating} />
         </Grid>
       )),
