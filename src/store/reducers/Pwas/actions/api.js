@@ -1,5 +1,6 @@
 import { Axios } from '../../Axios';
 import axios from 'axios';
+import { PushAlertWithTimeout } from '../../App/actions';
 import {
   ToogleIsLoading,
   SetPwas,
@@ -128,6 +129,8 @@ export const PostPwa = (payload) => (dispatch) => {
       }
     })
     .then(({ data }) => {
+      const alertPayload = { title: 'Posted Pwa', message: 'Successfully posted pwa', props: { severity: 'success' } };
+      dispatch(PushAlertWithTimeout(alertPayload));
       dispatch(MergeFilterPwas([data]));
       return data;
     })
@@ -146,6 +149,8 @@ export const PostRating = (payload) => (dispatch, getState) => {
       }
     })
     .then(({ data }) => {
+      const alertPayload = { title: 'Posted Rating', message: 'Successfully posted rating', props: { severity: 'success' } };
+      dispatch(PushAlertWithTimeout(alertPayload));
       const { items, filteredItems } = getState().Pwas;
       const obj = items.concat(filteredItems).find((i) => i.id === payload.pwa_id);
       const newRatings = [{ ...data }, ...obj.ratings];
@@ -166,6 +171,8 @@ export const UpdateRating = (ratingId, payload) => (dispatch, getState) => {
       }
     })
     .then(({ data }) => {
+      const alertPayload = { title: 'Updated Rating', message: 'Successfully updated rating', props: { severity: 'success' } };
+      dispatch(PushAlertWithTimeout(alertPayload));
       const { items, filteredItems } = getState().Pwas;
       const pwa = items.concat(filteredItems).find((i) => i.id === payload.pwa_id);
       const newRatings = pwa.ratings.map((r) => (r.id == ratingId ? { ...r, ...data } : r));
