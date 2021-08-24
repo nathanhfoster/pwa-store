@@ -92,8 +92,8 @@ PwasStack.defaultProps = {
   flexWrap: 'nowrap'
 };
 
-const mapStateToProps = ({ Pwas: { isLoading: isLoadingFromStore } }, { isLoading: isLoadingFromProps }) => ({
-  isLoading: isLoadingFromProps || isLoadingFromStore
+const mapStateToProps = ({ Pwas: { items, filteredItems, isLoading: isLoadingFromStore } }, { isLoading: isLoadingFromProps }) => ({
+  isLoading: isLoadingFromProps || (isLoadingFromStore || items.concat(filteredItems).length === 0)
 });
 
 export default connect(mapStateToProps)(PwasStack);
