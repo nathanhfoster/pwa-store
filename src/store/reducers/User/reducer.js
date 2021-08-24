@@ -139,7 +139,6 @@ const User = (state = DEFAULT_STATE, action) => {
       };
 
     case ActionTypes.USER_SET_PWA_FORM:
-      console.log(action);
       return {
         ...state,
         pwaToUpload: {

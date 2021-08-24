@@ -26,7 +26,6 @@ const Rating = ({ created_by, created_by_name, updated_at, rating, comment }) =>
           <Grid item xs={2} md={1}>
             <Avatar title={created_by.name}>{getFirstChar(created_by.name)}</Avatar>
           </Grid>
-
           <Grid item xs={10} md={11}>
             <Typography variant='h6'>{created_by.name}</Typography>
           </Grid>

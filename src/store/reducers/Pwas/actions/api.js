@@ -68,7 +68,7 @@ export const SearchPwas = (category) => (dispatch, getState) => {
 
 export const GetPwaManifest = (url) =>
   Axios()
-    .get(`pwas/get-manifest?url=${url}`)
+    .get(`pwas/extra/info?url=${url}`)
     .then((response) => response)
     .catch((e) => {
       console.error(e);
@@ -183,3 +183,4 @@ export const UpdateRating = (ratingId, payload) => (dispatch, getState) => {
       console.log('error', e);
     });
 };
+
