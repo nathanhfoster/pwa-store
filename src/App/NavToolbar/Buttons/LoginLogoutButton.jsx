@@ -12,7 +12,7 @@ const LoginButton = ({ addToHomeScreenPrompt, userIsLoggedIn, DeleteUser, childr
     <>
       <Base
         title={userIsLoggedIn ? 'Logout' : 'Login'}
-        href={userIsLoggedIn ? undefined : RouteMap.LOGIN}
+        to={userIsLoggedIn ? undefined : RouteMap.LOGIN}
         onClick={userIsLoggedIn ? DeleteUser : undefined}
         edge={addToHomeScreenPrompt ? false : 'end'}
         aria-label='account of current user'

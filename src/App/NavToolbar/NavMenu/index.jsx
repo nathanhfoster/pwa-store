@@ -6,7 +6,7 @@ import NotificationsButton from '../Buttons/NotificationsButton';
 import LoginLogoutButton from '../Buttons/LoginLogoutButton';
 import AccountButton from '../Buttons/AccountButton';
 import ThemeButton from '../Buttons/ThemeButton';
-import { connect } from 'resurrection';
+import connect from 'resurrection';
 
 const NavMenu = ({ mobileMoreAnchorEl, setMobileMoreAnchorEl, mobileMenuId, userIsLoggedIn }) => {
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);

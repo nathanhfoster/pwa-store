@@ -13,7 +13,7 @@ const AccountButton = ({ userIsLoggedIn, children }) => {
       <Base
         aria-label='account of current user'
         aria-controls='primary-search-account-menu'
-        href={userIsLoggedIn ? RouteMap.ACCOUNT : undefined}
+        to={userIsLoggedIn ? RouteMap.ACCOUNT : undefined}
       >
         <AccountCircle />
       </Base>
