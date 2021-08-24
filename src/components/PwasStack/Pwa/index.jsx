@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, memo } from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { PwaType } from 'store/reducers/Pwas/types';
 import Tags from './Tags';
@@ -60,7 +60,7 @@ const Pwa = ({
     <StyledCard
       component={Link}
       to={pwaRoute}
-      raised={true}
+      title={name}
       // onMouseEnter={toggleIsHovered}
       // onMouseLeave={toggleIsHovered}
     >

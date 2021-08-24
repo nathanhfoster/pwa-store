@@ -24,7 +24,7 @@ PwasFilteredByTags.propTypes = {
   pwas: PwasType
 };
 
-PwasFilteredByTags.propTypes = {
+PwasFilteredByTags.defaultProps = {
   pwas: []
 };
 

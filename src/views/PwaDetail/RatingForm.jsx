@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { PwaRatingType } from 'store/reducers/Pwas/types';
 import { styled } from '@material-ui/core/styles';
 import { TextareaAutosize, Box, Button, Grid, Paper } from '@material-ui/core';
 import StarPicker from 'components/StarPicker';
@@ -81,10 +83,10 @@ const RatingForm = ({ userName, shouldRender, ratingOwnedByUser, pwa_id, UpdateR
 };
 
 const mapStateToProps = (
-  { User: { id: userId, token: userToken, name: userName }, Pwas: { items, filteredItems } },
+  { User: { id: userId, token: userToken, username, name }, Pwas: { items, filteredItems } },
   { pwa_id }
 ) => ({
-  userName,
+  userName: name || username,
   shouldRender: Boolean(userToken),
   ratingOwnedByUser: (filteredItems.length > 0 ? items.concat(filteredItems) : items)
     .find(({ id }) => id == pwa_id)
@@ -94,6 +96,12 @@ const mapStateToProps = (
 const mapDispatchToProps = {
   PostRating,
   UpdateRating
+};
+
+RatingForm.propTypes = {
+  userName: PropTypes.string.isRequired,
+  shouldRender: PropTypes.bool.isRequired,
+  ratingOwnedByUser: PropTypes.shape(PwaRatingType)
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RatingForm);
