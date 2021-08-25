@@ -70,6 +70,8 @@ const Pwa = ({
     >
       <CardMedia
         sx={{ m: '0 auto' }}
+        height={imageSize}
+        width={imageSize}
         image={image_url || DEFAULT_PWA_IMAGE}
         title={name}
       />
