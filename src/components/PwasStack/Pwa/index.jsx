@@ -69,9 +69,7 @@ const Pwa = ({
       // onMouseLeave={toggleIsHovered}
     >
       <CardMedia
-        sx={{ m: '0 auto' }}
-        height={imageSize}
-        width={imageSize}
+        sx={{ m: '0 auto', width: imageSize, height: imageSize }}
         image={image_url || DEFAULT_PWA_IMAGE}
         title={name}
       />
