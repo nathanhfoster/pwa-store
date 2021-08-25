@@ -62,3 +62,17 @@ export const getFirstChar = (s, capitalize = true) => {
 
   return capitalize ? char.toUpperCase() : char;
 };
+
+/**
+ * Removes object keys
+ * @param {array.<object>|object.<string, *>} object - The object to be filtered
+ * @param {array.<string>} keysToOmit  - The array of keys to be omiited
+ * @returns {array.<object>|object.<string, *>} - The new object
+ */
+export const omit = (object = [], keysToOmit = []) => {
+  if (Array.isArray(object)) {
+    return object.filter((e) => !keysToOmit.some((key) => key === (typeof e === 'string' ? e : e[key])));
+  }
+
+  return keysToOmit.reduce((acc, key) => (delete acc[key], acc), { ...object });
+};

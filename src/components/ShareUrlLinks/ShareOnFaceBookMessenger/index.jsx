@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ShareUrlLinks from '../ShareUrlLinks';
-import { FacebookMessenger } from '../../../images/SVG';
+import FacebookIcon from '@material-ui/icons/Facebook';
 const { REACT_APP_FACEBOOK_API } = process.env;
 
 const ShareOnFaceBookMessenger = ({ url, ...restOfProps }) => (
@@ -13,20 +13,20 @@ const ShareOnFaceBookMessenger = ({ url, ...restOfProps }) => (
     redirect_uri={`https%3A%2F%2Fecocart.io%2Fshare%2F1d1084`}
     parameterString='app_id, link, redirect_uri'
   >
-    <i className='fab fa-facebook-messenger' />
+    <FacebookIcon />
   </ShareUrlLinks>
 );
 
 ShareOnFaceBookMessenger.propTypes = {
   title: PropTypes.string,
   text: PropTypes.string,
-  url: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired
 };
 
 ShareOnFaceBookMessenger.defaultProps = {
   title: 'Facebook Messenger',
   text: 'Facebook Messenger',
-  url: window.location.origin,
+  url: window.location.origin
 };
 
 export default ShareOnFaceBookMessenger;

@@ -1,27 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ShareUrlLinks from '../ShareUrlLinks';
+import WhatsAppIcon from '@material-ui/icons/WhatsApp';
 
-const ShareWhatsApp = props => (
+const ShareOnWhatsApp = (props) => (
   <ShareUrlLinks
     {...props}
     href='https://api.whatsapp.com/send/'
-    phone=''
     app_absent='0'
     parameterString='phone, text, app_absent'
   >
-    <i className='fab fa-whatsapp' />
+    <WhatsAppIcon />
   </ShareUrlLinks>
 );
 
-ShareWhatsApp.propTypes = {
+ShareOnWhatsApp.propTypes = {
   title: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired
 };
 
-ShareWhatsApp.defaultProps = {
+ShareOnWhatsApp.defaultProps = {
+  phone: '',
   title: 'WhatsApp',
-  text: `Check this out: ${window.location.origin}`,
+  text: `Check this out: ${window.location.origin}`
 };
 
-export default ShareWhatsApp;
+export default ShareOnWhatsApp;

@@ -11,6 +11,7 @@ import Stack from '@material-ui/core/Stack';
 import { useDispatch } from 'resurrection';
 import { UpdateAnalytics } from '../../store/reducers/Pwas/actions/api';
 import { APP_DRAWER_WIDTH, DEFAULT_PWA_IMAGE_SIZE } from '../../constants';
+import ShareButtons from 'components/ShareUrlLinks/ShareButtons';
 
 const Img = styled('img')({
   margin: 'auto',
@@ -103,6 +104,9 @@ const Detail = ({ id, src, name, tags, url, ratings, view_count, launch_count })
                 <LaunchIcon sx={{ mr: 1 }} />
                 Launch pwa
               </LaunchButton>
+            </Grid>
+            <Grid item xs>
+              <ShareButtons />
             </Grid>
           </Grid>
         </Grid>

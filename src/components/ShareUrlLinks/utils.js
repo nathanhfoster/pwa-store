@@ -1,8 +1,8 @@
 /**
  *
- * @param {Object.<String, *>} props - The componentProps
- * @param {Array.<String>} parameterString - The unique key strings to be added to the parameters
- * @returns {String} - The concatenated string
+ * @param {object.<string, *>} props - The componentProps
+ * @param {array.<string>} parameterString - The unique key strings to be added to the parameters
+ * @returns {string} - The concatenated string
  */
 export const getShareUrlParameters = (props, parameterString) =>
   parameterString.reduce((acc, key) => {
