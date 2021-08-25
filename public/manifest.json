@@ -5,7 +5,7 @@
   "name": "Pwa Store",
   "short_name": "Pwa Store",
   "default_locale": "en",
-  "description": "Discover the future of progressive web apps",
+  "description": "The app store of the future where you discover the best progressive web apps",
   "author": "Nathan Foster",
   "offline_enabled": true,
   "background": {

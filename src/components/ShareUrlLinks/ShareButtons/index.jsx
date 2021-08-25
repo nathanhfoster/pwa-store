@@ -5,7 +5,7 @@ import { ShareOnEmail, ShareOnFaceBook, ShareOnLinkedIn, ShareOnTwitter, ShareOn
 
 const ShareButtons = ({ url }) => {
   const Buttons = [
-    <ShareOnEmail subject='Our Community Impact' body={url} />,
+    <ShareOnEmail subject='The app store of the future' body={url} />,
     <ShareOnFaceBook url={url} />,
     <ShareOnWhatsApp text={url} />,
     <ShareOnLinkedIn url={url} />,
