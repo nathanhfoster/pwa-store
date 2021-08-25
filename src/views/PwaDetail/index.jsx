@@ -8,7 +8,6 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Typography from '@material-ui/core/Typography';
 import { PwaType } from 'store/reducers/Pwas/types';
 import { UpdateAnalytics } from '../../store/reducers/Pwas/actions/api';
-import { DEFAULT_PWA_IMAGE, DEFAULT_PWA_IMAGE_SIZE } from '../../constants';
 import RatingForm from './RatingForm';
 
 const Detail = lazy(() => import('./Detail'));
@@ -42,7 +41,6 @@ const PwaDetail = ({
     UpdateAnalytics({ incr_view: true, pwa_id: pwaId });
   }, [pwaId]);
 
-  const { view_count = 0, launch_count = 0 } = pwa_analytics || {};
   const renderScreenShots = useMemo(
     () =>
       pwa_screenshots.map(({ image_url, caption }) => {
@@ -87,23 +85,12 @@ const PwaDetail = ({
     );
   }
 
-  const imageSrc = image_url || DEFAULT_PWA_IMAGE;
-
   return (
     <>
       <Box sx={detailContainerStyles}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <Detail
-              id={id}
-              src={imageSrc}
-              name={name}
-              tags={tags}
-              url={url}
-              view_count={view_count}
-              launch_count={launch_count}
-              ratings={ratings}
-            />
+            <Detail pwaId={pwaId} />
           </Grid>
           {description && (
             <Grid item xs={12}>
@@ -139,8 +126,10 @@ const PwaDetail = ({
   );
 };
 
-const mapStateToProps = ({ Pwas: { items, filteredItems } }, { pwaId }) =>
-  (filteredItems.length > 0 ? items.concat(filteredItems) : items).find(({ id }) => id == pwaId);
+const mapStateToProps = ({ Pwas: { items, filteredItems } }, { pwaId }) => {
+  const pwa = (filteredItems.length > 0 ? items.concat(filteredItems) : items).find(({ id }) => id == pwaId) || {};
+  return pwa;
+};
 
 const mapDispatchToProps = { UpdateAnalytics };
 

@@ -5,7 +5,13 @@ export const PwaTagType = {
   name: PropTypes.string
 };
 
-export const PwaAnalyticsType = { id: PropTypes.number, view_count: PropTypes.number, launch_count: PropTypes.number };
+export const PwaAnalyticsType = {
+  id: PropTypes.number,
+  view_count: PropTypes.number,
+  launch_count: PropTypes.number,
+  rating_avg: PropTypes.number,
+  rating_count: PropTypes.number
+};
 
 export const PwaScreenshotsType = { id: PropTypes.number, image_url: PropTypes.string, caption: PropTypes.string };
 

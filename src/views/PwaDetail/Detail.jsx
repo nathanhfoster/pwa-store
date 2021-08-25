@@ -1,4 +1,6 @@
-import React, { useMemo, memo, useEffect } from 'react';
+import React, { useMemo } from 'react';
+import connect from 'resurrection';
+import { PwaType, PwaAnalyticsType } from 'store/reducers/Pwas/types';
 import { styled } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
@@ -8,9 +10,8 @@ import Button from '@material-ui/core/Button';
 import LaunchIcon from '@material-ui/icons/Launch';
 import Chip from '@material-ui/core/Chip';
 import Stack from '@material-ui/core/Stack';
-import { useDispatch } from 'resurrection';
 import { UpdateAnalytics } from '../../store/reducers/Pwas/actions/api';
-import { APP_DRAWER_WIDTH, DEFAULT_PWA_IMAGE_SIZE } from '../../constants';
+import { DEFAULT_PWA_IMAGE, APP_DRAWER_WIDTH, DEFAULT_PWA_IMAGE_SIZE } from '../../constants';
 import ShareButtons from 'components/ShareUrlLinks/ShareButtons';
 
 const Img = styled('img')({
@@ -27,9 +28,18 @@ const LaunchButton = styled(Button)({
   borderRadius: '1rem'
 });
 
-const Detail = ({ id, src, name, tags, url, ratings, view_count, launch_count }) => {
-  const dispatch = useDispatch();
-
+const Detail = ({
+  id,
+  name,
+  tags,
+  url,
+  view_count,
+  launch_count,
+  rating_avg,
+  rating_count,
+  imageSrc,
+  UpdateAnalytics
+}) => {
   const renderTags = useMemo(
     () =>
       tags.map(({ name }) => (
@@ -37,16 +47,9 @@ const Detail = ({ id, src, name, tags, url, ratings, view_count, launch_count })
       )),
     [tags]
   );
-  const averageRating = useMemo(() => {
-    if (!ratings) return null;
-    const sum = ratings.reduce((acc, curr) => acc + curr.value, 0);
-    if (sum === 0) return 0;
-    const average = sum / ratings.length;
-    return average;
-  }, [ratings]);
 
   const onLaunch = () => {
-    dispatch(UpdateAnalytics({ incr_launch: true, pwa_id: id }));
+    UpdateAnalytics({ incr_launch: true, pwa_id: id });
   };
 
   return (
@@ -55,7 +58,7 @@ const Detail = ({ id, src, name, tags, url, ratings, view_count, launch_count })
         <Grid item xs={12} sm container zeroMinWidth>
           <Grid item xs={12} sm={4}>
             <ButtonBase href={url} sx={imageButtonStyles}>
-              <Img src={src} srcSet={src} alt={name} loading='lazy' />
+              <Img src={imageSrc} srcSet={imageSrc} alt={name} loading='lazy' />
             </ButtonBase>
           </Grid>
           <Grid item xs container direction='column' spacing={2}>
@@ -72,7 +75,7 @@ const Detail = ({ id, src, name, tags, url, ratings, view_count, launch_count })
                 Launch count: {launch_count}
               </Typography>
               <Typography variant='body2' color='text.secondary'>
-                Average rating: {averageRating}
+                Average rating: {rating_avg}
               </Typography>
             </Grid>
             <Grid item xs>
@@ -115,4 +118,41 @@ const Detail = ({ id, src, name, tags, url, ratings, view_count, launch_count })
   );
 };
 
-export default memo(Detail);
+const mapStateToProps = ({ Pwas: { items, filteredItems } }, { pwaId, ...restOfProps }) => {
+  const pwa =
+    (filteredItems.length > 0 ? items.concat(filteredItems) : items).find(({ id }) => id == pwaId) || restOfProps;
+  const {
+    id = pwaId,
+    name,
+    tags,
+    url,
+    image_url,
+    pwa_analytics: { view_count, launch_count, rating_avg, rating_count }
+  } = pwa;
+  const imageSrc = image_url || DEFAULT_PWA_IMAGE;
+  return { id, name, tags, url, view_count, launch_count, rating_avg, rating_count, imageSrc };
+};
+
+const mapDispatchToProps = { UpdateAnalytics };
+
+Detail.propTypes = {
+  id: PwaType.id,
+  imageSrc: PwaType.image_url,
+  name: PwaType.name,
+  tags: PwaType.tags,
+  url: PwaType.url,
+
+  view_count: PwaAnalyticsType.view_count,
+  launch_count: PwaAnalyticsType.launch_count,
+  rating_avg: PwaAnalyticsType.rating_avg,
+  rating_count: PwaAnalyticsType.rating_count
+};
+
+Detail.defaultProps = {
+  pwa_screenshots: [],
+  pwa_analytics: {},
+  rating_avg: 0,
+  rating_count: 0
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Detail);
