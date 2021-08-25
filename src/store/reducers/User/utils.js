@@ -1,4 +1,4 @@
-import { capitalize, removeArrayDuplicates } from 'utils';
+import { capitalize, removeArrayDuplicates, stringMatch } from 'utils';
 export const USER_ID_LOCAL_STORAGE_KEY = 'USER_ID_LOCAL_STORAGE_KEY';
 export const USER_TOKEN_LOCAL_STORAGE_KEY = 'USER_TOKEN_LOCAL_STORAGE_KEY';
 export const USER_MODE_LOCAL_STORAGE_KEY = 'USER_MODE_LOCAL_STORAGE_KEY';
@@ -40,9 +40,14 @@ export const MANIFEST_TO_FORM_MAP = {
 };
 
 export const getManifestIconWeight = (icon) => {
-  const [width, height] = icon.sizes.split('x');
+  const { src, sizes, type, purpose } = icon;
+  const [width, height] = sizes.split('x');
 
-  return parseInt(width) + parseInt(height);
+  const iconRatioWeight = parseInt(width) + parseInt(height);
+
+  const iconIsMaskable = stringMatch(purpose, 'maskable');
+
+  return iconIsMaskable ? iconRatioWeight * 3 : iconRatioWeight;
 };
 
 export const mergeManifestWithForm = ({ pwaToUpload: { form } }, manifestUrl = '', manifestJson = {}) => {
@@ -119,17 +124,22 @@ export const mergeManifestWithForm = ({ pwaToUpload: { form } }, manifestUrl = '
   }, []);
 
   let newIconUrl =
-    (icons.length > 0 &&
-      icons.sort((a, b) => {
-        const aWeight = getManifestIconWeight(a);
-        const bWeight = getManifestIconWeight(b);
-        return bWeight - aWeight;
-      })[0]?.src) ||
-    form.image_url.value;
+    icons.length > 0 &&
+    icons.sort((a, b) => {
+      const aWeight = getManifestIconWeight(a);
+      const bWeight = getManifestIconWeight(b);
+      return bWeight - aWeight;
+    })[0]?.src;
 
-  newIconUrl = manifestUrl?.replace('/manifest.json', newIconUrl) || '';
+  if (!newIconUrl) {
+    newIconUrl = form.image_url.value;
+  }
 
-  let nextFormState = {
+  if (manifestUrl) {
+    newIconUrl = manifestUrl.replace('/manifest.json', newIconUrl);
+  }
+
+  const nextFormState = {
     ...form,
     name: { ...form.name, value: newName },
     slug: { ...form.slug, placeholder: newName?.toLowerCase().split(' ').join('-') },

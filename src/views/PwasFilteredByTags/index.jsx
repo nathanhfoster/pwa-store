@@ -10,7 +10,6 @@ const PwasFilteredByTags = ({ pwas }) => {
   return (
     <PwasStack
       // TODO: need images that are 16:9
-      detailed={false}
       flexWrap='wrap'
       title={queryString}
       pwas={pwas}

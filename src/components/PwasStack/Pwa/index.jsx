@@ -15,8 +15,6 @@ import { GetPwaDetailUrl } from 'utils/RouteMap';
 import { DEFAULT_PWA_IMAGE } from '../../../constants';
 
 const StyledCard = styled(Card)((props) => ({
-  height: props.height,
-  width: props.width,
   textAlign: 'center',
   boxShadow: 'none',
   textDecoration: 'none',
@@ -41,14 +39,14 @@ const Pwa = ({
   url,
   image_url,
   description,
-  pwa_analytics,
+  pwa_analytics: { view_count, launch_count },
   organization,
   tags,
   updated_at,
   detailed,
   imageSize
 }) => {
-  const { view_count = 0, launch_count = 0 } = pwa_analytics || {};
+  console.log(name);
   // const dispatch = useDispatch();
   // const [isHovered, toggleIsHovered] = useBooleanReducer(false);
 
@@ -63,8 +61,6 @@ const Pwa = ({
       component={Link}
       to={pwaRoute}
       title={name}
-      height={imageSize}
-      width={imageSize}
       // onMouseEnter={toggleIsHovered}
       // onMouseLeave={toggleIsHovered}
     >

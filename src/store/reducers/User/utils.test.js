@@ -72,7 +72,10 @@ const generateRandomData = () => {
       disabled: manifestUrl ? true : false
     },
     manifest_json: { ...form.manifest_json, value: manifestJson, disabled: true },
-    image_url: { ...form.image_url, value: manifestUrl?.replace('/manifest.json', pwaIconTwo.src) || '' }
+    image_url: {
+      ...form.image_url,
+      value: manifestUrl?.replace('/manifest.json', pwaIconTwo.src) || form.image_url.value
+    }
   });
 
   return {
@@ -98,6 +101,12 @@ describe('User reducer mergeManifestWithForm util', () => {
     });
     const { form } = newState.pwaToUpload;
     const manifestUrl = null;
+    const imageThatIsMaskable = {
+      src: 'assets/android-chrome-512x512.png',
+      sizes: '512x512',
+      type: 'image/png',
+      purpose: 'any maskable'
+    };
     const manifestJson = {
       manifest_version: 3,
       version: '3.0.0',
@@ -118,16 +127,11 @@ describe('User reducer mergeManifestWithForm util', () => {
           sizes: '192x192',
           type: 'image/png'
         },
-        {
-          src: 'assets/android-chrome-512x512.png',
-          sizes: '512x512',
-          type: 'image/png'
-        },
+        imageThatIsMaskable,
         {
           src: 'assets/icon.png',
           sizes: '1500x1500',
-          type: 'image/png',
-          purpose: 'any maskable'
+          type: 'image/png'
         }
       ]
     };
@@ -144,7 +148,8 @@ describe('User reducer mergeManifestWithForm util', () => {
         value: manifestUrl,
         disabled: false
       },
-      manifest_json: { ...form.manifest_json, value: manifestJson, disabled: true }
+      manifest_json: { ...form.manifest_json, value: manifestJson, disabled: true },
+      image_url: { ...form.image_url, value: imageThatIsMaskable.src }
     };
     expect(result).toMatchObject(expected);
   });

@@ -10,7 +10,7 @@ import { LoadingScreen } from 'components';
 import { render, screen } from '@testing-library/react';
 import App from '.';
 
-test('renders learn react link', async () => {
+test('App renders', async () => {
   render(
     <StyledEngineProvider injectFirst>
       <CssBaseline />
