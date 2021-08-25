@@ -8,7 +8,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
-import { getManifestIcon } from 'store/reducers/User/utils';
+import { getManifestIconSrc } from 'store/reducers/User/utils';
 // import { useBooleanReducer } from 'resurrection';
 // import { useDispatch } from 'resurrection';
 // import { GetPwaManifest } from 'store/reducers/Pwas/actions/api';
@@ -45,14 +45,15 @@ const Pwa = ({
   tags,
   updated_at,
   detailed,
+  manifest_url,
   manifest_json,
   imageSize
 }) => {
   const imageSrc = useMemo(() => {
     const { icons } = manifest_json || {};
-    const icon = getManifestIcon(icons);
-    return icon?.src || image_url || DEFAULT_PWA_IMAGE;
-  }, [image_url, manifest_json]);
+    const iconImageSrc = getManifestIconSrc(manifest_url, icons);
+    return iconImageSrc || image_url || DEFAULT_PWA_IMAGE;
+  }, [image_url, manifest_json, manifest_url]);
   // const dispatch = useDispatch();
   // const [isHovered, toggleIsHovered] = useBooleanReducer(false);
 

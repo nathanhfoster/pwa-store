@@ -58,6 +58,19 @@ export const getManifestIcon = (icons) =>
     return bWeight - aWeight;
   })[0];
 
+export const getManifestIconSrc = (manifest_url, icons) => {
+  var imageUrl = null;
+  const icon = getManifestIcon(icons);
+  if (icon) {
+    if (stringMatch(icon.src, 'https')) {
+      imageUrl = icon.src;
+    } else {
+      imageUrl = manifest_url?.replace('manifest.json', icon.src);
+    }
+  }
+  return imageUrl;
+};
+
 export const mergeManifestWithForm = ({ pwaToUpload: { form } }, manifestUrl = '', manifestJson = {}) => {
   const {
     url,
@@ -131,14 +144,10 @@ export const mergeManifestWithForm = ({ pwaToUpload: { form } }, manifestUrl = '
     return acc;
   }, []);
 
-  let newIconUrl = getManifestIcon(icons)?.src;
+  let newIconUrl = getManifestIconSrc(manifestUrl, icons);
 
   if (!newIconUrl) {
     newIconUrl = form.image_url.value;
-  }
-
-  if (manifestUrl) {
-    newIconUrl = manifestUrl.replace('/manifest.json', newIconUrl);
   }
 
   const nextFormState = {
@@ -149,8 +158,9 @@ export const mergeManifestWithForm = ({ pwaToUpload: { form } }, manifestUrl = '
     tags: { ...form.tags, value: newOptionsValue },
     manifest_url: {
       ...form.manifest_url,
-      placeholder: form.url.value?.replace(/\/(?=[^\/]*$)/, '/manifest.json') || 'https://pwa.com/manifest.json',
-      value: manifestUrl,
+      placeholder:
+        manifestUrl || form.url.value?.replace(/\/(?=[^\/]*$)/, '/manifest.json') || 'https://pwa.com/manifest.json',
+      value: manifestUrl || '',
       disabled: manifestUrl ? true : false
     },
     manifest_json: { ...form.manifest_json, value: manifestJson, disabled: true },

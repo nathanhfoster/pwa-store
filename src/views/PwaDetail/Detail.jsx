@@ -13,7 +13,7 @@ import Stack from '@material-ui/core/Stack';
 import { UpdateAnalytics } from '../../store/reducers/Pwas/actions/api';
 import { DEFAULT_PWA_IMAGE, APP_DRAWER_WIDTH, DEFAULT_PWA_IMAGE_SIZE } from '../../constants';
 import ShareButtons from 'components/ShareUrlLinks/ShareButtons';
-import { getManifestIcon } from 'store/reducers/User/utils';
+import { getManifestIconSrc } from 'store/reducers/User/utils';
 
 const Img = styled('img')({
   margin: 'auto',
@@ -130,10 +130,11 @@ const mapStateToProps = ({ Pwas: { items, filteredItems } }, { pwaId, ...restOfP
     url,
     image_url,
     pwa_analytics: { view_count, launch_count, rating_avg, rating_count },
+    manifest_url,
     manifest_json: { theme_color = 'primary.dark', icons } = {}
   } = pwa;
-  const icon = getManifestIcon(icons);
-  const imageSrc = icon?.src || image_url || DEFAULT_PWA_IMAGE;
+  const iconSrc = getManifestIconSrc(manifest_url, icons);
+  const imageSrc = iconSrc || image_url || DEFAULT_PWA_IMAGE;
   return { id, name, tags, url, view_count, launch_count, rating_avg, rating_count, theme_color, imageSrc };
 };
 
