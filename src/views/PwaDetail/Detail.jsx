@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import connect from 'resurrection';
-import { PwaType, PwaAnalyticsType } from 'store/reducers/Pwas/types';
+import { PwaType, PwaAnalyticsType, PwaManifestJsonType } from 'store/reducers/Pwas/types';
 import { styled } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
@@ -13,6 +13,7 @@ import Stack from '@material-ui/core/Stack';
 import { UpdateAnalytics } from '../../store/reducers/Pwas/actions/api';
 import { DEFAULT_PWA_IMAGE, APP_DRAWER_WIDTH, DEFAULT_PWA_IMAGE_SIZE } from '../../constants';
 import ShareButtons from 'components/ShareUrlLinks/ShareButtons';
+import { getManifestIcon } from 'store/reducers/User/utils';
 
 const Img = styled('img')({
   margin: 'auto',
@@ -38,18 +39,13 @@ const Detail = ({
   rating_avg,
   rating_count,
   imageSrc,
-  manifest_json,
+  theme_color,
   UpdateAnalytics
 }) => {
   const renderTags = useMemo(
     () =>
       tags.map(({ name }) => (
-        <Chip
-          key={name}
-          label={name}
-          sx={{ backgroundColor: manifest_json.theme_color, color: 'white' }}
-          size='small'
-        />
+        <Chip key={name} label={name} sx={{ backgroundColor: theme_color, color: 'white' }} size='small' />
       )),
     [tags]
   );
@@ -107,7 +103,7 @@ const Detail = ({
                 disabled={!url}
                 href={url}
                 target='_blank'
-                sx={{ animation: 'grow 200ms', backgroundColor: manifest_json.theme_color }}
+                sx={{ animation: 'grow 200ms', backgroundColor: theme_color }}
                 onClick={onLaunch}
               >
                 <LaunchIcon sx={{ mr: 1 }} />
@@ -134,10 +130,11 @@ const mapStateToProps = ({ Pwas: { items, filteredItems } }, { pwaId, ...restOfP
     url,
     image_url,
     pwa_analytics: { view_count, launch_count, rating_avg, rating_count },
-    manifest_json
+    manifest_json: { theme_color = 'primary.dark', icons } = {}
   } = pwa;
-  const imageSrc = image_url || DEFAULT_PWA_IMAGE;
-  return { id, name, tags, url, view_count, launch_count, rating_avg, rating_count, manifest_json, imageSrc };
+  const icon = getManifestIcon(icons);
+  const imageSrc = icon?.src || image_url || DEFAULT_PWA_IMAGE;
+  return { id, name, tags, url, view_count, launch_count, rating_avg, rating_count, theme_color, imageSrc };
 };
 
 const mapDispatchToProps = { UpdateAnalytics };
@@ -152,15 +149,14 @@ Detail.propTypes = {
   launch_count: PwaAnalyticsType.launch_count,
   rating_avg: PwaAnalyticsType.rating_avg,
   rating_count: PwaAnalyticsType.rating_count,
-  manifest_json: PwaType.manifest_json
+  theme_color: PwaManifestJsonType.theme_color
 };
 
 Detail.defaultProps = {
   pwa_screenshots: [],
   pwa_analytics: {},
   rating_avg: 0,
-  rating_count: 0,
-  manifest_json: { theme_color: 'primary.dark' }
+  rating_count: 0
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Detail);

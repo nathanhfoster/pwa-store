@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { useMemo, memo } from 'react';
 import PropTypes from 'prop-types';
 import { PwaType } from 'store/reducers/Pwas/types';
 import Tags from './Tags';
@@ -8,6 +8,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
+import { getManifestIcon } from 'store/reducers/User/utils';
 // import { useBooleanReducer } from 'resurrection';
 // import { useDispatch } from 'resurrection';
 // import { GetPwaManifest } from 'store/reducers/Pwas/actions/api';
@@ -44,8 +45,14 @@ const Pwa = ({
   tags,
   updated_at,
   detailed,
+  manifest_json,
   imageSize
 }) => {
+  const imageSrc = useMemo(() => {
+    const { icons } = manifest_json || {};
+    const icon = getManifestIcon(icons);
+    return icon?.src || image_url || DEFAULT_PWA_IMAGE;
+  }, [image_url, manifest_json]);
   // const dispatch = useDispatch();
   // const [isHovered, toggleIsHovered] = useBooleanReducer(false);
 
@@ -63,11 +70,7 @@ const Pwa = ({
       // onMouseEnter={toggleIsHovered}
       // onMouseLeave={toggleIsHovered}
     >
-      <CardMedia
-        sx={{ m: '0 auto', width: imageSize, height: imageSize }}
-        image={image_url || DEFAULT_PWA_IMAGE}
-        title={name}
-      />
+      <CardMedia sx={{ m: '0 auto', width: imageSize, height: imageSize }} image={imageSrc} title={name} />
       <CardContent>
         <Typography gutterBottom variant='span' component='div' style={nameStyles}>
           {name}
@@ -86,6 +89,11 @@ Pwa.propTypes = {
   imageSize: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
 };
 
-Pwa.defaultProps = { detailed: false, pwa_analytics: { view_count: 0, launch_count: 0 }, imageSize: 124 };
+Pwa.defaultProps = {
+  detailed: false,
+  pwa_analytics: { view_count: 0, launch_count: 0 },
+  manifest_json: {},
+  imageSize: 124
+};
 
 export default memo(Pwa);

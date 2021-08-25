@@ -50,6 +50,14 @@ export const getManifestIconWeight = (icon) => {
   return iconIsMaskable ? iconRatioWeight * 3 : iconRatioWeight;
 };
 
+export const getManifestIcon = (icons) =>
+  icons?.length > 0 &&
+  icons.sort?.((a, b) => {
+    const aWeight = getManifestIconWeight(a);
+    const bWeight = getManifestIconWeight(b);
+    return bWeight - aWeight;
+  })[0];
+
 export const mergeManifestWithForm = ({ pwaToUpload: { form } }, manifestUrl = '', manifestJson = {}) => {
   const {
     url,
@@ -123,13 +131,7 @@ export const mergeManifestWithForm = ({ pwaToUpload: { form } }, manifestUrl = '
     return acc;
   }, []);
 
-  let newIconUrl =
-    icons.length > 0 &&
-    icons.sort((a, b) => {
-      const aWeight = getManifestIconWeight(a);
-      const bWeight = getManifestIconWeight(b);
-      return bWeight - aWeight;
-    })[0]?.src;
+  let newIconUrl = getManifestIcon(icons)?.src;
 
   if (!newIconUrl) {
     newIconUrl = form.image_url.value;
