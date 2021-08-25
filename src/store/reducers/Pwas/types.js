@@ -25,6 +25,52 @@ export const PwaRatingType = {
   updated_at: PropTypes.string
 };
 
+export const PwaManifestIconType = PropTypes.shape({
+  purpose: PropTypes.string,
+  sizes: PropTypes.string,
+  src: PropTypes.string,
+  type: PropTypes.string
+});
+
+export const PwaManifestRelatedApplicationType = {
+  id: PropTypes.string,
+  platform: PropTypes.string,
+  url: PropTypes.string
+};
+
+export const PwaManifestJsonType = {
+  manifest_version: PropTypes.number,
+  version: PropTypes.string,
+  version_name: PropTypes.string,
+  name: PropTypes.string,
+  short_name: PropTypes.string,
+  description: PropTypes.string,
+  author: PropTypes.string,
+  display: PropTypes.string,
+  offline_enabled: PropTypes.bool,
+  background: PropTypes.shape({
+    persistent: PropTypes.bool,
+    service_worker: PropTypes.string
+  }),
+  related_applications: PropTypes.arrayOf(PropTypes.shape(PwaManifestRelatedApplicationType)),
+  icons: PropTypes.arrayOf(PwaManifestIconType),
+  keywords: PropTypes.arrayOf(PropTypes.string),
+  categories: PropTypes.arrayOf(PropTypes.string),
+  shortcuts: PropTypes.arrayOf(
+    PropTypes.shape({
+      description: PropTypes.string,
+      icons: PropTypes.arrayOf(PwaManifestIconType),
+      name: PropTypes.string,
+      url: PropTypes.string
+    })
+  ),
+  orientation: PropTypes.string,
+  start_url: PropTypes.string,
+  background_color: PropTypes.string,
+  theme_color: PropTypes.string,
+  scope: PropTypes.string
+};
+
 export const PwaType = {
   id: PropTypes.number,
   archived: PropTypes.bool,
@@ -35,6 +81,8 @@ export const PwaType = {
   updated_at: PropTypes.string,
   name: PropTypes.string,
   url: PropTypes.string,
+  manifest_url: PropTypes.string,
+  manifest_json: PropTypes.shape(PwaManifestJsonType),
   slug: PropTypes.string,
   organization: PropTypes.shape(PwaOrganizationType),
   tags: PropTypes.arrayOf(PropTypes.shape(PwaTagType)),

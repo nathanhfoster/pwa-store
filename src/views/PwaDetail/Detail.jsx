@@ -38,12 +38,18 @@ const Detail = ({
   rating_avg,
   rating_count,
   imageSrc,
+  manifest_json,
   UpdateAnalytics
 }) => {
   const renderTags = useMemo(
     () =>
       tags.map(({ name }) => (
-        <Chip key={name} label={name} sx={{ backgroundColor: 'primary.dark', color: 'white' }} size='small' />
+        <Chip
+          key={name}
+          label={name}
+          sx={{ backgroundColor: manifest_json.theme_color, color: 'white' }}
+          size='small'
+        />
       )),
     [tags]
   );
@@ -101,7 +107,7 @@ const Detail = ({
                 disabled={!url}
                 href={url}
                 target='_blank'
-                sx={{ animation: 'grow 200ms', backgroundColor: 'primary.dark' }}
+                sx={{ animation: 'grow 200ms', backgroundColor: manifest_json.theme_color }}
                 onClick={onLaunch}
               >
                 <LaunchIcon sx={{ mr: 1 }} />
@@ -127,10 +133,11 @@ const mapStateToProps = ({ Pwas: { items, filteredItems } }, { pwaId, ...restOfP
     tags,
     url,
     image_url,
-    pwa_analytics: { view_count, launch_count, rating_avg, rating_count }
+    pwa_analytics: { view_count, launch_count, rating_avg, rating_count },
+    manifest_json
   } = pwa;
   const imageSrc = image_url || DEFAULT_PWA_IMAGE;
-  return { id, name, tags, url, view_count, launch_count, rating_avg, rating_count, imageSrc };
+  return { id, name, tags, url, view_count, launch_count, rating_avg, rating_count, manifest_json, imageSrc };
 };
 
 const mapDispatchToProps = { UpdateAnalytics };
@@ -141,18 +148,19 @@ Detail.propTypes = {
   name: PwaType.name,
   tags: PwaType.tags,
   url: PwaType.url,
-
   view_count: PwaAnalyticsType.view_count,
   launch_count: PwaAnalyticsType.launch_count,
   rating_avg: PwaAnalyticsType.rating_avg,
-  rating_count: PwaAnalyticsType.rating_count
+  rating_count: PwaAnalyticsType.rating_count,
+  manifest_json: PwaType.manifest_json
 };
 
 Detail.defaultProps = {
   pwa_screenshots: [],
   pwa_analytics: {},
   rating_avg: 0,
-  rating_count: 0
+  rating_count: 0,
+  manifest_json: { theme_color: 'primary.dark' }
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Detail);

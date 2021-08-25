@@ -46,7 +46,6 @@ const Pwa = ({
   detailed,
   imageSize
 }) => {
-  console.log(name);
   // const dispatch = useDispatch();
   // const [isHovered, toggleIsHovered] = useBooleanReducer(false);
 
