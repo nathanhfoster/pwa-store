@@ -90,13 +90,13 @@ export const GetLighthouseData = (url) =>
       if (status === 200) {
         const { manifestUrl = `${url}/manifest.json` } =
           lighthouseData.lighthouseResult.audits['installable-manifest'].details.debugData;
-        return await GetPwaManifest(manifestUrl).then(({ data: manifestJson }) => {
+        return await GetPwaManifest(manifestUrl).then(({ data: { manifest_url, manifest_json } }) => {
           return {
             ...lighthouseResponse,
             data: {
               ...lighthouseData,
-              manifestUrl,
-              manifestJson
+              manifestUrl: manifest_url,
+              manifestJson: manifest_json
             }
           };
         });
