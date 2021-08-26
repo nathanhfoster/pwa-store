@@ -29,7 +29,8 @@ export const PwaManifestIconType = PropTypes.shape({
   purpose: PropTypes.string,
   sizes: PropTypes.string,
   src: PropTypes.string,
-  type: PropTypes.string
+  type: PropTypes.string,
+  density: PropTypes.string
 });
 
 export const PwaManifestRelatedApplicationType = {

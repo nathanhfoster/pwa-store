@@ -12,22 +12,25 @@ export const DEFAULT_STATE = Object.freeze({
   items: [],
   filteredItems: [],
   tags: [
-    { name: 'Games' },
-    { name: 'Tools' },
-    { name: 'Social' },
-    { name: 'News' },
-    { name: 'Shopping' },
-    { name: 'Food & Drink' },
-    { name: 'Lifestyle' },
     { name: 'Business' },
-    { name: 'Music' },
-    { name: 'Sports' },
+    { name: 'Communication' },
     { name: 'Education' },
-    { name: 'Travel' },
     { name: 'Entertainment' },
-    { name: 'Reference' },
+    { name: 'Food & Drink' },
+    { name: 'Games' },
+    { name: 'Lifestyle' },
+    { name: 'Music' },
+    { name: 'News' },
+    { name: 'Offline' },
+    { name: 'Photography' },
     { name: 'Productivity' },
-    { name: 'Offline' }
+    { name: 'Reference' },
+    { name: 'Shopping' },
+    { name: 'Social' },
+    { name: 'Sports' },
+    { name: 'Themed' },
+    { name: 'Tools' },
+    { name: 'Travel' }
   ]
 });
 
