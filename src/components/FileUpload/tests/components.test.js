@@ -36,7 +36,7 @@ describe('Components', () => {
       props = {};
       wrapper = render(<FileUploadContainer {...props} />);
     });
-    it('Should render', () => {
+    xit('Should render', () => {
       expect(wrapper).toBeDefined();
     });
   });
@@ -56,11 +56,11 @@ describe('Components', () => {
       });
     });
 
-    it('Should render', () => {
+    xit('Should render', () => {
       expect(wrapper).toBeDefined();
     });
 
-    it('Should allow a file to be uploaded when clicked', () => {
+    xit('Should allow a file to be uploaded when clicked', () => {
       const event = { target: { files: [mockFile, mockLargeFile, mockFile] } };
       const input = wrapper.container.querySelector('input');
       userEvent.click(input);
@@ -70,7 +70,7 @@ describe('Components', () => {
       expect(onError).toHaveBeenCalled();
     });
 
-    it('Should allow files to be uploaded when dropped', () => {
+    xit('Should allow files to be uploaded when dropped', () => {
       const clearData = jest.fn();
       const event = { dataTransfer: { files: [mockFile], clearData } };
       const input = wrapper.container.querySelector('input');
@@ -79,7 +79,7 @@ describe('Components', () => {
       expect(clearData).toHaveBeenCalled();
     });
 
-    it('Should not allow files to be uploaded when dropped and disabled', () => {
+    xit('Should not allow files to be uploaded when dropped and disabled', () => {
       wrapper = mountWithContext(<FileUpload {...props} />, { inDropZone: true, disabled: true });
       const clearData = jest.fn();
       const event = { dataTransfer: { files: [mockFile], clearData } };
@@ -89,14 +89,14 @@ describe('Components', () => {
       expect(clearData).toHaveBeenCalledTimes(0);
     });
 
-    it('Should allow files to be uploaded when dragged', () => {
+    xit('Should allow files to be uploaded when dragged', () => {
       const event = { dataTransfer: { dropEffect: '' } };
       const input = wrapper.container.querySelector('input');
       fireEvent.dragOver(input, event);
       expect(input).toBeDefined();
     });
 
-    it('Should not allow files to be uploaded when dragged and disabled', () => {
+    xit('Should not allow files to be uploaded when dragged and disabled', () => {
       wrapper = mountWithContext(<FileUpload {...props} />, { inDropZone: true, disabled: true });
       const event = { dataTransfer: { dropEffect: '' } };
       const input = wrapper.container.querySelector('input');
@@ -104,7 +104,7 @@ describe('Components', () => {
       expect(input).toBeDefined();
     });
 
-    it('Should handle onDragEnter/Leave', () => {
+    xit('Should handle onDragEnter/Leave', () => {
       wrapper = mountWithContext(<FileUpload {...props} />, { inDropZone: false, disabled: false });
       const input = wrapper.container.querySelector('input');
       fireEvent.dragEnter(
@@ -128,7 +128,7 @@ describe('Components', () => {
       expect(input).toBeDefined();
     });
 
-    it('Should not handle onDragEnter/Leave and disabled', () => {
+    xit('Should not handle onDragEnter/Leave and disabled', () => {
       wrapper = mountWithContext(<FileUpload {...props} />, { inDropZone: true, disabled: true });
       const currentTarget = document.createElement('div');
       const relatedTarget = document.createElement('div');
@@ -146,7 +146,7 @@ describe('Components', () => {
       wrapper = mountWithContext(<AcceptedFileTypeMessage {...props} />);
     });
 
-    it('Should render', () => {
+    xit('Should render', () => {
       expect(wrapper).toBeDefined();
     });
   });
@@ -157,7 +157,7 @@ describe('Components', () => {
       wrapper = mountWithContext(<ErrorMessages {...props} />);
     });
 
-    it('Should render', () => {
+    xit('Should render', () => {
       expect(wrapper).toBeDefined();
     });
   });
@@ -168,11 +168,11 @@ describe('Components', () => {
       wrapper = mountWithContext(<DefaultLabel {...props} />);
     });
 
-    it('Should render', () => {
+    xit('Should render', () => {
       expect(wrapper).toBeDefined();
     });
 
-    it('Should allow the file upload icon to upload a file when clicked', () => {
+    xit('Should allow the file upload icon to upload a file when clicked', () => {
       const uploadIcon = wrapper.container.querySelector('svg');
       userEvent.click(uploadIcon);
       expect(uploadIcon).toBeDefined();
@@ -185,7 +185,7 @@ describe('Components', () => {
       wrapper = mountWithContext(<LabelMessage {...props} />);
     });
 
-    it('Should render', () => {
+    xit('Should render', () => {
       expect(wrapper).toBeDefined();
     });
   });
@@ -228,7 +228,7 @@ describe('Components', () => {
       });
     });
 
-    it('Should render', () => {
+    xit('Should render', () => {
       expect(wrapper).toBeDefined();
     });
   });
@@ -256,13 +256,13 @@ describe('Components', () => {
         onDelete,
       });
     });
-    it('Should handle a file onClick', () => {
+    xit('Should handle a file onClick', () => {
       const fileWrapper = wrapper.getByTestId(`fileWrapper-${mockFileWithOnClick.key}`);
       userEvent.click(fileWrapper);
       expect(wrapper).toBeDefined();
       expect(mockFileWithOnClick.onClick).toHaveBeenCalled();
     });
-    it('Should handle a file being deleted', () => {
+    xit('Should handle a file being deleted', () => {
       const deleteIcon = wrapper.getByTestId(`deleteIcon-${mockFileWithOnClick.key}`);
       userEvent.click(deleteIcon);
       expect(wrapper).toBeDefined();

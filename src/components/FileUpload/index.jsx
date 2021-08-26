@@ -5,21 +5,17 @@ import { FileUploadPropTypes, FileUploadDefualtProps } from './state/propTypes';
 import { ContextProvider } from 'resurrection';
 import { StateContext, DispatchContext } from './state/context';
 
-const FileUploadContainer = forwardRef((props, ref) => {
-  const { children, ...restOfProps } = props;
-  return (
-    <ContextProvider
-      name='FileUploadContainer'
-      reducers={FileUploadReducer}
-      stateContext={StateContext}
-      dispatchContext={DispatchContext}
-      props={restOfProps}
-      initializer={getInitialState}
-    >
-      <FileUpload forwardedRef={ref}>{children}</FileUpload>
-    </ContextProvider>
-  );
-});
+const FileUploadContainer = forwardRef(({ children, ...restOfProps }, ref) => (
+  <ContextProvider
+    reducers={FileUploadReducer}
+    stateContext={StateContext}
+    dispatchContext={DispatchContext}
+    props={restOfProps}
+    initializer={getInitialState}
+  >
+    <FileUpload forwardedRef={ref}>{children}</FileUpload>
+  </ContextProvider>
+));
 
 FileUploadContainer.propTypes = FileUploadPropTypes;
 

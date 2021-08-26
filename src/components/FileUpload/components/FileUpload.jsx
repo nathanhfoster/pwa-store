@@ -1,6 +1,6 @@
 import React, { useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import { Button } from '@material-ui/core';
 import { SetInDropZone as SetInDropZoneAction, SetValidatedFiles as SetValidatedFilesAction } from '../state/actions';
 import FileImages from './FileImages';
