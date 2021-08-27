@@ -18,6 +18,12 @@ export const SetAddToHomeScreenPrompt = (payload) => ({
   payload
 });
 
+export const PromptAddToHomeScreenPrompt = () => (dispatch, getState) => {
+  const { addToHomeScreenPrompt } = getState().App;
+
+  addToHomeScreenPrompt.prompt();
+};
+
 export const PushAlert = (payload, id = getReduxAlertId()) => ({
   type: ActionTypes.APP_PUSH_ALERT,
   payload: { id, ...payload }
@@ -25,14 +31,16 @@ export const PushAlert = (payload, id = getReduxAlertId()) => ({
 
 export const DeleteAlert = (id) => ({ type: ActionTypes.APP_DELETE_ALERT, payload: id });
 
-export const PushAlertWithTimeout = (payload, time = DEFAULT_ALERT_TIMEOUT) => (dispatch) => {
-  const id = getReduxAlertId();
+export const PushAlertWithTimeout =
+  (payload, time = DEFAULT_ALERT_TIMEOUT) =>
+  (dispatch) => {
+    const id = getReduxAlertId();
 
-  dispatch(PushAlert(payload, id));
+    dispatch(PushAlert(payload, id));
 
-  if (time) {
-    setTimeout(() => dispatch(DeleteAlert(id)), time);
-  }
+    if (time) {
+      setTimeout(() => dispatch(DeleteAlert(id)), time);
+    }
 
-  return Promise.resolve({ id, ...payload });
-};
+    return Promise.resolve({ id, ...payload });
+  };

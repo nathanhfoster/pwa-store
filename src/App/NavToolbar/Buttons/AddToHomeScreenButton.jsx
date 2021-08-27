@@ -2,23 +2,22 @@ import React from 'react';
 import Base from './Base';
 import SystemUpdateIcon from '@material-ui/icons/SystemUpdate';
 import { connect } from 'resurrection';
+import { PromptAddToHomeScreenPrompt } from 'store/reducers/App/actions';
 
-const AddToHomeScreenButton = ({ addToHomeScreenPrompt, children }) => {
-  if (!addToHomeScreenPrompt) {
+const AddToHomeScreenButton = ({ disabled, onClick, children }) => {
+  if (disabled) {
     return null;
   }
-
-  const handleInstallToHomeScreen = () => addToHomeScreenPrompt.prompt();
 
   return (
     <>
       <Base
         title='Install to home screen'
-        disabled={!addToHomeScreenPrompt}
+        disabled={disabled}
         edge='end'
         aria-label='prompt to install pwa'
         aria-haspopup='true'
-        onClick={handleInstallToHomeScreen}
+        onClick={onClick}
       >
         <SystemUpdateIcon />
       </Base>
@@ -26,6 +25,8 @@ const AddToHomeScreenButton = ({ addToHomeScreenPrompt, children }) => {
     </>
   );
 };
-const mapStateToProps = ({ App: { addToHomeScreenPrompt } }) => ({ addToHomeScreenPrompt });
+const mapStateToProps = ({ App: { addToHomeScreenPrompt } }) => ({ disabled: !addToHomeScreenPrompt });
 
-export default connect(mapStateToProps)(AddToHomeScreenButton);
+const mapDispatchToProps = { onClick: PromptAddToHomeScreenPrompt };
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddToHomeScreenButton);
