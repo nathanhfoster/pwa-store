@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useBooleanReducer, useMounted, useDispatch } from 'resurrection';
 import useDebounce from '../useDebounce';
-import { GetLighthouseData } from 'store/reducers/Pwas/actions/api';
+import { GetLighthouseData, GetPwaManifest } from 'store/reducers/Pwas/actions/api';
 import { SetPwaManifest } from 'store/reducers/User/actions/redux';
 import { PushAlert } from 'store/reducers/App/actions';
 
@@ -32,12 +32,10 @@ const useLighthouse = (url, debounce = 400) => {
     const getLightHouseData = async (url) => {
       toggleLoading();
       await GetLighthouseData(url)
-        .then(({ status, data }) => {
+        .then(async ({ status, data }) => {
           if (status === 200) {
             if (data?.lighthouseResult) {
               const {
-                manifestUrl,
-                manifestJson,
                 captchaResult,
                 kind,
                 id,
@@ -207,10 +205,16 @@ const useLighthouse = (url, debounce = 400) => {
                 analysisUTCTimestamp
               } = data;
 
+              const { manifestUrl = url } = installableManifest.details.debugData;
+
               const iosIconTest = appleTouchIcon.score > 0;
               const installableTest = installableManifest.score > 0;
               const worksOfflineTest = serviceWorker.score > 0;
-              dispatch(SetPwaManifest(manifestUrl, manifestJson));
+
+              await GetPwaManifest(manifestUrl).then(({ data: { manifest_url, manifest_json } }) => {
+                dispatch(SetPwaManifest(manifest_url, manifest_json));
+              });
+
               setTests((prevTests) => [
                 {
                   pass: iosIconTest && installableTest && worksOfflineTest,

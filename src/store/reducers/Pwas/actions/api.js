@@ -84,25 +84,7 @@ export const GetLighthouseData = (url) =>
         Accept: 'application/json'
       }
     })
-    .then(async (lighthouseResponse) => {
-      const { status, data: lighthouseData } = lighthouseResponse;
-      console.log(status, lighthouseData);
-      if (status === 200) {
-        const { manifestUrl = `${url}/manifest.json` } =
-          lighthouseData.lighthouseResult.audits['installable-manifest'].details.debugData;
-        return await GetPwaManifest(manifestUrl).then(({ data: { manifest_url, manifest_json } }) => {
-          return {
-            ...lighthouseResponse,
-            data: {
-              ...lighthouseData,
-              manifestUrl: manifest_url,
-              manifestJson: manifest_json
-            }
-          };
-        });
-      }
-      return lighthouseResponse;
-    })
+    .then((lighthouseResponse) => lighthouseResponse)
     .catch((e) => {
       console.error(e);
       return Promise.reject(e);
@@ -149,7 +131,11 @@ export const PostRating = (payload) => (dispatch, getState) => {
       }
     })
     .then(({ data }) => {
-      const alertPayload = { title: 'Posted Rating', message: 'Successfully posted rating', props: { severity: 'success' } };
+      const alertPayload = {
+        title: 'Posted Rating',
+        message: 'Successfully posted rating',
+        props: { severity: 'success' }
+      };
       dispatch(PushAlertWithTimeout(alertPayload));
       const { items, filteredItems } = getState().Pwas;
       const obj = items.concat(filteredItems).find((i) => i.id === payload.pwa_id);
@@ -171,7 +157,11 @@ export const UpdateRating = (ratingId, payload) => (dispatch, getState) => {
       }
     })
     .then(({ data }) => {
-      const alertPayload = { title: 'Updated Rating', message: 'Successfully updated rating', props: { severity: 'success' } };
+      const alertPayload = {
+        title: 'Updated Rating',
+        message: 'Successfully updated rating',
+        props: { severity: 'success' }
+      };
       dispatch(PushAlertWithTimeout(alertPayload));
       const { items, filteredItems } = getState().Pwas;
       const pwa = items.concat(filteredItems).find((i) => i.id === payload.pwa_id);
@@ -183,4 +173,3 @@ export const UpdateRating = (ratingId, payload) => (dispatch, getState) => {
       console.log('error', e);
     });
 };
-

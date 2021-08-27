@@ -34,7 +34,6 @@ const TextField = ({
   let fieldValue = value;
 
   const handleFormChange = useCallback(({ target: { name, value } }) => {
-    console.log(name, value)
     SetUserPwaForm(name, value);
   }, []);
 
