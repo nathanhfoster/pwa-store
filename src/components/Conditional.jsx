@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Children } from 'react';
 import PropTypes from 'prop-types';
 
 /**
@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
  * @param {number|string} childKey - childKeys string to be cleaned
  * @returns {array.<string>} - array of keys
  */
-const getArrayOfKeys = childKeys => {
+const getArrayOfKeys = (childKeys) => {
   const stringChildrenKey = childKeys.toString();
   const childrenKeyWithNoSpaces = stringChildrenKey.replace(/\s+/g, '');
   const arrayOfChildrenKeys = childrenKeyWithNoSpaces.split(',');
@@ -32,14 +32,14 @@ const Conditional = ({ className, show, childrenKeysToRender, children }) => {
    *  The childrenKeysToRender or childKey strings can have a ',' as a delinator
    */
   const childrenToRender =
-    children.filter(({ key: childKey }, index) => {
+    Children.toArray(children).filter(({ key: childKey }, index) => {
       if (!childKey) {
         throw new TypeError(`Child component at index: ${index} does not have a key!`);
       }
       const childKeys = getArrayOfKeys(childKey);
       const childrenKeys = getArrayOfKeys(childrenKeysToRender);
       // return all the childKeys that are a subset of childrenKeys
-      const childFound = childrenKeys.some(c => childKeys.includes(c));
+      const childFound = childrenKeys.some((c) => childKeys.includes(c));
       return childFound;
     }) || null;
 
@@ -50,7 +50,7 @@ Conditional.propTypes = {
   className: PropTypes.string,
   show: PropTypes.bool,
   childrenKeysToRender: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  children: PropTypes.node,
+  children: PropTypes.node
 };
 
 Conditional.defaultProps = { show: true, childrenKeysToRender: undefined, children: undefined };

@@ -117,6 +117,11 @@ export const ChangeMode = (payload) => (dispatch, getState) => {
     });
 };
 
+export const ToggleUserMode = () => (dispatch, getState) => {
+  const { mode } = getState().User.setting;
+  return dispatch(ChangeMode({ mode: mode === 'light' ? 'dark' : 'light' }));
+};
+
 export const PostUserPwa = () => async (dispatch, getState) => {
   const {
     id,

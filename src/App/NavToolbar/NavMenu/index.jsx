@@ -1,5 +1,5 @@
 import React from 'react';
-import MenuItem from '@material-ui/core/MenuItem';
+import MenuItem from './MenuItem';
 import Menu from '@material-ui/core/Menu';
 import { RouteMap } from 'utils';
 import NotificationsButton from '../Buttons/NotificationsButton';
@@ -38,13 +38,13 @@ const NavMenu = ({ mobileMoreAnchorEl, setMobileMoreAnchorEl, mobileMenuId, user
           </NotificationsButton>
         </MenuItem>
         {userIsLoggedIn && (
-          <MenuItem href={RouteMap.ACCOUNT} component='a'>
+          <MenuItem href={RouteMap.ACCOUNT}>
             <AccountButton>
               <p>Account</p>
             </AccountButton>
           </MenuItem>
         )}
-        <MenuItem href={RouteMap.LOGIN} component='a'>
+        <MenuItem href={RouteMap.LOGIN}>
           <LoginLogoutButton>
             <p>{userIsLoggedIn ? 'Logout' : 'Login'}</p>
           </LoginLogoutButton>
