@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useBooleanReducer, useMounted, useDispatch } from 'resurrection';
 import useDebounce from '../useDebounce';
 import { GetLighthouseData, GetPwaManifest } from 'store/reducers/Pwas/actions/api';
-import { SetPwaManifest } from 'store/reducers/User/actions/redux';
+import { SetPwaManifest, SetLighthouseResults } from 'store/reducers/User/actions/redux';
 import { PushAlert } from 'store/reducers/App/actions';
 
 const LIGHTHOUSE_RESULT_MAP = {
@@ -35,6 +35,7 @@ const useLighthouse = (url, debounce = 400) => {
         .then(async ({ status, data }) => {
           if (status === 200) {
             if (data?.lighthouseResult) {
+              dispatch(SetLighthouseResults(data));
               const {
                 captchaResult,
                 kind,
@@ -211,9 +212,13 @@ const useLighthouse = (url, debounce = 400) => {
               const installableTest = installableManifest.score > 0;
               const worksOfflineTest = serviceWorker.score > 0;
 
-              await GetPwaManifest(manifestUrl).then(({ data: { manifest_url, manifest_json } }) => {
-                dispatch(SetPwaManifest(manifest_url, manifest_json));
-              });
+              await GetPwaManifest(manifestUrl)
+                .then(({ data: { manifest_url, manifest_json } }) => {
+                  dispatch(SetPwaManifest(manifest_url, manifest_json));
+                })
+                .catch((e) => {
+                  console.error(e);
+                });
 
               setTests((prevTests) => [
                 {

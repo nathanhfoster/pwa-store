@@ -113,18 +113,30 @@ export const ChangeMode = (payload) => (dispatch, getState) => {
       dispatch(SetUserSetting(data));
     })
     .catch((e) => {
-      console.info('whats up', e);
+      console.error(e);
     });
 };
 
 export const PostUserPwa = () => async (dispatch, getState) => {
-  const payload = {};
+  const {
+    id,
+    pwaToUpload: { form },
+    lighthouseResults
+  } = getState().User;
+  const shouldPublish = !!lighthouseResults;
+  const payload = Object.entries(form).reduce(
+    (acc, [key, { value }]) => {
+      acc[key] = value;
+      return acc;
+    },
+    { created_by: id, updated_by: id, published: shouldPublish }
+  );
   return await PostPwa(payload)
     .then((data) => {
       dispatch(ResetUserPwaForm());
       return data;
     })
     .catch((e) => {
-      console.info('whats up', e);
+      console.error(e);
     });
 };

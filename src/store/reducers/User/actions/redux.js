@@ -35,4 +35,6 @@ export const ResetUserPwaForm = () => ({ type: ActionTypes.USER_RESET_USER_PWA_F
 
 export const SetPwaManifest = (url, payload) => ({ type: ActionTypes.USER_SET_PWA_FORM_MANIFEST, id: url, payload });
 
+export const SetLighthouseResults = (payload) => ({ type: ActionTypes.USER_SET_LIGHTHOUSE_RESULTS, payload });
+
 export const SetUserIsOnline = (payload) => ({ type: ActionTypes.USER_SET_IS_ONLINE, payload });

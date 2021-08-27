@@ -1,30 +1,19 @@
-import React, { useLayoutEffect } from 'react';
+import React from 'react';
 import Base from '../Base';
 import Box from '@material-ui/core/Box';
 import Modal from '@material-ui/core/Modal';
 import Button from '@material-ui/core/Button';
 import PwaForm from './PwaForm';
 import { connect, useBooleanReducer } from 'resurrection';
+import { PostUserPwa } from 'store/reducers/User/actions/api';
 import useLighthouse from 'hooks/useLighthouse';
 
-const AddPwa = ({ userId, urlValue, imageUrlValue }) => {
+const AddPwa = ({ urlValue, imageUrlValue }) => {
   const [isModalOpen, toggleIsModalOpen] = useBooleanReducer(false);
 
   const [lightHouseIsLoading, lightHouseTests] = useLighthouse(urlValue);
 
   const shouldRenderAllFields = lightHouseTests.length > 0 && !lightHouseTests.some((test) => test.error);
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const payload = new FormData(event.currentTarget);
-    payload.append('created_by', userId);
-    payload.append('updated_by', userId);
-    for (const [key, value] of payload.entries()) {
-      console.log(`${key}: ${value}`);
-    }
-    // add tagNames
-    // UpdateUser(payload);
-  };
 
   return (
     <>
@@ -64,16 +53,10 @@ const AddPwa = ({ userId, urlValue, imageUrlValue }) => {
           justifyContent='center'
           noValidate={false}
           autoComplete='off'
-          onSubmit={handleSubmit}
+          onSubmit={PostUserPwa}
         >
           {imageUrlValue && (
-            <img
-              alt='Pwa Icon'
-              src={imageUrlValue}
-              srcSet={imageUrlValue}
-              loading='lazy'
-              height={375}
-            />
+            <img alt='Pwa Icon' src={imageUrlValue} srcSet={imageUrlValue} loading='lazy' height={375} />
           )}
           <PwaForm shouldRenderAllFields={shouldRenderAllFields} lightHouseIsLoading={lightHouseIsLoading} />
           {shouldRenderAllFields && (
@@ -95,7 +78,6 @@ const AddPwa = ({ userId, urlValue, imageUrlValue }) => {
 
 const mapStateToProps = ({
   User: {
-    id,
     pwaToUpload: {
       form: {
         url: { value: urlValue },
@@ -103,6 +85,6 @@ const mapStateToProps = ({
       }
     }
   }
-}) => ({ userId: id, urlValue, imageUrlValue });
+}) => ({ urlValue, imageUrlValue });
 
 export default connect(mapStateToProps)(AddPwa);

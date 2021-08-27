@@ -52,7 +52,8 @@ export const DEFAULT_STATE = Object.freeze({
       },
       image_url: { type: 'url', label: 'Image url', required: true, value: '' }
       // organization: { label: 'Organization', value: '' }
-    }
+    },
+    lighthouseResults: null
   },
   pwas: [],
   filteredPwas: [],
@@ -162,6 +163,15 @@ const User = (state = DEFAULT_STATE, action) => {
         pwaToUpload: {
           ...state.pwaToUpload,
           form: mergeManifestWithForm(state, id, payload)
+        }
+      };
+
+    case ActionTypes.USER_SET_LIGHTHOUSE_RESULTS:
+      return {
+        ...state,
+        pwaToUpload: {
+          ...state.pwaToUpload,
+          lighthouseResults: payload
         }
       };
 
