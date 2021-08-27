@@ -9,7 +9,6 @@
 
 // To learn more about the benefits of this model and instructions on how to
 // opt-in, read https://cra.link/PWA
-
 const { PUBLIC_URL, NODE_ENV } = process.env;
 
 const isLocalhost = Boolean(
@@ -79,10 +78,6 @@ const registerValidSW = (swUrl, config) => {
                 config.onUpdate(registration);
               }
             } else {
-              // At this point, everything has been precached.
-              // It's the perfect time to display a
-              // "Content is cached for offline use." message.
-
               // Execute callback
               if (config?.onSuccess) {
                 config.onSuccess(registration);

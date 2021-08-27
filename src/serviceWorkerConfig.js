@@ -42,11 +42,6 @@ const openPushNotification = (event) => {
 };
 
 const config = () => ({
-  // onUpdate: (registration) => {
-  //   registration.unregister().then(() => {
-  //     window.location.reload()
-  //   })
-  // },
   onUpdate: (registration) => {
     const waitingServiceWorker = registration.waiting;
 
