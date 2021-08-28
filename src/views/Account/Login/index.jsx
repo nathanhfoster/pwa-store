@@ -47,7 +47,7 @@ const LOGIN_INPUT_FIELDS = [
     type: 'password',
     id: 'password',
     label: 'Password',
-    autoComplete: 'current-password',
+    autoComplete: 'password',
     autoFocus: true
   },
   {
@@ -70,14 +70,14 @@ const SIGN_UP_INPUT_FIELDS = [
     type: 'email',
     id: 'email',
     label: 'Email',
-    autoComplete: 'current-email'
+    autoComplete: 'email'
   },
   {
     required: true,
     type: 'password',
     id: 'password',
     label: 'Password',
-    autoComplete: 'current-password'
+    autoComplete: 'password'
   }
 ];
 

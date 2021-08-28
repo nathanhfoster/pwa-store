@@ -12,6 +12,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { useTheme } from '@material-ui/core/styles';
+import { useSetRefState } from 'resurrection';
+import { cleanObject } from 'utils';
 
 const getStyles = (name, array, theme) => ({
   fontWeight: array.indexOf(name) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium
@@ -19,10 +21,17 @@ const getStyles = (name, array, theme) => ({
 
 const BasicForm = ({ title, data, submitTitle, children, onSubmit }) => {
   const theme = useTheme();
+  const [form, setForm] = useSetRefState(
+    data.reduce((acc, { id, name = id, multiple = false, defaultValue = multiple ? [] : '' }) => {
+      acc[name] = defaultValue;
+      return acc;
+    }, {})
+  );
   const handleSubmit = (event) => {
     if (onSubmit) {
       event.preventDefault();
       const payload = new FormData(event.currentTarget);
+      Object.entries(cleanObject(form, true)).forEach(([key, value]) => payload.append(key, value));
       onSubmit(payload);
     }
   };
@@ -42,18 +51,22 @@ const BasicForm = ({ title, data, submitTitle, children, onSubmit }) => {
           autoFocus = false,
           color = 'primary',
           multiple = false,
-          value,
+          defaultValue = multiple ? [] : '',
           MenuProps,
           disabled = false,
-          options
+          options = [{ id: 'No results' }]
         }) => {
           switch (type) {
             case 'checkbox':
-              return <FormControlLabel control={<Checkbox value={id} color={color} />} label={label} />;
+              return <FormControlLabel key={name} control={<Checkbox value={id} color={color} />} label={label} />;
 
             case 'select':
+              const handleFormChange = ({ target: { name, value } }) => {
+                setForm((prevForm) => ({ ...prevForm, [name]: typeof value === 'string' ? value.split(',') : value }));
+              };
               return (
                 <FormControl
+                  key={name}
                   id={name}
                   label={label}
                   name={name}
@@ -68,14 +81,16 @@ const BasicForm = ({ title, data, submitTitle, children, onSubmit }) => {
                     labelId={label}
                     name={name}
                     multiple={multiple}
-                    value={value}
+                    defaultValue={defaultValue}
+                    onChange={handleFormChange}
+                    // value={form[name]}
                     required={required}
                     input={<OutlinedInput id={name} label={label} name={name} required={required} fullWidth />}
                     MenuProps={MenuProps}
                     disabled={disabled}
                   >
                     {options.map(({ id, name = id }) => (
-                      <MenuItem key={name} value={name} style={getStyles(name, value, theme)}>
+                      <MenuItem key={name} value={name} style={getStyles(name, defaultValue, theme)}>
                         {name}
                       </MenuItem>
                     ))}
@@ -86,6 +101,7 @@ const BasicForm = ({ title, data, submitTitle, children, onSubmit }) => {
             default:
               return (
                 <TextField
+                  key={name}
                   margin={margin}
                   required={required}
                   fullWidth={fullWidth}
@@ -101,7 +117,7 @@ const BasicForm = ({ title, data, submitTitle, children, onSubmit }) => {
           }
         }
       ),
-    [data]
+    [data, theme]
   );
   return (
     <>
@@ -155,14 +171,15 @@ BasicForm.propTypes = {
       id: PropTypes.string,
       label: PropTypes.string,
       name: PropTypes.string,
-      autoComplete: PropTypes.bool,
+      autoComplete: PropTypes.string,
       margin: PropTypes.oneOf(['dense', 'none', 'normal']),
       autoFocus: PropTypes.bool,
       color: PropTypes.oneOf(['primary', 'secondary', 'error', 'info', 'success', 'warning', 'string']),
       multiple: PropTypes.bool,
       MenuProps: PropTypes.shape({}),
       disabled: PropTypes.bool,
-      options: PropTypes.arrayOf(PropTypes.shape({ id: PropTypes.string, name: PropTypes.string }))
+      options: PropTypes.arrayOf(PropTypes.shape({ id: PropTypes.string, name: PropTypes.string })),
+      defaultValue: PropTypes.string
     })
   )
 };

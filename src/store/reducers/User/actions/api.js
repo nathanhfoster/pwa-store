@@ -43,6 +43,7 @@ export const UserSignUp = (payload) => (dispatch) => {
       dispatch(ToogleIsLoading(false));
       const alertPayload = { title: 'Sign up success', message: 'Welcome!', props: { severity: 'success' } };
       dispatch(PushAlertWithTimeout(alertPayload));
+
       return dispatch(SetUser(data));
     })
     .catch((e) => {

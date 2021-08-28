@@ -131,7 +131,7 @@ const User = (state = DEFAULT_STATE, action) => {
 
     case ActionTypes.USER_DELETE:
       deleteUserLocalStorage();
-      return DEFAULT_STATE;
+      return { ...DEFAULT_STATE };
 
     case ActionTypes.USER_SET_ERROR:
       return {
