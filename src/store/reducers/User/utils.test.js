@@ -75,7 +75,7 @@ describe('User reducer utils', () => {
 
   describe('getManifestIconSrc', () => {
     it('should replace the manifest.json in the manifest_url when the icon src is relative', () => {
-      const manifest_url = 'https://pwa.com/manifest.json';
+      const manifest_url = 'https://pwa.com/assets/manifest.json';
       const icon1 = {
         src: 'assets/android-chrome-144x144.png',
         sizes: '144x144',
@@ -89,7 +89,7 @@ describe('User reducer utils', () => {
       const icons = [icon1, icon2];
 
       const result = getManifestIconSrc(manifest_url, icons);
-      const expected = manifest_url.replace('manifest.json', icon2.src);
+      const expected = 'https://pwa.com/assets/android-chrome-192x192.png';
 
       expect(result).toBe(expected);
     });

@@ -6,8 +6,19 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Checkbox from '@material-ui/core/Checkbox';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import { useTheme } from '@material-ui/core/styles';
+
+const getStyles = (name, array, theme) => ({
+  fontWeight: array.indexOf(name) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium
+});
 
 const BasicForm = ({ title, data, submitTitle, children, onSubmit }) => {
+  const theme = useTheme();
   const handleSubmit = (event) => {
     if (onSubmit) {
       event.preventDefault();
@@ -29,11 +40,49 @@ const BasicForm = ({ title, data, submitTitle, children, onSubmit }) => {
           autoComplete,
           margin = 'normal',
           autoFocus = false,
-          color = 'primary'
+          color = 'primary',
+          multiple = false,
+          value,
+          MenuProps,
+          disabled = false,
+          options
         }) => {
           switch (type) {
             case 'checkbox':
               return <FormControlLabel control={<Checkbox value={id} color={color} />} label={label} />;
+
+            case 'select':
+              return (
+                <FormControl
+                  id={name}
+                  label={label}
+                  name={name}
+                  required={required}
+                  margin={margin}
+                  fullWidth={fullWidth}
+                >
+                  <InputLabel id={name}>{label}</InputLabel>
+                  <Select
+                    id={name}
+                    label={label}
+                    labelId={label}
+                    name={name}
+                    multiple={multiple}
+                    value={value}
+                    required={required}
+                    input={<OutlinedInput id={name} label={label} name={name} required={required} fullWidth />}
+                    MenuProps={MenuProps}
+                    disabled={disabled}
+                  >
+                    {options.map(({ id, name = id }) => (
+                      <MenuItem key={name} value={name} style={getStyles(name, value, theme)}>
+                        {name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              );
+
             default:
               return (
                 <TextField
@@ -98,7 +147,8 @@ BasicForm.propTypes = {
         'text',
         'time',
         'url',
-        'week'
+        'week',
+        'select'
       ]),
       required: PropTypes.bool,
       fullWidth: PropTypes.bool,
@@ -108,7 +158,11 @@ BasicForm.propTypes = {
       autoComplete: PropTypes.bool,
       margin: PropTypes.oneOf(['dense', 'none', 'normal']),
       autoFocus: PropTypes.bool,
-      color: PropTypes.oneOf(['primary', 'secondary', 'error', 'info', 'success', 'warning', 'string'])
+      color: PropTypes.oneOf(['primary', 'secondary', 'error', 'info', 'success', 'warning', 'string']),
+      multiple: PropTypes.bool,
+      MenuProps: PropTypes.shape({}),
+      disabled: PropTypes.bool,
+      options: PropTypes.arrayOf(PropTypes.shape({ id: PropTypes.string, name: PropTypes.string }))
     })
   )
 };

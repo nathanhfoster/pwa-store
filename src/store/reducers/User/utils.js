@@ -58,14 +58,24 @@ export const getManifestIcon = (icons) =>
     return bWeight - aWeight;
   })[0];
 
+const getHostNameOfUrl = (url) => {
+  var a = document.createElement('a');
+  a.href = url;
+
+  const { href, protocol, host, hostname, port, pathname, search, hash } = a;
+
+  return `${protocol}//${hostname}`;
+};
+
 export const getManifestIconSrc = (manifest_url, icons) => {
   var imageUrl = null;
   const icon = getManifestIcon(icons);
   if (icon) {
-    if (stringMatch(icon.src, 'https')) {
+    if (stringMatch(icon.src, 'http')) {
       imageUrl = icon.src;
     } else {
-      imageUrl = manifest_url?.replace('manifest.json', icon.src);
+      const hostname = getHostNameOfUrl(manifest_url);
+      imageUrl = `${hostname}/${icon.src}`;
     }
   }
   return imageUrl;
