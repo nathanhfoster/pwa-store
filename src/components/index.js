@@ -1,3 +1,4 @@
+export { default as BasicForm } from './BasicForm';
 export { default as DateTime } from './DateTime';
 export { default as LoadingScreen } from './LoadingScreen';
 export { default as PwasStack } from './PwasStack';

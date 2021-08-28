@@ -31,6 +31,33 @@ export const UserLogin = (payload) => (dispatch) => {
     });
 };
 
+export const UserSignUp = (payload) => (dispatch) => {
+  dispatch(ToogleIsLoading(true));
+  return Axios()
+    .post('auth/register/', payload, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    .then(({ data }) => {
+      dispatch(ToogleIsLoading(false));
+      const alertPayload = { title: 'Sign up success', message: 'Welcome!', props: { severity: 'success' } };
+      dispatch(PushAlertWithTimeout(alertPayload));
+      return dispatch(SetUser(data));
+    })
+    .catch((e) => {
+      dispatch(ToogleIsLoading(false));
+      dispatch(SetUserError(e));
+      const alertPayload = {
+        title: 'Sign up error',
+        message: `${e.message}. Please check your username, email, and password.`,
+        props: { severity: 'error' }
+      };
+      dispatch(PushAlertWithTimeout(alertPayload));
+      console.error(e);
+    });
+};
+
 export const UpdateUser = (payload) => (dispatch, getState) => {
   const { id, token } = getState().User;
   dispatch(ToogleIsLoading(true));

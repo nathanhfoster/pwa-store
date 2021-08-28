@@ -1,8 +1,10 @@
-import React from 'react';
+import * as React from 'react';
 import { styled } from '@material-ui/core/styles';
-import { useHistory } from 'react-router-dom';
-import { RouteMap } from 'utils';
 import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
@@ -11,8 +13,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Portal from '@material-ui/core/Portal';
 import { useDispatch } from 'resurrection';
-import { UserLogin, UserSignUp } from 'store/reducers/User/actions/api';
-import BasicForm from 'components/BasicForm';
+import { UserLogin } from 'store/reducers/User/actions/api';
 
 const icon = `${process.env.PUBLIC_URL}/assets/android-chrome-512x512.png`;
 
@@ -34,73 +35,13 @@ const Copyright = (props) => {
   );
 };
 
-const LOGIN_INPUT_FIELDS = [
-  {
-    required: true,
-    id: 'username',
-    label: 'Username',
-    autoComplete: 'username',
-    autoFocus: true
-  },
-  {
-    required: true,
-    type: 'password',
-    id: 'password',
-    label: 'Password',
-    autoComplete: 'current-password',
-    autoFocus: true
-  },
-  {
-    type: 'checkbox',
-    id: 'remember',
-    label: 'Remember me'
-  }
-];
-
-const SIGN_UP_INPUT_FIELDS = [
-  {
-    required: true,
-    id: 'username',
-    label: 'Username',
-    autoComplete: 'username',
-    autoFocus: true
-  },
-  {
-    required: true,
-    type: 'email',
-    id: 'email',
-    label: 'Email',
-    autoComplete: 'current-email'
-  },
-  {
-    required: true,
-    type: 'password',
-    id: 'password',
-    label: 'Password',
-    autoComplete: 'current-password'
-  }
-];
-
-const INPUT_FIELD_MAP = {
-  [RouteMap.LOGIN]: LOGIN_INPUT_FIELDS,
-  [RouteMap.REGISTER]: SIGN_UP_INPUT_FIELDS
-};
-
-const Login = () => {
+const SignUp = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
 
-  const { pathname } = history.location;
-
-  const isLoginForm = pathname === RouteMap.LOGIN;
-
-  const formTitle = isLoginForm ? 'Sign in' : 'Register';
-
-  const handleSetInputFields = (pathname) => () => history.push(pathname);
-
-  const handleSubmit = (payload) => {
-    const action = isLoginForm ? UserLogin : UserSignUp;
-    dispatch(action(payload));
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const payload = new FormData(event.currentTarget);
+    dispatch(UserLogin(payload));
   };
 
   return (
@@ -133,24 +74,43 @@ const Login = () => {
             <Avatar sx={{ m: 1, bgcolor: 'primary.dark' }}>
               <LockOutlinedIcon />
             </Avatar>
-            <BasicForm
-              title={formTitle}
-              submitTitle={formTitle}
-              data={INPUT_FIELD_MAP[pathname]}
-              onSubmit={handleSubmit}
-            >
+            <Typography component='h1' variant='h5'>
+              Sign in
+            </Typography>
+            <Box component='form' noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+              <TextField
+                margin='normal'
+                required
+                fullWidth
+                id='username'
+                label='Username'
+                name='username'
+                autoComplete='username'
+                autoFocus
+              />
+              <TextField
+                margin='normal'
+                required
+                fullWidth
+                id='password'
+                name='password'
+                label='Password'
+                type='password'
+                autoComplete='current-password'
+              />
+              <FormControlLabel control={<Checkbox value='remember' color='primary' />} label='Remember me' />
+              <Button type='submit' fullWidth variant='contained' sx={{ mt: 3, mb: 2, bgcolor: 'primary.dark' }}>
+                Sign In
+              </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link variant='button' disabled>
+                  <Link href='#' variant='body2'>
                     Forgot password?
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link
-                    variant='button'
-                    onClick={handleSetInputFields(isLoginForm ? RouteMap.REGISTER : RouteMap.LOGIN)}
-                  >
-                    {isLoginForm ? "Don't have an account? Sign up" : 'Have an account already? Log in'}
+                  <Link href='#' variant='body2'>
+                    {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>
               </Grid>
@@ -158,7 +118,7 @@ const Login = () => {
                 <AppIcon src={icon} srcSet={icon} alt='Logo' loading='lazy' />
               </Grid>
               <Copyright sx={{ mt: 5 }} />
-            </BasicForm>
+            </Box>
           </Box>
         </Grid>
       </Grid>
@@ -166,4 +126,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;
