@@ -1,7 +1,14 @@
 import React, { cloneElement, memo } from 'react';
 import PropTypes from 'prop-types';
 import Stack from '@material-ui/core/Stack';
-import { ShareOnEmail, ShareOnFaceBook, ShareOnLinkedIn, ShareOnTwitter, ShareOnWhatsApp } from '../';
+import {
+  ShareOnEmail,
+  ShareOnFaceBook,
+  ShareOnLinkedIn,
+  ShareOnTwitter,
+  ShareOnWhatsApp,
+  ShareOnMobileOrClipboard
+} from '../';
 
 const ShareButtons = ({ url }) => {
   const Buttons = [
@@ -9,7 +16,8 @@ const ShareButtons = ({ url }) => {
     <ShareOnFaceBook url={url} />,
     <ShareOnWhatsApp text={url} />,
     <ShareOnLinkedIn url={url} />,
-    <ShareOnTwitter text={url} />
+    <ShareOnTwitter text={url} />,
+    <ShareOnMobileOrClipboard url={url} />
   ];
 
   return (

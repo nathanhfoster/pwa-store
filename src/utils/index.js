@@ -76,3 +76,61 @@ export const omit = (object = [], keysToOmit = []) => {
 
   return keysToOmit.reduce((acc, key) => (delete acc[key], acc), { ...object });
 };
+
+export const cleanObject = (obj, truthyCheck = false) => {
+  for (const key in obj) {
+    if (truthyCheck && !obj[key]) {
+      delete obj[key];
+    } else if (obj[key] === null || obj[key] === undefined || (Array.isArray(obj[key]) && obj[key].length === 0)) {
+      delete obj[key];
+    }
+  }
+  return obj;
+};
+
+export const copyStringToClipboard = (s) => {
+  if (navigator.clipboard) {
+    return navigator.clipboard
+      .writeText(s)
+      .then((text) => {
+        // Success!
+        return text;
+      })
+      .catch((error) => {
+        return error;
+      });
+  } else {
+    // Create new element
+    let el = document.createElement('textarea');
+    // Set value (string to be copied)
+    el.value = s;
+    // Set non-editable to avoid focus and move outside of view
+    el.setAttribute('readonly', '');
+    document.body.appendChild(el);
+    // Select text inside element
+    el.select();
+    // Copy text to clipboard
+    document.execCommand('copy');
+    // Remove temporary element
+    document.body.removeChild(el);
+  }
+
+  return Promise.resolve(s);
+};
+
+export const shareUrl = ({ url, title, text, files }) => {
+  let payload = {
+    url,
+    title,
+    text
+  };
+
+  if (files && navigator?.canShare({ files })) {
+    payload.files = files;
+  }
+
+  return navigator
+    .share(payload)
+    .then((response) => ({ data: payload, response }))
+    .catch((error) => ({ data: payload, error }));
+};
