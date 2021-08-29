@@ -5,11 +5,12 @@ import { ToggleAppNavBar } from 'store/reducers/App/actions';
 import { ResetPwasFilter } from 'store/reducers/Pwas/actions/redux';
 import { styled } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
-import { HOME } from 'utils/RouteMap';
+import { HOME, SETTINGS_USER_FAVORITE_PWAS } from 'utils/RouteMap';
 import Toolbar from '@material-ui/core/Toolbar';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import IconButton from '@material-ui/core/IconButton';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 import HomeIcon from '@material-ui/icons/StoreMallDirectory';
 
 const NavItem = lazy(() => import('./NavItem'));
@@ -22,27 +23,42 @@ const StyledToolbar = styled(Toolbar)((props) => ({
 
 const HOME_ICON_SIZE = 32;
 
-const StyledHomeIcon = styled(HomeIcon)((props) => ({
+const iconStyles = (props) => ({
   width: HOME_ICON_SIZE,
   height: HOME_ICON_SIZE,
   animation: 'grow 200ms',
   '&:hover': { color: props.theme.palette.primary.main }
-}));
+}):
+
+const StyledHomeIcon = styled(HomeIcon)(iconStyles);
+const StyledFavoriteIcon = styled(FavoriteIcon)(iconStyles);
 
 const NavList = ({ tags, ResetPwasFilter, ToggleAppNavBar }) => {
   const history = useHistory();
 
-  const handleHomeClick = () => {
-    history.push(HOME);
+  const handleResetNavBar = () => {
     ResetPwasFilter();
     ToggleAppNavBar(false);
   };
 
+  const handleHomeClick = () => {
+    history.push(HOME);
+    handleResetNavBar();
+  };
+
+  const handleFavoriteClick = () => {
+    history.push(SETTINGS_USER_FAVORITE_PWAS);
+    handleResetNavBar();
+  };
+
   return (
     <>
-      <StyledToolbar test='test'>
+      <StyledToolbar l>
         <IconButton edge='start' onClick={handleHomeClick}>
           <StyledHomeIcon />
+        </IconButton>
+        <IconButton edge='start' onClick={handleFavoriteClick}>
+          <StyledFavoriteIcon />
         </IconButton>
       </StyledToolbar>
       <Divider />
