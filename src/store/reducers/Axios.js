@@ -1,6 +1,7 @@
 import { storeFactory } from 'resurrection';
 import axios from 'axios';
 import { getUserTokenAndIdLocalStorage } from 'store/reducers/User/utils';
+import { PushAlertWithTimeout } from 'store/reducers/App/actions';
 
 /**
  * Config global for axios/django
@@ -56,7 +57,7 @@ export const Axios = (props) => {
     responseType = 'json'
   } = props || {};
 
-  return axios.create({
+  let api = axios.create({
     ...axiosDefaults,
     baseURL: pagination || axiosDefaults.baseURL,
     withCredentials: true,
@@ -68,4 +69,18 @@ export const Axios = (props) => {
         }
       : baseHeaders
   });
+
+  api.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      const {
+        response: { data }
+      } = error;
+      const alertPayload = { title: 'Error', message: JSON.stringify(data), props: { severity: 'error' } };
+      store?.dispatch(PushAlertWithTimeout(alertPayload));
+      throw error;
+    }
+  );
+
+  return api;
 };

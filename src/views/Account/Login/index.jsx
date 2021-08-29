@@ -38,7 +38,6 @@ const LOGIN_INPUT_FIELDS = [
   {
     required: true,
     id: 'username',
-    label: 'Username',
     autoComplete: 'username',
     autoFocus: true
   },
@@ -46,14 +45,12 @@ const LOGIN_INPUT_FIELDS = [
     required: true,
     type: 'password',
     id: 'password',
-    label: 'Password',
     autoComplete: 'password',
     autoFocus: true
   },
   {
     type: 'checkbox',
-    id: 'remember',
-    label: 'Remember me'
+    id: 'remember'
   }
 ];
 
@@ -61,7 +58,6 @@ const SIGN_UP_INPUT_FIELDS = [
   {
     required: true,
     id: 'username',
-    label: 'Username',
     autoComplete: 'username',
     autoFocus: true
   },
@@ -69,14 +65,12 @@ const SIGN_UP_INPUT_FIELDS = [
     required: true,
     type: 'email',
     id: 'email',
-    label: 'Email',
     autoComplete: 'email'
   },
   {
     required: true,
     type: 'password',
     id: 'password',
-    label: 'Password',
     autoComplete: 'password'
   }
 ];

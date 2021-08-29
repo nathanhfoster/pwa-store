@@ -38,7 +38,7 @@ const NavMenu = ({ mobileMoreAnchorEl, setMobileMoreAnchorEl, mobileMenuId, user
           </NotificationsButton>
         </MenuItem>
         {userIsLoggedIn && (
-          <MenuItem href={RouteMap.ACCOUNT}>
+          <MenuItem href={RouteMap.SETTINGS}>
             <AccountButton>
               <p>Account</p>
             </AccountButton>

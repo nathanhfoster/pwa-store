@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Box from '@material-ui/core/Box';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import BasicForm from 'components/BasicForm';
 import { connect } from 'resurrection';
 import { UpdateUser } from 'store/reducers/User/actions/api';
 
@@ -23,46 +24,40 @@ const UserForm = ({
   error: { message },
   UpdateUser
 }) => {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const payload = new FormData(event.currentTarget);
+  const handleSubmit = (payload) => {
     UpdateUser(payload);
   };
 
+  const userFormFields = useMemo(
+    () => [
+      {
+        required: true,
+        id: 'username',
+        defaultValue: username
+      },
+      {
+        required: true,
+        id: 'name',
+        defaultValue: name
+      },
+      {
+        required: true,
+        type: 'email',
+        id: 'email',
+        defaultValue: email
+      },
+      {
+        required: true,
+        type: 'password',
+        label: 'Password'
+      }
+    ],
+    [email, username]
+  );
+
   return (
-    <Box component='form' noValidate={false} autoComplete='off' onSubmit={handleSubmit}>
-      <TextField
-        id='username'
-        label='Username'
-        name='username'
-        required
-        fullWidth
-        defaultValue={username}
-        margin='normal'
-      />
-      <TextField
-        id='email'
-        name='email'
-        label='email'
-        type='email'
-        required
-        fullWidth
-        defaultValue={email}
-        margin='normal'
-      />
-      <TextField
-        id='password'
-        name='password'
-        label='New Password'
-        type='password'
-        required
-        fullWidth
-        defaultValue=''
-        margin='normal'
-      />
-      <Button type='submit' fullWidth variant='contained' sx={{ mt: 3, mb: 2, bgcolor: 'success.dark' }}>
-        Update
-      </Button>
+    <Box p={4}>
+      <BasicForm title='Update Account' submitTitle='Update' data={userFormFields} onSubmit={handleSubmit} />
     </Box>
   );
 };

@@ -21,12 +21,6 @@ export const UserLogin = (payload) => (dispatch) => {
     .catch((e) => {
       dispatch(ToogleIsLoading(false));
       dispatch(SetUserError(e));
-      const alertPayload = {
-        title: 'Sign in error',
-        message: `${e.message}. Please check your username and password.`,
-        props: { severity: 'error' }
-      };
-      dispatch(PushAlertWithTimeout(alertPayload));
       console.error(e);
     });
 };
@@ -49,12 +43,6 @@ export const UserSignUp = (payload) => (dispatch) => {
     .catch((e) => {
       dispatch(ToogleIsLoading(false));
       dispatch(SetUserError(e));
-      const alertPayload = {
-        title: 'Sign up error',
-        message: `${e.message}. Please check your username, email, and password.`,
-        props: { severity: 'error' }
-      };
-      dispatch(PushAlertWithTimeout(alertPayload));
       console.error(e);
     });
 };
@@ -81,8 +69,6 @@ export const UpdateUser = (payload) => (dispatch, getState) => {
     .catch((e) => {
       dispatch(ToogleIsLoading(false));
       dispatch(SetUserError(e));
-      const alertPayload = { title: 'Update account failure', message: e.message, props: { severity: 'error' } };
-      dispatch(PushAlertWithTimeout(alertPayload));
       console.error(e);
     });
 };

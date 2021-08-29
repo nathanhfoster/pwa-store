@@ -20,8 +20,10 @@ const AppRouter = ({ userIsLoggedIn }) => {
         <Route exact path={[RouteMap.ROOT, RouteMap.HOME]} component={Home} />
         <Route
           exact
-          path={[RouteMap.ACCOUNT]}
-          render={() => (userIsLoggedIn ? <UserAccount /> : <Redirect to={RouteMap.HOME} />)}
+          path={[RouteMap.SETTINGS, RouteMap.SETTINGS_USER_PWAS, RouteMap.SETTINGS_USER_ACCOUNT]}
+          render={({ history }) =>
+            userIsLoggedIn ? <UserAccount history={history} /> : <Redirect to={RouteMap.HOME} />
+          }
         />
         <Route exact path={[RouteMap.PWA_DETAIL]} render={({ match: { params } }) => <PwaDetail {...params} />} />
         <Route exact path={[RouteMap.PWA_TAG_FILTER]} component={PwasFilteredByTags} />

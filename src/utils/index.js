@@ -134,3 +134,9 @@ export const shareUrl = ({ url, title, text, files }) => {
     .then((response) => ({ data: payload, response }))
     .catch((error) => ({ data: payload, error }));
 };
+
+export const isEmpty = (obj) => {
+  for (let i in obj) return false;
+
+  return true;
+};

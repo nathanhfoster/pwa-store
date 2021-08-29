@@ -6,7 +6,7 @@ export const DEFAULT_STATE = Object.freeze({
   navBarIsOpen: false,
   serviceWorkerRegistration: null,
   addToHomeScreenPrompt: null,
-  alerts: []
+  alerts: [],
 });
 
 const App = (state = DEFAULT_STATE, action) => {

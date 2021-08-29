@@ -13,7 +13,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { useTheme } from '@material-ui/core/styles';
 import { useSetRefState } from 'resurrection';
-import { cleanObject } from 'utils';
+import { cleanObject, capitalize } from 'utils';
 
 const getStyles = (name, array, theme) => ({
   fontWeight: array.indexOf(name) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium
@@ -44,7 +44,7 @@ const BasicForm = ({ title, data, submitTitle, children, onSubmit }) => {
           required = false,
           fullWidth = true,
           id,
-          label,
+          label = capitalize(id),
           name = id,
           autoComplete,
           margin = 'normal',
