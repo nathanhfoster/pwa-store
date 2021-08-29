@@ -25,7 +25,7 @@ const AddToHomeScreenButton = ({ disabled, onClick, children }) => {
     </>
   );
 };
-const mapStateToProps = ({ App: { addToHomeScreenPrompt } }) => ({ disabled: !addToHomeScreenPrompt });
+const mapStateToProps = ({ App: { addToHomeScreenPrompt } }) => ({ disabled: !addToHomeScreenPrompt?.prompt });
 
 const mapDispatchToProps = { onClick: PromptAddToHomeScreenPrompt };
 
