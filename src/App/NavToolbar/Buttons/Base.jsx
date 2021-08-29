@@ -4,7 +4,7 @@ import Link from 'react-router-dom/Link';
 import IconButton from '@material-ui/core/IconButton';
 
 const Base = ({ href, to, children, ...restOfProps }) => (
-  <IconButton component={Link} {...restOfProps} to={href || to}>
+  <IconButton component={to ? Link : href ? 'a' : 'button'} {...restOfProps} to={href || to}>
     {cloneElement(children, { sx: { animation: 'grow 200ms' } })}
   </IconButton>
 );
