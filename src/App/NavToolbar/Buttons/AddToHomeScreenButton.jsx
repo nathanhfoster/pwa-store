@@ -11,14 +11,7 @@ const AddToHomeScreenButton = ({ disabled, onClick, children }) => {
 
   return (
     <>
-      <Base
-        title='Install to home screen'
-        disabled={disabled}
-        edge='end'
-        aria-label='prompt to install pwa'
-        aria-haspopup='true'
-        onClick={onClick}
-      >
+      <Base title='Install to home screen' disabled={disabled} onClick={onClick}>
         <SystemUpdateIcon />
       </Base>
       {children}

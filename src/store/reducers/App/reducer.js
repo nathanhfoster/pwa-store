@@ -4,9 +4,12 @@ import { toggleBooleanReducer } from 'resurrection';
 export const DEFAULT_STATE = Object.freeze({
   version: '1.0',
   navBarIsOpen: false,
+  mobileMenuId: 'MobileMenu',
+  mobileMoreAnchorEl: null,
+  navMobileMenuIsOpen: false,
   serviceWorkerRegistration: null,
   addToHomeScreenPrompt: null,
-  alerts: [],
+  alerts: []
 });
 
 const App = (state = DEFAULT_STATE, action) => {
@@ -15,6 +18,13 @@ const App = (state = DEFAULT_STATE, action) => {
   switch (type) {
     case ActionTypes.APP_TOGGLE_NAV_BAR:
       return { ...state, navBarIsOpen: toggleBooleanReducer(state.navBarIsOpen, payload) };
+
+    case ActionTypes.APP_TOGGLE_MOBILE_MORE_ANCHOR_EL:
+      return {
+        ...state,
+        mobileMoreAnchorEl: payload,
+        navMobileMenuIsOpen: Boolean(payload)
+      };
 
     case ActionTypes.APP_SET_SERVICE_WORKER_REGISTERATION:
       return { ...state, serviceWorkerRegistration: payload };

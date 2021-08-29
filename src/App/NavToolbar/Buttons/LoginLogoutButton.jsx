@@ -14,8 +14,6 @@ const LoginLogoutButton = ({ userIsLoggedIn, onClick, children }) => {
         title={userIsLoggedIn ? 'Logout' : 'Login'}
         to={userIsLoggedIn ? undefined : RouteMap.LOGIN}
         onClick={userIsLoggedIn ? onClick : undefined}
-        aria-label='account of current user'
-        aria-haspopup='true'
       >
         <Icon />
       </Base>

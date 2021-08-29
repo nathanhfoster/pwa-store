@@ -5,7 +5,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 
 const NotificationsButton = ({ children }) => (
   <>
-    <Base title='Notifications' aria-label='show 17 new notifications'>
+    <Base title='Notifications'>
       <Badge badgeContent={17} color='error'>
         <NotificationsIcon />
       </Badge>

@@ -8,6 +8,11 @@ export const SetAppVersion = (version) => ({
 
 export const ToggleAppNavBar = (payload) => ({ type: ActionTypes.APP_TOGGLE_NAV_BAR, payload });
 
+export const ToggleMobileMoreAnchorEl = (event) => ({
+  type: ActionTypes.APP_TOGGLE_MOBILE_MORE_ANCHOR_EL,
+  payload: event?.currentTarget || null
+});
+
 export const SetServiceWorkerRegistration = (payload) => ({
   type: ActionTypes.APP_SET_SERVICE_WORKER_REGISTERATION,
   payload

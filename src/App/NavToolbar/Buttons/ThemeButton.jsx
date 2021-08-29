@@ -7,7 +7,7 @@ import { ToggleUserMode } from '../../../store/reducers/User/actions/api';
 
 const ThemeButton = ({ Icon, children, onClick }) => (
   <>
-    <Base aria-label='Mode of user' onClick={onClick}>
+    <Base title='Toggle theme' onClick={onClick}>
       <Icon />
     </Base>
     {children}

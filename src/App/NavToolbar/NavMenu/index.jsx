@@ -2,24 +2,23 @@ import React, { useCallback } from 'react';
 import MenuItem from './MenuItem';
 import Menu from '@material-ui/core/Menu';
 import { RouteMap } from 'utils';
+import { ToggleMobileMoreAnchorEl } from 'store/reducers/App/actions';
 import NotificationsButton from '../Buttons/NotificationsButton';
 import LoginLogoutButton from '../Buttons/LoginLogoutButton';
 import AccountButton from '../Buttons/AccountButton';
 import ThemeButton from '../Buttons/ThemeButton';
 import connect from 'resurrection';
 
-const NavMenu = ({ mobileMoreAnchorEl, setMobileMoreAnchorEl, mobileMenuId, userIsLoggedIn }) => {
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-  const handleMobileMenuClose = useCallback((e) => {
-    const childButton = e.target.querySelector('button');
-    if (childButton) {
-      e.stopPropagation();
-      childButton.click();
-    }
-    setMobileMoreAnchorEl(null);
+const NavMenu = ({
+  mobileMenuId,
+  mobileMoreAnchorEl,
+  navMobileMenuIsOpen,
+  userIsLoggedIn,
+  ToggleMobileMoreAnchorEl
+}) => {
+  const handleMobileMenuClose = useCallback(() => {
+    ToggleMobileMoreAnchorEl(null);
   }, []);
-
   return (
     <>
       <Menu
@@ -34,21 +33,21 @@ const NavMenu = ({ mobileMoreAnchorEl, setMobileMoreAnchorEl, mobileMenuId, user
           vertical: 'top',
           horizontal: 'right'
         }}
-        open={isMobileMenuOpen}
+        open={navMobileMenuIsOpen}
         onClose={handleMobileMenuClose}
       >
-        <MenuItem onClick={handleMobileMenuClose}>
+        <MenuItem>
           <NotificationsButton>Notifications</NotificationsButton>
         </MenuItem>
         {userIsLoggedIn && (
-          <MenuItem to={RouteMap.SETTINGS_USER_PWAS} onClick={handleMobileMenuClose}>
+          <MenuItem to={RouteMap.SETTINGS_USER_ACCOUNT}>
             <AccountButton>Account</AccountButton>
           </MenuItem>
         )}
-        <MenuItem to={RouteMap.LOGIN} onClick={handleMobileMenuClose}>
+        <MenuItem to={RouteMap.LOGIN}>
           <LoginLogoutButton>{userIsLoggedIn ? 'Logout' : 'Login'}</LoginLogoutButton>
         </MenuItem>
-        <MenuItem onClick={handleMobileMenuClose}>
+        <MenuItem>
           <ThemeButton>Mode</ThemeButton>
         </MenuItem>
       </Menu>
@@ -56,8 +55,13 @@ const NavMenu = ({ mobileMoreAnchorEl, setMobileMoreAnchorEl, mobileMenuId, user
   );
 };
 
-const mapStateToProps = ({ User: { id, token } }) => ({
+const mapStateToProps = ({ App: { mobileMenuId, mobileMoreAnchorEl, navMobileMenuIsOpen }, User: { id, token } }) => ({
+  mobileMenuId,
+  mobileMoreAnchorEl,
+  navMobileMenuIsOpen,
   userIsLoggedIn: Boolean(id && token)
 });
 
-export default connect(mapStateToProps)(NavMenu);
+const mapDispatchToProps = { ToggleMobileMoreAnchorEl };
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavMenu);

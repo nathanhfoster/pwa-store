@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'resurrection';
 import Box from '@material-ui/core/Box';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -8,22 +8,14 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 
 import SearchBar from './NavSearchBar';
 import NavMenu from './NavMenu';
-import { ToggleAppNavBar } from 'store/reducers/App/actions';
+import { ToggleAppNavBar, ToggleMobileMoreAnchorEl } from 'store/reducers/App/actions';
 import LoginLogoutButton from './Buttons/LoginLogoutButton';
 import AccountButton from './Buttons/AccountButton';
 import NotificationsButton from './Buttons/NotificationsButton';
 import AddToHomeScreenButton from './Buttons/AddToHomeScreenButton';
 import ThemeButton from './Buttons/ThemeButton';
 
-const mobileMenuId = 'SearchBarMenuMobile';
-
-const NavToolbar = ({ ToggleAppNavBar }) => {
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
-
-  const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
-
+const NavToolbar = ({ mobileMenuId, ToggleAppNavBar, ToggleMobileMoreAnchorEl }) => {
   return (
     <>
       <Toolbar>
@@ -51,7 +43,7 @@ const NavToolbar = ({ ToggleAppNavBar }) => {
             aria-label='show more'
             aria-controls={mobileMenuId}
             aria-haspopup='true'
-            onClick={handleMobileMenuOpen}
+            onClick={ToggleMobileMoreAnchorEl}
             color='inherit'
             sx={{ p: 0.5 }}
           >
@@ -59,17 +51,13 @@ const NavToolbar = ({ ToggleAppNavBar }) => {
           </IconButton>
         </Box>
       </Toolbar>
-      <NavMenu
-        mobileMoreAnchorEl={mobileMoreAnchorEl}
-        setMobileMoreAnchorEl={setMobileMoreAnchorEl}
-        mobileMenuId={mobileMenuId}
-      />
+      <NavMenu />
     </>
   );
 };
 
-const mapStateToProps = ({}) => ({});
+const mapStateToProps = ({ App: { mobileMenuId } }) => ({ mobileMenuId });
 
-const mapDispatchToProps = { ToggleAppNavBar };
+const mapDispatchToProps = { ToggleAppNavBar, ToggleMobileMoreAnchorEl };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavToolbar);
