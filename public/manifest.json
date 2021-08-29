@@ -54,8 +54,20 @@
     {
       "name": "Home",
       "short_name": "Home",
-      "description": "Go to Home",
+      "description": "Go to home",
       "url": "/home",
+      "icons": [
+        {
+          "src": "assets/android-chrome-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Settings",
+      "short_name": "Settings",
+      "description": "Go to settings",
+      "url": "/settings",
       "icons": [
         {
           "src": "assets/android-chrome-192x192.png",
