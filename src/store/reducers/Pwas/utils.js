@@ -50,11 +50,11 @@ const mergePwas = (currentStoreItems, newItems, key = 'id') => {
 
 const match = (obj, search, key) => {
   if (Array.isArray(obj)) {
-    return obj?.some((e) => stringMatch(key ? e[key] : e, search));
+    return obj?.some((e) => stringMatch(e && key ? e[key] : e, search));
   }
 
   if (typeof obj === 'object') {
-    return stringMatch(key ? obj[key] : obj, search);
+    return stringMatch(obj && key ? obj[key] : obj, search);
   }
 
   return stringMatch(obj, search);
@@ -66,9 +66,35 @@ const handleFilterItems = (items, search) => {
   var cachedItems = [];
 
   const newItems = items.filter((item) => {
-    const { id, name, url, slug, description, views, launches, ratings, organization, tags, updated_at } = item;
+    const {
+      id,
+      name,
+      url,
+      slug,
+      description,
+      views,
+      launches,
+      ratings,
+      organization,
+      tags,
+      manifest_json: {
+        name: manifestName,
+        short_name,
+        description: manifestDescription,
+        author,
+        keywords = [],
+        categories = []
+      } = {},
+      updated_at
+    } = item;
 
     if (
+      match(short_name, search) ||
+      match(manifestName, search) ||
+      match(author, search) ||
+      match(manifestDescription, search) ||
+      match(keywords, search) ||
+      match(categories, search) ||
       match(name, search) ||
       match(url, search) ||
       match(description, search) ||

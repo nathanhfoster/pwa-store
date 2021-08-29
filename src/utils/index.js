@@ -15,11 +15,12 @@ export const stringMatch = (s1, s2, caseSensitive = false) => {
   s1 = s1 || '';
   s2 = s2 || '';
   const flags = caseSensitive ? 'g' : 'gi';
-  const cleanString = escapeRegExp(s2);
+  const cleanString1 = escapeRegExp(s1);
+  const cleanString2 = escapeRegExp(s2);
 
-  const regexMatch = new RegExp(cleanString, flags);
+  const regexMatch = new RegExp(cleanString2, flags);
 
-  return s1.match(regexMatch);
+  return cleanString1.match(regexMatch);
 };
 
 export const lazyDelay = (promiseResult, time) =>

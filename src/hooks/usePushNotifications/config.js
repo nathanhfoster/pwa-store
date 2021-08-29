@@ -4,7 +4,7 @@ const pushServerPublicKey = 'BIN2Jc5Vmkmy-S3AUrcMlpKxJpLeVRAfu9WBqUbJ70SJOCWGCGX
 
 const { PUBLIC_URL } = process.env;
 
-const Logo = `${PUBLIC_URL}/assets/icon.png`;
+const Logo = `${PUBLIC_URL}/assets/icon-maskable.png`;
 const swUrl = `${PUBLIC_URL}/service-worker.js`;
 
 /**

@@ -3,6 +3,8 @@ import { connect } from 'resurrection';
 import { useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
+const Logo = `%PUBLIC_URL%/assets/icon-maskable.png`;
+
 const HelmetContainer = ({}) => {
   const { pathname } = useLocation();
   const title = useMemo(() => {
@@ -12,7 +14,7 @@ const HelmetContainer = ({}) => {
   }, []);
 
   const image = useMemo(() => {
-    let image = 'https://www.seekpng.com/png/full/43-433493_tree-of-life-constellation-icon-icon.png';
+    let image = Logo;
 
     return image;
   }, []);
