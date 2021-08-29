@@ -5,7 +5,7 @@ import { connect } from 'resurrection';
 
 const FavoritePwas = ({ user_favorites }) => {
   const pwas = useMemo(() => user_favorites.map(({ pwa }) => pwa), [user_favorites]);
-  return <PwasStack title='My Favorite Pwas' flexWrap='wrap' data={pwas} />;
+  return <PwasStack title='My Favorite Pwas' flexWrap='wrap' data={pwas} isLoading={pwas.length === 0} />;
 };
 
 const mapStateToProps = ({ User: { user_favorites }, Pwas: { items, filteredItems } }) => ({ user_favorites });
