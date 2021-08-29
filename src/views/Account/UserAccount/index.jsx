@@ -20,8 +20,8 @@ const UserAccount = ({ isMobile, history }) => {
   const [route, setRoute] = useState(pathname);
 
   const handleChange = (e, newValue) => {
-    setRoute(newValue);
     history.push(newValue);
+    setRoute(newValue);
   };
 
   return (
