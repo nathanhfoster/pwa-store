@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import MenuItem from './MenuItem';
 import Menu from '@material-ui/core/Menu';
 import { RouteMap } from 'utils';
@@ -11,9 +11,9 @@ import connect from 'resurrection';
 const NavMenu = ({ mobileMoreAnchorEl, setMobileMoreAnchorEl, mobileMenuId, userIsLoggedIn }) => {
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-  const handleMobileMenuClose = () => {
+  const handleMobileMenuClose = useCallback(() => {
     setMobileMoreAnchorEl(null);
-  };
+  }, []);
 
   return (
     <>
@@ -32,24 +32,24 @@ const NavMenu = ({ mobileMoreAnchorEl, setMobileMoreAnchorEl, mobileMenuId, user
         open={isMobileMenuOpen}
         onClose={handleMobileMenuClose}
       >
-        <MenuItem>
+        <MenuItem onClick={handleMobileMenuClose}>
           <NotificationsButton>
             <p>Notifications</p>
           </NotificationsButton>
         </MenuItem>
         {userIsLoggedIn && (
-          <MenuItem href={RouteMap.SETTINGS}>
+          <MenuItem to={RouteMap.SETTINGS_USER_PWAS} onClick={handleMobileMenuClose}>
             <AccountButton>
               <p>Account</p>
             </AccountButton>
           </MenuItem>
         )}
-        <MenuItem href={RouteMap.LOGIN}>
+        <MenuItem to={RouteMap.LOGIN} onClick={handleMobileMenuClose}>
           <LoginLogoutButton>
             <p>{userIsLoggedIn ? 'Logout' : 'Login'}</p>
           </LoginLogoutButton>
         </MenuItem>
-        <MenuItem>
+        <MenuItem onClick={handleMobileMenuClose}>
           <ThemeButton>
             <p>Mode</p>
           </ThemeButton>

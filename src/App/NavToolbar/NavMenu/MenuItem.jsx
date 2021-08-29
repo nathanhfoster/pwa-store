@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import MaterialMenuItem from '@material-ui/core/MenuItem';
 import { Link } from 'react-router-dom';
 
-const MenuItem = ({ href, to, children, ...restOfProps }) => {
+const MenuItem = ({ href, to, children, onClick, ...restOfProps }) => {
   const onChildClick = Children.toArray(children).reduce((acc, child) => {
     const { onClick } = child.type((ownProps) => ownProps).props;
 
@@ -14,8 +14,18 @@ const MenuItem = ({ href, to, children, ...restOfProps }) => {
     return acc;
   }, undefined);
 
+  const handleOnClick = (e) => {
+    if (onClick) {
+      onClick(e);
+    }
+
+    if (onChildClick) {
+      onChildClick(e);
+    }
+  };
+
   return (
-    <MaterialMenuItem {...restOfProps} component={Link} to={href || to} onClick={onChildClick}>
+    <MaterialMenuItem {...restOfProps} component={Link} to={href || to} onClick={handleOnClick}>
       {children}
     </MaterialMenuItem>
   );

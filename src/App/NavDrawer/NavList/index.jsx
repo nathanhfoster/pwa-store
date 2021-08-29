@@ -28,7 +28,7 @@ const iconStyles = (props) => ({
   height: HOME_ICON_SIZE,
   animation: 'grow 200ms',
   '&:hover': { color: props.theme.palette.primary.main }
-}):
+});
 
 const StyledHomeIcon = styled(HomeIcon)(iconStyles);
 const StyledFavoriteIcon = styled(FavoriteIcon)(iconStyles);

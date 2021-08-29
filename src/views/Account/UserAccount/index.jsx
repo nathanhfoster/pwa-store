@@ -1,4 +1,4 @@
-import React, { useState, lazy } from 'react';
+import React, { lazy } from 'react';
 import PropTypes from 'prop-types';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -17,18 +17,16 @@ const UserForm = lazy(() => import('./UserForm'));
 
 const UserAccount = ({ isMobile, history }) => {
   const { pathname } = history.location;
-  const [route, setRoute] = useState(pathname);
 
   const handleChange = (e, newValue) => {
     history.push(newValue);
-    setRoute(newValue);
   };
 
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs
-          value={route}
+          value={pathname}
           onChange={handleChange}
           aria-label='basic tabs example'
           indicatorColor='primary'
@@ -48,10 +46,10 @@ const UserAccount = ({ isMobile, history }) => {
             icon={<AccountCircleIcon />}
             label='Update'
           />
-          <TabControls index={route} />
+          <TabControls index={pathname} />
         </Tabs>
       </Box>
-      <Conditional value={route}>
+      <Conditional value={pathname}>
         <UserPwas key={`${RouteMap.SETTINGS},${RouteMap.SETTINGS_USER_PWAS}`} />
         <UserFavoritePwas key={RouteMap.SETTINGS_USER_FAVORITE_PWAS} />
         <UserForm key={RouteMap.SETTINGS_USER_ACCOUNT} />
@@ -64,8 +62,11 @@ const mapStateToProps = ({ Window: { isMobile } }) => ({ isMobile });
 
 const mapDispatchToProps = {};
 
+// Allows router history changes to make this component stateful
+const options = { pure: false };
+
 UserAccount.propTypes = { isMobile: PropTypes.bool.isRequired };
 
 UserAccount.defaultProps = {};
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserAccount);
+export default connect(mapStateToProps, mapDispatchToProps, undefined, options)(UserAccount);
