@@ -56,6 +56,7 @@ export const DEFAULT_STATE = Object.freeze({
     lighthouseResults: null
   },
   pwas: [],
+  user_favorites: [],
   filteredPwas: [],
   error: {
     message: '',
