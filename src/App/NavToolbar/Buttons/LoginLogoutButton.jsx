@@ -6,7 +6,7 @@ import { RouteMap } from 'utils';
 import { connect } from 'resurrection';
 import { DeleteUser } from 'store/reducers/User/actions';
 
-const LoginLogoutButton = ({ addToHomeScreenPrompt, userIsLoggedIn, onClick, children }) => {
+const LoginLogoutButton = ({ userIsLoggedIn, onClick, children }) => {
   const Icon = useMemo(() => (userIsLoggedIn ? LogoutIcon : LoginIcon), [userIsLoggedIn]);
   return (
     <>
@@ -14,7 +14,6 @@ const LoginLogoutButton = ({ addToHomeScreenPrompt, userIsLoggedIn, onClick, chi
         title={userIsLoggedIn ? 'Logout' : 'Login'}
         to={userIsLoggedIn ? undefined : RouteMap.LOGIN}
         onClick={userIsLoggedIn ? onClick : undefined}
-        edge={addToHomeScreenPrompt ? false : 'end'}
         aria-label='account of current user'
         aria-haspopup='true'
       >
@@ -24,8 +23,7 @@ const LoginLogoutButton = ({ addToHomeScreenPrompt, userIsLoggedIn, onClick, chi
     </>
   );
 };
-const mapStateToProps = ({ App: { addToHomeScreenPrompt }, User: { id, token } }) => ({
-  addToHomeScreenPrompt,
+const mapStateToProps = ({ User: { id, token } }) => ({
   userIsLoggedIn: Boolean(id && token)
 });
 

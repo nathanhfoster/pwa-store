@@ -62,15 +62,17 @@ const SIGN_UP_INPUT_FIELDS = [
     autoFocus: true
   },
   {
+    id: 'name',
+    autoComplete: 'name'
+  },
+  {
     required: true,
     type: 'email',
-    id: 'email',
     autoComplete: 'email'
   },
   {
     required: true,
     type: 'password',
-    id: 'password',
     autoComplete: 'password'
   }
 ];

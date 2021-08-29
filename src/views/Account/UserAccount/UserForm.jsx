@@ -31,22 +31,18 @@ const UserForm = ({
   const userFormFields = useMemo(
     () => [
       {
-        required: true,
         id: 'username',
         defaultValue: username
       },
       {
-        required: true,
         id: 'name',
         defaultValue: name
       },
       {
-        required: true,
         type: 'email',
         defaultValue: email
       },
       {
-        required: true,
         type: 'password'
       }
     ],

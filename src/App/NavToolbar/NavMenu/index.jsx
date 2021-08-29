@@ -11,7 +11,12 @@ import connect from 'resurrection';
 const NavMenu = ({ mobileMoreAnchorEl, setMobileMoreAnchorEl, mobileMenuId, userIsLoggedIn }) => {
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-  const handleMobileMenuClose = useCallback(() => {
+  const handleMobileMenuClose = useCallback((e) => {
+    const childButton = e.target.querySelector('button');
+    if (childButton) {
+      e.stopPropagation();
+      childButton.click();
+    }
     setMobileMoreAnchorEl(null);
   }, []);
 
@@ -33,26 +38,18 @@ const NavMenu = ({ mobileMoreAnchorEl, setMobileMoreAnchorEl, mobileMenuId, user
         onClose={handleMobileMenuClose}
       >
         <MenuItem onClick={handleMobileMenuClose}>
-          <NotificationsButton>
-            <p>Notifications</p>
-          </NotificationsButton>
+          <NotificationsButton>Notifications</NotificationsButton>
         </MenuItem>
         {userIsLoggedIn && (
           <MenuItem to={RouteMap.SETTINGS_USER_PWAS} onClick={handleMobileMenuClose}>
-            <AccountButton>
-              <p>Account</p>
-            </AccountButton>
+            <AccountButton>Account</AccountButton>
           </MenuItem>
         )}
         <MenuItem to={RouteMap.LOGIN} onClick={handleMobileMenuClose}>
-          <LoginLogoutButton>
-            <p>{userIsLoggedIn ? 'Logout' : 'Login'}</p>
-          </LoginLogoutButton>
+          <LoginLogoutButton>{userIsLoggedIn ? 'Logout' : 'Login'}</LoginLogoutButton>
         </MenuItem>
         <MenuItem onClick={handleMobileMenuClose}>
-          <ThemeButton>
-            <p>Mode</p>
-          </ThemeButton>
+          <ThemeButton>Mode</ThemeButton>
         </MenuItem>
       </Menu>
     </>
