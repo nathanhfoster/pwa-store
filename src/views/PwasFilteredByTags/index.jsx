@@ -12,7 +12,7 @@ const PwasFilteredByTags = ({ pwas }) => {
       // TODO: need images that are 16:9
       flexWrap='wrap'
       title={queryString}
-      pwas={pwas}
+      data={pwas}
     />
   );
 };

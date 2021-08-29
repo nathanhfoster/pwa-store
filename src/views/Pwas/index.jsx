@@ -13,15 +13,15 @@ const Pwas = ({ pwas }) => {
         // TODO: need images that are 16:9
         title='Featured apps'
         subtitle='Our favorite Progressive Web Apps'
-        pwas={pwas}
+        data={pwas}
       />
-      <PwasStack title='Top apps' subtitle='The best and most popular Progressive Web Apps at the moment' pwas={pwas} />
+      <PwasStack title='Top apps' subtitle='The best and most popular Progressive Web Apps at the moment' data={pwas} />
       <PwasStack
         title='New apps'
         subtitle='Recently added Progressive Web Apps that are worth checking out'
-        pwas={pwas}
+        data={pwas}
       />
-      <PwasStack title='Random apps' subtitle='Discover random apps' pwas={pwas} />
+      <PwasStack title='Random apps' subtitle='Discover random apps' data={pwas} />
     </>
   );
 };

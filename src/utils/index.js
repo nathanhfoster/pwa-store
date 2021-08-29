@@ -36,7 +36,7 @@ export const getLocalDateTimeNoSeconds = (date, displaySeconds = false) => {
   return displaySeconds ? timeISOString : timeISOString.slice(0, 19);
 };
 
-export const capitalize = (s) => `${s[0].toUpperCase()}${s.slice(1).toLowerCase()}`;
+export const capitalize = (s) => (s ? `${s[0].toUpperCase()}${s.slice(1).toLowerCase()}` : '');
 
 export const isFunction = (value) => value instanceof Function || typeof value === 'function';
 

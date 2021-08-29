@@ -90,7 +90,7 @@ const mapStateToProps = (
   shouldRender: Boolean(userToken),
   ratingOwnedByUser: (filteredItems.length > 0 ? items.concat(filteredItems) : items)
     .find(({ id }) => id == pwa_id)
-    ?.ratings.find(({ created_by }) => created_by?.id == userId)
+    ?.ratings?.find(({ created_by }) => created_by?.id == userId)
 });
 
 const mapDispatchToProps = {

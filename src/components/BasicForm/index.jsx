@@ -19,7 +19,7 @@ const getStyles = (name, array, theme) => ({
   fontWeight: array.indexOf(name) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium
 });
 
-const BasicForm = ({ title, data, submitTitle, children, onSubmit }) => {
+const BasicForm = ({ title, data, submitTitle, disabled, children, onSubmit }) => {
   const theme = useTheme();
   const [form, setForm] = useSetRefState(
     data.reduce((acc, { id, name = id, multiple = false, defaultValue = multiple ? [] : '' }) => {
@@ -43,7 +43,7 @@ const BasicForm = ({ title, data, submitTitle, children, onSubmit }) => {
           type = 'text',
           required = false,
           fullWidth = true,
-          id,
+          id = type,
           label = capitalize(id),
           name = id,
           autoComplete,
@@ -112,6 +112,7 @@ const BasicForm = ({ title, data, submitTitle, children, onSubmit }) => {
                   autoFocus={autoFocus}
                   color={color}
                   InputProps={{ type }}
+                  defaultValue={defaultValue}
                 />
               );
           }
@@ -121,14 +122,16 @@ const BasicForm = ({ title, data, submitTitle, children, onSubmit }) => {
   );
   return (
     <>
-      {title && (
-        <Typography component='h1' variant='h5'>
-          {title}
-        </Typography>
-      )}
+      {title && <Typography variant='h4'>{title}</Typography>}
       <Box component='form' noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
         {renderInputs}
-        <Button type='submit' fullWidth variant='contained' sx={{ mt: 3, mb: 2, bgcolor: 'primary.dark' }}>
+        <Button
+          disabled={disabled || !onSubmit}
+          type='submit'
+          fullWidth
+          variant='contained'
+          sx={{ mt: 3, mb: 2, bgcolor: 'primary.dark' }}
+        >
           {submitTitle}
         </Button>
         {children}
@@ -139,6 +142,7 @@ const BasicForm = ({ title, data, submitTitle, children, onSubmit }) => {
 
 BasicForm.propTypes = {
   submitTitle: PropTypes.string,
+  disabled: PropTypes.bool,
   data: PropTypes.arrayOf(
     PropTypes.shape({
       type: PropTypes.oneOfType([
@@ -186,6 +190,7 @@ BasicForm.propTypes = {
 
 BasicForm.defaultProps = {
   submitTitle: 'Sign In',
+  disabled: false,
   data: []
 };
 

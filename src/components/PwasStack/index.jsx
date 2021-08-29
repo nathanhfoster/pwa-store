@@ -10,7 +10,7 @@ import { connect } from 'resurrection';
 
 const Pwa = lazy(() => import('./Pwa'));
 
-const PwasStack = ({ title, subtitle, pwas, imageSize, flexWrap, isLoading }) => {
+const PwasStack = ({ title, subtitle, data, imageSize, flexWrap, isLoading }) => {
   const isDetailedView = flexWrap === 'wrap';
 
   const gridItemStyles = useMemo(
@@ -38,12 +38,12 @@ const PwasStack = ({ title, subtitle, pwas, imageSize, flexWrap, isLoading }) =>
       ));
     }
 
-    return pwas.map((pwa) => (
+    return data.map((pwa) => (
       <Grid item key={pwa.id} {...gridItemStyles}>
         <Pwa {...pwa} detailed={isDetailedView} imageSize={imageSize} />
       </Grid>
     ));
-  }, [isDetailedView, imageSize, isLoading, pwas]);
+  }, [isDetailedView, imageSize, isLoading, data]);
 
   return (
     <Box
@@ -83,12 +83,13 @@ const PwasStack = ({ title, subtitle, pwas, imageSize, flexWrap, isLoading }) =>
 PwasStack.propTypes = {
   title: PropTypes.string,
   subtitle: PropTypes.string,
-  pwas: PwasType,
+  data: PwasType,
   imageSize: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   flexWrap: PropTypes.oneOf(['wrap', 'nowrap', 'wrap-reverse', 'inherit', 'initial', 'revert', 'unset'])
 };
 
 PwasStack.defaultProps = {
+  data: [],
   imageSize: DEFAULT_PWA_IMAGE_SIZE,
   flexWrap: 'nowrap'
 };

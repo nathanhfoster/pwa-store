@@ -10,7 +10,7 @@ const UserPwas = ({ pwas, GetUserPwas }) => {
     GetUserPwas();
   }, []);
 
-  return <PwasStack pwas={pwas} title='My Pwas' flexWrap='wrap' isLoading={pwas.length === 0} />;
+  return <PwasStack title='My Pwas' flexWrap='wrap' data={pwas} isLoading={pwas.length === 0} />;
 };
 
 const mapStateToProps = ({ User: { pwas } }) => ({ pwas });

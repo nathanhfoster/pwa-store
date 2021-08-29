@@ -1,6 +1,7 @@
 export const ROOT = '/';
 export const SETTINGS = '/settings';
 export const SETTINGS_USER_PWAS = `${SETTINGS}/pwas`;
+export const SETTINGS_USER_FAVORITE_PWAS = `${SETTINGS}/favorites`;
 export const SETTINGS_USER_ACCOUNT = `${SETTINGS}/account`;
 export const HOME = '/home';
 export const PWA_DETAIL = '/pwas/:pwaId';

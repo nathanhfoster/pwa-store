@@ -13,10 +13,11 @@ export const UserLogin = (payload) => (dispatch) => {
       }
     })
     .then(({ data }) => {
-      dispatch(ToogleIsLoading(false));
       const alertPayload = { title: 'Sign in success', message: 'Welcome back!', props: { severity: 'success' } };
       dispatch(PushAlertWithTimeout(alertPayload));
-      return dispatch(SetUser(data));
+      dispatch(SetUser(data));
+      dispatch(ToogleIsLoading(false));
+      return data;
     })
     .catch((e) => {
       dispatch(ToogleIsLoading(false));
@@ -34,11 +35,12 @@ export const UserSignUp = (payload) => (dispatch) => {
       }
     })
     .then(({ data }) => {
-      dispatch(ToogleIsLoading(false));
       const alertPayload = { title: 'Sign up success', message: 'Welcome!', props: { severity: 'success' } };
       dispatch(PushAlertWithTimeout(alertPayload));
 
-      return dispatch(SetUser(data));
+      dispatch(SetUser(data));
+      dispatch(ToogleIsLoading(false));
+      return data;
     })
     .catch((e) => {
       dispatch(ToogleIsLoading(false));
@@ -57,14 +59,15 @@ export const UpdateUser = (payload) => (dispatch, getState) => {
       }
     })
     .then(({ data }) => {
-      dispatch(ToogleIsLoading(false));
       const alertPayload = {
         title: 'Update account success',
         message: 'Your account was successfully updated!',
         props: { severity: 'success' }
       };
       dispatch(PushAlertWithTimeout(alertPayload));
-      return dispatch(SetUser(data));
+      dispatch(SetUser(data));
+      dispatch(ToogleIsLoading(false));
+      return data;
     })
     .catch((e) => {
       dispatch(ToogleIsLoading(false));
@@ -82,7 +85,9 @@ export const GetUserSettings = () => (dispatch, getState) => {
   return Axios({ token })
     .get(`users/${id}`)
     .then(({ data }) => {
-      return dispatch(SetUser(data));
+      dispatch(SetUser(data));
+      dispatch(ToogleIsLoading(false));
+      return data;
     })
     .catch((e) => {
       dispatch(ToogleIsLoading(false));
@@ -101,7 +106,9 @@ export const GetUserPwas = () => (dispatch, getState) => {
     .get(`users/${id}/pwas/`)
     .then(({ data }) => {
       // dispatch(MergeFilterPwas(data));
-      return dispatch(SetUserPwas(data));
+      dispatch(SetUserPwas(data));
+      dispatch(ToogleIsLoading(false));
+      return data;
     })
     .catch((e) => {
       dispatch(ToogleIsLoading(false));
@@ -117,6 +124,8 @@ export const ChangeMode = (payload) => (dispatch, getState) => {
     return dispatch(SetUser({ setting: { ...setting, ...payload } }));
   }
 
+  dispatch(ToogleIsLoading(true));
+
   return Axios({ token })
     .patch(`auth/update-settings/${setting.id}/`, payload, {
       headers: {
@@ -125,6 +134,8 @@ export const ChangeMode = (payload) => (dispatch, getState) => {
     })
     .then(({ data }) => {
       dispatch(SetUserSetting(data));
+      dispatch(ToogleIsLoading(false));
+      return data;
     })
     .catch((e) => {
       console.error(e);
@@ -150,9 +161,11 @@ export const PostUserPwa = () => async (dispatch, getState) => {
     },
     { created_by: id, updated_by: id, published: shouldPublish }
   );
+  dispatch(ToogleIsLoading(true));
   return await PostPwa(payload)
     .then((data) => {
       dispatch(ResetUserPwaForm());
+      dispatch(ToogleIsLoading(false));
       return data;
     })
     .catch((e) => {

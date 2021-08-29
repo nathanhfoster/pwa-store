@@ -77,16 +77,6 @@ const Pwas = (state = DEFAULT_STATE, action) => {
         ...handleFilterItems(nextItems, search || state.search)
       };
 
-    case UserActionTypes.USER_SET:
-      nextItems = mergePwas(
-        state.items.concat(state.filteredItems),
-        payload.user_favorites.map(({ pwa }) => pwa)
-      );
-      return {
-        ...state,
-        ...handleFilterItems(nextItems, search || state.search)
-      };
-
     default:
       return state;
   }

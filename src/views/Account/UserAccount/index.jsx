@@ -6,11 +6,13 @@ import Conditional from 'components/Conditional';
 import TabControls from './TabControls';
 import Box from '@material-ui/core/Box';
 import AppsIcon from '@material-ui/icons/Apps';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { RouteMap } from 'utils';
 import { connect } from 'resurrection';
 
 const UserPwas = lazy(() => import('./UserPwas'));
+const UserFavoritePwas = lazy(() => import('./UserFavoritePwas'));
 const UserForm = lazy(() => import('./UserForm'));
 
 const UserAccount = ({ isMobile, history }) => {
@@ -35,6 +37,12 @@ const UserAccount = ({ isMobile, history }) => {
         >
           <Tab id={RouteMap.SETTINGS_USER_PWAS} value={RouteMap.SETTINGS_USER_PWAS} icon={<AppsIcon />} label='Pwas' />
           <Tab
+            id={RouteMap.SETTINGS_USER_FAVORITE_PWAS}
+            value={RouteMap.SETTINGS_USER_FAVORITE_PWAS}
+            icon={<FavoriteIcon />}
+            label='Favorites'
+          />
+          <Tab
             id={RouteMap.SETTINGS_USER_ACCOUNT}
             value={RouteMap.SETTINGS_USER_ACCOUNT}
             icon={<AccountCircleIcon />}
@@ -45,6 +53,7 @@ const UserAccount = ({ isMobile, history }) => {
       </Box>
       <Conditional value={route}>
         <UserPwas key={`${RouteMap.SETTINGS},${RouteMap.SETTINGS_USER_PWAS}`} />
+        <UserFavoritePwas key={RouteMap.SETTINGS_USER_FAVORITE_PWAS} />
         <UserForm key={RouteMap.SETTINGS_USER_ACCOUNT} />
       </Conditional>
     </Box>

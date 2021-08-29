@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Box from '@material-ui/core/Box';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
+
+import LoadingScreen from 'components/LoadingScreen';
 import BasicForm from 'components/BasicForm';
 import { connect } from 'resurrection';
 import { UpdateUser } from 'store/reducers/User/actions/api';
@@ -43,21 +43,23 @@ const UserForm = ({
       {
         required: true,
         type: 'email',
-        id: 'email',
         defaultValue: email
       },
       {
         required: true,
-        type: 'password',
-        label: 'Password'
+        type: 'password'
       }
     ],
-    [email, username]
+    [username, name, email]
   );
 
   return (
     <Box p={4}>
-      <BasicForm title='Update Account' submitTitle='Update' data={userFormFields} onSubmit={handleSubmit} />
+      {isLoading ? (
+        <BasicForm title='Update Account' submitTitle='Update' />
+      ) : (
+        <BasicForm title='Update Account' submitTitle='Update' data={userFormFields} onSubmit={handleSubmit} />
+      )}
     </Box>
   );
 };
