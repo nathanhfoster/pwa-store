@@ -45,8 +45,7 @@ const LOGIN_INPUT_FIELDS = [
     required: true,
     type: 'password',
     id: 'password',
-    autoComplete: 'password',
-    autoFocus: true
+    autoComplete: 'password'
   },
   {
     type: 'checkbox',
