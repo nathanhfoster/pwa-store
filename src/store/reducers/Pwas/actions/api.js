@@ -266,6 +266,19 @@ export const GetLighthouseData = (url) =>
       return Promise.reject(e);
     });
 
+export const GetPwa = (id) => (dispatch) =>
+  Axios()
+    .get(`pwas/${id}/`)
+    .then(({ data }) => {
+      dispatch(UpdateReduxPwa(data));
+      return data;
+    })
+    .catch((e) => {
+      console.error(e);
+      return Promise.reject(e);
+    });
+
+
 export const UpdateAnalytics = (payload) => (dispatch) =>
   Axios()
     .patch('pwas/analytics-counter/', payload)
