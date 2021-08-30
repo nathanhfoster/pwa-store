@@ -1,5 +1,6 @@
 import React, { Children } from 'react';
 import PropTypes from 'prop-types';
+import Box from '@material-ui/core/Box';
 import { isEmpty } from 'utils';
 /**
  * Cleans a childKeys string and splits them into an array of key strings
@@ -48,7 +49,7 @@ const Conditional = ({ show, value, children, ...restOfProps }) => {
       return childFound;
     }) || null;
 
-  return !isEmpty(restOfProps) ? <div {...restOfProps}>{childrenToRender}</div> : childrenToRender;
+  return !isEmpty(restOfProps) ? <Box {...restOfProps}>{childrenToRender}</Box> : childrenToRender;
 };
 
 Conditional.propTypes = {
