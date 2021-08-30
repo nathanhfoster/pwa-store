@@ -26,7 +26,7 @@ const NavToolbar = ({ mobileMenuId, ToggleAppNavBar, ToggleMobileMoreAnchorEl })
           onClick={ToggleAppNavBar}
           sx={{ ml: 1, display: { sm: 'none' } }}
         >
-          <MenuIcon sx={{ animation: 'grow 200ms' }} />
+          <MenuIcon fontSize="large" sx={{ animation: 'grow 200ms' }} />
         </IconButton>
         <NavSearchBar />
         <Box sx={{ flexGrow: 1 }} />
