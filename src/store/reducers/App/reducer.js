@@ -3,6 +3,7 @@ import { toggleBooleanReducer } from 'resurrection';
 
 export const DEFAULT_STATE = Object.freeze({
   version: '1.0',
+  isInstalled: window.matchMedia('(display-mode: standalone)').matches,
   navBarIsOpen: false,
   mobileMenuId: 'MobileMenu',
   mobileMoreAnchorEl: null,
@@ -16,8 +17,15 @@ const App = (state = DEFAULT_STATE, action) => {
   const { type, payload } = action;
 
   switch (type) {
+    case ActionTypes.APP_TOGGLE_IS_INSTALLED:
+      return payload !== state.isInstalled
+        ? { ...state, isInstalled: toggleBooleanReducer(state.isInstalled, payload) }
+        : state;
+
     case ActionTypes.APP_TOGGLE_NAV_BAR:
-      return { ...state, navBarIsOpen: toggleBooleanReducer(state.navBarIsOpen, payload) };
+      return payload !== state.navBarIsOpen
+        ? { ...state, navBarIsOpen: toggleBooleanReducer(state.navBarIsOpen, payload) }
+        : state;
 
     case ActionTypes.APP_TOGGLE_MOBILE_MORE_ANCHOR_EL:
       return {

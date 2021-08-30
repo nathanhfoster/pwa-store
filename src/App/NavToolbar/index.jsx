@@ -6,7 +6,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import MoreIcon from '@material-ui/icons/MoreVert';
 
-import SearchBar from './NavSearchBar';
+import NavSearchBar from './NavSearchBar';
 import NavMenu from './NavMenu';
 import { ToggleAppNavBar, ToggleMobileMoreAnchorEl } from 'store/reducers/App/actions';
 import LoginLogoutButton from './Buttons/LoginLogoutButton';
@@ -18,17 +18,17 @@ import ThemeButton from './Buttons/ThemeButton';
 const NavToolbar = ({ mobileMenuId, ToggleAppNavBar, ToggleMobileMoreAnchorEl }) => {
   return (
     <>
-      <Toolbar>
+      <Toolbar disableGutters>
         <IconButton
           color='inherit'
           aria-label='open drawer'
           edge='start'
           onClick={ToggleAppNavBar}
-          sx={{ mr: 1, display: { sm: 'none' } }}
+          sx={{ ml: 1, display: { sm: 'none' } }}
         >
           <MenuIcon sx={{ animation: 'grow 200ms' }} />
         </IconButton>
-        <SearchBar />
+        <NavSearchBar />
         <Box sx={{ flexGrow: 1 }} />
         <AddToHomeScreenButton />
         <Box sx={{ display: { xs: 'none', md: 'flex' } }}>

@@ -4,8 +4,12 @@ import { styled, alpha } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import useDebounce from 'hooks/useDebounce';
-import { SetPwasSearch, SearchPwas, FilterPwas } from 'store/reducers/Pwas/actions';
+import { ResetPwasFilter, SetPwasSearch, SearchPwas, FilterPwas } from 'store/reducers/Pwas/actions';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import { useHistory } from 'react-router-dom';
+
+import IconButton from '@material-ui/core/IconButton';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -41,12 +45,18 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   }
 }));
 
-const NavSearchBar = ({ search, isLoading, SetPwasSearch, SearchPwas, FilterPwas }) => {
+const NavSearchBar = ({ search, isInstalled, isLoading, ResetPwasFilter, SetPwasSearch, SearchPwas, FilterPwas }) => {
   const mounted = useMounted();
   const debouncedSearch = useDebounce(search);
+  const history = useHistory();
 
   const onSearch = ({ target: { value } }) => {
     SetPwasSearch(value);
+  };
+
+  const handleBackClick = () => {
+    ResetPwasFilter();
+    history.goBack();
   };
 
   useEffect(() => {
@@ -57,25 +67,32 @@ const NavSearchBar = ({ search, isLoading, SetPwasSearch, SearchPwas, FilterPwas
   }, [debouncedSearch]);
 
   return (
-    <Search>
-      {!isLoading && (
-        <SearchIconWrapper>
-          <SearchIcon sx={{ animation: 'grow 200ms' }} />
-        </SearchIconWrapper>
+    <>
+      {isInstalled && (
+        <IconButton onClick={handleBackClick}>
+          <ArrowBackIcon />
+        </IconButton>
       )}
-      <StyledInputBase
-        fullWidth
-        placeholder='Search…'
-        inputProps={{ type: 'search', 'aria-label': 'search' }}
-        onChange={onSearch}
-        value={search}
-      />
-      {isLoading && <LinearProgress />}
-    </Search>
+      <Search>
+        {!isLoading && (
+          <SearchIconWrapper>
+            <SearchIcon sx={{ animation: 'grow 200ms' }} />
+          </SearchIconWrapper>
+        )}
+        <StyledInputBase
+          fullWidth
+          placeholder='Search…'
+          inputProps={{ type: 'search', 'aria-label': 'search' }}
+          onChange={onSearch}
+          value={search}
+        />
+        {isLoading && <LinearProgress />}
+      </Search>
+    </>
   );
 };
 
-const mapStateToProps = ({ Pwas: { search, isLoading } }) => ({ search, isLoading });
-const mapDispatchToProps = { SetPwasSearch, SearchPwas, FilterPwas };
+const mapStateToProps = ({ App: { isInstalled }, Pwas: { search, isLoading } }) => ({ isInstalled, search, isLoading });
+const mapDispatchToProps = { ResetPwasFilter, SetPwasSearch, SearchPwas, FilterPwas };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavSearchBar);

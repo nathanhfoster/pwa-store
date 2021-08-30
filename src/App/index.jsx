@@ -4,13 +4,14 @@ import { connect } from 'resurrection';
 import AppBar from '@material-ui/core/AppBar';
 import Box from '@material-ui/core/Box';
 import { ThemeProvider, styled } from '@material-ui/core/styles';
-import { SetAddToHomeScreenPrompt } from 'store/reducers/App/actions';
+import { ToggleAppIsInstalled, SetAddToHomeScreenPrompt } from 'store/reducers/App/actions';
 import { GetUserSettings, SetUserIsOnline } from 'store/reducers/User/actions';
 import { GetPwas, GetPwaTags } from 'store/reducers/Pwas/actions/api';
 import useAddToHomescreenPrompt from 'hooks/useAddToHomescreenPrompt';
 import useWindow from 'hooks/useWindow';
 import useOnlineStatus from 'hooks/useOnlineStatus';
 import useTheme from './useTheme';
+import useIsPwaInstalled from 'hooks/useIsPwaInstalled';
 import NavToolbar from './NavToolbar';
 import AppRouter from 'views';
 import NavDrawer from './NavDrawer';
@@ -26,12 +27,25 @@ const Container = styled(Box)((props) => ({
   color: props.theme.palette.text.primary
 }));
 
-const App = ({ GetUserSettings, SetUserIsOnline, GetPwas, SetAddToHomeScreenPrompt, GetPwaTags, User }) => {
+const App = ({
+  ToggleAppIsInstalled,
+  GetUserSettings,
+  SetUserIsOnline,
+  GetPwas,
+  SetAddToHomeScreenPrompt,
+  GetPwaTags,
+  User
+}) => {
   const [prompt] = useAddToHomescreenPrompt();
   const appTheme = useTheme(User.setting);
+  const isInstalled = useIsPwaInstalled();
 
   useOnlineStatus(SetUserIsOnline);
   useWindow();
+
+  useEffect(() => {
+    ToggleAppIsInstalled(isInstalled);
+  }, [isInstalled]);
 
   useEffect(() => {
     SetAddToHomeScreenPrompt(prompt);
@@ -86,6 +100,13 @@ App.propTypes = {
 
 const mapStateToProps = ({ User }) => ({ User });
 
-const mapDispatchToProps = { GetUserSettings, SetUserIsOnline, SetAddToHomeScreenPrompt, GetPwas, GetPwaTags };
+const mapDispatchToProps = {
+  ToggleAppIsInstalled,
+  GetUserSettings,
+  SetUserIsOnline,
+  SetAddToHomeScreenPrompt,
+  GetPwas,
+  GetPwaTags
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

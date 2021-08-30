@@ -6,6 +6,8 @@ export const SetAppVersion = (version) => ({
   payload: version
 });
 
+export const ToggleAppIsInstalled = (payload) => ({ type: ActionTypes.APP_TOGGLE_IS_INSTALLED, payload });
+
 export const ToggleAppNavBar = (payload) => ({ type: ActionTypes.APP_TOGGLE_NAV_BAR, payload });
 
 export const ToggleMobileMoreAnchorEl = (event) => ({
