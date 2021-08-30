@@ -39,11 +39,9 @@ const NavMenu = ({
         <MenuItem>
           <NotificationsButton>Notifications</NotificationsButton>
         </MenuItem>
-        {userIsLoggedIn && (
-          <MenuItem to={RouteMap.SETTINGS_USER_ACCOUNT}>
-            <AccountButton>Account</AccountButton>
-          </MenuItem>
-        )}
+        <MenuItem to={RouteMap.SETTINGS_USER_ACCOUNT}>
+          <AccountButton>Account</AccountButton>
+        </MenuItem>
         <MenuItem to={RouteMap.LOGIN}>
           <LoginLogoutButton>{userIsLoggedIn ? 'Logout' : 'Login'}</LoginLogoutButton>
         </MenuItem>
