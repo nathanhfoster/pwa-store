@@ -4,7 +4,7 @@ const getLastModifiedDate = (pwa) => new Date(pwa.updated_at);
 
 const handleItemMerge = (currentStoreItem, newItem) => {
   // When newItem only has partial data merge the new fields with the ones that exits in the currentStoreItem
-  if (!(newItem.pwa_analytics && newItem.updated_at)) {
+  if (Object.keys(currentStoreItem).length > Object.keys(newItem).length) {
     return { ...currentStoreItem, ...newItem };
   }
 

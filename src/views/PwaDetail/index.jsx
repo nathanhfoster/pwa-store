@@ -23,9 +23,10 @@ const detailContainerStyles = {
 };
 
 const PwaDetail = ({
-  pwaId, // From react-router
+  pwaSlug, // From react-router
   id,
   name,
+  slug,
   description,
   url,
   image_url,
@@ -39,12 +40,12 @@ const PwaDetail = ({
   UpdateAnalytics
 }) => {
   useEffect(() => {
-    GetPwa(pwaId);
-  }, [pwaId]);
+    GetPwa(pwaSlug);
+  }, [pwaSlug, GetPwa]);
 
   useEffect(() => {
-    UpdateAnalytics({ incr_view: true, pwa_id: id });
-  }, [id]);
+    UpdateAnalytics({ incr_view: true, slug: pwaSlug });
+  }, [pwaSlug, UpdateAnalytics]);
 
   const renderScreenShots = useMemo(
     () =>
@@ -95,7 +96,7 @@ const PwaDetail = ({
       <Box sx={detailContainerStyles}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <Detail pwaId={pwaId} />
+            <Detail pwaSlug={pwaSlug} />
           </Grid>
           {description && (
             <Grid item xs={12}>
@@ -131,8 +132,8 @@ const PwaDetail = ({
   );
 };
 
-const mapStateToProps = ({ Pwas: { items, filteredItems } }, { pwaId }) => {
-  const pwa = (filteredItems.length > 0 ? items.concat(filteredItems) : items).find(({ id }) => id == pwaId) || {};
+const mapStateToProps = ({ Pwas: { items, filteredItems } }, { pwaSlug }) => {
+  const pwa = (filteredItems.length > 0 ? items.concat(filteredItems) : items).find(({ slug }) => slug === pwaSlug) || {};
   return pwa;
 };
 

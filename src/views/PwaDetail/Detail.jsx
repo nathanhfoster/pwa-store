@@ -31,6 +31,7 @@ const LaunchButton = styled(Button)({
 
 const Detail = ({
   id,
+  slug,
   name,
   tags,
   url,
@@ -51,7 +52,7 @@ const Detail = ({
   );
 
   const onLaunch = () => {
-    UpdateAnalytics({ incr_launch: true, pwa_id: id });
+    UpdateAnalytics({ incr_launch: true, slug });
   };
 
   return (
@@ -120,12 +121,13 @@ const Detail = ({
   );
 };
 
-const mapStateToProps = ({ Pwas: { items, filteredItems } }, { pwaId, ...restOfProps }) => {
+const mapStateToProps = ({ Pwas: { items, filteredItems } }, { pwaSlug, ...restOfProps }) => {
   const pwa =
-    (filteredItems.length > 0 ? items.concat(filteredItems) : items).find(({ id }) => id == pwaId) || restOfProps;
+    (filteredItems.length > 0 ? items.concat(filteredItems) : items).find(({ slug }) => slug === pwaSlug) || restOfProps;
   const {
-    id = pwaId,
+    id,
     name,
+    slug,
     tags,
     url,
     image_url,
@@ -135,7 +137,7 @@ const mapStateToProps = ({ Pwas: { items, filteredItems } }, { pwaId, ...restOfP
   } = pwa;
   const iconSrc = getManifestIconSrc(manifest_url, icons);
   const imageSrc = iconSrc || image_url || DEFAULT_PWA_IMAGE;
-  return { id, name, tags, url, view_count, launch_count, rating_avg, rating_count, theme_color, imageSrc };
+  return { id, slug, name, tags, url, view_count, launch_count, rating_avg, rating_count, theme_color, imageSrc };
 };
 
 const mapDispatchToProps = { UpdateAnalytics };

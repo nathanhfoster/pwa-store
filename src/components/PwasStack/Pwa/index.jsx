@@ -36,6 +36,7 @@ const nameStyles = { ...noWrapStyles, textDecoration: 'underline' };
 
 const Pwa = ({
   id,
+  slug,
   name,
   url,
   image_url,
@@ -57,7 +58,7 @@ const Pwa = ({
   // const dispatch = useDispatch();
   // const [isHovered, toggleIsHovered] = useBooleanReducer(false);
 
-  const pwaRoute = GetPwaDetailUrl(id);
+  const pwaRoute = GetPwaDetailUrl(slug);
 
   // useLayoutEffect(() => {
   //   dispatch(GetPwaManifest(url));

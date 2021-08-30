@@ -266,9 +266,9 @@ export const GetLighthouseData = (url) =>
       return Promise.reject(e);
     });
 
-export const GetPwa = (id) => (dispatch) =>
+export const GetPwa = (slug) => (dispatch) =>
   Axios()
-    .get(`pwas/${id}/`)
+    .get(`pwas/${slug}/`)
     .then(({ data }) => {
       dispatch(UpdateReduxPwa(data));
       return data;
@@ -279,10 +279,11 @@ export const GetPwa = (id) => (dispatch) =>
     });
 
 export const UpdateAnalytics = (payload) => (dispatch) => {
-  if (!payload?.pwa_id) return Promise.reject('There is no pwa_id in the payload');
+  if (!payload?.slug) return Promise.reject('There is no slug in the payload');
   return Axios()
     .patch('pwas/analytics-counter/', payload)
     .then(({ data }) => {
+      console.info('analyics', data);
       dispatch(UpdateReduxPwa(data));
       return data;
     })
