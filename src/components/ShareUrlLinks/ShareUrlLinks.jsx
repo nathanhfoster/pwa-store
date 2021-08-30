@@ -56,7 +56,7 @@ ShareUrlLinks.propTypes = {
 
 ShareUrlLinks.defaultProps = {
   target: '_blank',
-  url: window.location.origin,
+  url: window.location.href,
   type: 'button',
   variant: 'link',
   parameterString: ''
