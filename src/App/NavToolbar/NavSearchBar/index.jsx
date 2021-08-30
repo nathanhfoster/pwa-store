@@ -45,7 +45,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   }
 }));
 
-const NavSearchBar = ({ search, isInstalled, isLoading, ResetPwasFilter, SetPwasSearch, SearchPwas, FilterPwas }) => {
+const NavSearchBar = ({ search, isLoading, ResetPwasFilter, SetPwasSearch, SearchPwas, FilterPwas }) => {
   const mounted = useMounted();
   const debouncedSearch = useDebounce(search);
   const history = useHistory();
@@ -68,11 +68,9 @@ const NavSearchBar = ({ search, isInstalled, isLoading, ResetPwasFilter, SetPwas
 
   return (
     <>
-      {isInstalled && (
-        <IconButton onClick={handleBackClick}>
-          <ArrowBackIcon />
-        </IconButton>
-      )}
+      <IconButton onClick={handleBackClick}>
+        <ArrowBackIcon />
+      </IconButton>
       <Search>
         {!isLoading && (
           <SearchIconWrapper>
@@ -92,7 +90,7 @@ const NavSearchBar = ({ search, isInstalled, isLoading, ResetPwasFilter, SetPwas
   );
 };
 
-const mapStateToProps = ({ App: { isInstalled }, Pwas: { search, isLoading } }) => ({ isInstalled, search, isLoading });
+const mapStateToProps = ({ Pwas: { search, isLoading } }) => ({ search, isLoading });
 const mapDispatchToProps = { ResetPwasFilter, SetPwasSearch, SearchPwas, FilterPwas };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavSearchBar);
