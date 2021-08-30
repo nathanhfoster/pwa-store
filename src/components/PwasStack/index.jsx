@@ -49,18 +49,16 @@ const PwasStack = ({ title, subtitle, data, imageSize, flexWrap, isLoading }) =>
     <Box
       sx={{
         bgcolor: 'background.paper',
-        borderBottom: '1px solid rgba(0,0,0,0.05)',
-        py: 2,
-        px: 0
+        borderBottom: '1px solid rgba(0,0,0,0.05)'
       }}
     >
       {title && (
-        <Typography variant={isDetailedView ? 'h4' : 'h6'} mx={2} mb={1}>
+        <Typography variant='h5' mb={1}>
           {title}
         </Typography>
       )}
       {subtitle && (
-        <Typography variant='subtitle2' color='text.secondary' mx={2} mb={2}>
+        <Typography variant='subtitle2' color='text.secondary' mb={2}>
           {subtitle}
         </Typography>
       )}

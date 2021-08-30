@@ -49,14 +49,10 @@ const UserForm = ({
     [username, name, email]
   );
 
-  return (
-    <Box p={4}>
-      {isLoading ? (
-        <BasicForm title='Update Account' submitTitle='Update' />
-      ) : (
-        <BasicForm title='Update Account' submitTitle='Update' data={userFormFields} onSubmit={handleSubmit} />
-      )}
-    </Box>
+  return isLoading ? (
+    <BasicForm title='Update Account' submitTitle='Update' />
+  ) : (
+    <BasicForm title='Update Account' submitTitle='Update' data={userFormFields} onSubmit={handleSubmit} />
   );
 };
 

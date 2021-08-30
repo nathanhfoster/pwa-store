@@ -2,13 +2,14 @@ import React, { lazy } from 'react';
 import { PwasType } from 'store/reducers/Pwas/types';
 import { connect } from 'resurrection';
 import usePwaSearchOnQueryChange from 'hooks/usePwaSearchOnQueryChange';
+import { Box } from '@material-ui/core';
 
 const PwasStack = lazy(() => import('../../components/PwasStack'));
 
 const Pwas = ({ pwas }) => {
   const queryString = usePwaSearchOnQueryChange();
   return (
-    <>
+    <Box p={4}>
       <PwasStack
         // TODO: need images that are 16:9
         title='Featured apps'
@@ -22,7 +23,7 @@ const Pwas = ({ pwas }) => {
         data={pwas}
       />
       <PwasStack title='Random apps' subtitle='Discover random apps' data={pwas} />
-    </>
+    </Box>
   );
 };
 
