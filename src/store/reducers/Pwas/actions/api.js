@@ -283,7 +283,6 @@ export const UpdateAnalytics = (payload) => (dispatch) => {
   return Axios()
     .patch('pwas/analytics-counter/', payload)
     .then(({ data }) => {
-      console.info('analyics', data);
       dispatch(UpdateReduxPwa(data));
       return data;
     })

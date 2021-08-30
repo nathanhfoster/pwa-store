@@ -8,8 +8,11 @@ const handleItemMerge = (currentStoreItem, newItem) => {
     return { ...currentStoreItem, ...newItem };
   }
 
-  // If the newItem has a higher view count, update the currentStoreItem with the newItem data
-  if (newItem.pwa_analytics?.view_count > currentStoreItem.pwa_analytics?.view_count) {
+  // If the newItem has a higher view or launch count, update the currentStoreItem with the newItem data
+  if (
+    newItem.pwa_analytics?.view_count > currentStoreItem.pwa_analytics?.view_count ||
+    newItem.pwa_analytics?.launch_count > currentStoreItem.pwa_analytics?.launch_count
+  ) {
     return { ...currentStoreItem, ...newItem };
   }
 
