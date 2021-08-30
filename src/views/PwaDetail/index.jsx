@@ -7,7 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import Backdrop from '@material-ui/core/Backdrop';
 import Typography from '@material-ui/core/Typography';
 import { PwaType } from 'store/reducers/Pwas/types';
-import { UpdateAnalytics } from '../../store/reducers/Pwas/actions/api';
+import { GetPwa, UpdateAnalytics } from '../../store/reducers/Pwas/actions/api';
 import RatingForm from './RatingForm';
 
 const Detail = lazy(() => import('./Detail'));
@@ -35,11 +35,17 @@ const PwaDetail = ({
   organization,
   tags,
   updated_at,
+  GetPwa,
   UpdateAnalytics
 }) => {
+
   useEffect(() => {
-    UpdateAnalytics({ incr_view: true, pwa_id: pwaId });
+    GetPwa(pwaId);
   }, [pwaId]);
+
+  useEffect(() => {
+    UpdateAnalytics({ incr_view: true, pwa_id: id });
+  }, [id]);
 
   const renderScreenShots = useMemo(
     () =>
@@ -131,7 +137,7 @@ const mapStateToProps = ({ Pwas: { items, filteredItems } }, { pwaId }) => {
   return pwa;
 };
 
-const mapDispatchToProps = { UpdateAnalytics };
+const mapDispatchToProps = { GetPwa, UpdateAnalytics };
 
 PwaDetail.propTypes = { pwaId: PropTypes.string.isRequired, ...PwaType };
 
