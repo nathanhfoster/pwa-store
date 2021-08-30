@@ -49,7 +49,7 @@ const UserAccount = ({ isMobile, history }) => {
           <TabControls index={pathname} />
         </Tabs>
       </Box>
-      <Conditional value={pathname} sx={{ p: 4 }}>
+      <Conditional value={pathname} sx={{ p: pathname === RouteMap.SETTINGS_USER_ACCOUNT ? 4 : 0 }}>
         <UserPwas key={`${RouteMap.SETTINGS},${RouteMap.SETTINGS_USER_PWAS}`} />
         <UserFavoritePwas key={RouteMap.SETTINGS_USER_FAVORITE_PWAS} />
         <UserForm key={RouteMap.SETTINGS_USER_ACCOUNT} />
