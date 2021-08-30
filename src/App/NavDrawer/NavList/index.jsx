@@ -1,4 +1,4 @@
-import React, { lazy } from 'react';
+import React, { useMemo, lazy } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'resurrection';
 import { ToggleAppNavBar } from 'store/reducers/App/actions';
@@ -23,15 +23,12 @@ const StyledToolbar = styled(Toolbar)((props) => ({
 
 const HOME_ICON_SIZE = 32;
 
-const iconStyles = (props) => ({
+const iconStyles = {
   width: HOME_ICON_SIZE,
   height: HOME_ICON_SIZE,
   animation: 'grow 200ms',
-  '&:hover': { color: props.theme.palette.primary.main }
-});
-
-const StyledHomeIcon = styled(HomeIcon)(iconStyles);
-const StyledFavoriteIcon = styled(FavoriteIcon)(iconStyles);
+  '&:hover': { color: 'primary.main' }
+};
 
 const NavList = ({ tags, ResetPwasFilter, ToggleAppNavBar }) => {
   const history = useHistory();
@@ -51,22 +48,20 @@ const NavList = ({ tags, ResetPwasFilter, ToggleAppNavBar }) => {
     handleResetNavBar();
   };
 
+  const renderTags = useMemo(() => tags.map((tag) => <NavItem key={tag.name} {...tag} />), [tags]);
+
   return (
     <>
       <StyledToolbar>
         <IconButton edge='start' onClick={handleHomeClick}>
-          <StyledHomeIcon />
+          <HomeIcon sx={iconStyles} />
         </IconButton>
         <IconButton edge='start' onClick={handleFavoriteClick}>
-          <StyledFavoriteIcon />
+          <FavoriteIcon sx={iconStyles} />
         </IconButton>
       </StyledToolbar>
       <Divider />
-      <List>
-        {tags.map((tag) => (
-          <NavItem key={tag.name} {...tag} />
-        ))}
-      </List>
+      <List>{renderTags}</List>
       <Divider />
     </>
   );

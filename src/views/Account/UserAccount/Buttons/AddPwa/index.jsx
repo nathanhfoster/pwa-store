@@ -19,7 +19,7 @@ const AddPwa = ({ urlValue, imageUrlValue }) => {
   return (
     <>
       <Base onClick={toggleIsModalOpen}>
-        <AddBusinessIcon fontSize='large' />
+        <AddBusinessIcon fontSize='large' sx={{ animation: 'grow 200ms', '&:hover': { color: 'primary.main' } }} />
       </Base>
       <Modal
         sx={{

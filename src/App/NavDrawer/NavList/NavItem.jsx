@@ -9,11 +9,20 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import AppsIcon from '@material-ui/icons/Apps';
 import ListItemText from '@material-ui/core/ListItemText';
 import { tagIconMap } from './structure';
-import { styled } from '@material-ui/core/styles';
 
-const StyledListItem = styled(ListItem)((props) => ({
-  '&:hover': { color: props.theme.palette.primary.main }
-}));
+const listItemStyles = {
+  '&:hover': {
+    color: 'primary.main',
+    svg: {
+      color: 'primary.main',
+      animationName: 'scale',
+      animationDuration: '200ms',
+      animationFillMode: 'forwards'
+    }
+  }
+};
+
+const iconStyles = { animation: 'grow 200ms' };
 
 const NavItem = ({ name, navBarIsOpen, ToggleAppNavBar }) => {
   const history = useHistory();
@@ -26,12 +35,12 @@ const NavItem = ({ name, navBarIsOpen, ToggleAppNavBar }) => {
   };
 
   return (
-    <StyledListItem button onClick={onTagClick}>
+    <ListItem button sx={listItemStyles} onClick={onTagClick}>
       <ListItemIcon>
-        <Icon sx={{ animation: 'grow 200ms' }} />
+        <Icon sx={iconStyles} />
       </ListItemIcon>
       <ListItemText primary={name} />
-    </StyledListItem>
+    </ListItem>
   );
 };
 

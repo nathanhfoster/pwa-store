@@ -13,6 +13,7 @@ import Portal from '@material-ui/core/Portal';
 import { useDispatch } from 'resurrection';
 import { UserLogin, UserSignUp } from 'store/reducers/User/actions/api';
 import BasicForm from 'components/BasicForm';
+import { DEFAULT_PWA_IMAGE_SIZE } from '../../../constants';
 
 const icon = `${process.env.PUBLIC_URL}/assets/android-chrome-512x512.png`;
 
@@ -20,7 +21,8 @@ const AppIcon = styled('img')((props) => ({
   display: 'block',
   maxWidth: '100%',
   maxHeight: '100%',
-  margin: props.theme.spacing(2, 'auto')
+  margin: props.theme.spacing(2, 'auto'),
+  borderRadius: props.theme.spacing(1)
 }));
 
 const portalStyles = { position: 'absolute', zIndex: 1201, left: 0, right: 0 };
@@ -125,8 +127,15 @@ const Login = () => {
               alignItems: 'center'
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: 'primary.dark' }}>
-              <LockOutlinedIcon />
+            <Avatar
+              variant='rounded'
+              sx={{
+                m: 1,
+                bgcolor: 'primary.dark',
+                color: 'white'
+              }}
+            >
+              <LockOutlinedIcon fontSize='large' />
             </Avatar>
             <BasicForm
               title={formTitle}
