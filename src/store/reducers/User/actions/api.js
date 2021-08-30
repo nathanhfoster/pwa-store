@@ -17,7 +17,7 @@ export const UserLogin = (payload) => (dispatch) => {
       dispatch(PushAlertWithTimeout(alertPayload));
       dispatch(SetUser(data));
       dispatch(ToogleIsLoading(false));
-      dispatch(GetUserSettings());
+      dispatch(GetUserSettings(data));
       return data;
     })
     .catch((e) => {
@@ -77,8 +77,8 @@ export const UpdateUser = (payload) => (dispatch, getState) => {
     });
 };
 
-export const GetUserSettings = () => (dispatch, getState) => {
-  const { id, token } = getState().User;
+export const GetUserSettings = (userData) => (dispatch, getState) => {
+  const { id, token } = userData || getState().User;
   if (!(id && token)) {
     return;
   }
