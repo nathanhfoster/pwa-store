@@ -69,7 +69,8 @@ const PwasStack = ({ title, subtitle, data, imageSize, flexWrap, isLoading }) =>
           overflow: 'auto',
           justifyContent: 'flex-start',
           alignItems: 'baseline',
-          alignContent: 'flex-start'
+          alignContent: 'flex-start',
+          px: isDetailedView ? 0 : -4
         }}
       >
         {renderPwas}
