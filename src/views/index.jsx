@@ -27,7 +27,7 @@ const AppRouter = ({ userIsLoggedIn }) => {
             RouteMap.SETTINGS_USER_ACCOUNT
           ]}
           render={({ history }) =>
-            userIsLoggedIn ? <UserAccount history={history} /> : <Redirect to={RouteMap.HOME} />
+            userIsLoggedIn ? <UserAccount history={history} /> : <Redirect to={RouteMap.LOGIN} />
           }
         />
         <Route exact path={[RouteMap.PWA_DETAIL]} render={({ match: { params } }) => <PwaDetail {...params} />} />
