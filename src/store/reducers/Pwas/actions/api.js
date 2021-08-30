@@ -278,9 +278,9 @@ export const GetPwa = (id) => (dispatch) =>
       return Promise.reject(e);
     });
 
-
-export const UpdateAnalytics = (payload) => (dispatch) =>
-  Axios()
+export const UpdateAnalytics = (payload) => (dispatch) => {
+  if (!payload?.pwa_id) return Promise.reject('There is no pwa_id in the payload');
+  return Axios()
     .patch('pwas/analytics-counter/', payload)
     .then(({ data }) => {
       dispatch(UpdateReduxPwa(data));
@@ -290,6 +290,7 @@ export const UpdateAnalytics = (payload) => (dispatch) =>
       console.error(e);
       return Promise.reject(e);
     });
+};
 
 export const PostPwa = (payload) => (dispatch) => {
   const jsonPayload = JSON.stringify(payload);

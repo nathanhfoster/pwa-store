@@ -38,7 +38,6 @@ const PwaDetail = ({
   GetPwa,
   UpdateAnalytics
 }) => {
-
   useEffect(() => {
     GetPwa(pwaId);
   }, [pwaId]);
