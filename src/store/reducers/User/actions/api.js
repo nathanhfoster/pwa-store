@@ -16,7 +16,7 @@ export const UserLogin = (payload) => (dispatch) => {
       const alertPayload = { title: 'Sign in success', message: 'Welcome back!', props: { severity: 'success' } };
       dispatch(PushAlertWithTimeout(alertPayload));
       dispatch(SetUser(data));
-      dispatch(ToogleIsLoading(false));
+      dispatch(GetUserSettings());
       return data;
     })
     .catch((e) => {
