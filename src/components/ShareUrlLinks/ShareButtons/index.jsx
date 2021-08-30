@@ -27,7 +27,7 @@ const ShareButtons = ({ url }) => {
   );
 };
 
-ShareButtons.defaultProps = { url: window.location.origin };
+ShareButtons.defaultProps = { url: window.location.href };
 
 ShareButtons.propTypes = { url: PropTypes.string };
 
