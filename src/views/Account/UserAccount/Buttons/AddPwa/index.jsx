@@ -4,6 +4,7 @@ import Box from '@material-ui/core/Box';
 import Modal from '@material-ui/core/Modal';
 import Button from '@material-ui/core/Button';
 import PwaForm from './PwaForm';
+import AddBusinessIcon from '@material-ui/icons/AddBusiness';
 import { connect, useBooleanReducer } from 'resurrection';
 import { PostUserPwa } from 'store/reducers/User/actions/api';
 import useLighthouse from 'hooks/useLighthouse';
@@ -17,7 +18,9 @@ const AddPwa = ({ urlValue, imageUrlValue }) => {
 
   return (
     <>
-      <Base onClick={toggleIsModalOpen}>Add</Base>
+      <Base onClick={toggleIsModalOpen}>
+        <AddBusinessIcon fontSize='large' />
+      </Base>
       <Modal
         sx={{
           overflowY: 'auto'

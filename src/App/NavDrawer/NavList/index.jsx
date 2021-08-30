@@ -53,7 +53,7 @@ const NavList = ({ tags, ResetPwasFilter, ToggleAppNavBar }) => {
 
   return (
     <>
-      <StyledToolbar l>
+      <StyledToolbar>
         <IconButton edge='start' onClick={handleHomeClick}>
           <StyledHomeIcon />
         </IconButton>

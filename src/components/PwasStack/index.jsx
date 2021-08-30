@@ -8,8 +8,6 @@ import Skeleton from '@material-ui/core/Skeleton';
 import { DEFAULT_PWA_IMAGE_SIZE } from '../../constants';
 import { connect } from 'resurrection';
 
-const Pwa = lazy(() => import('./Pwa'));
-
 const PwasStack = ({ title, subtitle, data, imageSize, flexWrap, isLoading }) => {
   const isDetailedView = flexWrap === 'wrap';
 
@@ -38,11 +36,14 @@ const PwasStack = ({ title, subtitle, data, imageSize, flexWrap, isLoading }) =>
       ));
     }
 
-    return data.map((pwa) => (
-      <Grid item key={pwa.id} {...gridItemStyles}>
-        <Pwa {...pwa} detailed={isDetailedView} imageSize={imageSize} />
-      </Grid>
-    ));
+    return data.map((pwa) => {
+      const Pwa = lazy(() => import('./Pwa'));
+      return (
+        <Grid item key={pwa.id} {...gridItemStyles}>
+          <Pwa {...pwa} detailed={isDetailedView} imageSize={imageSize} />
+        </Grid>
+      );
+    });
   }, [isDetailedView, imageSize, isLoading, data]);
 
   return (

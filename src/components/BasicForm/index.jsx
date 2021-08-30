@@ -122,7 +122,7 @@ const BasicForm = ({ title, data, submitTitle, disabled, sx, children, onSubmit 
   );
   return (
     <>
-      {title && <Typography variant='h5'>{title}</Typography>}
+      {title && <Typography variant='h4'>{title}</Typography>}
       <Box component='form' noValidate onSubmit={handleSubmit} sx={sx}>
         {renderInputs}
         <Button

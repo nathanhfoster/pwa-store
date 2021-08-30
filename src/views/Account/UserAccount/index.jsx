@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Conditional from 'components/Conditional';
-import TabControls from './TabControls';
 import Box from '@material-ui/core/Box';
 import AppsIcon from '@material-ui/icons/Apps';
 import FavoriteIcon from '@material-ui/icons/Favorite';
@@ -28,7 +27,6 @@ const UserAccount = ({ isMobile, history }) => {
         <Tabs
           value={pathname}
           onChange={handleChange}
-          aria-label='basic tabs example'
           indicatorColor='primary'
           textColor='inherit'
           variant={isMobile ? 'fullWidth' : 'scrollable'}
@@ -46,7 +44,6 @@ const UserAccount = ({ isMobile, history }) => {
             icon={<AccountCircleIcon />}
             label='Update'
           />
-          <TabControls index={pathname} />
         </Tabs>
       </Box>
       <Conditional value={pathname} sx={{ p: pathname === RouteMap.SETTINGS_USER_ACCOUNT ? 4 : 0 }}>

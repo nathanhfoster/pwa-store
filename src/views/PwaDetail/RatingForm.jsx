@@ -72,7 +72,7 @@ const RatingForm = ({ userName, shouldRender, ratingOwnedByUser, pwa_id, UpdateR
             </Button>
           </Grid>
           {ratingOwnedByUser && (
-            <Grid item xs={8} alignItem='center'>
+            <Grid item xs={8}>
               <DateTime readOnly id='rating-time' name='rating-time' value={ratingOwnedByUser.updated_at} />
             </Grid>
           )}
