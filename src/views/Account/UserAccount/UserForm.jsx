@@ -7,6 +7,11 @@ import BasicForm from 'components/BasicForm';
 import { connect } from 'resurrection';
 import { UpdateUser } from 'store/reducers/User/actions/api';
 
+const formStyles = {
+  maxWidth: 600,
+  margin: '0 auto'
+};
+
 const UserForm = ({
   isLoading,
   error,
@@ -49,10 +54,20 @@ const UserForm = ({
     [username, name, email]
   );
 
-  return isLoading ? (
-    <BasicForm title='Update Account' submitTitle='Update' />
-  ) : (
-    <BasicForm title='Update Account' submitTitle='Update' data={userFormFields} onSubmit={handleSubmit} />
+  return (
+    <Box textAlign='center'>
+      {isLoading ? (
+        <BasicForm sx={formStyles} title='Update Account' submitTitle='Update' />
+      ) : (
+        <BasicForm
+          sx={formStyles}
+          title='Update Account'
+          submitTitle='Update'
+          data={userFormFields}
+          onSubmit={handleSubmit}
+        />
+      )}
+    </Box>
   );
 };
 

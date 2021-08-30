@@ -19,7 +19,7 @@ const getStyles = (name, array, theme) => ({
   fontWeight: array.indexOf(name) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium
 });
 
-const BasicForm = ({ title, data, submitTitle, disabled, children, onSubmit }) => {
+const BasicForm = ({ title, data, submitTitle, disabled, sx, children, onSubmit }) => {
   const theme = useTheme();
   const [form, setForm] = useSetRefState(
     data.reduce((acc, { id, name = id, multiple = false, defaultValue = multiple ? [] : '' }) => {
@@ -123,7 +123,7 @@ const BasicForm = ({ title, data, submitTitle, disabled, children, onSubmit }) =
   return (
     <>
       {title && <Typography variant='h5'>{title}</Typography>}
-      <Box component='form' noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+      <Box component='form' noValidate onSubmit={handleSubmit} sx={sx}>
         {renderInputs}
         <Button
           disabled={disabled || !onSubmit}
@@ -185,13 +185,15 @@ BasicForm.propTypes = {
       options: PropTypes.arrayOf(PropTypes.shape({ id: PropTypes.string, name: PropTypes.string })),
       defaultValue: PropTypes.string
     })
-  )
+  ),
+  sx: PropTypes.object
 };
 
 BasicForm.defaultProps = {
   submitTitle: 'Sign In',
   disabled: false,
-  data: []
+  data: [],
+  sx: { mt: 1 }
 };
 
 export default memo(BasicForm);
