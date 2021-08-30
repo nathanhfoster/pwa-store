@@ -69,7 +69,7 @@ const NavSearchBar = ({ search, isLoading, ResetPwasFilter, SetPwasSearch, Searc
   return (
     <>
       <IconButton onClick={handleBackClick}>
-        <ArrowBackIcon />
+        <ArrowBackIcon fontSize="large" />
       </IconButton>
       <Search>
         {!isLoading && (
