@@ -1,4 +1,4 @@
-import React, { cloneElement, memo } from 'react';
+import React, { cloneElement } from 'react';
 import PropTypes from 'prop-types';
 import Stack from '@material-ui/core/Stack';
 import {
@@ -31,4 +31,4 @@ ShareButtons.defaultProps = { url: window.location.href };
 
 ShareButtons.propTypes = { url: PropTypes.string };
 
-export default memo(ShareButtons);
+export default ShareButtons;
