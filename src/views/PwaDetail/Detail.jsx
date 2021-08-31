@@ -153,7 +153,7 @@ const mapStateToProps = ({ User: { id: userId }, Pwas: { items, filteredItems } 
     manifest_json: { theme_color = 'primary.dark', icons } = {}
   } = pwa;
   const iconSrc = getManifestIconSrc(manifest_url, icons);
-  const imageSrc = iconSrc || image_url || DEFAULT_PWA_IMAGE;
+  const imageSrc = image_url || iconSrc || DEFAULT_PWA_IMAGE;
   const isAuthorOfPwa = pwa.created_by === userId;
   return {
     id,
