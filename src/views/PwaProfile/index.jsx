@@ -70,7 +70,7 @@ const PwaProfile = ({
       { id: 'url', required: true, defaultValue: url },
       { id: 'manifest_url', required: true, defaultValue: manifest_url },
       { id: 'manifest_json', type: 'textarea', required: true, defaultValue: JSON.stringify(manifest_json) },
-      { id: 'name', required: true, defaultValue: manifest_json.name || name },
+      { id: 'name', required: true, defaultValue: manifest_json.short_name || manifest_json.name || name },
       { id: 'slug', required: true, defaultValue: slug || name.toLowerCase().replace(' ', '-') },
       { id: 'description', type: 'textarea', defaultValue: manifest_json.description || description },
       { id: 'image_url', defaultValue: getManifestIconSrc(manifest_url, manifest_json.icons) || image_url },
