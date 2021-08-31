@@ -52,13 +52,24 @@ const BasicForm = ({ title, data, submitTitle, submitJson, disabled, sx, childre
       }),
     [data, form, setForm]
   );
+
+  const submitDisabled = useMemo(
+    () =>
+      data.some(({ required, type = 'text', id = type, name = id }) => {
+        const fieldValue = form[name];
+
+        return required && !fieldValue;
+      }),
+    [data, form]
+  );
+
   return (
     <>
       {title && <Typography variant='h4'>{title}</Typography>}
       <Box component='form' noValidate onSubmit={handleSubmit} onChange={handleOnChange} sx={sx}>
         {renderInputs}
         <Button
-          disabled={disabled || !onSubmit}
+          disabled={disabled || !onSubmit || submitDisabled}
           type='submit'
           fullWidth
           variant='contained'
