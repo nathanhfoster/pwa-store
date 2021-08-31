@@ -53,7 +53,7 @@ const Pwa = ({
   const imageSrc = useMemo(() => {
     const { icons } = manifest_json || {};
     const iconImageSrc = getManifestIconSrc(manifest_url, icons);
-    return iconImageSrc || image_url || DEFAULT_PWA_IMAGE;
+    return image_url || iconImageSrc || DEFAULT_PWA_IMAGE;
   }, [image_url, manifest_json, manifest_url]);
   // const dispatch = useDispatch();
   // const [isHovered, toggleIsHovered] = useBooleanReducer(false);
