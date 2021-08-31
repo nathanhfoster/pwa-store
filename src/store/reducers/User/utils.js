@@ -72,7 +72,7 @@ export const getManifestIconSrc = (manifest_url, icons) => {
 
   const icon = getManifestIcon(icons);
   if (icon) {
-    if (stringMatch(icon.src, 'http')) {
+    if (stringMatch(icon.src, 'http') || stringMatch(icon.src, '.com')) {
       imageUrl = icon.src;
     } else {
       const hostname = getHostNameOfUrl(manifest_url);
