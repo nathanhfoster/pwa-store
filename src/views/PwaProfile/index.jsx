@@ -4,6 +4,8 @@ import { connect } from 'resurrection';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Box from '@material-ui/core/Box';
 import Backdrop from '@material-ui/core/Backdrop';
+import Stack from '@material-ui/core/Stack';
+import Avatar from '@material-ui/core/Avatar';
 import useDebounce from 'hooks/useDebounce';
 import { useMounted } from 'resurrection';
 import BasicForm from 'components/BasicForm';
@@ -12,6 +14,7 @@ import { PwaType } from 'store/reducers/Pwas/types';
 import { GetPwa, GetPwaManifest, UpdatePwa } from '../../store/reducers/Pwas/actions/api';
 import { HOME } from 'utils/RouteMap';
 import { getManifestIconSrc, getTagsFromManifest } from 'store/reducers/User/utils';
+import { getFirstChar } from 'utils';
 
 const detailContainerStyles = {
   height: '100%',
@@ -115,10 +118,19 @@ const PwaProfile = ({
     );
   }
 
+  const imageSrc = formFields.find(({ id }) => id === 'image_url')?.defaultValue;
+
   return (
     <Box sx={detailContainerStyles}>
       <BasicForm
-        title={`Update ${name}`}
+        title={
+          <Stack direction='row' spacing={2}>
+            <Avatar src={imageSrc} title={name}>
+              {getFirstChar(name)}
+            </Avatar>
+            <span>{`Update ${name}`}</span>
+          </Stack>
+        }
         submitTitle='Update Pwa'
         submitJson
         data={formFields}
