@@ -300,9 +300,12 @@ export const UpdateAnalytics = (payload) => (dispatch) => {
 };
 
 export const PostPwa = (payload) => (dispatch) => {
-  const jsonPayload = JSON.stringify(payload);
+  let cleanPayload = { ...payload };
+  if (cleanPayload.manifest_json) {
+    cleanPayload.manifest_json = JSON.parse(payload.manifest_json);
+  }
   return Axios()
-    .post('pwas', jsonPayload, {
+    .post('pwas', payload, {
       headers: {
         'Content-Type': 'application/json'
       }
@@ -320,9 +323,12 @@ export const PostPwa = (payload) => (dispatch) => {
 };
 
 export const UpdatePwa = (slug, payload) => (dispatch) => {
-  const jsonPayload = JSON.stringify(payload);
+  let cleanPayload = { ...payload };
+  if (cleanPayload.manifest_json) {
+    cleanPayload.manifest_json = JSON.parse(payload.manifest_json);
+  }
   return Axios()
-    .patch(`pwas/${slug}/`, jsonPayload, {
+    .patch(`pwas/${slug}/`, cleanPayload, {
       headers: {
         'Content-Type': 'application/json'
       }
