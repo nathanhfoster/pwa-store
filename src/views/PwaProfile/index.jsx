@@ -58,7 +58,8 @@ const PwaProfile = ({
   GetPwaManifest,
   UpdatePwa
 }) => {
-  const [manifestUrl, setManifestUrl] = useState('');
+  const [manifestUrl, setManifestUrl] = useState(manifest_url);
+  const [imageUrl, setImageUrl] = useState(undefined);
   const debouncedManifestUrl = useDebounce(manifestUrl);
   const mounted = useMounted();
 
@@ -97,6 +98,10 @@ const PwaProfile = ({
     if (name === 'url' || name === 'manifest_url') {
       setManifestUrl(value);
     }
+
+    if (name === 'image_url') {
+      setImageUrl(value);
+    }
   }, []);
 
   const handleOnSubmit = useCallback(
@@ -118,7 +123,7 @@ const PwaProfile = ({
     );
   }
 
-  const imageSrc = formFields.find(({ id }) => id === 'image_url')?.defaultValue;
+  const imageSrc = imageUrl !== undefined ? imageUrl : formFields.find(({ id }) => id === 'image_url')?.defaultValue;
 
   return (
     <Box sx={detailContainerStyles}>
