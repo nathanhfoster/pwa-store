@@ -105,16 +105,18 @@ const PwaDetail = ({
           )}
         </Grid>
       </Box>
-      <Grid
-        container
-        direction='row'
-        flexWrap='nowrap'
-        justifyContent='flex-start'
-        alignItems='baseline'
-        sx={{ overflowX: 'auto', mb: 4 }}
-      >
-        {renderScreenShots}
-      </Grid>
+      {renderScreenShots.length > 0 && (
+        <Grid
+          container
+          direction='row'
+          flexWrap='nowrap'
+          justifyContent='flex-start'
+          alignItems='baseline'
+          sx={{ overflowX: 'auto', mb: 4 }}
+        >
+          {renderScreenShots}
+        </Grid>
+      )}
       <Grid container>
         <RatingForm pwa_id={id} />
       </Grid>
@@ -133,13 +135,15 @@ const PwaDetail = ({
 };
 
 const mapStateToProps = ({ Pwas: { items, filteredItems } }, { pwaSlug }) => {
-  const pwa = (filteredItems.length > 0 ? items.concat(filteredItems) : items).find(({ slug }) => slug === pwaSlug) || {};
+  const pwa =
+    (filteredItems.length > 0 ? items.concat(filteredItems) : items).find(({ slug }) => slug === pwaSlug) || {};
+
   return pwa;
 };
 
 const mapDispatchToProps = { GetPwa, UpdateAnalytics };
 
-PwaDetail.propTypes = { pwaId: PropTypes.string.isRequired, ...PwaType };
+PwaDetail.propTypes = { pwaSlug: PropTypes.string.isRequired, ...PwaType };
 
 PwaDetail.defaultProps = {
   ratings: [],

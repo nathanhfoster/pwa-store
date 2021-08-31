@@ -66,12 +66,34 @@ export const SearchPwas = (category) => (dispatch, getState) => {
     });
 };
 
-export const GetPwaManifest = (url) =>
+export const GetPwaManifest = (url, id) => (dispatch) =>
   Axios()
     .get(`pwas/extra/info?url=${url}`)
     .then((response) => {
       const { status, data } = response;
 
+      if (id) {
+        dispatch(MergeFilterPwas([{ id, ...data }]));
+      }
+
+      return response;
+    })
+    .catch((e) => {
+      console.error(e);
+      return Promise.reject(e);
+    });
+
+export const GetLighthouseData = (url) =>
+  axios
+    .request({
+      url: `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${url}&category=PWA`,
+      method: 'GET',
+      headers: {
+        Accept: 'application/json'
+      }
+    })
+    .then((response) => {
+      const { status, data } = response;
       if (status === 200 && data?.lighthouseResult) {
         const {
           captchaResult,
@@ -251,21 +273,6 @@ export const GetPwaManifest = (url) =>
       return Promise.reject(e);
     });
 
-export const GetLighthouseData = (url) =>
-  axios
-    .request({
-      url: `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${url}&category=PWA`,
-      method: 'GET',
-      headers: {
-        Accept: 'application/json'
-      }
-    })
-    .then((lighthouseResponse) => lighthouseResponse)
-    .catch((e) => {
-      console.error(e);
-      return Promise.reject(e);
-    });
-
 export const GetPwa = (slug) => (dispatch) =>
   Axios()
     .get(`pwas/${slug}/`)
@@ -302,6 +309,30 @@ export const PostPwa = (payload) => (dispatch) => {
     })
     .then(({ data }) => {
       const alertPayload = { title: 'Posted Pwa', message: 'Successfully posted pwa', props: { severity: 'success' } };
+      dispatch(PushAlertWithTimeout(alertPayload));
+      dispatch(MergeFilterPwas([data]));
+      return data;
+    })
+    .catch((e) => {
+      dispatch(ToogleIsLoading(false));
+      console.error(e);
+    });
+};
+
+export const UpdatePwa = (slug, payload) => (dispatch) => {
+  const jsonPayload = JSON.stringify(payload);
+  return Axios()
+    .patch(`pwas/${slug}/`, jsonPayload, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(({ data }) => {
+      const alertPayload = {
+        title: 'Updated Pwa',
+        message: 'Successfully updated pwa',
+        props: { severity: 'success' }
+      };
       dispatch(PushAlertWithTimeout(alertPayload));
       dispatch(MergeFilterPwas([data]));
       return data;

@@ -10,6 +10,7 @@ const UserAccount = lazy(() => import('./Account/UserAccount'));
 const PwasFilteredByTags = lazy(() => import('./PwasFilteredByTags'));
 const PageNotFound = lazy(() => import('./PageNotFound'));
 const PwaDetail = lazy(() => import('./PwaDetail'));
+const PwaProfile = lazy(() => import('./PwaProfile'));
 const Login = lazy(() => import('./Account/Login'));
 
 const AppRouter = ({ userIsLoggedIn }) => {
@@ -31,6 +32,7 @@ const AppRouter = ({ userIsLoggedIn }) => {
           }
         />
         <Route exact path={[RouteMap.PWA_DETAIL]} render={({ match: { params } }) => <PwaDetail {...params} />} />
+        <Route exact path={[RouteMap.PWA_PROFILE]} render={({ match: { params } }) => <PwaProfile {...params} />} />
         <Route exact path={[RouteMap.PWA_TAG_FILTER]} component={PwasFilteredByTags} />
         <Route
           exact

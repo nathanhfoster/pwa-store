@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import PropTypes from 'prop-types';
 import connect from 'resurrection';
 import { PwaType, PwaAnalyticsType, PwaManifestJsonType } from 'store/reducers/Pwas/types';
 import { styled } from '@material-ui/core/styles';
@@ -7,6 +8,8 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import ModeEditOutlineIcon from '@material-ui/icons/ModeEditOutline';
 import LaunchIcon from '@material-ui/icons/Launch';
 import Chip from '@material-ui/core/Chip';
 import Stack from '@material-ui/core/Stack';
@@ -14,6 +17,8 @@ import { UpdateAnalytics } from '../../store/reducers/Pwas/actions/api';
 import { DEFAULT_PWA_IMAGE, APP_DRAWER_WIDTH, DEFAULT_PWA_IMAGE_SIZE } from '../../constants';
 import ShareButtons from 'components/ShareUrlLinks/ShareButtons';
 import { getManifestIconSrc } from 'store/reducers/User/utils';
+import { useHistory } from 'react-router-dom';
+import { GetPwaProfileUrl } from 'utils/RouteMap';
 
 const Img = styled('img')({
   margin: 'auto',
@@ -41,8 +46,10 @@ const Detail = ({
   rating_count,
   imageSrc,
   theme_color,
+  isAuthorOfPwa,
   UpdateAnalytics
 }) => {
+  const history = useHistory();
   const renderTags = useMemo(
     () =>
       tags.map(({ name }) => (
@@ -55,6 +62,10 @@ const Detail = ({
     UpdateAnalytics({ incr_launch: true, slug });
   };
 
+  const handleOnEditClick = () => {
+    history.push(GetPwaProfileUrl(slug));
+  };
+
   return (
     <Box sx={{ maxWidth: 500, flexGrow: 1 }}>
       <Grid container spacing={0}>
@@ -65,10 +76,15 @@ const Detail = ({
             </ButtonBase>
           </Grid>
           <Grid item xs container direction='column' spacing={2}>
-            <Grid item xs>
+            <Grid item xs display='flex'>
               <Typography variant='h4' sx={{ fontWeight: 600 }}>
                 {name}
               </Typography>
+              {isAuthorOfPwa && (
+                <IconButton sx={{ ml: 2 }} onClick={handleOnEditClick}>
+                  <ModeEditOutlineIcon />
+                </IconButton>
+              )}
             </Grid>
             <Grid item xs>
               <Typography variant='body2' color='text.secondary'>
@@ -121,9 +137,10 @@ const Detail = ({
   );
 };
 
-const mapStateToProps = ({ Pwas: { items, filteredItems } }, { pwaSlug, ...restOfProps }) => {
+const mapStateToProps = ({ User: { id: userId }, Pwas: { items, filteredItems } }, { pwaSlug, ...restOfProps }) => {
   const pwa =
-    (filteredItems.length > 0 ? items.concat(filteredItems) : items).find(({ slug }) => slug === pwaSlug) || restOfProps;
+    (filteredItems.length > 0 ? items.concat(filteredItems) : items).find(({ slug }) => slug === pwaSlug) || {};
+
   const {
     id,
     name,
@@ -137,7 +154,21 @@ const mapStateToProps = ({ Pwas: { items, filteredItems } }, { pwaSlug, ...restO
   } = pwa;
   const iconSrc = getManifestIconSrc(manifest_url, icons);
   const imageSrc = iconSrc || image_url || DEFAULT_PWA_IMAGE;
-  return { id, slug, name, tags, url, view_count, launch_count, rating_avg, rating_count, theme_color, imageSrc };
+  const isAuthorOfPwa = pwa.created_by === userId;
+  return {
+    id,
+    slug,
+    name,
+    tags,
+    url,
+    view_count,
+    launch_count,
+    rating_avg,
+    rating_count,
+    theme_color,
+    imageSrc,
+    isAuthorOfPwa
+  };
 };
 
 const mapDispatchToProps = { UpdateAnalytics };
@@ -152,14 +183,16 @@ Detail.propTypes = {
   launch_count: PwaAnalyticsType.launch_count,
   rating_avg: PwaAnalyticsType.rating_avg,
   rating_count: PwaAnalyticsType.rating_count,
-  theme_color: PwaManifestJsonType.theme_color
+  theme_color: PwaManifestJsonType.theme_color,
+  isAuthorOfPwa: PropTypes.bool.isRequired
 };
 
 Detail.defaultProps = {
   pwa_screenshots: [],
   pwa_analytics: {},
   rating_avg: 0,
-  rating_count: 0
+  rating_count: 0,
+  isAuthorOfPwa: false
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Detail);

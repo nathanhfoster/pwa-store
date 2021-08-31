@@ -69,6 +69,7 @@ const getHostNameOfUrl = (url) => {
 
 export const getManifestIconSrc = (manifest_url, icons) => {
   var imageUrl = null;
+
   const icon = getManifestIcon(icons);
   if (icon) {
     if (stringMatch(icon.src, 'http')) {
@@ -79,6 +80,20 @@ export const getManifestIconSrc = (manifest_url, icons) => {
     }
   }
   return imageUrl;
+};
+
+export const getTagsFromManifest = (keywords = [], categories = [], pwaTags = []) => {
+  const uniqueTags = removeArrayDuplicates([...keywords, ...categories]).reduce((acc, tag) => {
+    const tagName = capitalize(tag);
+
+    if (pwaTags.includes(tagName)) {
+      acc.push(tagName);
+    }
+
+    return acc;
+  }, []);
+
+  return uniqueTags.length && uniqueTags;
 };
 
 export const mergeManifestWithForm = ({ pwaToUpload: { form } }, manifestUrl = '', manifestJson = {}) => {
@@ -144,15 +159,7 @@ export const mergeManifestWithForm = ({ pwaToUpload: { form } }, manifestUrl = '
     icons = [];
   }
 
-  const newOptionsValue = removeArrayDuplicates([...keywords, ...categories]).reduce((acc, tag) => {
-    const tagName = capitalize(tag);
-
-    if (pwaTags.includes(tagName)) {
-      acc.push(tagName);
-    }
-
-    return acc;
-  }, []);
+  const newOptionsValue = getTagsFromManifest(keywords, categories, pwaTags);
 
   let newIconUrl = getManifestIconSrc(manifestUrl, icons);
 

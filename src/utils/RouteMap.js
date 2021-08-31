@@ -6,6 +6,8 @@ export const SETTINGS_USER_ACCOUNT = `${SETTINGS}/account`;
 export const HOME = '/home';
 export const PWA_DETAIL = '/pwas/:pwaSlug';
 export const GetPwaDetailUrl = (slug) => PWA_DETAIL.replace(':pwaSlug', slug);
+export const PWA_PROFILE = '/pwas/profile/:pwaSlug';
+export const GetPwaProfileUrl = (slug) => PWA_PROFILE.replace(':pwaSlug', slug);
 export const PWA_TAG_FILTER = '/pwas:pwaTag?';
 export const GetPwaTagDetailUrl = (tag) => PWA_TAG_FILTER.replace(':pwaTag?', `?tagName=${tag}`);
 export const LOGIN = '/login';
