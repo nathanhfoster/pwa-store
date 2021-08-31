@@ -43,11 +43,21 @@ export const getManifestIconWeight = (icon) => {
   const { src, sizes, type, purpose } = icon;
   const [width, height] = sizes.split('x');
 
-  const iconRatioWeight = parseInt(width) + parseInt(height);
+  let iconRatioWeight = parseInt(width) + parseInt(height);
 
   const iconIsMaskable = stringMatch(purpose, 'maskable');
 
-  return iconIsMaskable ? iconRatioWeight * 3 : iconRatioWeight;
+  const iconIsMonochrom = stringMatch(purpose, 'monochrome');
+
+  if (iconIsMaskable) {
+    iconRatioWeight *= 3;
+  }
+
+  if (iconIsMonochrom) {
+    iconRatioWeight /= 2;
+  }
+
+  return iconRatioWeight;
 };
 
 export const getManifestIcon = (icons) =>
