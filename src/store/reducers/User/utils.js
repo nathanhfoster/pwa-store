@@ -41,7 +41,7 @@ export const MANIFEST_TO_FORM_MAP = {
 
 export const getManifestIconWeight = (icon) => {
   const { src, sizes, type, purpose } = icon;
-  if (!sizes) return 0;
+  if (!(src && sizes)) return 0;
 
   const [width, height] = sizes.split('x');
 
