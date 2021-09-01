@@ -167,6 +167,7 @@ export const PostUserPwa = () => async (dispatch, getState) => {
   return await dispatch(PostPwa(payload))
     .then((data) => {
       dispatch(ResetUserPwaForm());
+      dispatch(SetUserPwas([data]));
       dispatch(ToogleIsLoading(false));
       return data;
     })
