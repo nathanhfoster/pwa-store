@@ -135,6 +135,7 @@ const Login = () => {
             <BasicForm
               title={formTitle}
               submitTitle={formTitle}
+              submitJson={false}
               data={INPUT_FIELD_MAP[pathname]}
               onSubmit={handleSubmit}
             >
