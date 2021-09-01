@@ -133,7 +133,7 @@ BasicForm.propTypes = {
 
 BasicForm.defaultProps = {
   submitTitle: 'Sign In',
-  submitJson: false,
+  submitJson: true,
   disabled: false,
   data: {},
   sx: { mt: 1 }
