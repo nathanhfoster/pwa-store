@@ -42,9 +42,9 @@ const Field = ({
 
   useEffect(() => {
     if (mounted && !onChange) {
-      setForm({ [IDBCursorWithValue]: defaultValue });
+      setForm({ [id]: defaultValue });
     }
-  }, [defaultValue, , onChange]);
+  }, [defaultValue, onChange]);
 
   useEffect(() => {
     if (mounted && !onChange) {
