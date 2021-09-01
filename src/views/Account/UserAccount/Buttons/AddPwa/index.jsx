@@ -6,10 +6,16 @@ import IconButton from '@material-ui/core/IconButton';
 import PwaForm from './PwaForm';
 import AddBusinessIcon from '@material-ui/icons/AddBusiness';
 import CloseIcon from '@material-ui/icons/Close';
+import { ResetUserPwaForm } from 'store/reducers/User/actions/redux';
 import { connect, useBooleanReducer } from 'resurrection';
 
-const AddPwa = ({ urlValue, imageUrlValue }) => {
+const AddPwa = ({ ResetUserPwaForm }) => {
   const [isModalOpen, toggleIsModalOpen] = useBooleanReducer(false);
+
+  const handleOnClose = () => {
+    toggleIsModalOpen(false);
+    ResetUserPwaForm();
+  };
 
   return (
     <>
@@ -48,11 +54,10 @@ const AddPwa = ({ urlValue, imageUrlValue }) => {
           autoComplete='off'
         >
           <Box display='flex' justifyContent='flex-end'>
-            <IconButton onClick={toggleIsModalOpen}>
+            <IconButton onClick={handleOnClose}>
               <CloseIcon />
             </IconButton>
           </Box>
-
           <PwaForm />
         </Box>
       </Modal>
@@ -70,5 +75,7 @@ const mapStateToProps = ({
     }
   }
 }) => ({ urlValue, imageUrlValue });
+
+const mapDispatchToProps = { ResetUserPwaForm };
 
 export default connect(mapStateToProps)(AddPwa);
