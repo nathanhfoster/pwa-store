@@ -5,12 +5,21 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
 import { useSetStateReducer } from 'resurrection';
-import { cleanObject } from 'utils';
 import Field from './Field';
 
 const getInitialFormState = (data) =>
-  Object.entries(data).reduce((acc, [id, { multiple = false, defaultValue, value = multiple ? [] : '' }]) => {
-    acc[id] = defaultValue || value;
+  Object.entries(data).reduce((acc, [id, { multiple = false, defaultValue, value }]) => {
+    let derivedValue = multiple ? [] : '';
+
+    if (defaultValue !== undefined) {
+      derivedValue = value;
+    }
+
+    if (value !== undefined) {
+      derivedValue = value;
+    }
+
+    acc[id] = derivedValue;
     return acc;
   }, {});
 
@@ -31,7 +40,9 @@ const BasicForm = ({ title, data, submitTitle, submitJson, disabled, sx, childre
       event.preventDefault();
       let payload;
 
-      if (submitJson) {
+      if (onChange) {
+        payload = getInitialFormState(data);
+      } else if (submitJson) {
         payload = form;
       } else {
         payload = new FormData(event.currentTarget);

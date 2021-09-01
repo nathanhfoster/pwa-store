@@ -95,17 +95,19 @@ export const getManifestIconSrc = (manifest_url, icons) => {
 };
 
 export const getTagsFromManifest = (keywords = [], categories = [], pwaTags = []) => {
-  const uniqueTags = removeArrayDuplicates([...keywords, ...categories]).reduce((acc, tag) => {
+  const uniqueTags = removeArrayDuplicates([...keywords, ...categories]);
+
+  const tags = uniqueTags.reduce((acc, tag) => {
     const tagName = capitalize(tag);
 
-    if (pwaTags.includes(tagName)) {
+    if (pwaTags.some(({ name }) => name === tagName)) {
       acc.push(tagName);
     }
 
     return acc;
   }, []);
 
-  return uniqueTags.length ? uniqueTags : [];
+  return tags.length ? tags : [];
 };
 
 export const mergeManifestWithForm = (form, manifestUrl, manifestJson) => {

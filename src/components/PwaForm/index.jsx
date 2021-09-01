@@ -54,24 +54,30 @@ const getInitialFormState = ({
     manifest_json
   },
   pwaTags
-}) =>
-  form || {
-    url: { required: true, value: url },
-    manifest_url: { required: true, value: manifest_url },
-    manifest_json: { type: 'textarea', required: true, value: JSON.stringify(manifest_json) },
-    name: { required: true, value: manifest_json.short_name || manifest_json.name || name },
-    slug: { label: 'Unique url', required: true, value: slug || name.toLowerCase().replace(' ', '-') },
-    description: { type: 'textarea', value: manifest_json.description || description },
-    image_url: { value: getManifestIconSrc(manifest_url, manifest_json.icons) || image_url },
-    tags: {
-      type: 'select',
-      multiple: true,
-      required: true,
-      options: pwaTags,
-      value:
-        getTagsFromManifest(manifest_json.keywords, manifest_json.categories, pwaTags) || tags.map(({ name }) => name)
+}) => {
+  return (
+    form || {
+      url: { required: true, value: url },
+      manifest_url: { required: true, value: manifest_url },
+      manifest_json: { type: 'textarea', required: true, value: JSON.stringify(manifest_json) },
+      name: { required: true, value: manifest_json.short_name || manifest_json.name || name },
+      slug: { label: 'Unique url', required: true, value: slug || name.toLowerCase().replace(' ', '-') },
+      description: { type: 'textarea', value: manifest_json.description || description },
+      image_url: { value: getManifestIconSrc(manifest_url, manifest_json.icons) || image_url },
+      tags: {
+        type: 'select',
+        multiple: true,
+        required: true,
+        options: pwaTags,
+        value: getTagsFromManifest(
+          manifest_json.keywords,
+          (manifest_json.categories || []).concat(tags.map(({ name }) => name)),
+          pwaTags
+        )
+      }
     }
-  };
+  );
+};
 
 const formReducer = (state, action) => {
   const { type, name, payload } = action;
@@ -85,9 +91,11 @@ const formReducer = (state, action) => {
         ...state,
         tags: {
           ...state.tags,
-          value:
-            getTagsFromManifest(payload.manifest_json.keywords, payload.manifest_json.categories, payload.pwaTags) ||
-            payload.pwaTags.map(({ name }) => name)
+          value: getTagsFromManifest(
+            payload.manifest_json.keywords,
+            (payload.manifest_json.categories || []).concat(state.tags.value),
+            payload.pwaTags
+          )
         }
       };
     default:
