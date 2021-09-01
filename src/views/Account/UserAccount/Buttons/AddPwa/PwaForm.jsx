@@ -1,19 +1,18 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { connect } from 'resurrection';
-import SelectField from './SelectField';
-import TextField from './TextField';
+import PwaFormComponent from 'components/PwaForm';
+import { SetUserPwaForm, SetUserPwaFormManifest, PostUserPwa } from 'store/reducers/User/actions';
 
-const PwaForm = ({ form, shouldRenderAllFields, lightHouseIsLoading }) => {
-  return (shouldRenderAllFields ? Object.keys(form) : ['url']).map((fieldKey) => {
-    const { type } = form[fieldKey];
-
-    switch (type) {
-      case 'select':
-        return <SelectField key={fieldKey} name={fieldKey} lightHouseIsLoading={lightHouseIsLoading} />;
-      default:
-        return <TextField key={fieldKey} name={fieldKey} lightHouseIsLoading={lightHouseIsLoading} />;
+const PwaForm = ({ form, SetUserPwaForm, SetUserPwaFormManifest, PostUserPwa }) => {
+  const handleFormChange = useCallback(({ type, name, payload }) => {
+    if (type === 'SET_MANIFEST') {
+      SetUserPwaFormManifest(payload);
+    } else {
+      SetUserPwaForm(name, payload);
     }
-  });
+  }, []);
+
+  return <PwaFormComponent titlePrefix='Post' form={form} onChange={handleFormChange} onSubmit={PostUserPwa} />;
 };
 
 const mapStateToProps = ({
@@ -24,33 +23,6 @@ const mapStateToProps = ({
   form
 });
 
-const options = {
-  areMergedPropsEqual: (prevProps, nextProps) => {
-    const {
-      form: prevForm,
-      shouldRenderAllFields: prevShouldRenderAllFields,
-      lightHouseIsLoading: prevLightHouseIsLoading
-    } = prevProps;
-    const {
-      form: nextForm,
-      shouldRenderAllFields: nextShouldRenderAllFields,
-      lightHouseIsLoading: nextLightHouseIsLoading
-    } = nextProps;
+const mapDispatchToProps = { SetUserPwaForm, SetUserPwaFormManifest, PostUserPwa };
 
-    if (Object.keys(prevForm).length !== Object.keys(nextForm).length) {
-      return false;
-    }
-
-    if (prevShouldRenderAllFields !== nextShouldRenderAllFields) {
-      return false;
-    }
-
-    if (prevLightHouseIsLoading !== nextLightHouseIsLoading) {
-      return false;
-    }
-
-    return true;
-  }
-};
-
-export default connect(mapStateToProps, undefined, undefined, options)(PwaForm);
+export default connect(mapStateToProps, mapDispatchToProps)(PwaForm);

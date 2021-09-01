@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect, memo } from 'react';
+import React, { useMemo, memo } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
@@ -9,8 +9,8 @@ import { cleanObject } from 'utils';
 import Field from './Field';
 
 const getInitialFormState = (data) =>
-  data.reduce((acc, { id, name = id, multiple = false, defaultValue, value = multiple ? [] : '' }) => {
-    acc[name] = defaultValue || value;
+  Object.entries(data).reduce((acc, [id, { multiple = false, defaultValue, value = multiple ? [] : '' }]) => {
+    acc[id] = defaultValue || value;
     return acc;
   }, {});
 
@@ -21,8 +21,9 @@ const BasicForm = ({ title, data, submitTitle, submitJson, disabled, sx, childre
     const newValue = type === 'checkbox' ? checked : value;
     if (onChange) {
       onChange(name, newValue);
+    } else {
+      setForm({ [name]: newValue });
     }
-    setForm({ [name]: newValue });
   };
 
   const handleSubmit = (event) => {
@@ -45,20 +46,18 @@ const BasicForm = ({ title, data, submitTitle, submitJson, disabled, sx, childre
 
   const renderInputs = useMemo(
     () =>
-      data.map(({ type = 'text', id = type, name = id, value, ...restOfProps }) => {
-        const fieldValue = value || form[name];
-
-        return <Field {...restOfProps} type={type} id={id} name={name} value={fieldValue} setForm={setForm} />;
-      }),
-    [data, form, setForm]
+      Object.entries(data).map(([id, { type = 'text', value = form[id], ...restOfProps }]) => (
+        <Field {...restOfProps} key={id} type={type} id={id} value={value} onChange={onChange} setForm={setForm} />
+      )),
+    [data, form, setForm, onChange]
   );
 
   const submitDisabled = useMemo(
     () =>
-      data.some(({ required, type = 'text', id = type, name = id }) => {
-        const fieldValue = form[name];
+      Object.entries(data).some(([id, { required, value = form[id] }]) => {
+        const valueIsEmpty = Array.isArray(value) ? value.length === 0 : !value;
 
-        return required && !fieldValue;
+        return required && valueIsEmpty;
       }),
     [data, form]
   );
@@ -87,7 +86,7 @@ BasicForm.propTypes = {
   submitTitle: PropTypes.string,
   submitJson: PropTypes.bool,
   disabled: PropTypes.bool,
-  data: PropTypes.arrayOf(
+  data: PropTypes.objectOf(
     PropTypes.shape({
       type: PropTypes.oneOfType([
         'button',
@@ -116,9 +115,7 @@ BasicForm.propTypes = {
       ]),
       required: PropTypes.bool,
       fullWidth: PropTypes.bool,
-      id: PropTypes.string,
       label: PropTypes.string,
-      name: PropTypes.string,
       autoComplete: PropTypes.string,
       margin: PropTypes.oneOf(['dense', 'none', 'normal']),
       autoFocus: PropTypes.bool,
@@ -138,7 +135,7 @@ BasicForm.defaultProps = {
   submitTitle: 'Sign In',
   submitJson: false,
   disabled: false,
-  data: [],
+  data: {},
   sx: { mt: 1 }
 };
 

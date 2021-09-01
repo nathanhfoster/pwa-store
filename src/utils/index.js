@@ -59,7 +59,7 @@ export const sortedMap = (map) => new Map([...map.entries()].sort().sort((a, b) 
 export const removeArrayDuplicates = (array) => [...new Set(array)];
 
 export const getFirstChar = (s, capitalize = true) => {
-  const char = s.charAt(0);
+  const char = s.charAt?.(0) || '';
 
   return capitalize ? char.toUpperCase() : char;
 };

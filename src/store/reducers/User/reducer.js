@@ -32,7 +32,7 @@ export const DEFAULT_STATE = Object.freeze({
   pwaToUpload: {
     form: {
       url: { type: 'url', autoFocus: true, label: 'Url', required: true, value: '' },
-      slug: { type: 'url', label: 'Custom url', placeholder: 'google-photos', value: '' },
+      slug: { label: 'Custom url', placeholder: 'google-photos', value: '' },
       name: { label: 'Name', required: true, value: '' },
       description: {
         type: 'textarea',
@@ -41,7 +41,7 @@ export const DEFAULT_STATE = Object.freeze({
         required: true,
         value: ''
       },
-      tags: { type: 'select', label: 'Tags', options: [], required: true, value: [] },
+      tags: { type: 'select', multiple: true, label: 'Tags', options: [], required: true, value: [] },
       manifest_url: { type: 'url', label: 'Manifest url', required: true, value: '' },
       manifest_json: {
         type: 'textarea',
@@ -163,7 +163,7 @@ const User = (state = DEFAULT_STATE, action) => {
         ...state,
         pwaToUpload: {
           ...state.pwaToUpload,
-          form: mergeManifestWithForm(state, id, payload)
+          form: mergeManifestWithForm(state.pwaToUpload.form, payload.manifest_url, payload.manifest_json)
         }
       };
 

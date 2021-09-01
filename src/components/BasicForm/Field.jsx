@@ -10,10 +10,10 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { useTheme } from '@material-ui/core/styles';
 import { useMounted } from 'resurrection';
-import { cleanObject, capitalize } from 'utils';
+import { capitalize } from 'utils';
 
 const getStyles = (name, array, theme) => ({
-  fontWeight: array.indexOf(name) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium
+  fontWeight: array?.indexOf?.(name) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium
 });
 
 const Field = ({
@@ -22,7 +22,6 @@ const Field = ({
   fullWidth = true,
   id = type,
   label = capitalize(id).replace('_', ' '),
-  name = id,
   autoComplete,
   margin = 'normal',
   autoFocus = false,
@@ -33,6 +32,8 @@ const Field = ({
   MenuProps,
   disabled = false,
   options = [{ id: 'No results' }],
+  placeholder,
+  onChange,
   setForm
 }) => {
   const theme = useTheme();
@@ -40,46 +41,68 @@ const Field = ({
   const isTextArea = type === 'textarea';
 
   useEffect(() => {
-    if (mounted) {
-      setForm({ [name]: defaultValue });
+    if (mounted && !onChange) {
+      setForm({ [IDBCursorWithValue]: defaultValue });
     }
-  }, [defaultValue]);
+  }, [defaultValue, , onChange]);
+
+  useEffect(() => {
+    if (mounted && !onChange) {
+      setForm({ [id]: value });
+    }
+  }, [value, onChange]);
 
   switch (type) {
     case 'checkbox':
       return (
         <FormControlLabel
-          key={name}
-          control={<Checkbox type={type} id={id} name={name} color={color} checked={value} />}
+          key={id}
+          control={<Checkbox type={type} id={id} name={id} color={color} checked={value} />}
           label={label}
         />
       );
 
     case 'select':
       const handleSelectChange = ({ target: { name, value } }) => {
-        setForm({ [name]: typeof value === 'string' ? value.split(',') : value });
+        const newValue = typeof value === 'string' ? value.split(',') : value;
+        if (onChange) {
+          onChange(name, newValue);
+        } else {
+          setForm({ [name]: newValue });
+        }
       };
       return (
         <FormControl
-          key={name}
-          id={name}
+          key={id}
+          id={id}
           label={label}
-          name={name}
+          name={id}
           required={required}
           margin={margin}
           fullWidth={fullWidth}
         >
-          <InputLabel id={name}>{label}</InputLabel>
+          <InputLabel id={id}>{label}</InputLabel>
           <Select
-            id={name}
+            id={id}
             label={label}
             labelId={label}
-            name={name}
+            name={id}
             multiple={multiple}
             onChange={handleSelectChange}
             value={value}
             required={required}
-            input={<OutlinedInput id={name} type={type} label={label} name={name} required={required} fullWidth />}
+            input={
+              <OutlinedInput
+                id={id}
+                type={type}
+                label={label}
+                name={id}
+                required={required}
+                disabled={disabled}
+                placeholder={placeholder}
+                fullWidth
+              />
+            }
             MenuProps={MenuProps}
             disabled={disabled}
           >
@@ -95,7 +118,7 @@ const Field = ({
     default:
       return (
         <TextField
-          key={name}
+          key={id}
           type={type}
           margin={margin}
           multiline={isTextArea}
@@ -105,11 +128,13 @@ const Field = ({
           fullWidth={fullWidth}
           id={id}
           label={label}
-          name={name}
+          name={id}
           autoComplete={autoComplete}
           autoFocus={autoFocus}
           color={color}
           value={value}
+          disabled={disabled}
+          placeholder={placeholder}
         />
       );
   }

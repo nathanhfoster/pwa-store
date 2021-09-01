@@ -1,4 +1,4 @@
-import { capitalize, removeArrayDuplicates, stringMatch } from 'utils';
+import { capitalize, copyStringToClipboard, removeArrayDuplicates, stringMatch } from 'utils';
 export const USER_ID_LOCAL_STORAGE_KEY = 'USER_ID_LOCAL_STORAGE_KEY';
 export const USER_TOKEN_LOCAL_STORAGE_KEY = 'USER_TOKEN_LOCAL_STORAGE_KEY';
 export const USER_MODE_LOCAL_STORAGE_KEY = 'USER_MODE_LOCAL_STORAGE_KEY';
@@ -105,10 +105,10 @@ export const getTagsFromManifest = (keywords = [], categories = [], pwaTags = []
     return acc;
   }, []);
 
-  return uniqueTags.length && uniqueTags;
+  return uniqueTags.length ? uniqueTags : [];
 };
 
-export const mergeManifestWithForm = ({ pwaToUpload: { form } }, manifestUrl = '', manifestJson = {}) => {
+export const mergeManifestWithForm = (form, manifestUrl, manifestJson) => {
   const {
     url,
     tags: { options: pwaTags }
@@ -179,21 +179,23 @@ export const mergeManifestWithForm = ({ pwaToUpload: { form } }, manifestUrl = '
     newIconUrl = form.image_url.value;
   }
 
+  const newSlug = newName?.toLowerCase().replace(' ', '-');
+
+  const newManifestUrl = manifestUrl || form.url.value?.replace(/\/(?=[^\/]*$)/, '/manifest.json') || '';
+
   const nextFormState = {
     ...form,
-    name: { ...form.name, value: newName },
-    slug: { ...form.slug, placeholder: newName?.toLowerCase().split(' ').join('-') },
-    description: { ...form.description, value: description },
+    name: { ...form.name, value: newName, placeholder: newName },
+    slug: { ...form.slug, value: newSlug, placeholder: newSlug },
+    description: { ...form.description, value: description, placeholder: description },
     tags: { ...form.tags, value: newOptionsValue },
     manifest_url: {
       ...form.manifest_url,
-      placeholder:
-        manifestUrl || form.url.value?.replace(/\/(?=[^\/]*$)/, '/manifest.json') || 'https://pwa.com/manifest.json',
-      value: manifestUrl || '',
-      disabled: manifestUrl ? true : false
+      placeholder: newManifestUrl || 'https://pwa.com/manifest.json',
+      value: newManifestUrl
     },
-    manifest_json: { ...form.manifest_json, value: manifestJson, disabled: true },
-    image_url: { ...form.image_url, value: newIconUrl }
+    manifest_json: { ...form.manifest_json, value: JSON.stringify(manifestJson) },
+    image_url: { ...form.image_url, value: newIconUrl, placeholder: newIconUrl }
   };
 
   return nextFormState;

@@ -66,16 +66,10 @@ export const SearchPwas = (category) => (dispatch, getState) => {
     });
 };
 
-export const GetPwaManifest = (url, id) => (dispatch) =>
+export const GetPwaManifest = (url) => (dispatch) =>
   Axios()
     .get(`pwas/extra/info?url=${url}`)
     .then((response) => {
-      const { status, data } = response;
-
-      if (id) {
-        dispatch(MergeFilterPwas([{ id, ...data }]));
-      }
-
       return response;
     })
     .catch((e) => {
@@ -305,7 +299,7 @@ export const PostPwa = (payload) => (dispatch) => {
     cleanPayload.manifest_json = JSON.parse(payload.manifest_json);
   }
   return Axios()
-    .post('pwas', payload, {
+    .post('pwas/', cleanPayload, {
       headers: {
         'Content-Type': 'application/json'
       }

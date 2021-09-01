@@ -36,47 +36,42 @@ const Copyright = (props) => {
   );
 };
 
-const LOGIN_INPUT_FIELDS = [
-  {
+const LOGIN_INPUT_FIELDS = {
+  username: {
     required: true,
-    id: 'username',
     autoComplete: 'username',
     autoFocus: true
   },
-  {
+  password: {
     required: true,
     type: 'password',
-    id: 'password',
     autoComplete: 'password'
   },
-  {
-    type: 'checkbox',
-    id: 'remember'
+  remember: {
+    type: 'checkbox'
   }
-];
+};
 
-const SIGN_UP_INPUT_FIELDS = [
-  {
+const SIGN_UP_INPUT_FIELDS = {
+  username: {
     required: true,
-    id: 'username',
     autoComplete: 'username',
     autoFocus: true
   },
-  {
-    id: 'name',
+  name: {
     autoComplete: 'name'
   },
-  {
+  email: {
     required: true,
     type: 'email',
     autoComplete: 'email'
   },
-  {
+  password: {
     required: true,
     type: 'password',
     autoComplete: 'password'
   }
-];
+};
 
 const INPUT_FIELD_MAP = {
   [RouteMap.LOGIN]: LOGIN_INPUT_FIELDS,

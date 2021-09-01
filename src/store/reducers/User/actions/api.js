@@ -154,7 +154,7 @@ export const PostUserPwa = () => async (dispatch, getState) => {
     pwaToUpload: { form },
     lighthouseResults
   } = getState().User;
-  const shouldPublish = !!lighthouseResults;
+  const shouldPublish = true || !!lighthouseResults;
   const payload = Object.entries(form).reduce(
     (acc, [key, { value }]) => {
       acc[key] = value;
@@ -162,8 +162,9 @@ export const PostUserPwa = () => async (dispatch, getState) => {
     },
     { created_by: id, updated_by: id, published: shouldPublish }
   );
+
   dispatch(ToogleIsLoading(true));
-  return await PostPwa(payload)
+  return await dispatch(PostPwa(payload))
     .then((data) => {
       dispatch(ResetUserPwaForm());
       dispatch(ToogleIsLoading(false));
