@@ -61,6 +61,7 @@ const UserForm = ({
           sx={formStyles}
           title='Update Account'
           submitTitle='Update'
+          submitJson={false}
           data={userFormFields}
           onSubmit={handleSubmit}
         />
