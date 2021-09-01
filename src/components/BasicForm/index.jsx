@@ -57,9 +57,14 @@ const BasicForm = ({ title, data, submitTitle, submitJson, disabled, sx, childre
 
   const renderInputs = useMemo(
     () =>
-      Object.entries(data).map(([id, { type = 'text', value = form[id], ...restOfProps }]) => (
-        <Field {...restOfProps} key={id} type={type} id={id} value={value} onChange={onChange} setForm={setForm} />
-      )),
+      Object.entries(data).reduce((acc, [id, { type = 'text', value = form[id], ...restOfProps }]) => {
+        if (id) {
+          acc.push(
+            <Field {...restOfProps} key={id} type={type} id={id} value={value} onChange={onChange} setForm={setForm} />
+          );
+        }
+        return acc;
+      }, []),
     [data, form, setForm, onChange]
   );
 

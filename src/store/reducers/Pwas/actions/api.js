@@ -10,6 +10,7 @@ import {
   MergeFilterPwas,
   FilterPwas
 } from './redux';
+import { cleanPwaPayload } from './utils';
 
 export const GetPwas = (pagination) => (dispatch) => {
   dispatch(ToogleIsLoading(true));
@@ -294,10 +295,7 @@ export const UpdateAnalytics = (payload) => (dispatch) => {
 };
 
 export const PostPwa = (payload) => (dispatch) => {
-  let cleanPayload = { ...payload };
-  if (cleanPayload.manifest_json) {
-    cleanPayload.manifest_json = JSON.parse(payload.manifest_json);
-  }
+  const cleanPayload = cleanPwaPayload(payload);
   return Axios()
     .post('pwas/', cleanPayload, {
       headers: {
@@ -317,10 +315,7 @@ export const PostPwa = (payload) => (dispatch) => {
 };
 
 export const UpdatePwa = (slug, payload) => (dispatch) => {
-  let cleanPayload = { ...payload };
-  if (cleanPayload.manifest_json) {
-    cleanPayload.manifest_json = JSON.parse(payload.manifest_json);
-  }
+  const cleanPayload = cleanPwaPayload(payload);
   return Axios()
     .patch(`pwas/${slug}/`, cleanPayload, {
       headers: {

@@ -79,18 +79,26 @@ const getHostNameOfUrl = (url) => {
   return `${protocol}//${hostname}`;
 };
 
-export const getManifestIconSrc = (manifest_url, icons) => {
+export const getManifestIconUrl = (manifest_url, icon) => {
   var imageUrl = null;
 
-  const icon = getManifestIcon(icons);
   if (icon) {
     if (stringMatch(icon.src, 'http') || stringMatch(icon.src, '.com')) {
       imageUrl = icon.src;
     } else {
       const hostname = getHostNameOfUrl(manifest_url);
-      imageUrl = `${hostname}/${icon.src}`;
+      imageUrl = `${hostname}${icon.src.charAt?.(0) === '/' ? '' : '/'}${icon.src}`;
     }
   }
+
+  return imageUrl;
+};
+
+export const getManifestIconSrc = (manifest_url, icons) => {
+  const icon = getManifestIcon(icons);
+
+  const imageUrl = getManifestIconUrl(manifest_url, icon);
+
   return imageUrl;
 };
 
@@ -98,10 +106,10 @@ export const getTagsFromManifest = (keywords = [], categories = [], pwaTags = []
   const uniqueTags = removeArrayDuplicates([...keywords, ...categories]);
 
   const tags = uniqueTags.reduce((acc, tag) => {
-    const tagName = capitalize(tag);
+    const tagName = capitalize(tag.name);
 
     if (pwaTags.some(({ name }) => name === tagName)) {
-      acc.push(tagName);
+      acc.push({ name: tagName });
     }
 
     return acc;
@@ -178,12 +186,16 @@ export const mergeManifestWithForm = (form, manifestUrl, manifestJson) => {
   let newIconUrl = getManifestIconSrc(manifestUrl, icons);
 
   if (!newIconUrl) {
-    newIconUrl = form.image_url.value;
+    newIconUrl = form.image_url.value.src;
   }
 
   const newSlug = newName?.toLowerCase().replace(' ', '-');
 
   const newManifestUrl = manifestUrl || form.url.value?.replace(/\/(?=[^\/]*$)/, '/manifest.json') || '';
+
+  const imageIconOptions = icons?.map?.((icon) => ({ src: getManifestIconUrl(manifestUrl, icon) })) || [
+    { ...form.image_url.value, src: newIconUrl }
+  ];
 
   const nextFormState = {
     ...form,
@@ -197,7 +209,12 @@ export const mergeManifestWithForm = (form, manifestUrl, manifestJson) => {
       value: newManifestUrl
     },
     manifest_json: { ...form.manifest_json, value: JSON.stringify(manifestJson) },
-    image_url: { ...form.image_url, value: newIconUrl, placeholder: newIconUrl }
+    image_url: {
+      ...form.image_url,
+      value: { ...form.image_url.value, src: newIconUrl },
+      options: imageIconOptions,
+      placeholder: newIconUrl
+    }
   };
 
   return nextFormState;

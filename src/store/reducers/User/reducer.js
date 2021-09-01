@@ -33,7 +33,14 @@ export const DEFAULT_STATE = Object.freeze({
     form: {
       url: { type: 'url', autoFocus: true, label: 'Url', required: true, value: '' },
       manifest_url: { type: 'url', label: 'Manifest url', required: true, value: '' },
-      image_url: { type: 'url', label: 'Image url', required: true, value: '' },
+      image_url: {
+        type: 'select',
+        getOptionLabelKey: 'src',
+        label: 'Image url',
+        required: true,
+        value: { src: '' },
+        options: []
+      },
       manifest_json: {
         type: 'textarea',
         required: true,

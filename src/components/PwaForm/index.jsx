@@ -9,7 +9,7 @@ import { useMounted } from 'resurrection';
 import BasicForm from 'components/BasicForm';
 import { PwaType } from 'store/reducers/Pwas/types';
 import { GetPwaManifest } from '../../store/reducers/Pwas/actions/api';
-import { getManifestIconSrc, getTagsFromManifest } from 'store/reducers/User/utils';
+import { getManifestIconSrc, getTagsFromManifest, getManifestIconUrl } from 'store/reducers/User/utils';
 import { getFirstChar } from 'utils';
 
 const detailContainerStyles = {
@@ -26,6 +26,7 @@ const defaultProps = {
   pwa: {
     name: '',
     description: '',
+    image_url: { name: '' },
     ratings: [],
     pwa_screenshots: [],
     pwa_analytics: {},
@@ -55,11 +56,20 @@ const getInitialFormState = ({
   },
   pwaTags
 }) => {
+  const imageUrl = getManifestIconSrc(manifest_url, manifest_json.icons) || image_url;
+  const imageIconOptions = manifest_json.icons?.map?.((icon) => ({ src: getManifestIconUrl(manifest_url, icon) })) || [
+    { name: imageUrl }
+  ];
   return (
     form || {
       url: { required: true, value: url },
       manifest_url: { required: true, value: manifest_url },
-      image_url: { value: getManifestIconSrc(manifest_url, manifest_json.icons) || image_url },
+      image_url: {
+        type: 'select',
+        getOptionLabelKey: 'src',
+        value: { src: imageUrl },
+        options: imageIconOptions
+      },
       manifest_json: { type: 'textarea', required: true, value: JSON.stringify(manifest_json) },
       name: { required: true, value: manifest_json.short_name || manifest_json.name || name },
       slug: { label: 'Unique url', required: true, value: slug || name.toLowerCase().replace(' ', '-') },
@@ -69,11 +79,7 @@ const getInitialFormState = ({
         multiple: true,
         required: true,
         options: pwaTags,
-        value: getTagsFromManifest(
-          manifest_json.keywords,
-          (manifest_json.categories || []).concat(tags.map(({ name }) => name)),
-          pwaTags
-        )
+        value: getTagsFromManifest(manifest_json.keywords, (manifest_json.categories || []).concat(tags), pwaTags)
       }
     }
   );
@@ -101,7 +107,10 @@ const formReducer = (state, action) => {
     default:
       return {
         ...state,
-        [name]: { ...state[name], value: name === 'manifest_json' ? JSON.stringify(payload) : payload }
+        [name]: {
+          ...state[name],
+          value: name === 'manifest_json' && typeof payload === 'object' ? JSON.stringify(payload) : payload
+        }
       };
   }
 };
@@ -158,7 +167,7 @@ const PwaForm = (props) => {
     [onChange]
   );
 
-  const pwaImage = (formFromProps || form).image_url?.value;
+  const pwaImage = (formFromProps || form).image_url?.value?.src;
   const pwaName = (formFromProps || form).name.value;
 
   return (
