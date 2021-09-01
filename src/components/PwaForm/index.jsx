@@ -59,11 +59,11 @@ const getInitialFormState = ({
     form || {
       url: { required: true, value: url },
       manifest_url: { required: true, value: manifest_url },
+      image_url: { value: getManifestIconSrc(manifest_url, manifest_json.icons) || image_url },
       manifest_json: { type: 'textarea', required: true, value: JSON.stringify(manifest_json) },
       name: { required: true, value: manifest_json.short_name || manifest_json.name || name },
       slug: { label: 'Unique url', required: true, value: slug || name.toLowerCase().replace(' ', '-') },
       description: { type: 'textarea', value: manifest_json.description || description },
-      image_url: { value: getManifestIconSrc(manifest_url, manifest_json.icons) || image_url },
       tags: {
         type: 'select',
         multiple: true,

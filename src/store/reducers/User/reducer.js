@@ -32,26 +32,21 @@ export const DEFAULT_STATE = Object.freeze({
   pwaToUpload: {
     form: {
       url: { type: 'url', autoFocus: true, label: 'Url', required: true, value: '' },
-      slug: { label: 'Custom url', placeholder: 'google-photos', value: '' },
-      name: { label: 'Name', required: true, value: '' },
-      description: {
-        type: 'textarea',
-        placeholder: 'Description',
-        label: 'Description',
-        required: true,
-        value: ''
-      },
-      tags: { type: 'select', multiple: true, label: 'Tags', options: [], required: true, value: [] },
       manifest_url: { type: 'url', label: 'Manifest url', required: true, value: '' },
+      image_url: { type: 'url', label: 'Image url', required: true, value: '' },
       manifest_json: {
         type: 'textarea',
-        placeholder: 'Manifest Json',
-        label: 'Manifest Json',
         required: true,
         value: ''
       },
-      image_url: { type: 'url', label: 'Image url', required: true, value: '' }
-      // organization: { label: 'Organization', value: '' }
+      name: { label: 'Name', required: true, value: '' },
+      slug: { label: 'Custom url', placeholder: 'google-photos', value: '' },
+      description: {
+        type: 'textarea',
+        required: true,
+        value: ''
+      },
+      tags: { type: 'select', multiple: true, label: 'Tags', options: [], required: true, value: [] }
     },
     lighthouseResults: null
   },
@@ -156,14 +151,14 @@ const User = (state = DEFAULT_STATE, action) => {
       return {
         ...state,
         pwaToUpload: {
-           ...DEFAULT_STATE.pwaToUpload,
-           form: {
-             ...DEFAULT_STATE.pwaToUpload.form,
-             tags: {
+          ...DEFAULT_STATE.pwaToUpload,
+          form: {
+            ...DEFAULT_STATE.pwaToUpload.form,
+            tags: {
               ...DEFAULT_STATE.pwaToUpload.form.tags,
               options: state.pwaToUpload.form.tags.options
-             }
-           }
+            }
+          }
         }
       };
 
