@@ -35,7 +35,7 @@ const BasicForm = ({ title, data, submitTitle, submitJson, disabled, sx, childre
         payload = form;
       } else {
         payload = new FormData(event.currentTarget);
-        Object.entries(cleanObject(form, true)).forEach(([key, value]) => {
+        Object.entries(form).forEach(([key, value]) => {
           payload.set(key, value);
         });
       }
