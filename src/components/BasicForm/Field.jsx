@@ -42,12 +42,6 @@ const Field = ({
 
   useEffect(() => {
     if (mounted && !onChange) {
-      setForm({ [id]: defaultValue });
-    }
-  }, [defaultValue, onChange]);
-
-  useEffect(() => {
-    if (mounted && !onChange) {
       setForm({ [id]: value });
     }
   }, [value, onChange]);
@@ -72,15 +66,7 @@ const Field = ({
         }
       };
       return (
-        <FormControl
-          key={id}
-          id={id}
-          label={label}
-          name={id}
-          required={required}
-          margin={margin}
-          fullWidth={fullWidth}
-        >
+        <FormControl key={id} id={id} label={label} name={id} required={required} margin={margin} fullWidth={fullWidth}>
           <InputLabel id={id}>{label}</InputLabel>
           <Select
             id={id}
