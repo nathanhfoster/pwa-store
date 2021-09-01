@@ -19,6 +19,7 @@ import ShareButtons from 'components/ShareUrlLinks/ShareButtons';
 import { getManifestIconSrc } from 'store/reducers/User/utils';
 import { useHistory } from 'react-router-dom';
 import { GetPwaProfileUrl } from 'utils/RouteMap';
+import Paper from '@material-ui/core/Paper';
 
 const Img = styled('img')({
   margin: 'auto',
@@ -27,6 +28,15 @@ const Img = styled('img')({
   maxHeight: '100%',
   animation: 'grow 200ms'
 });
+
+const ThemeBox = styled(Box)((props) => ({
+  backgroundColor: props.backgroundColor,
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  height: DEFAULT_PWA_IMAGE_SIZE / 2,
+  width: DEFAULT_PWA_IMAGE_SIZE / 2
+}));
 
 const imageButtonStyles = { width: DEFAULT_PWA_IMAGE_SIZE, height: DEFAULT_PWA_IMAGE_SIZE };
 
@@ -45,6 +55,7 @@ const Detail = ({
   rating_avg,
   rating_count,
   imageSrc,
+  background_color,
   theme_color,
   isAuthorOfPwa,
   UpdateAnalytics
@@ -53,7 +64,7 @@ const Detail = ({
   const renderTags = useMemo(
     () =>
       tags.map(({ name }) => (
-        <Chip key={name} label={name} sx={{ backgroundColor: theme_color, color: 'white' }} size='small' />
+        <Chip key={name} label={name} sx={{ backgroundColor: 'primary.dark', color: 'white' }} size='small' />
       )),
     [tags]
   );
@@ -70,12 +81,20 @@ const Detail = ({
     <Box sx={{ maxWidth: 500, flexGrow: 1 }}>
       <Grid container spacing={0}>
         <Grid item xs={12} sm container zeroMinWidth>
-          <Grid item xs={12} sm={4}>
+          <Grid item xs='auto' sm={4} justifyContent='center' alignContent='center'>
             <ButtonBase href={url} sx={imageButtonStyles}>
               <Img src={imageSrc} srcSet={imageSrc} alt={name} loading='lazy' />
             </ButtonBase>
           </Grid>
-          <Grid item xs container direction='column' spacing={2}>
+          <Grid item xs='auto' px={2}>
+            <Paper variant='elevation' elevation={3} sx={{ p: 1 }}>
+              <Stack direction='row' spacing={2}>
+                <ThemeBox backgroundColor={background_color}>BG</ThemeBox>
+                <ThemeBox backgroundColor={theme_color}>Color</ThemeBox>
+              </Stack>
+            </Paper>
+          </Grid>
+          <Grid item xs container direction='column' spacing={2} sx={{ mt: 1 }}>
             <Grid item xs display='flex'>
               <Typography variant='h4' sx={{ fontWeight: 600 }}>
                 {name}
@@ -120,7 +139,7 @@ const Detail = ({
                 disabled={!url}
                 href={url}
                 target='_blank'
-                sx={{ animation: 'grow 200ms', backgroundColor: theme_color }}
+                sx={{ animation: 'grow 200ms', backgroundColor: 'primary.dark' }}
                 onClick={onLaunch}
               >
                 <LaunchIcon sx={{ mr: 1 }} />
@@ -150,7 +169,7 @@ const mapStateToProps = ({ User: { id: userId }, Pwas: { items, filteredItems } 
     image_url,
     pwa_analytics: { view_count, launch_count, rating_avg, rating_count },
     manifest_url,
-    manifest_json: { theme_color = 'primary.dark', icons } = {}
+    manifest_json: { background_color, theme_color, icons } = {}
   } = pwa;
   const iconSrc = getManifestIconSrc(manifest_url, icons);
   const imageSrc = image_url || iconSrc || DEFAULT_PWA_IMAGE;
@@ -165,6 +184,7 @@ const mapStateToProps = ({ User: { id: userId }, Pwas: { items, filteredItems } 
     launch_count,
     rating_avg,
     rating_count,
+    background_color,
     theme_color,
     imageSrc,
     isAuthorOfPwa
@@ -183,6 +203,7 @@ Detail.propTypes = {
   launch_count: PwaAnalyticsType.launch_count,
   rating_avg: PwaAnalyticsType.rating_avg,
   rating_count: PwaAnalyticsType.rating_count,
+  background_color: PwaManifestJsonType.background_color,
   theme_color: PwaManifestJsonType.theme_color,
   isAuthorOfPwa: PropTypes.bool.isRequired
 };
