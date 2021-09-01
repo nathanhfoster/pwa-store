@@ -2,8 +2,10 @@ import React from 'react';
 import Base from '../Base';
 import Box from '@material-ui/core/Box';
 import Modal from '@material-ui/core/Modal';
+import IconButton from '@material-ui/core/IconButton';
 import PwaForm from './PwaForm';
 import AddBusinessIcon from '@material-ui/icons/AddBusiness';
+import CloseIcon from '@material-ui/icons/Close';
 import { connect, useBooleanReducer } from 'resurrection';
 
 const AddPwa = ({ urlValue, imageUrlValue }) => {
@@ -38,13 +40,19 @@ const AddPwa = ({ urlValue, imageUrlValue }) => {
             border: '2px solid #000',
             overflowY: 'auto',
             height: '100%',
-            width: { xs: '100%', sm: 800 },
+            width: { xs: '100%', sm: '85%', md: 800 },
             boxShadow: 24
           }}
           justifyContent='center'
           noValidate={false}
           autoComplete='off'
         >
+          <Box display='flex' justifyContent='flex-end'>
+            <IconButton onClick={toggleIsModalOpen}>
+              <CloseIcon />
+            </IconButton>
+          </Box>
+
           <PwaForm />
         </Box>
       </Modal>
