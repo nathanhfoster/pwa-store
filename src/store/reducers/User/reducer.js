@@ -155,7 +155,16 @@ const User = (state = DEFAULT_STATE, action) => {
     case ActionTypes.USER_RESET_USER_PWA_FORM:
       return {
         ...state,
-        pwaToUpload: DEFAULT_STATE.pwaToUpload
+        pwaToUpload: {
+           ...DEFAULT_STATE.pwaToUpload,
+           form: {
+             ...DEFAULT_STATE.pwaToUpload.form,
+             tags: {
+              ...DEFAULT_STATE.pwaToUpload.form.tags,
+              options: state.pwaToUpload.form.tags.options
+             }
+           }
+        }
       };
 
     case ActionTypes.USER_SET_PWA_FORM_MANIFEST:
