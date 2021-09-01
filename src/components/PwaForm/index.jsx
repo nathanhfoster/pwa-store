@@ -66,6 +66,7 @@ const getInitialFormState = ({
     tags: {
       type: 'select',
       multiple: true,
+      required: true,
       options: pwaTags,
       value:
         getTagsFromManifest(manifest_json.keywords, manifest_json.categories, pwaTags) || tags.map(({ name }) => name)
