@@ -82,7 +82,7 @@ const Field = ({
           multiple={multiple}
           includeInputInList={canAddOption}
           selectOnFocus={canAddOption}
-          clearOnBlur={canAddOption}
+          clearOnBlur={canAddOption && !multiple}
           onChange={handleSelectChange}
           options={options}
           getOptionLabel={(option) => option[getOptionLabelKey]}
