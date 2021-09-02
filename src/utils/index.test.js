@@ -1,4 +1,4 @@
-import { capitalize, objectToArray, removeArrayDuplicates, stringMatch } from '.';
+import { capitalize, objectToArray, removeArrayDuplicates, stringMatch, joinUrl } from '.';
 
 describe('utils', () => {
   describe('removeArrayDuplicates', () => {
@@ -37,6 +37,15 @@ describe('utils', () => {
       const result = stringMatch(string1, string2, true);
 
       expect(result).toBeNull();
+    });
+  });
+
+  describe('joinUrl', () => {
+    it('Should return the right result', () => {
+      const baseUrl = 'https://pwa.com/pwa/assets';
+      const url = 'assets/icon.png';
+      const result = joinUrl(baseUrl, url);
+      expect(result).toBe('https://pwa.com/pwa/assets/icon.png');
     });
   });
 });

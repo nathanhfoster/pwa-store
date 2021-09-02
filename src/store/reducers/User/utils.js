@@ -1,4 +1,4 @@
-import { capitalize, copyStringToClipboard, removeArrayDuplicates, stringMatch } from 'utils';
+import { capitalize, copyStringToClipboard, removeArrayDuplicates, stringMatch, joinUrl } from 'utils';
 export const USER_ID_LOCAL_STORAGE_KEY = 'USER_ID_LOCAL_STORAGE_KEY';
 export const USER_TOKEN_LOCAL_STORAGE_KEY = 'USER_TOKEN_LOCAL_STORAGE_KEY';
 export const USER_MODE_LOCAL_STORAGE_KEY = 'USER_MODE_LOCAL_STORAGE_KEY';
@@ -70,15 +70,6 @@ export const getManifestIcon = (icons) =>
     return bWeight - aWeight;
   })[0];
 
-const getHostNameOfUrl = (url) => {
-  var a = document.createElement('a');
-  a.href = url;
-
-  const { href, protocol, host, hostname, port, pathname, search, hash } = a;
-
-  return `${protocol}//${hostname}`;
-};
-
 export const getManifestIconUrl = (manifest_url, icon) => {
   var imageUrl = null;
 
@@ -86,8 +77,7 @@ export const getManifestIconUrl = (manifest_url, icon) => {
     if (stringMatch(icon.src, 'http') || stringMatch(icon.src, '.com')) {
       imageUrl = icon.src;
     } else {
-      const hostname = getHostNameOfUrl(manifest_url);
-      imageUrl = `${hostname}${icon.src.charAt?.(0) === '/' ? '' : '/'}${icon.src}`;
+      imageUrl = joinUrl(manifest_url.replace('/manifest.json', ''), icon.src);
     }
   }
 
@@ -106,7 +96,7 @@ export const getTagsFromManifest = (keywords = [], categories = [], pwaTags = []
   const uniqueTags = removeArrayDuplicates([...keywords, ...categories]);
 
   const tags = uniqueTags.reduce((acc, tag) => {
-    const tagName = capitalize(tag.name);
+    const tagName = capitalize(tag?.name || tag);
 
     if (pwaTags.some(({ name }) => name === tagName)) {
       acc.push({ name: tagName });

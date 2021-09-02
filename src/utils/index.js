@@ -152,3 +152,5 @@ export const isEmpty = (obj) => {
 
   return true;
 };
+
+export const joinUrl = (baseUrl, url) => new URL(url, baseUrl).href;

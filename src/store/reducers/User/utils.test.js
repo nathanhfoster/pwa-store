@@ -1,6 +1,6 @@
 // https://github.com/marak/Faker.js/
 import { deepClone } from 'utils';
-import { mergeManifestWithForm, getManifestIconSrc } from './utils';
+import { mergeManifestWithForm, getManifestIconSrc, getManifestIconUrl } from './utils';
 import { DEFAULT_STATE } from './reducer';
 
 describe('User reducer utils', () => {
@@ -13,7 +13,7 @@ describe('User reducer utils', () => {
           form: {
             ...DEFAULT_STATE.pwaToUpload.form,
             url: { ...DEFAULT_STATE.pwaToUpload.form.url, value: 'https://pwa.com/' },
-            tags: { ...DEFAULT_STATE.pwaToUpload.form.tags, options: ['Themed', 'Offline'] }
+            tags: { ...DEFAULT_STATE.pwaToUpload.form.tags, options: [{ name: 'Themed' }, { name: 'Offline' }] }
           }
         }
       });
@@ -53,21 +53,26 @@ describe('User reducer utils', () => {
           }
         ]
       };
-      const result = mergeManifestWithForm(newState, manifestUrl, manifestJson);
+      const result = mergeManifestWithForm(form, manifestUrl, manifestJson);
       const expected = {
         ...form,
         name: { ...form.name, value: 'Pwa Store' },
-        slug: { ...form.slug, placeholder: 'pwa-store' },
+        slug: { ...form.slug, value: 'pwa-store', placeholder: 'pwa-store' },
         description: { ...form.description, value: manifestJson.description },
-        tags: { ...form.tags, value: ['Themed', 'Offline'] },
+        tags: { ...form.tags, value: [{ name: 'Themed' }, { name: 'Offline' }] },
         manifest_url: {
           ...form.manifest_url,
           placeholder: manifestUrl,
-          value: manifestUrl,
-          disabled: true
+          value: manifestUrl
         },
-        manifest_json: { ...form.manifest_json, value: manifestJson, disabled: true },
-        image_url: { ...form.image_url, value: `${form.url.value}${imageThatIsMaskable.src}` }
+        manifest_json: { ...form.manifest_json, value: JSON.stringify(manifestJson) },
+        image_url: {
+          ...form.image_url,
+          value: { ...form.image_url.value, src: `${form.url.value}${imageThatIsMaskable.src}` },
+          options: manifestJson.icons.map(({ src }) => ({
+            src: `https://pwa.com/${src}`
+          }))
+        }
       };
       expect(result).toMatchObject(expected);
     });
@@ -92,6 +97,15 @@ describe('User reducer utils', () => {
       const expected = 'https://pwa.com/assets/android-chrome-192x192.png';
 
       expect(result).toBe(expected);
+    });
+  });
+
+  describe('getManifestIconUrl', () => {
+    it('Should return the right result', () => {
+      const manifest_url = 'https://pwa.com/pwa/assets/manifest.json';
+      const icon = { src: 'assets/icon.png' };
+      const result = getManifestIconUrl(manifest_url, icon);
+      expect(result).toBe('https://pwa.com/pwa/assets/icon.png');
     });
   });
 });
