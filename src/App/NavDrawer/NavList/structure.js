@@ -17,6 +17,7 @@ import SignalWifiOffIcon from '@material-ui/icons/SignalWifiOff';
 import SettingsBrightnessIcon from '@material-ui/icons/SettingsBrightness';
 import ForumIcon from '@material-ui/icons/Forum';
 import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
+import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
 
 const tagIconMap = {
   Games: VideogameAssetIcon,
@@ -37,7 +38,8 @@ const tagIconMap = {
   Offline: SignalWifiOffIcon,
   Themed: SettingsBrightnessIcon,
   Communication: ForumIcon,
-  Photography: PhotoCameraIcon
+  Photography: PhotoCameraIcon,
+  Funny: EmojiEmotionsIcon
 };
 
 export { tagIconMap };
