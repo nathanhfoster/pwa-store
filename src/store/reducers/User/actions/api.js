@@ -1,5 +1,5 @@
 import { Axios } from '../../Axios';
-import { ToogleIsLoading, SetUser, SetUserPwas, SetUserSetting, SetUserError, ResetUserPwaForm } from './redux';
+import { ToogleIsLoading, SetUser, SetUserFavorite, SetUserPwas, SetUserSetting, SetUserError, ResetUserPwaForm } from './redux';
 import { PushAlertWithTimeout } from '../../App/actions';
 import { MergeFilterPwas } from '../../Pwas/actions/redux';
 import { PostPwa } from '../../Pwas/actions/api';
@@ -175,3 +175,34 @@ export const PostUserPwa = () => async (dispatch, getState) => {
       console.error(e);
     });
 };
+
+export const updateFavorite = (payload) => (dispatch, getState) => {
+  const { token, user_favorites } = getState().User;
+  if (payload.id) {
+    return Axios({ token })
+      .delete(`favorites/${payload.id}/`, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(() => {
+        dispatch(SetUserFavorite(user_favorites.filter(obj => obj.id !== payload.id)));
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  } else {
+    return Axios({ token })
+      .post('favorites/', payload, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(({ data }) => {
+        dispatch(SetUserFavorite([...user_favorites, { ...data }]));
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  }
+}

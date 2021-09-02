@@ -43,3 +43,5 @@ export const SetPwaManifest = (url, payload) => ({ type: ActionTypes.USER_SET_PW
 export const SetLighthouseResults = (payload) => ({ type: ActionTypes.USER_SET_LIGHTHOUSE_RESULTS, payload });
 
 export const SetUserIsOnline = (payload) => ({ type: ActionTypes.USER_SET_IS_ONLINE, payload });
+
+export const SetUserFavorite = (payload) => ({ type: ActionTypes.USER_SET_FAVORITE, payload });

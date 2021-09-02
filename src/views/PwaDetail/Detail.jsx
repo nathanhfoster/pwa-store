@@ -20,6 +20,7 @@ import { getManifestIconSrc } from 'store/reducers/User/utils';
 import { useHistory } from 'react-router-dom';
 import { GetPwaProfileUrl } from 'utils/RouteMap';
 import Paper from '@material-ui/core/Paper';
+import Favorite from './Favorite';
 
 const Img = styled('img')({
   margin: 'auto',
@@ -104,6 +105,7 @@ const Detail = ({
                   <ModeEditOutlineIcon />
                 </IconButton>
               )}
+              <Favorite slug={slug} />
             </Grid>
             <Grid item xs>
               <Typography variant='body2' color='text.secondary'>
