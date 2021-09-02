@@ -51,12 +51,11 @@ const Field = ({
 
     case 'select':
       const handleSelectChange = (event, details, reason) => {
-        let newValue = details;
+        let newValue = details.inputValue ? { [getOptionLabelKey]: details.inputValue } : details;
         switch (reason) {
           case 'createOption':
             break;
           case 'selectOption':
-            newValue = details.inputValue ? { [getOptionLabelKey]: details.inputValue } : details;
             break;
           case 'removeOption':
             break;
@@ -81,8 +80,8 @@ const Field = ({
           name={id}
           multiple={multiple}
           includeInputInList={canAddOption}
-          selectOnFocus={canAddOption}
-          clearOnBlur={canAddOption && !multiple}
+          selectOnFocus={canAddOption && !multiple}
+          clearOnBlur={canAddOption}
           onChange={handleSelectChange}
           options={options}
           getOptionLabel={(option) => option[getOptionLabelKey]}
