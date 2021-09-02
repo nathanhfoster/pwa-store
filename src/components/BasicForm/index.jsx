@@ -70,10 +70,19 @@ const BasicForm = ({ title, data, submitTitle, submitJson, disabled, sx, childre
 
   const submitDisabled = useMemo(
     () =>
-      Object.entries(data).some(([id, { required, value = form[id] }]) => {
-        const valueIsEmpty = Array.isArray(value) ? value.length === 0 : !value;
+      Object.entries(data).some(([id, { type, required, multiple, getOptionLabelKey = 'name', value = form[id] }]) => {
+        let valueIsEmpty = false:
+      
+        switch(type) {
+           case 'select':
+              valueIsEmpty = multiple ? value.length === 0 : !value[getOptionLabelKey];
+              break;
+ 
+           default:
+              valueIsEmpty = !value;
+         }
 
-        return required && valueIsEmpty;
+         return required && valueIsEmpty;
       }),
     [data, form]
   );
