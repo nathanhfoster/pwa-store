@@ -116,10 +116,11 @@ export const mergeManifestWithForm = (form, manifestUrl, manifestJson) => {
 
   let {
     name = '',
+    short_name = '',
     keywords = [],
     categories = [],
     icons = [],
-    description = form.description.value,
+    description = form.description.value || name || short_name,
     automation = false,
     author = '',
     background = {},
@@ -146,7 +147,6 @@ export const mergeManifestWithForm = (form, manifestUrl, manifestJson) => {
     page_action,
     permissions,
     protocol_handlers,
-    short_name = '',
     sidebar_action,
     storage,
     theme,
