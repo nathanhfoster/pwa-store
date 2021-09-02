@@ -25,6 +25,7 @@ const Field = ({
   disabled = false,
   options = [{ name: 'No results' }],
   canAddOption = true,
+  disableCloseOnSelect = multiple,
   getOptionLabelKey = 'name',
   placeholder,
   onChange,
@@ -51,7 +52,19 @@ const Field = ({
 
     case 'select':
       const handleSelectChange = (event, details, reason) => {
-        let newValue = details.inputValue ? { [getOptionLabelKey]: details.inputValue } : details;
+        let newValue = details;
+
+        if (details?.inputValue) {
+          newValue = { [getOptionLabelKey]: details.inputValue };
+        }
+
+        if (Array.isArray(details)) {
+          newValue = details.map(({ inputValue, ...restOfProps }) => ({
+            ...restOfProps,
+            [getOptionLabelKey]: inputValue || restOfProps[getOptionLabelKey]
+          }));
+        }
+
         switch (reason) {
           case 'createOption':
             break;
@@ -80,6 +93,7 @@ const Field = ({
           name={id}
           multiple={multiple}
           includeInputInList={canAddOption}
+          disableCloseOnSelect={disableCloseOnSelect}
           selectOnFocus={canAddOption}
           clearOnBlur={canAddOption}
           onChange={handleSelectChange}
