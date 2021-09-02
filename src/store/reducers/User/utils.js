@@ -129,7 +129,7 @@ export const mergeManifestWithForm = (form, manifestUrl, manifestJson) => {
     keywords = [],
     categories = [],
     icons = [],
-    description = '',
+    description = form.description.value,
     automation = false,
     author = '',
     background = {},
@@ -167,7 +167,7 @@ export const mergeManifestWithForm = (form, manifestUrl, manifestJson) => {
     web_accessible_resources
   } = manifestJson;
 
-  let newName = short_name || name;
+  let newName = short_name || name || form.name.value;
 
   if (!Array.isArray(keywords)) {
     keywords = [];
