@@ -36,7 +36,7 @@ export const getInitialFormState = ({
   },
   pwaTags
 }) => {
-  const imageUrl = getManifestIconSrc(manifest_url, manifest_json.icons) || image_url;
+  const imageUrl = image_url || getManifestIconSrc(manifest_url, manifest_json.icons);
   const imageIconOptions = manifest_json.icons?.map?.((icon) => ({ src: getManifestIconUrl(manifest_url, icon) })) || [
     { name: imageUrl }
   ];
