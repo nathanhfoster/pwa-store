@@ -1,6 +1,6 @@
 import React, { useEffect, lazy, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'resurrection';
+import connect from 'resurrection';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';

@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { connect } from 'resurrection';
+import connect from 'resurrection';
 import { useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 

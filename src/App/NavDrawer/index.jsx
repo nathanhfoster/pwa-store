@@ -1,6 +1,6 @@
 import React, { lazy } from 'react';
 import Drawer from '@material-ui/core/Drawer';
-import { connect } from 'resurrection';
+import connect from 'resurrection';
 import { ToggleAppNavBar } from 'store/reducers/App/actions';
 
 const NavList = lazy(() => import('./NavList'));

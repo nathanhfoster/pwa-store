@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'resurrection';
+import connect from 'resurrection';
 import { GetUserPwas } from 'store/reducers/User/actions/api';
 import PwasStack from 'components/PwasStack';
 import { PwasType } from 'store/reducers/Pwas/types';

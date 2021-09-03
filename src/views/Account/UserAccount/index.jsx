@@ -8,7 +8,7 @@ import AppsIcon from '@material-ui/icons/Apps';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { RouteMap } from 'utils';
-import { connect } from 'resurrection';
+import connect from 'resurrection';
 
 const UserPwas = lazy(() => import('./UserPwas'));
 const UserFavoritePwas = lazy(() => import('./UserFavoritePwas'));

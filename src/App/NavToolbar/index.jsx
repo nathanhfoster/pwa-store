@@ -1,5 +1,5 @@
 import React from 'react';
-import { connect } from 'resurrection';
+import connect from 'resurrection';
 import Box from '@material-ui/core/Box';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';

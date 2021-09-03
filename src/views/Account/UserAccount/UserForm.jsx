@@ -4,7 +4,7 @@ import Box from '@material-ui/core/Box';
 
 import LoadingScreen from 'components/LoadingScreen';
 import BasicForm from 'components/BasicForm';
-import { connect } from 'resurrection';
+import connect from 'resurrection';
 import { UpdateUser } from 'store/reducers/User/actions/api';
 
 const formStyles = {

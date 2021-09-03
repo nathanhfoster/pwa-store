@@ -1,6 +1,6 @@
 import React, { lazy } from 'react';
 import { PwasType } from 'store/reducers/Pwas/types';
-import { connect } from 'resurrection';
+import connect from 'resurrection';
 import usePwaSearchOnQueryChange from 'hooks/usePwaSearchOnQueryChange';
 
 const PwasStack = lazy(() => import('../../components/PwasStack'));

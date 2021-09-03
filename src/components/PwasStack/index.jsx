@@ -6,7 +6,7 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Skeleton from '@material-ui/core/Skeleton';
 import { DEFAULT_PWA_IMAGE_SIZE } from '../../constants';
-import { connect } from 'resurrection';
+import connect from 'resurrection';
 
 const PwasStack = ({ title, subtitle, data, imageSize, flexWrap, isLoading }) => {
   const isDetailedView = flexWrap === 'wrap';

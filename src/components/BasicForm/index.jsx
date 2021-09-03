@@ -72,17 +72,17 @@ const BasicForm = ({ title, data, submitTitle, submitJson, disabled, sx, childre
     () =>
       Object.entries(data).some(([id, { type, required, multiple, getOptionLabelKey = 'name', value = form[id] }]) => {
         let valueIsEmpty = false;
-      
-        switch(type) {
-           case 'select':
-              valueIsEmpty = multiple ? value.length === 0 : !value[getOptionLabelKey];
-              break;
- 
-           default:
-              valueIsEmpty = !value;
-         }
 
-         return required && valueIsEmpty;
+        switch (type) {
+          case 'select':
+            valueIsEmpty = multiple ? value.length === 0 : !value[getOptionLabelKey];
+            break;
+
+          default:
+            valueIsEmpty = !value;
+        }
+
+        return required && valueIsEmpty;
       }),
     [data, form]
   );
@@ -108,6 +108,7 @@ const BasicForm = ({ title, data, submitTitle, submitJson, disabled, sx, childre
 };
 
 BasicForm.propTypes = {
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   submitTitle: PropTypes.string,
   submitJson: PropTypes.bool,
   disabled: PropTypes.bool,

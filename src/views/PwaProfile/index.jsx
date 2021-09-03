@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, lazy, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'resurrection';
+import connect from 'resurrection';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Backdrop from '@material-ui/core/Backdrop';
 import { Redirect } from 'react-router-dom';

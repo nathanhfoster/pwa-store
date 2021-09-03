@@ -1,0 +1,96 @@
+import { getManifestIconSrc, getTagsFromManifest, getManifestIconUrl } from 'store/reducers/User/utils';
+import { slugify } from 'utils';
+
+export const defaultProps = {
+  titlePrefix: 'Update',
+  pwa: {
+    name: '',
+    description: '',
+    image_url: { name: '' },
+    ratings: [],
+    pwa_screenshots: [],
+    pwa_analytics: {},
+    tags: [],
+    manifest_json: {}
+  },
+  pwaTags: []
+};
+
+export const getInitialFormState = ({
+  form,
+  pwa: {
+    id,
+    name,
+    slug,
+    description,
+    url,
+    image_url,
+    pwa_screenshots,
+    pwa_analytics,
+    ratings,
+    organization,
+    tags,
+    updated_at,
+    manifest_url,
+    manifest_json
+  },
+  pwaTags
+}) => {
+  const imageUrl = getManifestIconSrc(manifest_url, manifest_json.icons) || image_url;
+  const imageIconOptions = manifest_json.icons?.map?.((icon) => ({ src: getManifestIconUrl(manifest_url, icon) })) || [
+    { name: imageUrl }
+  ];
+  return (
+    form || {
+      url: { required: true, value: url },
+      manifest_url: { required: true, value: manifest_url },
+      image_url: {
+        type: 'select',
+        getOptionLabelKey: 'src',
+        value: { src: imageUrl },
+        options: imageIconOptions
+      },
+      manifest_json: { type: 'textarea', required: true, value: JSON.stringify(manifest_json) },
+      name: { required: true, value: manifest_json.short_name || manifest_json.name || name },
+      slug: { label: 'Unique url', required: true, value: slug || slugify(name) },
+      description: { type: 'textarea', value: manifest_json.description || description },
+      tags: {
+        type: 'select',
+        multiple: true,
+        required: true,
+        options: pwaTags,
+        value: getTagsFromManifest(manifest_json.keywords, (manifest_json.categories || []).concat(tags), pwaTags)
+      }
+    }
+  );
+};
+
+export const formReducer = (state, action) => {
+  const { type, name, payload } = action;
+
+  switch (type) {
+    case 'SET_FORM': {
+      return getInitialFormState(payload);
+    }
+    case 'SET_TAGS':
+      return {
+        ...state,
+        tags: {
+          ...state.tags,
+          value: getTagsFromManifest(
+            payload.manifest_json.keywords,
+            (payload.manifest_json.categories || []).concat(state.tags.value),
+            payload.pwaTags
+          )
+        }
+      };
+    default:
+      return {
+        ...state,
+        [name]: {
+          ...state[name],
+          value: name === 'manifest_json' && typeof payload === 'object' ? JSON.stringify(payload) : payload
+        }
+      };
+  }
+};

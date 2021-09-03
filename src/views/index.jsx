@@ -1,5 +1,5 @@
 import React, { lazy } from 'react';
-import { connect } from 'resurrection';
+import connect from 'resurrection';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { RouteMap } from 'utils';
 import Helmet from './Helmet';

@@ -1,5 +1,5 @@
 import React, { lazy } from 'react';
-import { connect } from 'resurrection';
+import connect from 'resurrection';
 import { Route, Redirect } from 'react-router-dom';
 import * as RouteMap from 'utils/RouteMap';
 

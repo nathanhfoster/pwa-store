@@ -78,4 +78,4 @@ const mapStateToProps = ({
 
 const mapDispatchToProps = { ResetUserPwaForm };
 
-export default connect(mapStateToProps)(AddPwa);
+export default connect(mapStateToProps, mapDispatchToProps)(AddPwa);

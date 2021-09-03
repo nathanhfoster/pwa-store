@@ -103,7 +103,14 @@ const Field = ({
           value={value}
           defaultValue={defaultValue}
           renderInput={(params) => (
-            <TextField {...params} required={required} variant='outlined' margin={margin} label={label} placeholder={placeholder} />
+            <TextField
+              {...params}
+              required={required}
+              variant='outlined'
+              margin={margin}
+              label={label}
+              placeholder={placeholder}
+            />
           )}
           filterOptions={(options, params) => {
             const filtered = filter(options, params);
