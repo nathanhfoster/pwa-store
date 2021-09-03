@@ -93,7 +93,6 @@ const PwaForm = (props) => {
           )
         }
         submitTitle={`${titlePrefix} Pwa`}
-        submitJson
         data={data}
         onChange={handleOnChange}
         onSubmit={onSubmit}
