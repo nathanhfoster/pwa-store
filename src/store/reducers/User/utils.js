@@ -1,4 +1,4 @@
-import { capitalize, copyStringToClipboard, removeArrayDuplicates, stringMatch, joinUrl } from 'utils';
+import { capitalize, copyStringToClipboard, removeArrayDuplicates, stringMatch, joinUrl, slugify } from 'utils';
 export const USER_ID_LOCAL_STORAGE_KEY = 'USER_ID_LOCAL_STORAGE_KEY';
 export const USER_TOKEN_LOCAL_STORAGE_KEY = 'USER_TOKEN_LOCAL_STORAGE_KEY';
 export const USER_MODE_LOCAL_STORAGE_KEY = 'USER_MODE_LOCAL_STORAGE_KEY';
@@ -179,7 +179,7 @@ export const mergeManifestWithForm = (form, manifestUrl, manifestJson) => {
     newIconUrl = form.image_url.value.src;
   }
 
-  const newSlug = newName?.toLowerCase().replace(' ', '-');
+  const newSlug = slugify(newName);
 
   const newManifestUrl = manifestUrl || form.url.value?.replace(/\/(?=[^\/]*$)/, '/manifest.json') || '';
 
