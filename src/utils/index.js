@@ -50,6 +50,7 @@ export const getRandomFloat = (min, max, fix = 3) => (Math.random() * (min - max
 
 export const isValidManifestJsonStringOrObject = (stringOrObject) => {
   var isValid = '';
+
   if (typeof stringOrObject === 'string') {
     try {
       isValid = JSON.parse(stringOrObject);

@@ -10,6 +10,7 @@ import {
   mergeManifestWithForm
 } from './utils';
 import { handleFilterItems, mergePwas } from '../Pwas/utils';
+import { isValidManifestJsonStringOrObject } from 'utils';
 
 const [token, id] = getUserTokenAndIdLocalStorage();
 
@@ -38,22 +39,38 @@ export const DEFAULT_STATE = Object.freeze({
         getOptionLabelKey: 'src',
         label: 'Image url',
         required: true,
-        value: { src: '' },
-        options: []
+        value: { src: null },
+        options: [],
+        error: (props) => props?.value?.src > 5
       },
       manifest_json: {
         type: 'textarea',
         required: true,
-        value: ''
+        value: null,
+        error: (props) => !isValidManifestJsonStringOrObject(props.value)
       },
-      name: { label: 'Name', required: true, value: '' },
+      name: {
+        label: 'Name',
+        required: true,
+        value: null,
+        error: (props) => props.value?.length < 3
+      },
       slug: { label: 'Custom url', placeholder: 'google-photos', value: '' },
       description: {
         type: 'textarea',
         required: true,
-        value: ''
+        value: '',
+        error: (props) => props.value?.length < 3
       },
-      tags: { type: 'select', multiple: true, label: 'Tags', options: [], required: true, value: [] }
+      tags: {
+        type: 'select',
+        multiple: true,
+        label: 'Tags',
+        options: [],
+        required: true,
+        value: [],
+        error: (props) => props.value?.length === 0
+      }
     },
     lighthouseResults: null
   },

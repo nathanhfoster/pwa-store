@@ -9,7 +9,6 @@ import { useMounted } from 'resurrection';
 import BasicForm from 'components/BasicForm';
 import { PwaType } from 'store/reducers/Pwas/types';
 import { GetPwaManifest } from '../../store/reducers/Pwas/actions/api';
-import useValidImage from 'hooks/useValidImage';
 import { getFirstChar } from 'utils';
 import { defaultProps, getInitialFormState, formReducer } from './state';
 
@@ -32,8 +31,6 @@ const PwaForm = (props) => {
   const pwaImage = (formFromProps || form).image_url?.value?.src;
   const pwaName = (formFromProps || form).name.value;
   const shouldRenderTitle = Boolean(pwaImage || pwaName);
-
-  const imageIsValid = useValidImage(pwaImage);
 
   const data = formFromProps || form;
 
@@ -95,7 +92,6 @@ const PwaForm = (props) => {
             </Stack>
           )
         }
-        disabled={!imageIsValid}
         submitTitle={`${titlePrefix} Pwa`}
         submitJson
         data={data}

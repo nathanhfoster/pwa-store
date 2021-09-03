@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-
-import { useSetStateReducer } from 'resurrection';
+import { isFunction } from 'utils';
+import { useSetStateReducer, useLazyMemo } from 'resurrection';
 import Field from './Field';
 
 const getInitialFormState = (data) =>
@@ -25,6 +25,7 @@ const getInitialFormState = (data) =>
 
 const BasicForm = ({ title, data, submitTitle, submitJson, disabled, sx, children, onChange, onSubmit }) => {
   const [form, setForm] = useSetStateReducer(data, getInitialFormState);
+  const initialForm = useLazyMemo(() => form);
 
   const handleOnChange = ({ target: { type, name, value, checked } }) => {
     const newValue = type === 'checkbox' ? checked : value;
@@ -57,10 +58,24 @@ const BasicForm = ({ title, data, submitTitle, submitJson, disabled, sx, childre
 
   const renderInputs = useMemo(
     () =>
-      Object.entries(data).reduce((acc, [id, { type = 'text', value = form[id], ...restOfProps }]) => {
+      Object.entries(data).reduce((acc, [id, props]) => {
         if (id) {
+          const { type = 'text', value = form[id], error = false, ...restOfProps } = props;
+          const initialValue = initialForm[id];
+          const coalescingValue = value ?? '';
+          const errorExists = value != initialValue && Boolean(isFunction(error) ? error(props, data) : error);
+
           acc.push(
-            <Field {...restOfProps} key={id} type={type} id={id} value={value} onChange={onChange} setForm={setForm} />
+            <Field
+              {...restOfProps}
+              key={id}
+              type={type}
+              id={id}
+              value={coalescingValue}
+              error={errorExists}
+              onChange={onChange}
+              setForm={setForm}
+            />
           );
         }
         return acc;
@@ -70,9 +85,10 @@ const BasicForm = ({ title, data, submitTitle, submitJson, disabled, sx, childre
 
   const submitDisabled = useMemo(
     () =>
-      Object.entries(data).some(([id, { type, required, multiple, getOptionLabelKey = 'name', value = form[id] }]) => {
+      Object.entries(data).some(([id, props]) => {
         let valueIsEmpty = false;
-
+        const { type, required, multiple, getOptionLabelKey = 'name', value = form[id], error = false } = props;
+        const errorExists = isFunction(error) ? error(props) : error;
         switch (type) {
           case 'select':
             valueIsEmpty = multiple ? value.length === 0 : !value?.[getOptionLabelKey];
@@ -82,7 +98,7 @@ const BasicForm = ({ title, data, submitTitle, submitJson, disabled, sx, childre
             valueIsEmpty = !value;
         }
 
-        return required && valueIsEmpty;
+        return errorExists || (required && valueIsEmpty);
       }),
     [data, form]
   );
@@ -151,7 +167,13 @@ BasicForm.propTypes = {
       MenuProps: PropTypes.shape({}),
       disabled: PropTypes.bool,
       options: PropTypes.arrayOf(PropTypes.shape({ id: PropTypes.string, name: PropTypes.string })),
-      defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)])
+      error: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
+      value: PropTypes.oneOfType([PropTypes.string, PropTypes.object, PropTypes.any]),
+      defaultValue: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.arrayOf(PropTypes.string),
+        PropTypes.arrayOf(PropTypes.object)
+      ])
     })
   ),
   sx: PropTypes.object

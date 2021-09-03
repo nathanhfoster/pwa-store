@@ -1,4 +1,4 @@
-import React, { useEffect, memo } from 'react';
+import React, { useMemo, useEffect, memo } from 'react';
 import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -20,7 +20,7 @@ const Field = ({
   autoFocus = false,
   color = 'primary',
   multiple = false,
-  error= false,
+  error = false,
   defaultValue,
   value,
   disabled = false,
@@ -99,7 +99,7 @@ const Field = ({
           clearOnBlur={canAddOption}
           onChange={handleSelectChange}
           options={options}
-          getOptionLabel={(option) => option[getOptionLabelKey]}
+          getOptionLabel={(option) => option[getOptionLabelKey] ?? ''}
           isOptionEqualToValue={(option, value) => option[getOptionLabelKey] === value[getOptionLabelKey]}
           value={value}
           defaultValue={defaultValue}
