@@ -207,12 +207,12 @@ const User = (state = DEFAULT_STATE, action) => {
           }
         }
       };
-    
-      case ActionTypes.USER_SET_FAVORITE:
-        return {
-          ...state,
-          user_favorites: [...payload],          
-        }
+
+    case ActionTypes.USER_SET_FAVORITE:
+      return {
+        ...state,
+        user_favorites: [...payload]
+      };
 
     default:
       return state;

@@ -20,6 +20,7 @@ const Field = ({
   autoFocus = false,
   color = 'primary',
   multiple = false,
+  error= false,
   defaultValue,
   value,
   disabled = false,
@@ -110,6 +111,7 @@ const Field = ({
               margin={margin}
               label={label}
               placeholder={placeholder}
+              error={error}
             />
           )}
           filterOptions={(options, params) => {
@@ -165,6 +167,7 @@ const Field = ({
           autoFocus={autoFocus}
           color={color}
           value={value}
+          error={error}
           disabled={disabled}
           placeholder={placeholder}
         />

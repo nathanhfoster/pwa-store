@@ -31,9 +31,9 @@ describe('User reducer utils', () => {
         version_name: '1.0.0 beta',
         name: 'Pwa Store',
         short_name: 'Pwa Store',
-        description: 'Discover the future of progressive web apps',
-        keywords: ['react', 'redux', 'pwa', 'store', 'free', 'django'],
-        categories: ['tools', 'store', 'free', 'themed', 'offline'],
+        description: 'Discover the future of progressive web apps even while offline',
+        keywords: ['react', 'redux', 'pwa', 'store', 'free', 'django', 'themed'],
+        categories: ['tools', 'store', 'free'],
         icons: [
           {
             src: 'assets/android-chrome-144x144.png',

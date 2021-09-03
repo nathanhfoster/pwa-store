@@ -7,3 +7,4 @@ export { default as useLighthouse } from './useLighthouse';
 export { default as useIsPwaInstalled } from './useIsPwaInstalled';
 export { default as usePwaSearchOnQueryChange } from './usePwaSearchOnQueryChange';
 export { default as useQuery } from './useQuery';
+export { default as useValidImage } from './useValidImage';

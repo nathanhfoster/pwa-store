@@ -92,20 +92,29 @@ export const getManifestIconSrc = (manifest_url, icons) => {
   return imageUrl;
 };
 
-export const getTagsFromManifest = (keywords = [], categories = [], pwaTags = []) => {
-  const uniqueTags = removeArrayDuplicates([...keywords, ...categories]);
+export const getTagsFromManifest = ({
+  keywords = [],
+  categories = [],
+  tags = [],
+  pwaTags = [],
+  description = '',
+  name = '',
+  short_name = ''
+}) => {
+  const uniqueTags = removeArrayDuplicates(
+    [
+      ...keywords,
+      ...categories,
+      ...tags.map(({ name }) => name),
+      ...description.split(' '),
+      ...name.split(' '),
+      ...short_name.split(' '),
+      ...name.split(' ')
+    ],
+    false
+  );
 
-  const tags = uniqueTags.reduce((acc, tag) => {
-    const tagName = capitalize(tag?.name || tag);
-
-    if (pwaTags.some(({ name }) => name === tagName)) {
-      acc.push({ name: tagName });
-    }
-
-    return acc;
-  }, []);
-
-  return tags.length ? tags : [];
+  return pwaTags.filter((tag) => uniqueTags.some((e) => capitalize(e) === tag.name));
 };
 
 export const mergeManifestWithForm = (form, manifestUrl, manifestJson) => {
@@ -171,7 +180,7 @@ export const mergeManifestWithForm = (form, manifestUrl, manifestJson) => {
     icons = [];
   }
 
-  const newOptionsValue = getTagsFromManifest(keywords, categories, pwaTags);
+  const newOptionsValue = getTagsFromManifest({ ...manifestJson, pwaTags });
 
   let newIconUrl = getManifestIconSrc(manifestUrl, icons);
 

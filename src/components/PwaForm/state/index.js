@@ -59,7 +59,7 @@ export const getInitialFormState = ({
         multiple: true,
         required: true,
         options: pwaTags,
-        value: getTagsFromManifest(manifest_json.keywords, (manifest_json.categories || []).concat(tags), pwaTags)
+        value: getTagsFromManifest({ ...manifest_json, tags, pwaTags })
       }
     }
   );
@@ -77,11 +77,10 @@ export const formReducer = (state, action) => {
         ...state,
         tags: {
           ...state.tags,
-          value: getTagsFromManifest(
-            payload.manifest_json.keywords,
-            (payload.manifest_json.categories || []).concat(state.tags.value),
-            payload.pwaTags
-          )
+          value: getTagsFromManifest({
+            ...payload,
+            tags: state.tags.value
+          })
         }
       };
     default:

@@ -75,7 +75,7 @@ const BasicForm = ({ title, data, submitTitle, submitJson, disabled, sx, childre
 
         switch (type) {
           case 'select':
-            valueIsEmpty = multiple ? value.length === 0 : !value[getOptionLabelKey];
+            valueIsEmpty = multiple ? value.length === 0 : !value?.[getOptionLabelKey];
             break;
 
           default:

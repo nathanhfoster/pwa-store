@@ -48,6 +48,25 @@ export const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min 
 
 export const getRandomFloat = (min, max, fix = 3) => (Math.random() * (min - max) + max).toFixedNumber(fix);
 
+export const isValidManifestJsonStringOrObject = (stringOrObject) => {
+  var isValid = '';
+  if (typeof stringOrObject === 'string') {
+    try {
+      isValid = JSON.parse(stringOrObject);
+    } catch (e) {
+      isValid = '';
+    }
+  } else if (typeof stringOrObject === 'object') {
+    try {
+      isValid = JSON.parse(JSON.stringify(stringOrObject));
+    } catch (e) {
+      isValid = '';
+    }
+  }
+
+  return Boolean(isValid);
+};
+
 export const deepClone = (object) => JSON.parse(JSON.stringify(object));
 
 export const isOnline = (last_login) => new Date() - new Date(last_login) <= 1000 * 60 * 5;
@@ -56,17 +75,21 @@ export const findMaxInt = (arrayOfObjs, prop) => Math.max(...arrayOfObjs.map((e)
 
 export const sortedMap = (map) => new Map([...map.entries()].sort().sort((a, b) => b[1] - a[1]));
 
-export const removeArrayDuplicates = (array, key) => {
+export const removeArrayDuplicates = (array, caseSensitive = true, key) => {
   var seen = {};
   if (key) {
-    return array.reduce((acc, item) => {
-      if (!seen[item[key]]) {
+    return array.reduce((acc, e) => {
+      let item = e[key];
+      if (!caseSensitive) {
+        item = item.toLowerCase();
+      }
+      if (!seen[item]) {
         acc.push(item);
       }
       return acc;
     }, {});
   }
-  return [...new Set(array)];
+  return [...new Set(caseSensitive ? array : array.map((e) => e.toLowerCase()))];
 };
 
 export const getFirstChar = (s, capitalize = true) => {
@@ -155,7 +178,7 @@ export const isEmpty = (obj) => {
 
 export const joinUrl = (baseUrl, url) => new URL(url, baseUrl).href;
 
-export const slugify = text =>
+export const slugify = (text) =>
   text
     .toString()
     .normalize('NFD')

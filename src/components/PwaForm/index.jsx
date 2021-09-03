@@ -9,6 +9,7 @@ import { useMounted } from 'resurrection';
 import BasicForm from 'components/BasicForm';
 import { PwaType } from 'store/reducers/Pwas/types';
 import { GetPwaManifest } from '../../store/reducers/Pwas/actions/api';
+import useValidImage from 'hooks/useValidImage';
 import { getFirstChar } from 'utils';
 import { defaultProps, getInitialFormState, formReducer } from './state';
 
@@ -27,6 +28,14 @@ const PwaForm = (props) => {
   const [potentialManifestUrl, setPotentialManifestUrl] = useState();
   const debouncedPotentialManifestUrl = useDebounce(potentialManifestUrl);
   const mounted = useMounted();
+
+  const pwaImage = (formFromProps || form).image_url?.value?.src;
+  const pwaName = (formFromProps || form).name.value;
+  const shouldRenderTitle = Boolean(pwaImage || pwaName);
+
+  const imageIsValid = useValidImage(pwaImage);
+
+  const data = formFromProps || form;
 
   useEffect(() => {
     if (mounted && !onChange) {
@@ -73,10 +82,6 @@ const PwaForm = (props) => {
     [onChange]
   );
 
-  const pwaImage = (formFromProps || form).image_url?.value?.src;
-  const pwaName = (formFromProps || form).name.value;
-  const shouldRenderTitle = Boolean(pwaImage && pwaName);
-
   return (
     <Box sx={detailContainerStyles}>
       <BasicForm
@@ -90,9 +95,10 @@ const PwaForm = (props) => {
             </Stack>
           )
         }
+        disabled={!imageIsValid}
         submitTitle={`${titlePrefix} Pwa`}
         submitJson
-        data={formFromProps || form}
+        data={data}
         onChange={handleOnChange}
         onSubmit={onSubmit}
       />

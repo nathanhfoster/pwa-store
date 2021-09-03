@@ -1,4 +1,11 @@
-import { capitalize, objectToArray, removeArrayDuplicates, stringMatch, joinUrl } from '.';
+import {
+  capitalize,
+  objectToArray,
+  removeArrayDuplicates,
+  stringMatch,
+  joinUrl,
+  isValidManifestJsonStringOrObject
+} from '.';
 
 describe('utils', () => {
   describe('removeArrayDuplicates', () => {
@@ -46,6 +53,32 @@ describe('utils', () => {
       const url = 'assets/icon.png';
       const result = joinUrl(baseUrl, url);
       expect(result).toBe('https://pwa.com/pwa/assets/icon.png');
+    });
+  });
+
+  describe('isValidManifestJsonStringOrObject', () => {
+    it('Should return true when a string is a parsable manifest json', () => {
+      const string = '{ "name": "This is a valid manifest json" }';
+      const result = isValidManifestJsonStringOrObject(string);
+      expect(result).toBe(true);
+    });
+
+    it('Should return false when a string is a not a parsable manifest json', () => {
+      const string = 'Not a manifest json object';
+      const result = isValidManifestJsonStringOrObject(string);
+      expect(result).toBe(false);
+    });
+
+    it('Should return true when an object can be stringified and parsed as a JSON', () => {
+      const object = { name: 'This object can be stringified and parsed as a manifest json' };
+      const result = isValidManifestJsonStringOrObject(object);
+      expect(result).toBe(true);
+    });
+
+    it('Should return false when an object can not be stringified and parsed as a JSON', () => {
+      const array = [{ name: 'This array can not be stringified and parsed as a manifest json' }];
+      const result = isValidManifestJsonStringOrObject(array);
+      expect(result).toBe(true);
     });
   });
 });
