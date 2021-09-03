@@ -10,7 +10,7 @@ import BasicForm from 'components/BasicForm';
 import { PwaType } from 'store/reducers/Pwas/types';
 import { GetPwaManifest } from '../../store/reducers/Pwas/actions/api';
 import { getManifestIconSrc, getTagsFromManifest, getManifestIconUrl } from 'store/reducers/User/utils';
-import { getFirstChar } from 'utils';
+import { getFirstChar, slugify } from 'utils';
 
 const detailContainerStyles = {
   height: '100%',
@@ -72,7 +72,7 @@ const getInitialFormState = ({
       },
       manifest_json: { type: 'textarea', required: true, value: JSON.stringify(manifest_json) },
       name: { required: true, value: manifest_json.short_name || manifest_json.name || name },
-      slug: { label: 'Unique url', required: true, value: slug || name.toLowerCase().replace(' ', '-') },
+      slug: { label: 'Unique url', required: true, value: slug || slugify(name) },
       description: { type: 'textarea', value: manifest_json.description || description },
       tags: {
         type: 'select',
