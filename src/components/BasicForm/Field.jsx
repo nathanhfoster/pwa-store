@@ -62,7 +62,7 @@ const Field = ({
         if (Array.isArray(details)) {
           newValue = details.map(({ inputValue, ...restOfProps }) => ({
             ...restOfProps,
-            [getOptionLabelKey]: inputValue || restOfProps[getOptionLabelKey]
+            [getOptionLabelKey]: inputValue || restOfProps?.[getOptionLabelKey]
           }));
         }
 
