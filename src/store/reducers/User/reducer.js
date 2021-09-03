@@ -32,8 +32,21 @@ export const DEFAULT_STATE = Object.freeze({
   isLoading: false,
   pwaToUpload: {
     form: {
-      url: { type: 'url', autoFocus: true, label: 'Url', required: true, value: '' },
-      manifest_url: { type: 'url', label: 'Manifest url', required: true, value: '' },
+      url: {
+        type: 'url',
+        autoFocus: true,
+        label: 'Url',
+        required: true,
+        value: '',
+        error: (props) => props.value?.length < 3
+      },
+      manifest_url: {
+        type: 'url',
+        label: 'Manifest url',
+        required: true,
+        value: '',
+        error: (props) => props.value?.length < 3
+      },
       image_url: {
         type: 'select',
         getOptionLabelKey: 'src',
@@ -68,8 +81,7 @@ export const DEFAULT_STATE = Object.freeze({
         label: 'Tags',
         options: [],
         required: true,
-        value: [],
-        error: (props) => props.value?.length === 0
+        value: []
       }
     },
     lighthouseResults: null
