@@ -9,9 +9,6 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import { getManifestIconSrc } from 'store/reducers/User/utils';
-// import { useBooleanReducer } from 'resurrection';
-// import { useDispatch } from 'resurrection';
-// import { GetPwaManifest } from 'store/reducers/Pwas/actions/api';
 import { GetPwaDetailUrl } from 'utils/RouteMap';
 import { DEFAULT_PWA_IMAGE } from '../../../constants';
 
@@ -50,29 +47,24 @@ const Pwa = ({
   manifest_json,
   imageSize
 }) => {
-  const imageSrc = useMemo(() => {
-    const { icons } = manifest_json || {};
-    const iconImageSrc = getManifestIconSrc(manifest_url, icons);
-    return image_url || iconImageSrc || DEFAULT_PWA_IMAGE;
-  }, [image_url, manifest_json, manifest_url]);
-  // const dispatch = useDispatch();
-  // const [isHovered, toggleIsHovered] = useBooleanReducer(false);
+  const imageSrc = useMemo(
+    () => image_url || getManifestIconSrc(manifest_url, manifest_json.icons),
+    [image_url, manifest_json.icons, manifest_url]
+  );
 
   const pwaRoute = GetPwaDetailUrl(slug);
 
-  // useLayoutEffect(() => {
-  //   dispatch(GetPwaManifest(url));
-  // }, [url]);
-
   return (
-    <StyledCard
-      component={Link}
-      to={pwaRoute}
-      title={name}
-      // onMouseEnter={toggleIsHovered}
-      // onMouseLeave={toggleIsHovered}
-    >
-      <CardMedia sx={{ m: '0 auto', width: imageSize, height: imageSize }} image={imageSrc} title={name} />
+    <StyledCard component={Link} to={pwaRoute} title={name}>
+      <CardMedia
+        component='img'
+        sx={{ m: '0 auto', width: imageSize, height: imageSize }}
+        image={imageSrc}
+        title={name}
+        onError={(source) => {
+          source.target.src = DEFAULT_PWA_IMAGE;
+        }}
+      />
       <CardContent>
         <Typography gutterBottom variant='span' component='div' style={nameStyles}>
           {name}

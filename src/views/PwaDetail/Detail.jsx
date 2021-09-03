@@ -84,7 +84,15 @@ const Detail = ({
         <Grid item xs={12} sm container zeroMinWidth>
           <Grid item xs='auto' sm={4} justifyContent='center' alignContent='center'>
             <ButtonBase href={url} sx={imageButtonStyles}>
-              <Img src={imageSrc} srcSet={imageSrc} alt={name} loading='lazy' />
+              <Img
+                src={imageSrc}
+                // srcSet={imageSrc}
+                alt={name}
+                // loading='lazy'
+                onError={(source) => {
+                  source.target.src = DEFAULT_PWA_IMAGE;
+                }}
+              />
             </ButtonBase>
           </Grid>
           <Grid item xs='auto' px={2}>
@@ -174,7 +182,7 @@ const mapStateToProps = ({ User: { id: userId }, Pwas: { items, filteredItems } 
     manifest_json: { background_color, theme_color, icons } = {}
   } = pwa;
   const iconSrc = getManifestIconSrc(manifest_url, icons);
-  const imageSrc = image_url || iconSrc || DEFAULT_PWA_IMAGE;
+  const imageSrc = image_url || iconSrc;
   const isAuthorOfPwa = pwa.created_by === userId;
   return {
     id,
