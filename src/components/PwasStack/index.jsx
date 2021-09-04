@@ -17,7 +17,7 @@ const innerElementType = forwardRef(({ style, ...children }, ref) => {
 
 const Cell = memo(
   ({ columnIndex, rowIndex, style, isScrolling, data: { items, columnCount, isLoading, isDetailedView } }) => {
-    const index = rowIndex ? rowIndex * columnCount - columnIndex : columnIndex;
+    const index = rowIndex * columnCount + columnIndex;
     const pwa = items[index];
     if (!pwa) return null;
     return (
