@@ -68,7 +68,7 @@ export const DEFAULT_STATE = Object.freeze({
         value: null,
         error: (props) => props.value?.length < 3
       },
-      slug: { label: 'Custom url', placeholder: 'google-photos', value: '' },
+      slug: { label: 'Custom url', placeholder: 'google-photos', value: '', error: (props) => props.value?.length < 3 },
       description: {
         type: 'textarea',
         required: true,
