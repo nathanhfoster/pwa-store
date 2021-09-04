@@ -77,7 +77,7 @@ export const getManifestIconUrl = (manifest_url, icon) => {
     if (stringMatch(icon.src, 'http') || stringMatch(icon.src, '.com')) {
       imageUrl = icon.src;
     } else {
-      imageUrl = joinUrl(manifest_url.replace('/manifest.json', ''), icon.src);
+      imageUrl = joinUrl(manifest_url, icon.src);
     }
   }
 
