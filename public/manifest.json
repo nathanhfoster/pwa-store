@@ -64,10 +64,22 @@
       ]
     },
     {
-      "name": "Settings",
-      "short_name": "Settings",
-      "description": "Go to settings",
-      "url": "/settings",
+      "name": "My Pwas",
+      "short_name": "Pwas",
+      "description": "Go to your pwas",
+      "url": "/settings/pwas",
+      "icons": [
+        {
+          "src": "assets/android-chrome-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Favorites",
+      "short_name": "Favs",
+      "description": "See your favorite pwas",
+      "url": "/settings/favorites",
       "icons": [
         {
           "src": "assets/android-chrome-192x192.png",

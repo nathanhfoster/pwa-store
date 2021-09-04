@@ -1,4 +1,4 @@
-import { isFunction } from 'utils';
+import { isFunction, inRange } from 'utils';
 
 export const isOnMobileBrowser = (userAgent) => /iPhone|iPad|iPod|Android|Windows/i.test(userAgent);
 
@@ -113,7 +113,16 @@ export const getWindowDimensions = () => {
 
   const isMobile = innerWidth < 600;
 
+  const breakpoints = {
+    xs: inRange(innerWidth, 0),
+    sm: inRange(innerWidth, 600),
+    md: inRange(innerWidth, 960),
+    lg: inRange(innerWidth, 1280),
+    xl: inRange(innerWidth, 1920)
+  };
+
   return {
+    breakpoints,
     innerHeight,
     innerWidth,
     screen: screen ? getScreenProps(screen) : {},

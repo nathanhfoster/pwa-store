@@ -10,7 +10,7 @@ import {
   mergeManifestWithForm
 } from './utils';
 import { handleFilterItems, mergePwas } from '../Pwas/utils';
-import { isValidManifestJsonStringOrObject } from 'utils';
+import { isValidManifestJsonStringOrObject, inRange } from 'utils';
 
 const [token, id] = getUserTokenAndIdLocalStorage();
 
@@ -38,14 +38,14 @@ export const DEFAULT_STATE = Object.freeze({
         label: 'Url',
         required: true,
         value: '',
-        error: (props) => props.value?.length < 3
+        error: (props) => !inRange(props.value, 3, 250)
       },
       manifest_url: {
         type: 'url',
         label: 'Manifest url',
         required: true,
         value: '',
-        error: (props) => props.value?.length < 3
+        error: (props) => !inRange(props.value, 3, 250)
       },
       image_url: {
         type: 'select',
@@ -54,7 +54,7 @@ export const DEFAULT_STATE = Object.freeze({
         required: true,
         value: { src: null },
         options: [],
-        error: (props) => props?.value?.src > 5
+        error: (props) => !inRange(props?.value?.src, 0, 250)
       },
       manifest_json: {
         type: 'textarea',
@@ -66,14 +66,19 @@ export const DEFAULT_STATE = Object.freeze({
         label: 'Name',
         required: true,
         value: null,
-        error: (props) => props.value?.length < 3
+        error: (props) => !inRange(props?.value, 0, 250)
       },
-      slug: { label: 'Custom url', placeholder: 'google-photos', value: '', error: (props) => props.value?.length < 3 },
+      slug: {
+        label: 'Custom url',
+        placeholder: 'google-photos',
+        value: '',
+        error: (props) => !inRange(props?.value, 2, 50)
+      },
       description: {
         type: 'textarea',
         required: true,
         value: '',
-        error: (props) => props.value?.length < 3
+        error: (props) => !inRange(props?.value, 0, 1000)
       },
       tags: {
         type: 'select',
@@ -81,7 +86,8 @@ export const DEFAULT_STATE = Object.freeze({
         label: 'Tags',
         options: [],
         required: true,
-        value: []
+        value: [],
+        error: (props) => !inRange(props?.value, 1)
       }
     },
     lighthouseResults: null

@@ -81,20 +81,57 @@ describe('User reducer utils', () => {
   describe('getManifestIconSrc', () => {
     it('should replace the manifest.json in the manifest_url when the icon src is relative', () => {
       const manifest_url = 'https://pwa.com/assets/manifest.json';
-      const icon1 = {
-        src: 'assets/android-chrome-144x144.png',
-        sizes: '144x144',
-        type: 'image/png'
-      };
-      const icon2 = {
-        src: 'assets/android-chrome-192x192.png',
-        sizes: '192x192',
-        type: 'image/png'
-      };
-      const icons = [icon1, icon2];
+
+      const icons = [
+        {
+          src: 'android-chrome-512x512.png',
+          sizes: '512x512',
+          type: 'image/png'
+        },
+        {
+          src: 'android-chrome-384x384.png',
+          sizes: '384x384',
+          type: 'image/png'
+        },
+        {
+          src: 'android-chrome-256x256.png',
+          sizes: '256x256',
+          type: 'image/png'
+        },
+        {
+          src: 'android-chrome-192x192.png',
+          sizes: '192x192',
+          type: 'image/png'
+        },
+        {
+          src: 'android-chrome-144x144.png',
+          sizes: '144x144',
+          type: 'image/png'
+        },
+        {
+          src: 'android-chrome-96x96.png',
+          sizes: '96x96',
+          type: 'image/png'
+        },
+        {
+          src: 'android-chrome-72x72.png',
+          sizes: '72x72',
+          type: 'image/png'
+        },
+        {
+          src: 'android-chrome-48x48.png',
+          sizes: '48x48',
+          type: 'image/png'
+        },
+        {
+          src: 'android-chrome-36x36.png',
+          sizes: '36x36',
+          type: 'image/png'
+        }
+      ];
 
       const result = getManifestIconSrc(manifest_url, icons);
-      const expected = 'https://pwa.com/assets/android-chrome-192x192.png';
+      const expected = 'https://pwa.com/assets/android-chrome-512x512.png';
 
       expect(result).toBe(expected);
     });
@@ -102,10 +139,10 @@ describe('User reducer utils', () => {
 
   describe('getManifestIconUrl', () => {
     it('Should return the right result', () => {
-      const manifest_url = 'https://pwa.com/pwa/assets/manifest.json';
-      const icon = { src: 'assets/icon.png' };
+      const manifest_url = 'https://xtreemze.github.io/defend/./site.webmanifest';
+      const icon = { src: 'android-chrome-512x512.png' };
       const result = getManifestIconUrl(manifest_url, icon);
-      expect(result).toBe('https://pwa.com/pwa/assets/icon.png');
+      expect(result).toBe('https://xtreemze.github.io/defend/android-chrome-512x512.png');
     });
   });
 });

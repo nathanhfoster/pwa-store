@@ -58,7 +58,7 @@ const Detail = ({
   imageSrc,
   background_color,
   theme_color,
-  isAuthorOfPwa,
+  isAuthorOfPwaOrSuperUser,
   UpdateAnalytics
 }) => {
   const history = useHistory();
@@ -108,7 +108,7 @@ const Detail = ({
               <Typography variant='h4' sx={{ fontWeight: 600 }}>
                 {name}
               </Typography>
-              {isAuthorOfPwa && (
+              {isAuthorOfPwaOrSuperUser && (
                 <IconButton sx={{ ml: 2 }} onClick={handleOnEditClick}>
                   <ModeEditOutlineIcon />
                 </IconButton>
@@ -166,7 +166,10 @@ const Detail = ({
   );
 };
 
-const mapStateToProps = ({ User: { id: userId }, Pwas: { items, filteredItems } }, { pwaSlug, ...restOfProps }) => {
+const mapStateToProps = (
+  { User: { id: userId, is_superuser }, Pwas: { items, filteredItems } },
+  { pwaSlug, ...restOfProps }
+) => {
   const pwa =
     (filteredItems.length > 0 ? items.concat(filteredItems) : items).find(({ slug }) => slug === pwaSlug) || {};
 
@@ -183,7 +186,7 @@ const mapStateToProps = ({ User: { id: userId }, Pwas: { items, filteredItems } 
   } = pwa;
   const iconSrc = getManifestIconSrc(manifest_url, icons);
   const imageSrc = image_url || iconSrc;
-  const isAuthorOfPwa = pwa.created_by === userId;
+  const isAuthorOfPwaOrSuperUser = is_superuser || pwa.created_by === userId;
   return {
     id,
     slug,
@@ -197,7 +200,7 @@ const mapStateToProps = ({ User: { id: userId }, Pwas: { items, filteredItems } 
     background_color,
     theme_color,
     imageSrc,
-    isAuthorOfPwa
+    isAuthorOfPwaOrSuperUser
   };
 };
 
@@ -215,7 +218,7 @@ Detail.propTypes = {
   rating_count: PwaAnalyticsType.rating_count,
   background_color: PwaManifestJsonType.background_color,
   theme_color: PwaManifestJsonType.theme_color,
-  isAuthorOfPwa: PropTypes.bool.isRequired
+  isAuthorOfPwaOrSuperUser: PropTypes.bool.isRequired
 };
 
 Detail.defaultProps = {
@@ -223,7 +226,7 @@ Detail.defaultProps = {
   pwa_analytics: {},
   rating_avg: 0,
   rating_count: 0,
-  isAuthorOfPwa: false
+  isAuthorOfPwaOrSuperUser: false
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Detail);

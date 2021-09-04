@@ -1,50 +1,65 @@
-import React, { useMemo, lazy } from 'react';
+import React, { forwardRef, useMemo, memo } from 'react';
 import PropTypes from 'prop-types';
 import { PwasType } from 'store/reducers/Pwas/types';
-import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Skeleton from '@material-ui/core/Skeleton';
-import { DEFAULT_PWA_IMAGE_SIZE } from '../../constants';
+import { DEFAULT_PWA_IMAGE_SIZE, APP_DRAWER_HEIGHT, APP_DRAWER_WIDTH } from '../../constants';
+import { FixedSizeGrid as Grid, areEqual } from 'react-window';
 import connect from 'resurrection';
+import Pwa from './Pwa';
 
-const PwasStack = ({ title, subtitle, data, imageSize, flexWrap, isLoading }) => {
+const GUTTER_SIZE = 32;
+
+const innerElementType = forwardRef(({ style, ...children }, ref) => {
+  return <div ref={ref} style={style} {...children} />;
+});
+
+const Cell = memo(
+  ({ columnIndex, rowIndex, style, isScrolling, data: { items, columnCount, isLoading, isDetailedView } }) => {
+    const index = rowIndex ? rowIndex * columnCount - columnIndex : columnIndex;
+    const pwa = items[index];
+    if (!pwa) return null;
+    return (
+      <div
+        style={{
+          ...style,
+          left: style.left + GUTTER_SIZE,
+          top: style.top + GUTTER_SIZE,
+          width: style.width - GUTTER_SIZE,
+          height: style.height - GUTTER_SIZE
+        }}
+      >
+        {isLoading ? (
+          <Skeleton variant='rectangular' width={DEFAULT_PWA_IMAGE_SIZE} height={DEFAULT_PWA_IMAGE_SIZE} />
+        ) : (
+          <Pwa {...pwa} detailed={isDetailedView} imageSize={DEFAULT_PWA_IMAGE_SIZE} />
+        )}
+      </div>
+    );
+  },
+  areEqual
+);
+
+const PwasStack = ({
+  title,
+  subtitle,
+  data,
+  flexWrap,
+  isLoading,
+  columnCount,
+  columnWidth,
+  rowCount,
+  rowHeight,
+  height,
+  width
+}) => {
   const isDetailedView = flexWrap === 'wrap';
 
-  const gridItemStyles = useMemo(
-    () => ({
-      xs: 6,
-      sm: 4,
-      md: 3,
-      lg: 2,
-      xl: 1,
-      sx: { m: { xs: isDetailedView ? 0 : 2, sm: 2 } },
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'baseline',
-      alignContent: 'flex-start'
-    }),
-    [isDetailedView]
+  const itemData = useMemo(
+    () => ({ items: data, columnCount, isLoading, isDetailedView }),
+    [data, columnCount, isDetailedView, isLoading]
   );
-
-  const renderPwas = useMemo(() => {
-    if (isLoading) {
-      return Array.from({ length: isDetailedView ? 20 : 12 }, (_, i) => (
-        <Grid item key={i} {...gridItemStyles}>
-          <Skeleton variant='rectangular' width={imageSize} height={imageSize} />
-        </Grid>
-      ));
-    }
-
-    return data.map((pwa) => {
-      const Pwa = lazy(() => import('./Pwa'));
-      return (
-        <Grid item key={pwa.id} {...gridItemStyles}>
-          <Pwa {...pwa} detailed={isDetailedView} imageSize={imageSize} />
-        </Grid>
-      );
-    });
-  }, [isDetailedView, imageSize, isLoading, data]);
 
   return (
     <Box
@@ -66,16 +81,16 @@ const PwasStack = ({ title, subtitle, data, imageSize, flexWrap, isLoading }) =>
         </Typography>
       )}
       <Grid
-        container
-        sx={{
-          flexWrap,
-          overflow: 'auto',
-          justifyContent: 'flex-start',
-          alignItems: 'baseline',
-          alignContent: 'flex-start'
-        }}
+        columnCount={columnCount}
+        columnWidth={columnWidth}
+        height={height}
+        innerElementType={innerElementType}
+        rowCount={rowCount}
+        rowHeight={rowHeight}
+        width={width}
+        itemData={itemData}
       >
-        {renderPwas}
+        {Cell}
       </Grid>
     </Box>
   );
@@ -85,21 +100,48 @@ PwasStack.propTypes = {
   title: PropTypes.string,
   subtitle: PropTypes.string,
   data: PwasType,
-  imageSize: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   flexWrap: PropTypes.oneOf(['wrap', 'nowrap', 'wrap-reverse', 'inherit', 'initial', 'revert', 'unset'])
 };
 
 PwasStack.defaultProps = {
   data: [],
-  imageSize: DEFAULT_PWA_IMAGE_SIZE,
   flexWrap: 'nowrap'
 };
 
 const mapStateToProps = (
-  { Pwas: { items, filteredItems, isLoading: isLoadingFromStore } },
-  { isLoading: isLoadingFromProps }
-) => ({
-  isLoading: isLoadingFromProps || isLoadingFromStore || items.concat(filteredItems).length === 0
-});
+  {
+    Pwas: { items, filteredItems, isLoading: isLoadingFromStore },
+    Window: {
+      breakpoints: { xs, sm, md, lg, xl },
+      innerWidth,
+      innerHeight
+    }
+  },
+  { isLoading: isLoadingFromProps, flexWrap, data }
+) => {
+  const isDetailedView = flexWrap === 'wrap';
+
+  const width = innerWidth - (xl || lg || md || sm ? APP_DRAWER_WIDTH : 0);
+  const height = isDetailedView
+    ? innerHeight - APP_DRAWER_HEIGHT - 72 - 41 - 32
+    : DEFAULT_PWA_IMAGE_SIZE * 2 + GUTTER_SIZE;
+
+  const columnWidth = DEFAULT_PWA_IMAGE_SIZE + GUTTER_SIZE;
+  const columnCount = isDetailedView ? Math.floor(width / columnWidth) : data.length;
+
+  const rowHeight = DEFAULT_PWA_IMAGE_SIZE + 70;
+  const rowCount = isDetailedView ? Math.ceil(data.length / columnCount) : 1;
+
+  return {
+    isLoading: isLoadingFromProps || isLoadingFromStore || items.concat(filteredItems).length === 0,
+    columnCount,
+    columnWidth,
+    rowCount,
+    rowHeight,
+    height,
+    width,
+    GUTTER_SIZE
+  };
+};
 
 export default connect(mapStateToProps)(PwasStack);

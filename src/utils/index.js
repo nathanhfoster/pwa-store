@@ -189,3 +189,23 @@ export const slugify = (text) =>
     .replace(/\s+/g, '-')
     .replace(/[^\w-]+/g, '')
     .replace(/--+/g, '-');
+
+export const isNullOrUndefined = (value) => Boolean(value ?? true);
+
+export const inRange = (obj, min = -Infinity, max = Infinity) => {
+  var length = 0;
+
+  switch (typeof obj) {
+    case 'array':
+    case 'string':
+      length = obj.length ?? 0;
+      break;
+    case 'object':
+      length = Object.keys(obj).length;
+      break;
+    default:
+      length = obj ?? 0;
+  }
+
+  return length >= min && length <= max;
+};

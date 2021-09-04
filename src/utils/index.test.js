@@ -4,7 +4,8 @@ import {
   removeArrayDuplicates,
   stringMatch,
   joinUrl,
-  isValidManifestJsonStringOrObject
+  isValidManifestJsonStringOrObject,
+  inRange
 } from '.';
 
 describe('utils', () => {
@@ -79,6 +80,50 @@ describe('utils', () => {
       const array = [{ name: 'This array can not be stringified and parsed as a manifest json' }];
       const result = isValidManifestJsonStringOrObject(array);
       expect(result).toBe(true);
+    });
+  });
+
+  describe('inRange', () => {
+    it('Should return true when within the range', () => {
+      const array = [1, 2, 3];
+      const result = inRange(array, 0, 3);
+
+      expect(result).toBe(true);
+    });
+
+    it('Should return false when outside the range', () => {
+      const array = [1, 2, 3];
+      const result = inRange(array, 0, 2);
+
+      expect(result).toBe(false);
+    });
+
+    it('Should return true when greater than min', () => {
+      const array = [1, 2, 3];
+      const result = inRange(array, 2);
+
+      expect(result).toBe(true);
+    });
+
+    it('Should return false when less than min', () => {
+      const array = [1, 2, 3];
+      const result = inRange(array, 4);
+
+      expect(result).toBe(false);
+    });
+
+    it('Should return true when less than max', () => {
+      const array = [1, 2, 3];
+      const result = inRange(array, 1, 4);
+
+      expect(result).toBe(true);
+    });
+
+    it('Should return false when greater than max', () => {
+      const array = [1, 2, 3];
+      const result = inRange(array, 0, 2);
+
+      expect(result).toBe(false);
     });
   });
 });

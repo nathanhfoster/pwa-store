@@ -19,7 +19,7 @@ const PwaProfile = ({
   pwaSlug, // From react-router
   pwa,
   isLoading,
-  isAuthorOfPwa,
+  isAuthorOfPwaOrSuperUser,
   GetPwa,
   UpdatePwa
 }) => {
@@ -34,7 +34,7 @@ const PwaProfile = ({
     [pwaSlug]
   );
 
-  if (pwa.id && !isAuthorOfPwa) {
+  if (pwa.id && !isAuthorOfPwaOrSuperUser) {
     return <Redirect to={HOME} />;
   }
 
@@ -49,13 +49,16 @@ const PwaProfile = ({
   return <PwaForm pwa={pwa} onSubmit={handleOnSubmit} />;
 };
 
-const mapStateToProps = ({ User: { id: userId }, Pwas: { items, filteredItems, isLoading } }, { pwaSlug }) => {
+const mapStateToProps = (
+  { User: { id: userId, is_superuser }, Pwas: { items, filteredItems, isLoading } },
+  { pwaSlug }
+) => {
   const pwa =
     (filteredItems.length > 0 ? items.concat(filteredItems) : items).find(({ slug }) => slug === pwaSlug) ||
     defaultProps.pwa;
-  const isAuthorOfPwa = pwa.created_by === userId;
+  const isAuthorOfPwaOrSuperUser = is_superuser || pwa.created_by === userId;
 
-  return { pwa, isLoading, isAuthorOfPwa };
+  return { pwa, isLoading, isAuthorOfPwaOrSuperUser };
 };
 
 const mapDispatchToProps = { GetPwa, UpdatePwa };
