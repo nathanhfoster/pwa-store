@@ -52,10 +52,9 @@ const PwasStack = ({
   rowCount,
   rowHeight,
   height,
-  width
+  width,
+  isDetailedView
 }) => {
-  const isDetailedView = flexWrap === 'wrap';
-
   const itemData = useMemo(
     () => ({ items: data, columnCount, isLoading, isDetailedView }),
     [data, columnCount, isDetailedView, isLoading]
@@ -117,8 +116,10 @@ const mapStateToProps = (
       innerHeight
     }
   },
-  { isLoading: isLoadingFromProps, flexWrap, data }
+  { isLoading: isLoadingFromProps, flexWrap, data: dataFromProps }
 ) => {
+  const isLoading = isLoadingFromProps || isLoadingFromStore || items.concat(filteredItems).length === 0;
+  const data = isLoading ? Array.from({ length: 25 }, (e, i) => ({ key: i })) : dataFromProps;
   const isDetailedView = flexWrap === 'wrap';
 
   const width = innerWidth - (xl || lg || md || sm ? APP_DRAWER_WIDTH : 0);
@@ -133,14 +134,15 @@ const mapStateToProps = (
   const rowCount = isDetailedView ? Math.ceil(data.length / columnCount) : 1;
 
   return {
-    isLoading: isLoadingFromProps || isLoadingFromStore || items.concat(filteredItems).length === 0,
+    isLoading,
+    data,
     columnCount,
     columnWidth,
     rowCount,
     rowHeight,
     height,
     width,
-    GUTTER_SIZE
+    isDetailedView
   };
 };
 
