@@ -2,10 +2,11 @@ import React, { lazy } from 'react';
 import { PwasType } from 'store/reducers/Pwas/types';
 import connect from 'resurrection';
 import usePwaSearchOnQueryChange from 'hooks/usePwaSearchOnQueryChange';
+import { GetPwasPage } from 'store/reducers/Pwas/actions/api';
 
 const PwasStack = lazy(() => import('../../components/PwasStack'));
 
-const Pwas = ({ pwas }) => {
+const Pwas = ({ pwas, GetPwasPage }) => {
   const queryString = usePwaSearchOnQueryChange();
   return (
     <>
@@ -14,22 +15,31 @@ const Pwas = ({ pwas }) => {
         title='Featured apps'
         subtitle='Our favorite Progressive Web Apps'
         data={pwas}
+        loadMoreData={GetPwasPage}
       />
-      <PwasStack title='Top apps' subtitle='The best and most popular Progressive Web Apps at the moment' data={pwas} />
+      <PwasStack
+        title='Top apps'
+        subtitle='The best and most popular Progressive Web Apps at the moment'
+        data={pwas}
+        loadMoreData={GetPwasPage}
+      />
       <PwasStack
         title='New apps'
         subtitle='Recently added Progressive Web Apps that are worth checking out'
         data={pwas}
+        loadMoreData={GetPwasPage}
       />
-      <PwasStack title='Random apps' subtitle='Discover random apps' data={pwas} />
+      <PwasStack title='Random apps' subtitle='Discover random apps' data={pwas} loadMoreData={GetPwasPage} />
     </>
   );
 };
 
 const mapStateToProps = ({ Pwas: { items } }) => ({ pwas: items });
 
+const mapDispatchToProps = { GetPwasPage };
+
 Pwas.propTypes = {
   pwas: PwasType
 };
 
-export default connect(mapStateToProps)(Pwas);
+export default connect(mapStateToProps, mapDispatchToProps)(Pwas);

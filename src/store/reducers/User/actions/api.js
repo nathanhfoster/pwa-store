@@ -1,5 +1,13 @@
 import { Axios } from '../../Axios';
-import { ToogleIsLoading, SetUser, SetUserFavorite, SetUserPwas, SetUserSetting, SetUserError, ResetUserPwaForm } from './redux';
+import {
+  ToogleIsLoading,
+  SetUser,
+  SetUserFavorite,
+  SetUserPwas,
+  SetUserSetting,
+  SetUserError,
+  ResetUserPwaForm
+} from './redux';
 import { PushAlertWithTimeout } from '../../App/actions';
 import { MergeFilterPwas } from '../../Pwas/actions/redux';
 import { PostPwa } from '../../Pwas/actions/api';
@@ -97,14 +105,14 @@ export const GetUserSettings = (userData) => (dispatch, getState) => {
     });
 };
 
-export const GetUserPwas = () => (dispatch, getState) => {
+export const GetUserPwas = (pagination) => (dispatch, getState) => {
   const { id, token } = getState().User;
   if (!(id && token)) {
     return;
   }
   dispatch(ToogleIsLoading(true));
-  return Axios({ token })
-    .get(`users/${id}/pwas/`)
+  return Axios({ token, pagination })
+    .get(pagination ?? 'users/pwas/')
     .then(({ data }) => {
       // dispatch(MergeFilterPwas(data));
       dispatch(SetUserPwas(data));
@@ -116,6 +124,14 @@ export const GetUserPwas = () => (dispatch, getState) => {
       dispatch(SetUserError(e));
       console.error(e);
     });
+};
+
+export const GetUserPwasPage = () => (dispatch, getState) => {
+  const { count, next, previous, items, filteredItems } = getState().User.pwas;
+  if (!next || items.concat(filteredItems).length === count) {
+    return;
+  }
+  return dispatch(GetUserPwas(next));
 };
 
 export const ChangeMode = (payload) => (dispatch, getState) => {
@@ -176,7 +192,7 @@ export const PostUserPwa = () => async (dispatch, getState) => {
     });
 };
 
-export const updateFavorite = (payload) => (dispatch, getState) => {
+export const UpdateFavorite = (payload) => (dispatch, getState) => {
   const { token, user_favorites } = getState().User;
   if (payload.id) {
     return Axios({ token })
@@ -186,7 +202,7 @@ export const updateFavorite = (payload) => (dispatch, getState) => {
         }
       })
       .then(() => {
-        dispatch(SetUserFavorite(user_favorites.filter(obj => obj.id !== payload.id)));
+        dispatch(SetUserFavorite(user_favorites.filter((obj) => obj.id !== payload.id)));
       })
       .catch((e) => {
         console.error(e);
@@ -205,4 +221,4 @@ export const updateFavorite = (payload) => (dispatch, getState) => {
         console.error(e);
       });
   }
-}
+};

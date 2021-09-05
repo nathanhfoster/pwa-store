@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import connect from 'resurrection';
-import { GetUserPwas } from 'store/reducers/User/actions/api';
+import { GetUserPwas, GetUserPwasPage } from 'store/reducers/User/actions/api';
 import PwasStack from 'components/PwasStack';
 import { PwasType } from 'store/reducers/Pwas/types';
 import AddPwaButton from './Buttons/AddPwa';
@@ -13,17 +13,29 @@ const titleWithActions = (
   </>
 );
 
-const UserPwas = ({ pwas, GetUserPwas }) => {
+const UserPwas = ({ pwas, GetUserPwas, GetUserPwasPage }) => {
   useEffect(() => {
     GetUserPwas();
   }, []);
 
-  return <PwasStack title={titleWithActions} flexWrap='wrap' data={pwas} isLoading={pwas.length === 0} />;
+  return (
+    <PwasStack
+      title={titleWithActions}
+      flexWrap='wrap'
+      data={pwas}
+      isLoading={pwas.length === 0}
+      loadMoreData={GetUserPwasPage}
+    />
+  );
 };
 
-const mapStateToProps = ({ User: { pwas } }) => ({ pwas });
+const mapStateToProps = ({
+  User: {
+    pwas: { items }
+  }
+}) => ({ pwas: items });
 
-const mapDispatchToProps = { GetUserPwas };
+const mapDispatchToProps = { GetUserPwas, GetUserPwasPage };
 
 UserPwas.propTypes = { pwas: PwasType };
 

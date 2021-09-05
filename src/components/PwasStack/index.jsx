@@ -1,4 +1,4 @@
-import React, { forwardRef, useMemo, memo } from 'react';
+import React, { forwardRef, useCallback, useMemo, memo } from 'react';
 import PropTypes from 'prop-types';
 import { PwasType } from 'store/reducers/Pwas/types';
 import Box from '@material-ui/core/Box';
@@ -53,11 +53,60 @@ const PwasStack = ({
   rowHeight,
   height,
   width,
-  isDetailedView
+  isDetailedView,
+  loadMoreData
 }) => {
   const itemData = useMemo(
     () => ({ items: data, columnCount, isLoading, isDetailedView }),
     [data, columnCount, isDetailedView, isLoading]
+  );
+
+  const handleOnItemsRendered = useCallback(
+    ({
+      overscanColumnStartIndex,
+      overscanColumnStopIndex,
+      overscanRowStartIndex,
+      overscanRowStopIndex,
+      visibleColumnStartIndex,
+      visibleColumnStopIndex,
+      visibleRowStartIndex
+    }) => {
+      const { length } = data;
+      const overscanStopIndex = isDetailedView
+        ? overscanRowStopIndex * columnCount + overscanColumnStopIndex
+        : overscanColumnStopIndex;
+      // if (!loadMoreData) return;
+      const bottomOfListIndex = length === 0 ? length : length - 1;
+      const reachedOverscan = bottomOfListIndex !== 0 && overscanStopIndex >= bottomOfListIndex;
+
+      if (reachedOverscan) {
+        loadMoreData();
+      }
+
+      // console.log({
+      //   overscanColumnStartIndex,
+      //   overscanColumnStopIndex,
+      //   overscanRowStartIndex,
+      //   overscanRowStopIndex,
+      //   visibleColumnStartIndex,
+      //   visibleColumnStopIndex,
+      //   visibleRowStartIndex
+      // });
+    },
+    [data.length, isDetailedView, columnCount, loadMoreData]
+  );
+
+  const handleOnScroll = useCallback(
+    ({ horizontalScrollDirection, scrollLeft, scrollTop, scrollUpdateWasRequested, verticalScrollDirection }) => {
+      // console.log({
+      //   horizontalScrollDirection,
+      //   scrollLeft,
+      //   scrollTop,
+      //   scrollUpdateWasRequested,
+      //   verticalScrollDirection
+      // });
+    },
+    []
   );
 
   return (
@@ -88,6 +137,11 @@ const PwasStack = ({
         rowHeight={rowHeight}
         width={width}
         itemData={itemData}
+        overscanColumnCount={2}
+        overscanRowCount={2}
+        useIsScrolling={false}
+        onItemsRendered={handleOnItemsRendered}
+        onScroll={handleOnScroll}
       >
         {Cell}
       </Grid>

@@ -13,11 +13,15 @@ import {
 import { cleanPwaPayload } from './utils';
 
 export const GetPwas = (pagination) => (dispatch) => {
-  dispatch(ToogleIsLoading(true));
+  if (!pagination) {
+    dispatch(ToogleIsLoading(true));
+  }
   return Axios({ pagination })
-    .get(!pagination ? 'pwas' : undefined)
+    .get(pagination ?? 'pwas')
     .then(({ data }) => {
-      dispatch(ToogleIsLoading(false));
+      if (!pagination) {
+        dispatch(ToogleIsLoading(false));
+      }
       dispatch(SetPwas(data));
       return data;
     })
@@ -25,6 +29,14 @@ export const GetPwas = (pagination) => (dispatch) => {
       dispatch(ToogleIsLoading(false));
       console.error(e);
     });
+};
+
+export const GetPwasPage = () => (dispatch, getState) => {
+  const { count, next, previous, items, filteredItems } = getState().Pwas;
+  if (!next || items.concat(filteredItems).length === count) {
+    return;
+  }
+  return dispatch(GetPwas(next));
 };
 
 export const GetPwaTags = () => (dispatch) => {

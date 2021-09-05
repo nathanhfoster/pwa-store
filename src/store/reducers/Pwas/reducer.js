@@ -51,7 +51,7 @@ const Pwas = (state = DEFAULT_STATE, action) => {
       nextItems = mergePwas(state.items, payload.results);
       return {
         ...state,
-        count: nextItems.length,
+        count: payload.count,
         next: payload.next,
         previous: payload.previous,
         items: nextItems

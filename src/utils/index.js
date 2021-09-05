@@ -198,10 +198,10 @@ export const inRange = (obj, min = -Infinity, max = Infinity) => {
   switch (typeof obj) {
     case 'array':
     case 'string':
-      length = obj.length ?? 0;
+      length = obj?.length ?? 0;
       break;
     case 'object':
-      length = Object.keys(obj).length;
+      length = Object.keys(obj ?? {}).length;
       break;
     default:
       length = obj ?? 0;

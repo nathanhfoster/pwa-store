@@ -7,13 +7,15 @@ export const SetUser = (payload) => ({
   payload
 });
 
-export const SetUserPwas = (pwasFromApi) => (dispatch, getState) => {
+export const SetUserPwas = (pwasPageFromApi) => (dispatch, getState) => {
+  const { results, ...paginationProps } = pwasPageFromApi;
   const {
     User: { id },
     Pwas: { items, filteredItems }
   } = getState();
   const userPwas = items.concat(filteredItems).filter((pwa) => pwa.id == id);
-  return dispatch({ type: ActionTypes.USER_SET_PWAS, payload: userPwas.concat(pwasFromApi) });
+  const payload = { ...paginationProps, items: userPwas.concat(results) };
+  return dispatch({ type: ActionTypes.USER_SET_PWAS, payload });
 };
 
 export const DeleteUser = () => (dispatch) => {

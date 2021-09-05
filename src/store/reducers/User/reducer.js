@@ -92,9 +92,15 @@ export const DEFAULT_STATE = Object.freeze({
     },
     lighthouseResults: null
   },
-  pwas: [],
+  pwas: {
+    count: null,
+    next: null,
+    previous: null,
+    items: [],
+    filteredItems: []
+  },
   user_favorites: [],
-  filteredPwas: [],
+
   error: {
     message: '',
     name: '',
@@ -158,12 +164,18 @@ const User = (state = DEFAULT_STATE, action) => {
       return nextItem;
 
     case ActionTypes.USER_SET_PWAS:
-      nextItems = mergePwas(state.pwas.concat(state.filteredPwas), payload);
+      nextItems = mergePwas(state.pwas.items.concat(state.pwas.filteredItems), payload.items);
       nextItem = handleFilterItems(nextItems, search);
       nextItem = {
         ...state,
-        pwas: nextItem.items,
-        filteredPwas: nextItem.filteredItems
+        pwas: {
+          ...state.pwas,
+          count: payload.count,
+          next: payload.next,
+          previous: payload.previous,
+          items: nextItem.items,
+          filteredItems: nextItem.filteredItems
+        }
       };
       return nextItem;
 
@@ -223,12 +235,11 @@ const User = (state = DEFAULT_STATE, action) => {
       };
 
     case PwaActionTypes.PWAS_MERGE_FILTER:
-      nextItems = state.pwas.concat(state.filteredPwas);
+      nextItems = state.pwas.items.concat(state.pwas.filteredItems);
       nextItem = handleFilterItems(nextItems, search);
       return {
         ...state,
-        pwas: nextItem.items,
-        filteredPwas: nextItem.filteredItems
+        pwas: { ...state.pwas, items: nextItem.items, filteredItems: nextItem.filteredItems }
       };
 
     case PwaActionTypes.PWAS_SET_TAGS:
