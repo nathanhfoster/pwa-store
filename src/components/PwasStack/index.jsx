@@ -50,7 +50,7 @@ const PwasStack = ({
       visibleColumnStopIndex,
       visibleRowStartIndex
     }) => {
-      if (!loadMoreData) {
+      if (!loadMoreData || isLoading) {
         return;
       }
       const { length } = data;
@@ -65,7 +65,7 @@ const PwasStack = ({
         loadMoreData();
       }
     },
-    [data, isDetailedView, columnCount, loadMoreData]
+    [loadMoreData, isLoading, data, isDetailedView, columnCount]
   );
 
   const handleOnScroll = useCallback(
@@ -107,7 +107,7 @@ const PwasStack = ({
         onItemsRendered={handleOnItemsRendered}
         onScroll={handleOnScroll}
         isDetailedView={isDetailedView}
-        itemKey={getItemKey}
+        // itemKey={getItemKey}
       >
         {Cell}
       </StyledGrid>
@@ -139,7 +139,9 @@ const mapStateToProps = (
   { isLoading: isLoadingFromProps, flexWrap, data: dataFromProps }
 ) => {
   const isLoading = isLoadingFromProps || isLoadingFromStore || items.concat(filteredItems).length === 0;
-  const data = isLoading ? dataFromProps.concat(Array.from({ length: DEFAULT_PAGINATION_SIZE }, (e, i) => ({ id: `skeleton-${i}` }))) : dataFromProps;
+  const data = isLoading
+    ? Array.from({ length: DEFAULT_PAGINATION_SIZE }, (e, i) => ({ id: `skeleton-${i}` }))
+    : dataFromProps;
   const isDetailedView = flexWrap === 'wrap';
 
   const width = innerWidth - (xl || lg || md || sm ? APP_DRAWER_WIDTH : 0);
