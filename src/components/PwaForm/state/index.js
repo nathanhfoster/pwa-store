@@ -36,6 +36,7 @@ export const getInitialFormState = ({
   },
   pwaTags
 }) => {
+  const nameValue = name || manifest_json.short_name || manifest_json.name
   const imageUrl = image_url || getManifestIconSrc(manifest_url, manifest_json.icons);
   const imageIconOptions = manifest_json.icons?.map?.((icon) => ({ src: getManifestIconUrl(manifest_url, icon) })) || [
     { name: imageUrl }
@@ -51,7 +52,7 @@ export const getInitialFormState = ({
         options: imageIconOptions
       },
       manifest_json: { type: 'textarea', required: true, value: JSON.stringify(manifest_json) },
-      name: { required: true, value: manifest_json.short_name || manifest_json.name || name },
+      name: { required: true, value: nameValue },
       slug: { label: 'Unique url', required: true, value: slug || slugify(name) },
       description: { type: 'textarea', value: manifest_json.description || description },
       tags: {
