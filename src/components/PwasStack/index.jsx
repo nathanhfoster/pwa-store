@@ -83,12 +83,12 @@ const PwasStack = ({
       }}
     >
       {title && (
-        <Typography variant={isDetailedView ? 'h4' : 'h6'} mx={4} mb={1}>
+        <Typography variant={isDetailedView ? 'h4' : 'h6'} mx={4} my={0}>
           {title}
         </Typography>
       )}
       {subtitle && (
-        <Typography variant='subtitle2' color='text.secondary' mx={4} mb={2}>
+        <Typography variant='subtitle2' color='text.secondary' mx={4} my={0}>
           {subtitle}
         </Typography>
       )}

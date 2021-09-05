@@ -69,9 +69,15 @@ const Pwas = (state = DEFAULT_STATE, action) => {
         search: payload
       };
 
-    case UserActionTypes.USER_SET_PWAS:
     case ActionTypes.PWAS_MERGE_FILTER:
       nextItems = mergePwas(state.items.concat(state.filteredItems), payload);
+      return {
+        ...state,
+        ...handleFilterItems(nextItems, search || state.search)
+      };
+
+    case UserActionTypes.USER_SET_PWAS:
+      nextItems = mergePwas(state.items.concat(state.filteredItems), payload.items);
       return {
         ...state,
         ...handleFilterItems(nextItems, search || state.search)
