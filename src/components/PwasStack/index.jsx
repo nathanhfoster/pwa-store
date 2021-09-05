@@ -4,12 +4,17 @@ import { PwasType } from 'store/reducers/Pwas/types';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Skeleton from '@material-ui/core/Skeleton';
-import { DEFAULT_PWA_IMAGE_SIZE, APP_DRAWER_HEIGHT, APP_DRAWER_WIDTH } from '../../constants';
+import { DEFAULT_PWA_IMAGE_SIZE, APP_DRAWER_HEIGHT, APP_DRAWER_WIDTH, DEFAULT_PAGINATION_SIZE } from '../../constants';
 import { FixedSizeGrid as Grid, areEqual } from 'react-window';
+import { styled } from '@material-ui/styles';
 import connect from 'resurrection';
 import Pwa from './Pwa';
 
 const GUTTER_SIZE = 32;
+
+const StyledGrid = styled(Grid)((props) => ({
+  paddingLeft: props.isDetailedView ? 0 : GUTTER_SIZE
+}));
 
 const innerElementType = forwardRef(({ style, ...children }, ref) => {
   return <div ref={ref} style={style} {...children} />;
@@ -31,7 +36,11 @@ const Cell = memo(
         }}
       >
         {isLoading ? (
-          <Skeleton variant='rectangular' width={DEFAULT_PWA_IMAGE_SIZE} height={DEFAULT_PWA_IMAGE_SIZE} />
+          <>
+            <Skeleton variant='circular' width={DEFAULT_PWA_IMAGE_SIZE} height={DEFAULT_PWA_IMAGE_SIZE} />
+            <Skeleton sx={{ mt: 2 }} variant='text' width={DEFAULT_PWA_IMAGE_SIZE} height={24} />
+            <Skeleton sx={{ mt: 1, mx: 'auto' }} variant='text' width='50%' height={21} />
+          </>
         ) : (
           <Pwa {...pwa} detailed={isDetailedView} imageSize={DEFAULT_PWA_IMAGE_SIZE} />
         )}
@@ -71,6 +80,9 @@ const PwasStack = ({
       visibleColumnStopIndex,
       visibleRowStartIndex
     }) => {
+      if (!loadMoreData) {
+        return;
+      }
       const { length } = data;
       const overscanStopIndex = isDetailedView
         ? overscanRowStopIndex * columnCount + overscanColumnStopIndex
@@ -82,30 +94,12 @@ const PwasStack = ({
       if (reachedOverscan) {
         loadMoreData();
       }
-
-      // console.log({
-      //   overscanColumnStartIndex,
-      //   overscanColumnStopIndex,
-      //   overscanRowStartIndex,
-      //   overscanRowStopIndex,
-      //   visibleColumnStartIndex,
-      //   visibleColumnStopIndex,
-      //   visibleRowStartIndex
-      // });
     },
-    [data.length, isDetailedView, columnCount, loadMoreData]
+    [data, isDetailedView, columnCount, loadMoreData]
   );
 
   const handleOnScroll = useCallback(
-    ({ horizontalScrollDirection, scrollLeft, scrollTop, scrollUpdateWasRequested, verticalScrollDirection }) => {
-      // console.log({
-      //   horizontalScrollDirection,
-      //   scrollLeft,
-      //   scrollTop,
-      //   scrollUpdateWasRequested,
-      //   verticalScrollDirection
-      // });
-    },
+    ({ horizontalScrollDirection, scrollLeft, scrollTop, scrollUpdateWasRequested, verticalScrollDirection }) => {},
     []
   );
 
@@ -114,7 +108,7 @@ const PwasStack = ({
       sx={{
         bgcolor: 'background.paper',
         borderBottom: '1px solid rgba(0,0,0,0.05)',
-        py: 4,
+        mt: 4,
         px: 0
       }}
     >
@@ -128,7 +122,7 @@ const PwasStack = ({
           {subtitle}
         </Typography>
       )}
-      <Grid
+      <StyledGrid
         columnCount={columnCount}
         columnWidth={columnWidth}
         height={height}
@@ -142,9 +136,10 @@ const PwasStack = ({
         useIsScrolling={false}
         onItemsRendered={handleOnItemsRendered}
         onScroll={handleOnScroll}
+        isDetailedView={isDetailedView}
       >
         {Cell}
-      </Grid>
+      </StyledGrid>
     </Box>
   );
 };
@@ -173,18 +168,16 @@ const mapStateToProps = (
   { isLoading: isLoadingFromProps, flexWrap, data: dataFromProps }
 ) => {
   const isLoading = isLoadingFromProps || isLoadingFromStore || items.concat(filteredItems).length === 0;
-  const data = isLoading ? Array.from({ length: 25 }, (e, i) => ({ key: i })) : dataFromProps;
+  const data = isLoading ? Array.from({ length: DEFAULT_PAGINATION_SIZE }, (e, i) => ({ key: i })) : dataFromProps;
   const isDetailedView = flexWrap === 'wrap';
 
   const width = innerWidth - (xl || lg || md || sm ? APP_DRAWER_WIDTH : 0);
-  const height = isDetailedView
-    ? innerHeight - APP_DRAWER_HEIGHT - 72 - 41 - 32
-    : DEFAULT_PWA_IMAGE_SIZE * 2 + GUTTER_SIZE;
+  const height = isDetailedView ? innerHeight - APP_DRAWER_HEIGHT - 72 - 51 : DEFAULT_PWA_IMAGE_SIZE * 2 + GUTTER_SIZE;
 
   const columnWidth = DEFAULT_PWA_IMAGE_SIZE + GUTTER_SIZE;
   const columnCount = isDetailedView ? Math.floor(width / columnWidth) : data.length;
 
-  const rowHeight = DEFAULT_PWA_IMAGE_SIZE + 70;
+  const rowHeight = DEFAULT_PWA_IMAGE_SIZE + 70 + GUTTER_SIZE;
   const rowCount = isDetailedView ? Math.ceil(data.length / columnCount) : 1;
 
   return {
