@@ -139,7 +139,7 @@ const mapStateToProps = (
   { isLoading: isLoadingFromProps, flexWrap, data: dataFromProps }
 ) => {
   const isLoading = isLoadingFromProps || isLoadingFromStore || items.concat(filteredItems).length === 0;
-  const data = isLoading ? Array.from({ length: DEFAULT_PAGINATION_SIZE }, (e, i) => ({ key: i })) : dataFromProps;
+  const data = isLoading ? dataFromProps.concat(Array.from({ length: DEFAULT_PAGINATION_SIZE }, (e, i) => ({ id: `skeleton-${i}` }))) : dataFromProps;
   const isDetailedView = flexWrap === 'wrap';
 
   const width = innerWidth - (xl || lg || md || sm ? APP_DRAWER_WIDTH : 0);
