@@ -1,16 +1,16 @@
-import React, { forwardRef, useCallback, useMemo, memo } from 'react';
+import React, { forwardRef, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { PwasType } from 'store/reducers/Pwas/types';
+import Cell from './Cell';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import Skeleton from '@material-ui/core/Skeleton';
+
 import { DEFAULT_PWA_IMAGE_SIZE, APP_DRAWER_HEIGHT, APP_DRAWER_WIDTH, DEFAULT_PAGINATION_SIZE } from '../../constants';
-import { FixedSizeGrid as Grid, areEqual } from 'react-window';
+import { FixedSizeGrid as Grid } from 'react-window';
 import { styled } from '@material-ui/styles';
 import connect from 'resurrection';
-import Pwa from './Pwa';
 
-const GUTTER_SIZE = 32;
+import { GUTTER_SIZE, getCellIndex, getItemKey } from './utils';
 
 const StyledGrid = styled(Grid)((props) => ({
   paddingLeft: props.isDetailedView ? 0 : GUTTER_SIZE
@@ -19,36 +19,6 @@ const StyledGrid = styled(Grid)((props) => ({
 const innerElementType = forwardRef(({ style, ...children }, ref) => {
   return <div ref={ref} style={style} {...children} />;
 });
-
-const Cell = memo(
-  ({ columnIndex, rowIndex, style, isScrolling, data: { items, columnCount, isLoading, isDetailedView } }) => {
-    const index = rowIndex * columnCount + columnIndex;
-    const pwa = items[index];
-    if (!pwa) return null;
-    return (
-      <div
-        style={{
-          ...style,
-          left: style.left + GUTTER_SIZE,
-          top: style.top + GUTTER_SIZE,
-          width: style.width - GUTTER_SIZE,
-          height: style.height - GUTTER_SIZE
-        }}
-      >
-        {isLoading ? (
-          <>
-            <Skeleton variant='circular' width={DEFAULT_PWA_IMAGE_SIZE} height={DEFAULT_PWA_IMAGE_SIZE} />
-            <Skeleton sx={{ mt: 2 }} variant='text' width={DEFAULT_PWA_IMAGE_SIZE} height={24} />
-            <Skeleton sx={{ mt: 1, mx: 'auto' }} variant='text' width='50%' height={21} />
-          </>
-        ) : (
-          <Pwa {...pwa} detailed={isDetailedView} imageSize={DEFAULT_PWA_IMAGE_SIZE} />
-        )}
-      </div>
-    );
-  },
-  areEqual
-);
 
 const PwasStack = ({
   title,
@@ -85,7 +55,7 @@ const PwasStack = ({
       }
       const { length } = data;
       const overscanStopIndex = isDetailedView
-        ? overscanRowStopIndex * columnCount + overscanColumnStopIndex
+        ? getCellIndex(overscanRowStopIndex, overscanColumnStopIndex, columnCount)
         : overscanColumnStopIndex;
       // if (!loadMoreData) return;
       const bottomOfListIndex = length === 0 ? length : length - 1;
@@ -137,6 +107,7 @@ const PwasStack = ({
         onItemsRendered={handleOnItemsRendered}
         onScroll={handleOnScroll}
         isDetailedView={isDetailedView}
+        itemKey={getItemKey}
       >
         {Cell}
       </StyledGrid>
