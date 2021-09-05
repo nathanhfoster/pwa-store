@@ -58,7 +58,7 @@ const Pwa = ({
     <StyledCard component={Link} to={pwaRoute} title={name}>
       <CardMedia
         component='img'
-        sx={{ m: '0 auto', width: imageSize, height: imageSize }}
+        sx={{ m: '0 auto', width: imageSize, height: imageSize, animation: 'grow 200ms' }}
         image={imageSrc}
         title={name}
         onError={(source) => {
