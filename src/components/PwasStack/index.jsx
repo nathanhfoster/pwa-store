@@ -140,7 +140,7 @@ const mapStateToProps = (
 ) => {
   const isLoading = isLoadingFromProps || isLoadingFromStore || items.concat(filteredItems).length === 0;
   const data = isLoading
-    ? Array.from({ length: DEFAULT_PAGINATION_SIZE }, (e, i) => ({ id: `skeleton-${i}` }))
+    ? Array.from({ length: dataFromProps.length + DEFAULT_PAGINATION_SIZE }, (e, i) => ({ id: `skeleton-${i}` }))
     : dataFromProps;
   const isDetailedView = flexWrap === 'wrap';
 
