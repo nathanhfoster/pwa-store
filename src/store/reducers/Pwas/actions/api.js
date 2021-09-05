@@ -13,15 +13,12 @@ import {
 import { cleanPwaPayload } from './utils';
 
 export const GetPwas = (pagination) => (dispatch) => {
-  if (!pagination) {
-    dispatch(ToogleIsLoading(true));
-  }
+  dispatch(ToogleIsLoading(true));
+
   return Axios({ pagination })
     .get(pagination ?? 'pwas')
     .then(({ data }) => {
-      if (!pagination) {
-        dispatch(ToogleIsLoading(false));
-      }
+      dispatch(ToogleIsLoading(false));
       dispatch(SetPwas(data));
       return data;
     })
