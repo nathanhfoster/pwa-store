@@ -17,6 +17,7 @@ const Cell = ({
   if (!pwa) return null;
   return (
     <div
+      key={pwa.id}
       style={{
         ...style,
         left: style.left + GUTTER_SIZE,
