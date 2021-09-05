@@ -349,7 +349,7 @@ export const UpdatePwa = (slug, payload) => (dispatch) => {
 
 export const PostRating = (payload) => (dispatch, getState) => {
   return Axios()
-    .post('pwas/post-rating/', payload, {
+    .post('ratings/', payload, {
       headers: {
         'Content-Type': 'application/json'
       }
@@ -374,7 +374,7 @@ export const PostRating = (payload) => (dispatch, getState) => {
 
 export const UpdateRating = (ratingId, payload) => (dispatch, getState) => {
   return Axios()
-    .patch(`pwas/${ratingId}/patch-rating/`, payload, {
+    .patch(`ratings/${ratingId}/`, payload, {
       headers: {
         'Content-Type': 'application/json'
       }

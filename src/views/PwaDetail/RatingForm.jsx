@@ -40,7 +40,7 @@ const RatingForm = ({ userName, shouldRender, ratingOwnedByUser, pwa_id, UpdateR
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const payload = { pwa_id, rating, comment };
+    const payload = { pwa: pwa_id, rating, comment };
     if (ratingOwnedByUser) {
       UpdateRating(ratingOwnedByUser.id, payload);
     } else {
