@@ -171,11 +171,7 @@ export const shareUrl = ({ url, title, text, files }) => {
     .catch((error) => ({ data: payload, error }));
 };
 
-export const isEmpty = (obj) => {
-  for (let i in obj) return false;
-
-  return true;
-};
+export const isEmpty = (obj) => !(Object.getOwnPropertyNames(obj).length || Object.getOwnPropertSymbols(obj).length)
 
 export const joinUrl = (baseUrl, url) => new URL(url, baseUrl).href;
 
