@@ -47,3 +47,62 @@ input[type="search"]:focus::-webkit-search-cancel-button {
 input[type="search"].dark::-webkit-search-cancel-button {
   filter: invert(1);
 } */
+
+/* input[type="time"]::-webkit-calendar-picker-indicator,
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  filter: invert(64%) sepia(13%) saturate(0%) hue-rotate(184deg) brightness(92%)
+    contrast(95%);
+}
+
+::-webkit-calendar-picker-indicator:hover {
+  background: var(--quinaryColor);
+  cursor: pointer;
+  filter: invert(60%) sepia(10%) saturate(0%) hue-rotate(184deg) brightness(90%)
+    contrast(90%) !important;
+}
+
+::-webkit-datetime-edit {
+  padding: 0.1em;
+}
+::-webkit-datetime-edit-fields-wrapper {
+  background: var(--quinaryColor);
+}
+::-webkit-datetime-edit-text {
+  padding: 0.1em;
+}
+::-webkit-datetime-edit-month-field {
+  color: var(--secondaryColor);
+}
+::-webkit-datetime-edit-day-field {
+  color: var(--secondaryColor);
+}
+::-webkit-datetime-edit-year-field {
+  color: var(--secondaryColor);
+} */
+
+::-webkit-scrollbar {
+  display: block;
+  height: 0.5rem;
+  width: 0.5rem;
+  background-color: transparent;
+  -webkit-border-radius: 6px;
+  border-radius: 6px;
+  transition: 200ms linear;
+}
+
+::-webkit-scrollbar-track-piece {
+  background-color: transparent;
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px transparent;
+  background: transparent;
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: black;
+  border-radius: 6px;
+}

@@ -29,7 +29,8 @@ const Row = memo(({ index, style, data }) => {
 const StyledToolbar = styled(Toolbar)((props) => ({
   display: 'flex',
   justifyContent: 'center',
-  color: props.theme.palette.primary.main
+  color: props.theme.palette.primary.main,
+  overflowX: 'hidden'
 }));
 
 const HOME_ICON_SIZE = 32;
