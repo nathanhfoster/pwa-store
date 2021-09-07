@@ -70,8 +70,8 @@
       "url": "/settings/pwas",
       "icons": [
         {
-          "src": "assets/android-chrome-192x192.png",
-          "sizes": "192x192"
+          "src": "assets/my-pwas-500x500.png",
+          "sizes": "500x500"
         }
       ]
     },
@@ -82,7 +82,7 @@
       "url": "/settings/favorites",
       "icons": [
         {
-          "src": "assets/android-chrome-192x192.png",
+          "src": "assets/favorites-500x500.png",
           "sizes": "192x192"
         }
       ]
