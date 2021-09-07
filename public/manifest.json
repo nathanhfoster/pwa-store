@@ -58,7 +58,7 @@
       "url": "/home",
       "icons": [
         {
-          "src": "assets/ahome-500x500.png",
+          "src": "assets/home-500x500.png",
           "sizes": "192x192"
         }
       ]
