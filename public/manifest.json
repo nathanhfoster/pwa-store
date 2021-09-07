@@ -58,7 +58,7 @@
       "url": "/home",
       "icons": [
         {
-          "src": "assets/android-chrome-192x192.png",
+          "src": "assets/ahome-500x500.png",
           "sizes": "192x192"
         }
       ]
