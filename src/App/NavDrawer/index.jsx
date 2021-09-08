@@ -21,7 +21,7 @@ const NavDrawer = ({ drawerWidth, navBarIsOpen, ToggleAppNavBar, window }) => {
           }}
           sx={{
             display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth }
+            '& .MuiDrawer-paper': { overflowX: 'hidden', boxSizing: 'border-box', width: drawerWidth }
           }}
         >
           <NavList />
@@ -31,7 +31,7 @@ const NavDrawer = ({ drawerWidth, navBarIsOpen, ToggleAppNavBar, window }) => {
         variant='permanent'
         sx={{
           display: { xs: 'none', sm: 'block' },
-          '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth }
+          '& .MuiDrawer-paper': { overflowX: 'hidden', boxSizing: 'border-box', width: drawerWidth }
         }}
         open
       >

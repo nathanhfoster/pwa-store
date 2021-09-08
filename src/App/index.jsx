@@ -24,7 +24,8 @@ const Container = styled(Box)((props) => ({
   height: '100vh',
   width: '100vw',
   background: props.theme.palette.background.paper,
-  color: props.theme.palette.text.primary
+  color: props.theme.palette.text.primary,
+  overflowX: 'hidden'
 }));
 
 const App = ({
@@ -81,7 +82,6 @@ const App = ({
           sx={{
             width: { xs: '100vw', sm: `calc(100vw - ${APP_DRAWER_WIDTH}px)` },
             height: '100%',
-            overflowY: 'auto',
             flexGrow: 1,
             mt: { xs: '56px', sm: '64px' },
             background: 'inherit'
