@@ -94,7 +94,7 @@ export const removeArrayDuplicates = (array, caseSensitive = true, key) => {
 };
 
 export const getFirstChar = (s, capitalize = true) => {
-  const char = s.charAt?.(0) || '';
+  const char = s?.charAt?.(0) ?? '';
 
   return capitalize ? char.toUpperCase() : char;
 };
