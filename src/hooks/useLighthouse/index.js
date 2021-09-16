@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useBooleanReducer, useMounted, useDispatch } from 'resurrection';
-import useDebounce from '../useDebounce';
+import useDebouncedValue from '../useDebouncedValue';
 import { GetLighthouseData, GetPwaManifest } from 'store/reducers/Pwas/actions/api';
 import { SetPwaManifest, SetLighthouseResults } from 'store/reducers/User/actions/redux';
 import { PushAlert } from 'store/reducers/App/actions';
@@ -24,7 +24,7 @@ const LIGHTHOUSE_RESULT_MAP = {
 const useLighthouse = (url, debounce = 400) => {
   const [loading, toggleLoading] = useBooleanReducer(false);
   const [tests, setTests] = useState([]);
-  const debouncedUrl = useDebounce(url, debounce);
+  const debouncedUrl = useDebouncedValue(url, debounce);
   const mounted = useMounted();
   const dispatch = useDispatch();
 

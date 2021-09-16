@@ -4,7 +4,7 @@ import connect from 'resurrection';
 import Box from '@material-ui/core/Box';
 import Stack from '@material-ui/core/Stack';
 import Avatar from '@material-ui/core/Avatar';
-import useDebounce from 'hooks/useDebounce';
+import useDebouncedValue from 'hooks/useDebouncedValue';
 import { useMounted } from 'resurrection';
 import BasicForm from 'components/BasicForm';
 import { PwaType } from 'store/reducers/Pwas/types';
@@ -25,7 +25,7 @@ const PwaForm = (props) => {
   const { titlePrefix, form: formFromProps, pwa, pwaTags, GetPwaManifest, onSubmit, onChange } = props;
   const [form, setForm] = useReducer(formReducer, props, getInitialFormState);
   const [potentialManifestUrl, setPotentialManifestUrl] = useState();
-  const debouncedPotentialManifestUrl = useDebounce(potentialManifestUrl);
+  const debouncedPotentialManifestUrl = useDebouncedValue(potentialManifestUrl);
   const mounted = useMounted();
 
   const pwaImage = (formFromProps || form).image_url?.value?.src;

@@ -47,7 +47,8 @@ const AddPwa = ({ ResetUserPwaForm }) => {
             overflowY: 'auto',
             height: '100%',
             width: { xs: '100%', sm: '85%', md: 800 },
-            boxShadow: 24
+            boxShadow: 24,
+            '::-webkit-scrollbar': { display: 'none' }
           }}
           justifyContent='center'
           noValidate={false}

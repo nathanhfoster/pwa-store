@@ -3,7 +3,7 @@ import { connect, useMounted } from 'resurrection';
 import { styled, alpha } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
-import useDebounce from 'hooks/useDebounce';
+import useDebouncedValue from 'hooks/useDebouncedValue';
 import { ResetPwasFilter, SetPwasSearch, SearchPwas, FilterPwas } from 'store/reducers/Pwas/actions';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { useHistory } from 'react-router-dom';
@@ -47,7 +47,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const NavSearchBar = ({ search, isLoading, ResetPwasFilter, SetPwasSearch, SearchPwas, FilterPwas }) => {
   const mounted = useMounted();
-  const debouncedSearch = useDebounce(search);
+  const debouncedSearch = useDebouncedValue(search);
   const history = useHistory();
 
   const onSearch = ({ target: { value } }) => {

@@ -9,6 +9,7 @@ import { GetUserSettings, SetUserIsOnline } from 'store/reducers/User/actions';
 import { GetPwas, GetPwaTags } from 'store/reducers/Pwas/actions/api';
 import useAddToHomescreenPrompt from 'hooks/useAddToHomescreenPrompt';
 import useWindow from 'hooks/useWindow';
+import useStyledScrollbar from 'hooks/useStyledScrollbar';
 import useOnlineStatus from 'hooks/useOnlineStatus';
 import useTheme from './useTheme';
 import useIsPwaInstalled from 'hooks/useIsPwaInstalled';
@@ -40,6 +41,8 @@ const App = ({
   const [prompt] = useAddToHomescreenPrompt();
   const appTheme = useTheme(User.setting);
   const isInstalled = useIsPwaInstalled();
+
+  useStyledScrollbar();
 
   useOnlineStatus(SetUserIsOnline);
   useWindow();
