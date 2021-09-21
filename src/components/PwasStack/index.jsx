@@ -1,16 +1,15 @@
 import React, { forwardRef, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { PwasType } from 'store/reducers/Pwas/types';
-import Cell from './Cell';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-
-import { DEFAULT_PWA_IMAGE_SIZE, APP_DRAWER_HEIGHT, APP_DRAWER_WIDTH, DEFAULT_PAGINATION_SIZE } from '../../constants';
 import { FixedSizeGrid as Grid } from 'react-window';
 import { styled } from '@material-ui/styles';
 import connect from 'resurrection';
 
+import { DEFAULT_PWA_IMAGE_SIZE, APP_DRAWER_HEIGHT, APP_DRAWER_WIDTH, DEFAULT_PAGINATION_SIZE } from '../../constants';
 import { GUTTER_SIZE, getCellIndex, getItemKey } from './utils';
+import Cell from './Cell';
 
 const StyledGrid = styled(Grid)((props) => ({
   paddingLeft: props.isDetailedView ? 0 : GUTTER_SIZE
@@ -39,7 +38,6 @@ const PwasStack = ({
     () => ({ items: data, columnCount, isLoading, isDetailedView }),
     [data, columnCount, isDetailedView, isLoading]
   );
-
   const handleOnItemsRendered = useCallback(
     ({
       overscanColumnStartIndex,
@@ -139,9 +137,15 @@ const mapStateToProps = (
   { isLoading: isLoadingFromProps, flexWrap, data: dataFromProps }
 ) => {
   const isLoading = isLoadingFromProps || isLoadingFromStore || items.concat(filteredItems).length === 0;
-  const data = isLoading
-    ? Array.from({ length: dataFromProps.length + DEFAULT_PAGINATION_SIZE }, (e, i) => ({ id: `skeleton-${i}` }))
-    : dataFromProps;
+  let data = [];
+  if (items.concat(filteredItems).length === 0) {
+    data = Array.from({ length: DEFAULT_PAGINATION_SIZE }, (e, i) => ({ id: `skeleton-${i}` }));
+  } else if (isLoadingFromProps || isLoadingFromStore) {
+    data = dataFromProps.concat(Array.from({ length: DEFAULT_PAGINATION_SIZE }, (e, i) => ({ id: `skeleton-${i}`})))
+  } else {
+    data = dataFromProps;
+  }
+  
   const isDetailedView = flexWrap === 'wrap';
 
   const width = innerWidth - (xl || lg || md || sm ? APP_DRAWER_WIDTH : 0);
