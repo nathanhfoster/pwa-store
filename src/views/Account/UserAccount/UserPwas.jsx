@@ -13,7 +13,7 @@ const titleWithActions = (
   </>
 );
 
-const UserPwas = ({ pwas, GetUserPwas, GetUserPwasPage }) => {
+const UserPwas = ({ isLoading, pwas, GetUserPwas, GetUserPwasPage }) => {
   useEffect(() => {
     GetUserPwas();
   }, []);
@@ -23,7 +23,7 @@ const UserPwas = ({ pwas, GetUserPwas, GetUserPwasPage }) => {
       title={titleWithActions}
       flexWrap='wrap'
       data={pwas}
-      isLoading={pwas.length === 0}
+      isLoading={isLoading}
       loadMoreData={GetUserPwasPage}
     />
   );
@@ -31,9 +31,10 @@ const UserPwas = ({ pwas, GetUserPwas, GetUserPwasPage }) => {
 
 const mapStateToProps = ({
   User: {
+    isLoading,
     pwas: { items }
   }
-}) => ({ pwas: items });
+}) => ({ isLoading, pwas: items });
 
 const mapDispatchToProps = { GetUserPwas, GetUserPwasPage };
 

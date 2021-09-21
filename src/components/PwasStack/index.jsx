@@ -8,7 +8,7 @@ import { styled } from '@material-ui/styles';
 import connect from 'resurrection';
 
 import { DEFAULT_PWA_IMAGE_SIZE, APP_DRAWER_HEIGHT, APP_DRAWER_WIDTH, DEFAULT_PAGINATION_SIZE } from '../../constants';
-import { GUTTER_SIZE, getCellIndex, getItemKey } from './utils';
+import { GUTTER_SIZE, getCellIndex, getItemKey, getPwasSkeleton } from './utils';
 import Cell from './Cell';
 
 const StyledGrid = styled(Grid)((props) => ({
@@ -139,13 +139,13 @@ const mapStateToProps = (
   const isLoading = isLoadingFromProps || isLoadingFromStore || items.concat(filteredItems).length === 0;
   let data = [];
   if (items.concat(filteredItems).length === 0) {
-    data = Array.from({ length: DEFAULT_PAGINATION_SIZE }, (e, i) => ({ id: `skeleton-${i}` }));
+    data = getPwasSkeleton();
   } else if (isLoadingFromProps || isLoadingFromStore) {
-    data = dataFromProps.concat(Array.from({ length: DEFAULT_PAGINATION_SIZE }, (e, i) => ({ id: `skeleton-${i}`})))
+    data = dataFromProps.concat(getPwasSkeleton());
   } else {
     data = dataFromProps;
   }
-  
+
   const isDetailedView = flexWrap === 'wrap';
 
   const width = innerWidth - (xl || lg || md || sm ? APP_DRAWER_WIDTH : 0);
