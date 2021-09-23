@@ -32,24 +32,26 @@ const handleItemMerge = (currentStoreItem, newItem) => {
 
 const mergePwas = (currentStoreItems, newItems, key = 'id') => {
   // Order matters. You want the currentStoreItems to always be before the newItems so that the handleItemMerge function works
-  const allData = currentStoreItems.concat(newItems);
-
   let mergeMap = {};
+  let allData = [...currentStoreItems];
+  let i = 0;
+  for (i; i < allData.length; i++) {
+    mergeMap[allData[i].id] = i;
+  }
 
-  for (let i = 0; i < allData.length; i++) {
-    const item = allData[i];
-    const id = item[key];
-
-    if (!mergeMap[id]) {
-      mergeMap[id] = item;
+  for (let j = 0; j < newItems.length; j++) {
+    const id = newItems[j][key];
+    if (mergeMap[id] === undefined) {
+      // console.log(id, mergeMap, mergeMap[id]);
+      allData.push(newItems[j]);
+      mergeMap[id] = i;
+      i += 1;
     } else {
-      // Merge
-      delete mergeMap[id];
-      mergeMap[id] = handleItemMerge(mergeMap[id], item);
+      allData[mergeMap[id]] = handleItemMerge(allData[mergeMap[id]], newItems[j]);
     }
   }
 
-  return objectToArray(mergeMap);
+  return allData;
 };
 
 const match = (obj, search, key) => {
