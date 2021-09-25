@@ -170,8 +170,7 @@ const mapStateToProps = (
   { User: { id: userId, is_superuser }, Pwas: { items, filteredItems } },
   { pwaSlug, ...restOfProps }
 ) => {
-  const pwa =
-    (filteredItems.length > 0 ? items.concat(filteredItems) : items).find(({ slug }) => slug === pwaSlug) || {};
+  const pwa = items.concat(filteredItems).find(({ slug }) => slug === pwaSlug) || {};
 
   const {
     id,

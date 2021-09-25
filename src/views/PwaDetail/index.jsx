@@ -135,8 +135,7 @@ const PwaDetail = ({
 };
 
 const mapStateToProps = ({ Pwas: { items, filteredItems } }, { pwaSlug }) => {
-  const pwa =
-    (filteredItems.length > 0 ? items.concat(filteredItems) : items).find(({ slug }) => slug === pwaSlug) || {};
+  const pwa = items.concat(filteredItems).find(({ slug }) => slug === pwaSlug) || {};
 
   return pwa;
 };

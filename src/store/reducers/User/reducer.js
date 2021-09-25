@@ -10,7 +10,7 @@ import {
   mergeManifestWithForm
 } from './utils';
 import { handleFilterItems, mergePwas } from '../Pwas/utils';
-import { isValidManifestJsonStringOrObject, inRange } from 'utils';
+import { isValidManifestJsonStringOrObject, inRange, omit } from 'utils';
 
 const [token, id] = getUserTokenAndIdLocalStorage();
 
@@ -99,8 +99,7 @@ export const DEFAULT_STATE = Object.freeze({
     items: [],
     filteredItems: []
   },
-  user_favorites: [],
-
+  favoritePwas: { items: [], filteredItems: [] },
   error: {
     message: '',
     name: '',
@@ -123,12 +122,13 @@ export const DEFAULT_STATE = Object.freeze({
       maxBodyLength: -1,
       validateStatus: ''
     }
-  }
+  },
+  search: ''
 });
 
 const User = (state = DEFAULT_STATE, action) => {
   const { type, id, search, payload } = action;
-  let nextItem, nextItems;
+  let nextItem, nextItems, nextState;
 
   switch (type) {
     case ActionTypes.USER_SET_IS_ONLINE:
@@ -147,10 +147,25 @@ const User = (state = DEFAULT_STATE, action) => {
         : state;
 
     case ActionTypes.USER_SET:
+      nextItems = mergePwas(state.favoritePwas.items.concat(state.favoritePwas.filteredItems), payload.user_favorites);
+      nextItem = handleFilterItems(nextItems, state.search || search);
+
       nextItem = {
         ...state,
-        ...payload
+        ...omit(
+          {
+            ...state,
+            ...payload
+          },
+          ['user_favorites']
+        ),
+        favoritePwas: {
+          ...state.favoritePwas,
+          items: nextItem.items,
+          filteredItems: nextItem.filteredItems
+        }
       };
+
       setUserTokenAndIdLocalStorage(nextItem);
       setUserModeLocalStorage(nextItem.setting);
       return nextItem;
@@ -165,7 +180,7 @@ const User = (state = DEFAULT_STATE, action) => {
 
     case ActionTypes.USER_SET_PWAS:
       nextItems = mergePwas(state.pwas.items.concat(state.pwas.filteredItems), payload.items);
-      nextItem = handleFilterItems(nextItems, search);
+      nextItem = handleFilterItems(nextItems, state.search || search);
       nextItem = {
         ...state,
         pwas: {
@@ -234,13 +249,31 @@ const User = (state = DEFAULT_STATE, action) => {
         }
       };
 
-    case PwaActionTypes.PWAS_MERGE_FILTER:
-      nextItems = state.pwas.items.concat(state.pwas.filteredItems);
-      nextItem = handleFilterItems(nextItems, search);
+    case PwaActionTypes.PWAS_SET_SEARCH:
       return {
         ...state,
-        pwas: { ...state.pwas, items: nextItem.items, filteredItems: nextItem.filteredItems }
+        search: payload
       };
+
+    case PwaActionTypes.PWAS_MERGE_FILTER:
+      nextItems = state.pwas.items.concat(state.pwas.filteredItems);
+      nextItem = handleFilterItems(nextItems, state.search || search);
+      nextState = { ...state, pwas: { ...state.pwas, items: nextItem.items, filteredItems: nextItem.filteredItems } };
+      nextItem = handleFilterItems(
+        state.favoritePwas.items.concat(state.favoritePwas.filteredItems),
+        state.search || search
+      );
+
+      nextState = {
+        ...nextState,
+        favoritePwas: {
+          ...state.favoritePwas,
+          items: nextItem.items,
+          filteredItems: nextItem.filteredItems
+        }
+      };
+
+      return nextState;
 
     case PwaActionTypes.PWAS_SET_TAGS:
       return {
@@ -255,10 +288,17 @@ const User = (state = DEFAULT_STATE, action) => {
       };
 
     case ActionTypes.USER_SET_FAVORITE:
-      return {
+      nextItem = handleFilterItems(payload, state.search || search);
+
+      nextItem = {
         ...state,
-        user_favorites: [...payload]
+        favoritePwas: {
+          ...state.favoritePwas,
+          items: nextItem.items,
+          filteredItems: nextItem.filteredItems
+        }
       };
+      return nextItem;
 
     default:
       return state;

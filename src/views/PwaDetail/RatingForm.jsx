@@ -88,7 +88,8 @@ const mapStateToProps = (
 ) => ({
   userName: name || username,
   shouldRender: Boolean(userToken),
-  ratingOwnedByUser: (filteredItems.length > 0 ? items.concat(filteredItems) : items)
+  ratingOwnedByUser: items
+    .concat(filteredItems)
     .find(({ id }) => id == pwa_id)
     ?.ratings?.find(({ created_by }) => created_by?.id == userId)
 });

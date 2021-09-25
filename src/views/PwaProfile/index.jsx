@@ -53,9 +53,7 @@ const mapStateToProps = (
   { User: { id: userId, is_superuser }, Pwas: { items, filteredItems, isLoading } },
   { pwaSlug }
 ) => {
-  const pwa =
-    (filteredItems.length > 0 ? items.concat(filteredItems) : items).find(({ slug }) => slug === pwaSlug) ||
-    defaultProps.pwa;
+  const pwa = items.concat(filteredItems).find(({ slug }) => slug === pwaSlug) || defaultProps.pwa;
   const isAuthorOfPwaOrSuperUser = is_superuser || pwa.created_by === userId;
 
   return { pwa, isLoading, isAuthorOfPwaOrSuperUser };

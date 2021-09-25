@@ -193,7 +193,11 @@ export const PostUserPwa = () => async (dispatch, getState) => {
 };
 
 export const UpdateFavorite = (payload) => (dispatch, getState) => {
-  const { token, user_favorites } = getState().User;
+  const {
+    token,
+    favoritePwas: { items, filteredItems }
+  } = getState().User;
+  const userFavoritePwas = items.concat(filteredItems);
   if (payload.id) {
     return Axios({ token })
       .delete(`favorites/${payload.id}/`, {
@@ -202,7 +206,7 @@ export const UpdateFavorite = (payload) => (dispatch, getState) => {
         }
       })
       .then(() => {
-        dispatch(SetUserFavorite(user_favorites.filter((obj) => obj.id !== payload.id)));
+        dispatch(SetUserFavorite(userFavoritePwas.filter((obj) => obj.id !== payload.id)));
       })
       .catch((e) => {
         console.error(e);
@@ -215,7 +219,7 @@ export const UpdateFavorite = (payload) => (dispatch, getState) => {
         }
       })
       .then(({ data }) => {
-        dispatch(SetUserFavorite([...user_favorites, { ...data }]));
+        dispatch(SetUserFavorite([...userFavoritePwas, { ...data }]));
       })
       .catch((e) => {
         console.error(e);

@@ -3,12 +3,17 @@ import PropTypes from 'prop-types';
 import PwasStack from 'components/PwasStack';
 import connect from 'resurrection';
 
-const FavoritePwas = ({ user_favorites }) => {
-  const pwas = useMemo(() => user_favorites.map(({ pwa }) => pwa), [user_favorites]);
-  return <PwasStack title='My Favorite Pwas' flexWrap='wrap' data={pwas} isLoading={pwas.length === 0} />;
+const FavoritePwas = ({ isLoading, userFavoritePwas }) => {
+  const pwas = useMemo(() => userFavoritePwas.map(({ pwa }) => pwa), [userFavoritePwas]);
+  return <PwasStack title='My Favorite Pwas' flexWrap='wrap' data={pwas} isLoading={isLoading} />;
 };
 
-const mapStateToProps = ({ User: { user_favorites }, Pwas: { items, filteredItems } }) => ({ user_favorites });
+const mapStateToProps = ({
+  User: {
+    isLoading,
+    favoritePwas: { items }
+  }
+}) => ({ isLoading, userFavoritePwas: items });
 
 const mapDispatchToProps = {};
 
