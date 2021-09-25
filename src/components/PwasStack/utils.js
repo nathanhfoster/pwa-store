@@ -9,6 +9,6 @@ export const getItemKey = ({ rowIndex, columnIndex, data: { columnCount, isDetai
   return item?.id;
 };
 
-export const MAP_PWA_SKELETON = (e, i) => ({ id: `skeleton-${i}` });
+export const MAP_PWA_SKELETON = (e, i) => ({ id: i });
 
 export const getPwasSkeleton = () => Array.from({ length: DEFAULT_PAGINATION_SIZE }, MAP_PWA_SKELETON);

@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import PwasStack from 'components/PwasStack';
 import connect from 'resurrection';
+import { PwasType } from 'store/reducers/Pwas/types';
 
 const FavoritePwas = ({ isLoading, userFavoritePwas }) => {
   const pwas = useMemo(() => userFavoritePwas.map(({ pwa }) => pwa), [userFavoritePwas]);
@@ -15,8 +16,6 @@ const mapStateToProps = ({
   }
 }) => ({ isLoading, userFavoritePwas: items });
 
-const mapDispatchToProps = {};
+FavoritePwas.propTypes = { isLoading: PropTypes.bool.isRequired, userFavoritePwas: PwasType.isRequired };
 
-FavoritePwas.propTypes = {};
-
-export default connect(mapStateToProps, mapDispatchToProps)(FavoritePwas);
+export default connect(mapStateToProps)(FavoritePwas);
