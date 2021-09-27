@@ -8,10 +8,12 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Typography from '@material-ui/core/Typography';
 import { PwaType } from 'store/reducers/Pwas/types';
 import { GetPwa, UpdateAnalytics } from '../../store/reducers/Pwas/actions/api';
-import RatingForm from './RatingForm';
+import Screenshots from './ScreenShots'
 
+const RatingForm = lazy(() => import('./RatingForm'));
 const Detail = lazy(() => import('./Detail'));
 const Rating = lazy(() => import('./Rating'));
+// const Screenshots = lazy(() => import('./ScreenShots'));
 
 const detailContainerStyles = {
   height: '100%',
@@ -36,6 +38,8 @@ const PwaDetail = ({
   organization,
   tags,
   updated_at,
+  manifest_url,
+  manifest_json,
   GetPwa,
   UpdateAnalytics
 }) => {
@@ -46,32 +50,6 @@ const PwaDetail = ({
   useEffect(() => {
     UpdateAnalytics({ incr_view: true, slug: pwaSlug });
   }, [pwaSlug, UpdateAnalytics]);
-
-  const renderScreenShots = useMemo(
-    () =>
-      pwa_screenshots.map(({ image_url, caption }) => {
-        const handleOnImageClick = () => {
-          window.open(
-            image_url,
-            'Image',
-            'height=auto,width=auto,left=0,top=0,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no,status=yes'
-          );
-        };
-        return (
-          <Grid key={image_url} item xs='auto' mx={4}>
-            <img
-              src={image_url}
-              srcSet={image_url}
-              alt={name}
-              loading='lazy'
-              height={375}
-              onClick={handleOnImageClick}
-            />
-          </Grid>
-        );
-      }),
-    [pwa_screenshots]
-  );
 
   const renderRatings = useMemo(
     () =>
@@ -105,19 +83,15 @@ const PwaDetail = ({
           )}
         </Grid>
       </Box>
-      {renderScreenShots.length > 0 && (
-        <Grid
-          container
-          direction='row'
-          flexWrap='nowrap'
-          justifyContent='flex-start'
-          alignItems='baseline'
-          sx={{ overflowX: 'auto', mb: 4 }}
-        >
-          {renderScreenShots}
-        </Grid>
+      {(pwa_screenshots?.length > 0 || manifest_json?.screenshots?.length > 0) && (
+        <Screenshots
+          name={name}
+          pwa_screenshots={pwa_screenshots}
+          manifest_url={manifest_url}
+          manifest_json={manifest_json}
+        />
       )}
-      <Grid container>
+      <Grid container sx={{ mt: 4 }}>
         <RatingForm pwa_id={id} />
       </Grid>
       <Grid
@@ -126,7 +100,7 @@ const PwaDetail = ({
         flexWrap='wrap'
         justifyContent='center'
         alignItems='baseline'
-        sx={{ overflowY: 'auto', mb: 2 }}
+        sx={{ overflowY: 'auto', my: 2 }}
       >
         {renderRatings}
       </Grid>
@@ -136,7 +110,6 @@ const PwaDetail = ({
 
 const mapStateToProps = ({ Pwas: { items, filteredItems } }, { pwaSlug }) => {
   const pwa = items.concat(filteredItems).find(({ slug }) => slug === pwaSlug) || {};
-
   return pwa;
 };
 

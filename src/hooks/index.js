@@ -2,6 +2,7 @@ export { default as useAddToHomescreenPrompt } from './useAddToHomescreenPrompt'
 export { default as useClickOutside } from './useClickOutside';
 export { default as useDebouncedValue } from './useDebouncedValue';
 export { default as useFavIcon } from './useFavIcon';
+export { default as useForceRerender } from './useForceRerender';
 export { default as useOnlineStatus } from './useOnlineStatus';
 export { default as useLighthouse } from './useLighthouse';
 export { default as useIsPwaInstalled } from './useIsPwaInstalled';

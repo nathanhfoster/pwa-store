@@ -17,7 +17,7 @@ export const PwaScreenshotsType = { id: PropTypes.number, image_url: PropTypes.s
 
 export const PwaOrganizationType = { id: PropTypes.number, name: PropTypes.string, image_url: PropTypes.string };
 
-export const PwaRatingType = {
+export const PwaRatingShape = {
   id: PropTypes.number,
   created_by: PropTypes.shape({ id: PropTypes.number, name: PropTypes.string }),
   rating: PropTypes.oneOf([0, 1, 2, 3, 4, 5]),
@@ -25,15 +25,19 @@ export const PwaRatingType = {
   updated_at: PropTypes.string
 };
 
-export const PwaManifestIconType = PropTypes.shape({
-  purpose: PropTypes.string,
+export const PwaManifestScreenshotsShape = {
   sizes: PropTypes.string,
   src: PropTypes.string,
-  type: PropTypes.string,
-  density: PropTypes.string
-});
+  type: PropTypes.string
+};
 
-export const PwaManifestRelatedApplicationType = {
+export const PwaManifestIconShape = {
+  ...PwaManifestScreenshotsShape,
+  purpose: PropTypes.string,
+  density: PropTypes.string
+};
+
+export const PwaManifestRelatedApplicationShape = {
   id: PropTypes.string,
   platform: PropTypes.string,
   url: PropTypes.string
@@ -49,18 +53,19 @@ export const PwaManifestJsonType = {
   author: PropTypes.string,
   display: PropTypes.string,
   offline_enabled: PropTypes.bool,
+  screenshots: PropTypes.arrayOf(PropTypes.shape(PwaManifestScreenshotsShape)),
   background: PropTypes.shape({
     persistent: PropTypes.bool,
     service_worker: PropTypes.string
   }),
-  related_applications: PropTypes.arrayOf(PropTypes.shape(PwaManifestRelatedApplicationType)),
-  icons: PropTypes.arrayOf(PwaManifestIconType),
+  related_applications: PropTypes.arrayOf(PropTypes.shape(PwaManifestRelatedApplicationShape)),
+  icons: PropTypes.arrayOf(PropTypes.shape(PwaManifestIconShape)),
   keywords: PropTypes.arrayOf(PropTypes.string),
   categories: PropTypes.arrayOf(PropTypes.string),
   shortcuts: PropTypes.arrayOf(
     PropTypes.shape({
       description: PropTypes.string,
-      icons: PropTypes.arrayOf(PwaManifestIconType),
+      icons: PropTypes.arrayOf(PropTypes.shape(PwaManifestIconShape)),
       name: PropTypes.string,
       url: PropTypes.string
     })
@@ -89,7 +94,7 @@ export const PwaType = {
   tags: PropTypes.arrayOf(PropTypes.shape(PwaTagType)),
   image_url: PropTypes.string,
   description: PropTypes.string,
-  ratings: PropTypes.arrayOf(PropTypes.shape(PwaRatingType)),
+  ratings: PropTypes.arrayOf(PropTypes.shape(PwaRatingShape)),
   published: PropTypes.bool,
   pwa_analytics: PropTypes.shape(PwaAnalyticsType),
   pwa_screenshots: PropTypes.arrayOf(PropTypes.shape(PwaScreenshotsType))

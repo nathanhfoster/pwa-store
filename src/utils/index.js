@@ -171,7 +171,7 @@ export const shareUrl = ({ url, title, text, files }) => {
     .catch((error) => ({ data: payload, error }));
 };
 
-export const isEmpty = (obj) => !(Object.getOwnPropertyNames(obj).length || Object.getOwnPropertSymbols(obj).length)
+export const isEmpty = (obj) => !(Object.getOwnPropertyNames(obj).length || Object.getOwnPropertSymbols(obj).length);
 
 export const joinUrl = (baseUrl, url) => new URL(url, baseUrl).href;
 
@@ -204,4 +204,31 @@ export const inRange = (obj, min = -Infinity, max = Infinity) => {
   }
 
   return length >= min && length <= max;
+};
+
+/**
+ * Conserve aspect ratio of the original region. Useful when shrinking/enlarging
+ * images to fit into a certain area.
+ *
+ * @param {number} srcWidth width of source image
+ * @param {number} srcHeight height of source image
+ * @param {number} maxWidth maximum available width
+ * @param {number} maxHeight maximum available height
+ * @return {array.<number, number>} [width, height]
+ */
+export const calculateAspectRatioFit = (srcWidth, srcHeight, maxWidth = srcWidth, maxHeight = srcHeight) => {
+  const ratio = Math.min(maxWidth / srcWidth, maxHeight / srcHeight);
+
+  return [srcWidth * ratio || srcWidth, srcHeight * ratio || srcHeight];
+};
+
+export const getImageDimensions = (imageUrl, options = {}) => {
+  const { height, width } = options;
+  let el = document.createElement('img');
+
+  el.setAttribute('src', imageUrl);
+
+  const { naturalWidth, naturalHeight } = el;
+
+  return calculateAspectRatioFit(naturalWidth, naturalHeight, width, height);
 };

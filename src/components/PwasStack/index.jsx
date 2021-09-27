@@ -91,10 +91,10 @@ const PwasStack = ({
         </Typography>
       )}
       <StyledGrid
+        innerElementType={innerElementType}
         columnCount={columnCount}
         columnWidth={columnWidth}
         height={height}
-        innerElementType={innerElementType}
         rowCount={rowCount}
         rowHeight={rowHeight}
         width={width}

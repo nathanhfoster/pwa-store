@@ -1,5 +1,5 @@
 import React, { useState, memo } from 'react';
-import { PwaRatingType } from 'store/reducers/Pwas/types';
+import { PwaRatingShape } from 'store/reducers/Pwas/types';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
@@ -42,6 +42,6 @@ const Rating = ({ created_by, created_by_name, updated_at, rating, comment }) =>
   );
 };
 
-Rating.propTypes = PwaRatingType;
+Rating.propTypes = PwaRatingShape;
 
 export default memo(Rating);
