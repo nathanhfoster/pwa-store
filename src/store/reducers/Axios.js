@@ -78,7 +78,7 @@ export const Axios = (props) => {
         response: { data }
       } = error;
       const alertPayload = { title: 'Error', message: data ? JSON.stringify(data) : message, props: { severity: 'error' } };
-      store?.dispatch(PushAlertWithTimeout(alertPayload));
+      store?.dispatch(PushAlertWithTimeout(alertPayload, 3000));
       throw error;
     }
   );
