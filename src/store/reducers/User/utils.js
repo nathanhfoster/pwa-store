@@ -92,6 +92,8 @@ export const getManifestIconSrc = (manifest_url, icons) => {
   return imageUrl;
 };
 
+export const getSplitWhiteSpace = (string) => string?.split?.(' ') || '';
+
 export const getTagsFromManifest = ({
   keywords = [],
   categories = [],
@@ -106,10 +108,10 @@ export const getTagsFromManifest = ({
       ...keywords,
       ...categories,
       ...tags.map(({ name }) => name),
-      ...description.split(' '),
-      ...name.split(' '),
-      ...short_name.split(' '),
-      ...name.split(' ')
+      ...getSplitWhiteSpace(description),
+      ...getSplitWhiteSpace(name),
+      ...getSplitWhiteSpace(short_name),
+      ...getSplitWhiteSpace(name)
     ],
     false
   );
