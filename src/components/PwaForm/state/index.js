@@ -43,7 +43,7 @@ export const getInitialFormState = ({
   ];
   return (
     form || {
-      url: { required: true, value: url },
+      url: { type: 'search', required: true, value: url },
       manifest_url: { required: true, value: manifest_url },
       image_url: {
         type: 'select',
