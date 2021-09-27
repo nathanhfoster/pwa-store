@@ -33,7 +33,7 @@ export const DEFAULT_STATE = Object.freeze({
   pwaToUpload: {
     form: {
       url: {
-        type: 'url',
+        type: 'search',
         autoFocus: true,
         label: 'Url',
         required: true,
