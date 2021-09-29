@@ -1,4 +1,12 @@
-import { capitalize, copyStringToClipboard, removeArrayDuplicates, stringMatch, joinUrl, slugify } from 'utils';
+import {
+  capitalize,
+  copyStringToClipboard,
+  removeArrayDuplicates,
+  stringMatch,
+  joinUrl,
+  slugify,
+  isValidManifestJsonStringOrObject
+} from 'utils';
 export const USER_ID_LOCAL_STORAGE_KEY = 'USER_ID_LOCAL_STORAGE_KEY';
 export const USER_TOKEN_LOCAL_STORAGE_KEY = 'USER_TOKEN_LOCAL_STORAGE_KEY';
 export const USER_MODE_LOCAL_STORAGE_KEY = 'USER_MODE_LOCAL_STORAGE_KEY';
@@ -94,15 +102,17 @@ export const getManifestIconSrc = (manifest_url, icons) => {
 
 export const getSplitWhiteSpace = (string) => string?.split?.(' ') || '';
 
-export const getTagsFromManifest = ({
-  keywords = [],
-  categories = [],
-  tags = [],
-  pwaTags = [],
-  description = '',
-  name = '',
-  short_name = ''
-}) => {
+export const getTagsFromManifest = (manifest) => {
+  if (!isValidManifestJsonStringOrObject(manifest)) return [];
+  const {
+    keywords = [],
+    categories = [],
+    tags = [],
+    pwaTags = [],
+    description = '',
+    name = '',
+    short_name = ''
+  } = manifest;
   const uniqueTags = removeArrayDuplicates(
     [
       ...keywords,

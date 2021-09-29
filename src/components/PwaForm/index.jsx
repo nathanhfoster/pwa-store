@@ -1,4 +1,4 @@
-import React, { useReducer, useState, useEffect, useCallback } from 'react';
+import React, { useReducer, useState, useEffect, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import connect from 'resurrection';
 import Box from '@material-ui/core/Box';
@@ -24,7 +24,7 @@ const detailContainerStyles = {
 const PwaForm = (props) => {
   const { titlePrefix, form: formFromProps, pwa, pwaTags, GetPwaManifest, onSubmit, onChange } = props;
   const [form, setForm] = useReducer(formReducer, props, getInitialFormState);
-  const [potentialManifestUrl, setPotentialManifestUrl] = useState();
+  const [potentialManifestUrl, setPotentialManifestUrl] = useState('');
   const debouncedPotentialManifestUrl = useDebouncedValue(potentialManifestUrl);
   const mounted = useMounted();
 
@@ -41,7 +41,13 @@ const PwaForm = (props) => {
   }, [mounted, onChange, props, pwa]);
 
   useEffect(() => {
-    if (mounted && !onChange) {
+    if (mounted && !data.manifest_json.error?.(data.manifest_json)) {
+      setForm({ type: 'SET_TAGS', payload: { manifest_json: JSON.parse(data.manifest_json.value), pwaTags } });
+    }
+  }, [data.manifest_json, mounted, onChange, pwaTags]);
+
+  useEffect(() => {
+    if (mounted) {
       setForm({ type: 'SET_TAGS', payload: { manifest_json: pwa.manifest_json, pwaTags } });
     }
   }, [mounted, onChange, pwa.manifest_json, pwaTags]);
@@ -79,19 +85,23 @@ const PwaForm = (props) => {
     [onChange]
   );
 
+  const formTitle = useMemo(
+    () =>
+      shouldRenderTitle && (
+        <Stack direction='row' spacing={2}>
+          <Avatar src={pwaImage} title={pwaName}>
+            {getFirstChar(pwaName)}
+          </Avatar>
+          <span>{pwaName}</span>
+        </Stack>
+      ),
+    [pwaImage, pwaName, shouldRenderTitle]
+  );
+
   return (
     <Box sx={detailContainerStyles}>
       <BasicForm
-        title={
-          shouldRenderTitle && (
-            <Stack direction='row' spacing={2}>
-              <Avatar src={pwaImage} title={pwaName}>
-                {getFirstChar(pwaName)}
-              </Avatar>
-              <span>{pwaName}</span>
-            </Stack>
-          )
-        }
+        title={formTitle}
         submitTitle={`${titlePrefix} Pwa`}
         data={data}
         onChange={handleOnChange}
