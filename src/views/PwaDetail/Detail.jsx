@@ -147,7 +147,7 @@ const Detail = ({
                 size='small'
                 variant='contained'
                 disabled={!url}
-                href={`${url}/?ref=pwastore`}
+                href={`${url}?ref=pwastore`}
                 target='_blank'
                 sx={{ animation: 'grow 200ms', backgroundColor: 'primary.dark' }}
                 onClick={onLaunch}
