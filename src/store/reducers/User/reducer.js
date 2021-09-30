@@ -147,7 +147,7 @@ const User = (state = DEFAULT_STATE, action) => {
         : state;
 
     case ActionTypes.USER_SET:
-      nextItems = mergePwas(state.favoritePwas.items.concat(state.favoritePwas.filteredItems), payload.user_favorites);
+      nextItems = mergePwas(state.favoritePwas.items.concat(state.favoritePwas.filteredItems), payload.user_favorites || []);
       nextItem = handleFilterItems(nextItems, state.search || search);
 
       nextItem = {
