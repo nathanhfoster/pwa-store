@@ -18,7 +18,7 @@ import { DEFAULT_PWA_IMAGE, APP_DRAWER_WIDTH, DEFAULT_PWA_IMAGE_SIZE } from '../
 import ShareButtons from 'components/ShareUrlLinks/ShareButtons';
 import { getManifestIconSrc } from 'store/reducers/User/utils';
 import { useHistory } from 'react-router-dom';
-import { GetPwaProfileUrl } from 'utils/RouteMap';
+import { GetPwaTagDetailUrl, GetPwaProfileUrl } from 'utils/RouteMap';
 import Paper from '@material-ui/core/Paper';
 import Favorite from './Favorite';
 
@@ -64,9 +64,20 @@ const Detail = ({
   const history = useHistory();
   const renderTags = useMemo(
     () =>
-      tags.map(({ name }) => (
-        <Chip key={name} label={name} sx={{ backgroundColor: 'primary.dark', color: 'white' }} size='small' />
-      )),
+      tags.map(({ name }) => {
+        const handleTagClick = () => {
+          history.push(GetPwaTagDetailUrl(name));
+        };
+        return (
+          <Chip
+            key={name}
+            label={name}
+            sx={{ backgroundColor: 'primary.dark', color: 'white' }}
+            size='small'
+            onClick={handleTagClick}
+          />
+        );
+      }),
     [tags]
   );
 

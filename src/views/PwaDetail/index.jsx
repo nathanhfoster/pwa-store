@@ -1,18 +1,19 @@
 import React, { useEffect, lazy, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import connect from 'resurrection';
+import connect, { useMountedEffect } from 'resurrection';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Backdrop from '@material-ui/core/Backdrop';
 import Typography from '@material-ui/core/Typography';
 import { PwaType } from 'store/reducers/Pwas/types';
-import { GetPwa, UpdateAnalytics } from '../../store/reducers/Pwas/actions/api';
-import Screenshots from './ScreenShots'
+import { GetPwa, UpdateAnalytics, SearchPwas } from '../../store/reducers/Pwas/actions/api';
+import Screenshots from './ScreenShots';
 
 const RatingForm = lazy(() => import('./RatingForm'));
 const Detail = lazy(() => import('./Detail'));
 const Rating = lazy(() => import('./Rating'));
+const SimilarPwas = lazy(() => import('./SimilarPwas'));
 // const Screenshots = lazy(() => import('./ScreenShots'));
 
 const detailContainerStyles = {
@@ -41,7 +42,8 @@ const PwaDetail = ({
   manifest_url,
   manifest_json,
   GetPwa,
-  UpdateAnalytics
+  UpdateAnalytics,
+  SearchPwas
 }) => {
   useEffect(() => {
     GetPwa(pwaSlug);
@@ -60,6 +62,18 @@ const PwaDetail = ({
       )),
     [ratings]
   );
+
+  const mainCategory = useMemo(() => {
+    let categoryName = '';
+    if (tags?.length > 0) {
+      categoryName = tags[0].name;
+    }
+    return categoryName;
+  }, [tags]);
+
+  useMountedEffect(() => {
+    SearchPwas(mainCategory);
+  }, [mainCategory]);
 
   if (!id) {
     return (
@@ -92,6 +106,9 @@ const PwaDetail = ({
         />
       )}
       <Grid container sx={{ mt: 4 }}>
+        <SimilarPwas tags={tags} />
+      </Grid>
+      <Grid container sx={{ mt: 4 }}>
         <RatingForm pwa_id={id} />
       </Grid>
       <Grid
@@ -113,7 +130,7 @@ const mapStateToProps = ({ Pwas: { items, filteredItems } }, { pwaSlug }) => {
   return pwa;
 };
 
-const mapDispatchToProps = { GetPwa, UpdateAnalytics };
+const mapDispatchToProps = { GetPwa, UpdateAnalytics, SearchPwas };
 
 PwaDetail.propTypes = { pwaSlug: PropTypes.string.isRequired, ...PwaType };
 
