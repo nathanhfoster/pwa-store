@@ -1,10 +1,10 @@
-import React, { useMemo, useEffect, memo } from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Autocomplete, { createFilterOptions } from '@material-ui/core/Autocomplete';
-import { useMounted } from 'resurrection';
+import { useMountedEffect } from 'resurrection';
 import { capitalize } from 'utils';
 
 const filter = createFilterOptions();
@@ -32,11 +32,10 @@ const Field = ({
   onChange,
   setForm
 }) => {
-  const mounted = useMounted();
   const isTextArea = type === 'textarea';
 
-  useEffect(() => {
-    if (mounted && !onChange) {
+  useMountedEffect(() => {
+    if (!onChange) {
       setForm({ [id]: value });
     }
   }, [value, onChange]);

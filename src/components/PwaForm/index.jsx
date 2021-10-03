@@ -1,11 +1,11 @@
-import React, { useReducer, useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useReducer, useState, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import connect from 'resurrection';
 import Box from '@material-ui/core/Box';
 import Stack from '@material-ui/core/Stack';
 import Avatar from '@material-ui/core/Avatar';
 import useDebouncedValue from 'hooks/useDebouncedValue';
-import { useMounted } from 'resurrection';
+import { useMountedEffect } from 'resurrection';
 import BasicForm from 'components/BasicForm';
 import { PwaType } from 'store/reducers/Pwas/types';
 import { GetPwaManifest } from '../../store/reducers/Pwas/actions/api';
@@ -26,7 +26,6 @@ const PwaForm = (props) => {
   const [form, setForm] = useReducer(formReducer, props, getInitialFormState);
   const [potentialManifestUrl, setPotentialManifestUrl] = useState('');
   const debouncedPotentialManifestUrl = useDebouncedValue(potentialManifestUrl);
-  const mounted = useMounted();
 
   const pwaImage = (formFromProps || form).image_url?.value?.src;
   const pwaName = (formFromProps || form).name.value;
@@ -34,27 +33,25 @@ const PwaForm = (props) => {
 
   const data = formFromProps || form;
 
-  useEffect(() => {
-    if (mounted && !onChange) {
+  useMountedEffect(() => {
+    if (!onChange) {
       setForm({ type: 'SET_FORM', payload: props });
     }
-  }, [mounted, onChange, props, pwa]);
+  }, [onChange, props, pwa]);
 
-  useEffect(() => {
-    if (mounted && !data.manifest_json.error?.(data.manifest_json)) {
+  useMountedEffect(() => {
+    if (!data.manifest_json.error?.(data.manifest_json)) {
       setForm({ type: 'SET_TAGS', payload: { manifest_json: JSON.parse(data.manifest_json.value), pwaTags } });
     }
-  }, [data.manifest_json, mounted, onChange, pwaTags]);
+  }, [data.manifest_json, onChange, pwaTags]);
 
-  useEffect(() => {
-    if (mounted) {
-      setForm({ type: 'SET_TAGS', payload: { manifest_json: pwa.manifest_json, pwaTags } });
-    }
-  }, [mounted, onChange, pwa.manifest_json, pwaTags]);
+  useMountedEffect(() => {
+    setForm({ type: 'SET_TAGS', payload: { manifest_json: pwa.manifest_json, pwaTags } });
+  }, [onChange, pwa.manifest_json, pwaTags]);
 
-  useEffect(() => {
+  useMountedEffect(() => {
     (async () => {
-      if (mounted && debouncedPotentialManifestUrl) {
+      if (debouncedPotentialManifestUrl) {
         await GetPwaManifest(debouncedPotentialManifestUrl)
           .then(({ data }) => {
             if (onChange) {

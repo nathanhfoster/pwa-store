@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { connect, useMounted } from 'resurrection';
+import { connect, useMountedEffect } from 'resurrection';
 import { styled, alpha } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
@@ -46,7 +46,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const NavSearchBar = ({ search, isLoading, ResetPwasFilter, SetPwasSearch, SearchPwas, FilterPwas }) => {
-  const mounted = useMounted();
   const debouncedSearch = useDebouncedValue(search);
   const history = useHistory();
 
@@ -59,11 +58,9 @@ const NavSearchBar = ({ search, isLoading, ResetPwasFilter, SetPwasSearch, Searc
     history.goBack();
   };
 
-  useEffect(() => {
-    if (mounted) {
-      SearchPwas(debouncedSearch);
-      FilterPwas(debouncedSearch);
-    }
+  useMountedEffect(() => {
+    SearchPwas(debouncedSearch);
+    FilterPwas(debouncedSearch);
   }, [debouncedSearch]);
 
   return (
