@@ -7,7 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import Backdrop from '@material-ui/core/Backdrop';
 import Typography from '@material-ui/core/Typography';
 import { PwaType } from 'store/reducers/Pwas/types';
-import { GetPwa, UpdateAnalytics, SearchPwas } from '../../store/reducers/Pwas/actions/api';
+import { GetPwa, UpdateAnalytics, SearchPwas } from 'store/reducers/Pwas/actions/api';
 import Screenshots from './ScreenShots';
 
 const RatingForm = lazy(() => import('./RatingForm'));
@@ -59,11 +59,11 @@ const PwaDetail = ({
 
   useEffect(() => {
     GetPwa(pwaSlug);
-  }, [pwaSlug, GetPwa]);
+  }, [pwaSlug]);
 
   useEffect(() => {
     UpdateAnalytics({ incr_view: true, slug: pwaSlug });
-  }, [pwaSlug, UpdateAnalytics]);
+  }, [pwaSlug]);
 
   const renderRatings = useMemo(
     () =>
