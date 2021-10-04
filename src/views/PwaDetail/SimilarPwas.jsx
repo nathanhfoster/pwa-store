@@ -5,7 +5,7 @@ import { PwasStack } from 'components';
 import connect from 'resurrection';
 import { GetPwas } from 'store/reducers/Pwas/actions/api';
 
-const SimilarPwas = ({ pwas, next, tags, GetPwas }) => {
+const SimilarPwas = ({ pwas, next, pwaSlug, tags, GetPwas }) => {
   const loadMoreData = useCallback(() => {
     if (next) {
       GetPwas(next);
@@ -18,8 +18,8 @@ SimilarPwas.propTypes = { tags: PropTypes.arrayOf(PropTypes.shape(PwaTagType)) }
 
 SimilarPwas.defaultProps = { tags: [] };
 
-const mapStateToProps = ({ Pwas: { items, filteredItems, next } }, { tags }) => ({
-  pwas: items.concat(filteredItems).filter((pwa) => pwa?.tags.some(({ name }) => tags.some((tag) => tag.name === name)))
+const mapStateToProps = ({ Pwas: { items, filteredItems, next } }, { pwaSlug, tags }) => ({
+  pwas: items.concat(filteredItems).filter((pwa) => pwa.slug !== pwaSlug && pwa.tags.some(({ name }) => tags.some((tag) => tag.name === name)))
 });
 
 const mapDispatchToProps = { GetPwas };
