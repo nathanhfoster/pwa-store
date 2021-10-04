@@ -1,6 +1,6 @@
 import React, { useEffect, lazy, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import connect, { useMountedEffect } from 'resurrection';
+import connect from 'resurrection';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
@@ -45,6 +45,18 @@ const PwaDetail = ({
   UpdateAnalytics,
   SearchPwas
 }) => {
+  const mainCategory = useMemo(() => {
+    let categoryName = '';
+    if (tags?.length > 0) {
+      categoryName = tags[0].name;
+    }
+    return categoryName;
+  }, [tags]);
+
+  useEffect(() => {
+    SearchPwas(mainCategory);
+  }, [mainCategory]);
+
   useEffect(() => {
     GetPwa(pwaSlug);
   }, [pwaSlug, GetPwa]);
@@ -62,18 +74,6 @@ const PwaDetail = ({
       )),
     [ratings]
   );
-
-  const mainCategory = useMemo(() => {
-    let categoryName = '';
-    if (tags?.length > 0) {
-      categoryName = tags[0].name;
-    }
-    return categoryName;
-  }, [tags]);
-
-  useMountedEffect(() => {
-    SearchPwas(mainCategory);
-  }, [mainCategory]);
 
   if (!id) {
     return (
