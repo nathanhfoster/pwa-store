@@ -76,7 +76,7 @@ const PwasStack = ({
       sx={{
         bgcolor: 'background.paper',
         borderBottom: '1px solid rgba(0,0,0,0.05)',
-        mt: 4,
+        mt: 2,
         px: 0
       }}
     >
@@ -136,20 +136,16 @@ const mapStateToProps = (
   },
   { isLoading: isLoadingFromProps, flexWrap, data: dataFromProps }
 ) => {
-  const isLoading = isLoadingFromProps || isLoadingFromStore || items.concat(filteredItems).length === 0;
-  let data = [];
-  if (items.concat(filteredItems).length === 0) {
-    data = getPwasSkeleton();
-  } else if (isLoadingFromProps || isLoadingFromStore) {
-    data = dataFromProps.concat(getPwasSkeleton());
-  } else {
-    data = dataFromProps;
-  }
+  const dataFromStore = items.concat(filteredItems);
+  const isLoading = isLoadingFromProps || isLoadingFromStore || dataFromStore.length === 0;
+  const data = (dataFromProps || dataFromStore).concat(
+    isLoadingFromProps || isLoadingFromStore ? getPwasSkeleton() : []
+  );
 
   const isDetailedView = flexWrap === 'wrap';
 
   const width = innerWidth - (xl || lg || md || sm ? APP_DRAWER_WIDTH : 0);
-  const height = isDetailedView ? innerHeight - APP_DRAWER_HEIGHT - 72 : DEFAULT_PWA_IMAGE_SIZE * 2 + GUTTER_SIZE;
+  const height = isDetailedView ? innerHeight - APP_DRAWER_HEIGHT - 42 - 16 : DEFAULT_PWA_IMAGE_SIZE * 2 + GUTTER_SIZE;
 
   const columnWidth = DEFAULT_PWA_IMAGE_SIZE + GUTTER_SIZE;
   const columnCount = isDetailedView ? Math.floor(width / columnWidth) : data.length;
