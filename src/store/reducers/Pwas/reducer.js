@@ -52,7 +52,7 @@ const Pwas = (state = DEFAULT_STATE, action) => {
       nextItems = mergePwas(state.items.concat(state.filteredItems), payload.results);
       return {
         ...state,
-        ...omit(payload, ['results]),
+        ...omit(payload, ['results']),
         ...handleFilterItems(nextItems, search || state.search)
       };
 
