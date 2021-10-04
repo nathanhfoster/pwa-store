@@ -51,9 +51,9 @@ const Pwas = (state = DEFAULT_STATE, action) => {
       nextItems = mergePwas(state.items.concat(state.filteredItems), payload.results);
       return {
         ...state,
-        count: payload.count,
-        next: payload.next,
-        previous: payload.previous,
+        count: payload.count || state.count,
+        next: payload.next || state.next,
+        previous: payload.previous || state.previous,
         ...handleFilterItems(nextItems, search || state.search)
       };
 
