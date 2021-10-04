@@ -18,7 +18,7 @@ const detailContainerStyles = {
   bgcolor: 'background.paper',
   borderBottom: '1px solid rgba(0,0,0,0.05)',
   px: 4,
-  mb: 3
+  my: 3
 };
 
 const PwaForm = (props) => {
