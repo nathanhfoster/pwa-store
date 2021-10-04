@@ -106,7 +106,7 @@ const PwaDetail = ({
         />
       )}
       <Grid container sx={{ mt: 4 }}>
-        <SimilarPwas tags={tags} />
+        <SimilarPwas pwaSlug={pwaSlug} tags={tags} />
       </Grid>
       <Grid container sx={{ mt: 4 }}>
         <RatingForm pwa_id={id} />
