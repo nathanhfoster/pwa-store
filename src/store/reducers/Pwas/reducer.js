@@ -2,6 +2,7 @@ import * as ActionTypes from './actions/types';
 import * as UserActionTypes from '../User/actions/types';
 import { mergePwas, handleFilterItems } from './utils';
 import { toggleBooleanReducer } from 'resurrection';
+import { omit } from 'utils';
 
 export const DEFAULT_STATE = Object.freeze({
   search: '',
@@ -51,9 +52,7 @@ const Pwas = (state = DEFAULT_STATE, action) => {
       nextItems = mergePwas(state.items.concat(state.filteredItems), payload.results);
       return {
         ...state,
-        count: payload.count || state.count,
-        next: payload.next || state.next,
-        previous: payload.previous || state.previous,
+        ...omit(payload, ['results]),
         ...handleFilterItems(nextItems, search || state.search)
       };
 
