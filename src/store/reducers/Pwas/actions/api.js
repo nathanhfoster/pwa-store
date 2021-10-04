@@ -6,7 +6,7 @@ import {
   SetPwas,
   SetPwaTags,
   UpdateReduxPwa,
-  SetPwasSearch,
+  SetPwasSearchData,
   MergeFilterPwas,
   FilterPwas
 } from './redux';
@@ -52,9 +52,11 @@ export const GetPwaTags = () => (dispatch) => {
 };
 
 export const SearchPwas = (category) => (dispatch, getState) => {
-  const { search } = getState().Pwas;
+  const {
+    search: { value, next }
+  } = getState().Pwas;
 
-  const query = category || search;
+  const query = category || value;
 
   if (!query) {
     dispatch(FilterPwas());
@@ -65,10 +67,10 @@ export const SearchPwas = (category) => (dispatch, getState) => {
 
   dispatch(ToogleIsLoading(true));
 
-  return Axios()
-    .get(`pwas?search=${query}`)
+  return Axios({ pagination: next })
+    .get(next ?? `pwas?search=${query}`)
     .then(({ data }) => {
-      dispatch(SetPwas(data));
+      dispatch(SetPwasSearchData(data));
       dispatch(ToogleIsLoading(false));
       return data;
     })

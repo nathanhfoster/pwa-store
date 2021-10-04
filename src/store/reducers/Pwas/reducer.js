@@ -5,7 +5,7 @@ import { toggleBooleanReducer } from 'resurrection';
 import { omit } from 'utils';
 
 export const DEFAULT_STATE = Object.freeze({
-  search: '',
+  search: { count: null, next: null, previous: null, value: '' },
   isLoading: false,
   count: null,
   next: null,
@@ -53,7 +53,7 @@ const Pwas = (state = DEFAULT_STATE, action) => {
       return {
         ...state,
         ...omit(payload, ['results']),
-        ...handleFilterItems(nextItems, search || state.search)
+        ...handleFilterItems(nextItems, search || state.search.value)
       };
 
     case ActionTypes.PWAS_SET_TAGS:
@@ -65,21 +65,29 @@ const Pwas = (state = DEFAULT_STATE, action) => {
     case ActionTypes.PWAS_SET_SEARCH:
       return {
         ...state,
-        search: payload
+        search: { ...state.search, value: payload }
+      };
+
+    case ActionTypes.PWAS_SET_SEARCH_DATA:
+      nextItems = mergePwas(state.items.concat(state.filteredItems), payload.results);
+      return {
+        ...state,
+        search: { ...state.search, ...omit(payload, ['results']) },
+        ...handleFilterItems(nextItems, search || state.search.value)
       };
 
     case ActionTypes.PWAS_MERGE_FILTER:
       nextItems = mergePwas(state.items.concat(state.filteredItems), payload);
       return {
         ...state,
-        ...handleFilterItems(nextItems, search || state.search)
+        ...handleFilterItems(nextItems, search || state.search.value)
       };
 
     case UserActionTypes.USER_SET_PWAS:
       nextItems = mergePwas(state.items.concat(state.filteredItems), payload.items);
       return {
         ...state,
-        ...handleFilterItems(nextItems, search || state.search)
+        ...handleFilterItems(nextItems, search || state.search.value)
       };
 
     default:

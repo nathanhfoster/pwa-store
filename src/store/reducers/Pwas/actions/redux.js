@@ -11,6 +11,8 @@ export const SetPwaTags = (payload) => ({ type: ActionTypes.PWAS_SET_TAGS, paylo
 
 export const SetPwasSearch = (payload) => ({ type: ActionTypes.PWAS_SET_SEARCH, payload });
 
+export const SetPwasSearchData = (payload) => ({ type: ActionTypes.PWAS_SET_SEARCH_DATA, payload });
+
 export const MergeFilterPwas = (payload, search) => ({
   type: ActionTypes.PWAS_MERGE_FILTER,
   payload,

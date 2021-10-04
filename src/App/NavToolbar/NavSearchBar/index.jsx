@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect, useMountedEffect } from 'resurrection';
 import { styled, alpha } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
@@ -45,8 +45,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   }
 }));
 
-const NavSearchBar = ({ search, isLoading, ResetPwasFilter, SetPwasSearch, SearchPwas, FilterPwas }) => {
-  const debouncedSearch = useDebouncedValue(search);
+const NavSearchBar = ({ searchValue, isLoading, ResetPwasFilter, SetPwasSearch, SearchPwas, FilterPwas }) => {
+  const debouncedSearch = useDebouncedValue(searchValue);
   const history = useHistory();
 
   const onSearch = ({ target: { value } }) => {
@@ -79,7 +79,7 @@ const NavSearchBar = ({ search, isLoading, ResetPwasFilter, SetPwasSearch, Searc
           placeholder='Search…'
           inputProps={{ type: 'search', 'aria-label': 'search' }}
           onChange={onSearch}
-          value={search}
+          value={searchValue}
         />
         {isLoading && <LinearProgress />}
       </Search>
@@ -87,7 +87,12 @@ const NavSearchBar = ({ search, isLoading, ResetPwasFilter, SetPwasSearch, Searc
   );
 };
 
-const mapStateToProps = ({ Pwas: { search, isLoading } }) => ({ search, isLoading });
+const mapStateToProps = ({
+  Pwas: {
+    search: { value },
+    isLoading
+  }
+}) => ({ searchValue: value, isLoading });
 const mapDispatchToProps = { ResetPwasFilter, SetPwasSearch, SearchPwas, FilterPwas };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavSearchBar);
