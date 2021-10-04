@@ -149,7 +149,7 @@ const mapStateToProps = (
   const isDetailedView = flexWrap === 'wrap';
 
   const width = innerWidth - (xl || lg || md || sm ? APP_DRAWER_WIDTH : 0);
-  const height = isDetailedView ? innerHeight - APP_DRAWER_HEIGHT - 72 - 51 : DEFAULT_PWA_IMAGE_SIZE * 2 + GUTTER_SIZE;
+  const height = isDetailedView ? innerHeight - APP_DRAWER_HEIGHT - 72 : DEFAULT_PWA_IMAGE_SIZE * 2 + GUTTER_SIZE;
 
   const columnWidth = DEFAULT_PWA_IMAGE_SIZE + GUTTER_SIZE;
   const columnCount = isDetailedView ? Math.floor(width / columnWidth) : data.length;

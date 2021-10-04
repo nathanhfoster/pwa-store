@@ -20,7 +20,7 @@ const usePwaSearchOnQueryChange = (queryKey = 'tagName') => {
     }
   }, [queryString]);
 
-  return queryString
+  return queryString;
 };
 
 export default usePwaSearchOnQueryChange;

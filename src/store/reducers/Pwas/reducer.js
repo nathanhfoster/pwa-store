@@ -48,13 +48,13 @@ const Pwas = (state = DEFAULT_STATE, action) => {
         : state;
 
     case ActionTypes.PWAS_SET:
-      nextItems = mergePwas(state.items, payload.results);
+      nextItems = mergePwas(state.items.concat(state.filteredItems), payload.results);
       return {
         ...state,
         count: payload.count,
         next: payload.next,
         previous: payload.previous,
-        items: nextItems
+        ...handleFilterItems(nextItems, search || state.search)
       };
 
     case ActionTypes.PWAS_SET_TAGS:

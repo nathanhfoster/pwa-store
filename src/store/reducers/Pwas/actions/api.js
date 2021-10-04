@@ -54,21 +54,23 @@ export const GetPwaTags = () => (dispatch) => {
 export const SearchPwas = (category) => (dispatch, getState) => {
   const { search } = getState().Pwas;
 
-  if (!(category || search)) {
+  const query = category || search;
+
+  if (!query) {
     dispatch(FilterPwas());
     return Promise.reject;
+  } else {
+    dispatch(FilterPwas(query));
   }
 
   dispatch(ToogleIsLoading(true));
 
-  const query = category || search;
-
   return Axios()
     .get(`pwas?search=${query}`)
-    .then(({ data: { results } }) => {
-      dispatch(MergeFilterPwas(results, category || ''));
+    .then(({ data }) => {
+      dispatch(SetPwas({ ...data, search: query }));
       dispatch(ToogleIsLoading(false));
-      return results;
+      return data;
     })
     .catch((e) => {
       dispatch(ToogleIsLoading(false));
