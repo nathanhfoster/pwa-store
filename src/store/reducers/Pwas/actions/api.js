@@ -68,7 +68,7 @@ export const SearchPwas = (category) => (dispatch, getState) => {
   return Axios()
     .get(`pwas?search=${query}`)
     .then(({ data }) => {
-      dispatch(SetPwas({ ...data, search: query }));
+      dispatch(SetPwas(data));
       dispatch(ToogleIsLoading(false));
       return data;
     })
