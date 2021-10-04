@@ -40,12 +40,6 @@ const PwaForm = (props) => {
   }, [onChange, props, pwa]);
 
   useMountedEffect(() => {
-    if (!data.manifest_json.error?.(data.manifest_json)) {
-      setForm({ type: 'SET_TAGS', payload: { manifest_json: JSON.parse(data.manifest_json.value), pwaTags } });
-    }
-  }, [data.manifest_json, onChange, pwaTags]);
-
-  useMountedEffect(() => {
     setForm({ type: 'SET_TAGS', payload: { manifest_json: pwa.manifest_json, pwaTags } });
   }, [onChange, pwa.manifest_json, pwaTags]);
 
