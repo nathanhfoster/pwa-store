@@ -42,7 +42,6 @@ const mergePwas = (currentStoreItems, newItems, key = 'id') => {
   for (let j = 0; j < newItems.length; j++) {
     const id = newItems[j][key];
     if (mergeMap[id] === undefined) {
-      // console.log(id, mergeMap, mergeMap[id]);
       allData.push(newItems[j]);
       mergeMap[id] = i;
       i += 1;
