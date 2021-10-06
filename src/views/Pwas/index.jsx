@@ -1,45 +1,40 @@
-import React, { lazy } from 'react';
-import { PwasType } from 'store/reducers/Pwas/types';
-import connect from 'resurrection';
-import usePwaSearchOnQueryChange from 'hooks/usePwaSearchOnQueryChange';
-import { GetPwasPage } from 'store/reducers/Pwas/actions/api';
+import React from 'react';
+import FilteredPwas from './FilteredPwas';
 
-const PwasStack = lazy(() => import('../../components/PwasStack'));
+const getPwaAnalyticsWeight = ({ pwa_analytics }) => Object.values(pwa_analytics).reduce((acc, a) => acc + a, 0);
 
-const Pwas = ({ pwas, GetPwasPage }) => {
-  const queryString = usePwaSearchOnQueryChange();
+const topAppsSort = (a, b) => {
+  const aWeight = getPwaAnalyticsWeight(a);
+  const bWeight = getPwaAnalyticsWeight(b);
+
+  return bWeight - aWeight;
+};
+
+const Pwas = () => {
   return (
     <>
-      <PwasStack
-        // TODO: need images that are 16:9
+      <FilteredPwas
         title='Featured apps'
         subtitle='Our favorite Progressive Web Apps'
-        data={pwas}
-        loadMoreData={GetPwasPage}
+        // sort={featuredAppsSort}
       />
-      <PwasStack
+      <FilteredPwas
         title='Top apps'
         subtitle='The best and most popular Progressive Web Apps at the moment'
-        data={pwas}
-        loadMoreData={GetPwasPage}
+        sort={topAppsSort}
       />
-      <PwasStack
+      <FilteredPwas
         title='New apps'
         subtitle='Recently added Progressive Web Apps that are worth checking out'
-        data={pwas}
-        loadMoreData={GetPwasPage}
+        // sort={newAppsSort}
       />
-      <PwasStack title='Random apps' subtitle='Discover random apps' data={pwas} loadMoreData={GetPwasPage} />
+      <FilteredPwas
+        title='Random apps'
+        subtitle='Discover random apps'
+        // sort={randomAppsSort}
+      />
     </>
   );
 };
 
-const mapStateToProps = ({ Pwas: { items } }) => ({ pwas: items });
-
-const mapDispatchToProps = { GetPwasPage };
-
-Pwas.propTypes = {
-  pwas: PwasType
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Pwas);
+export default Pwas;
