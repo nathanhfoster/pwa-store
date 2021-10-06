@@ -87,12 +87,20 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 
 ::-webkit-scrollbar {
   display: block;
-  height: 0.25rem;
-  width: 0.25rem;
+  height: 0.5rem;
+  width: 0.5rem;
   background-color: transparent;
   -webkit-border-radius: 6px;
   border-radius: 6px;
   transition: 200ms linear;
+}
+
+/* Mobile Screens */
+@media only screen and (hover: none) and (pointer: coarse) {
+  ::-webkit-scrollbar {
+    height: 0.25rem;
+    width: 0.25rem;
+  }
 }
 
 ::-webkit-scrollbar-track-piece {
@@ -107,6 +115,20 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--scrollBarColor);
+  /* background: var(--scrollBarColor); */
   border-radius: 6px;
 }
+
+.scroll::-webkit-scrollbar-thumb {
+  background: #9e9e9e;
+}
+
+/* .scroll:hover::-webkit-scrollbar {
+  height: 0.5rem;
+  width: 0.5rem;
+
+  -webkit-transition: width 1s ease-in-out;
+  -moz-transition: width 1s ease-in-out;
+  -o-transition: width 1s ease-in-out;
+  transition: width 1s ease-in-out;
+} */

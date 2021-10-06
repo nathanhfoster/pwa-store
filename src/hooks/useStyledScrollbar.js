@@ -8,6 +8,8 @@ const NOT_SCROLLING_STYLES = {
   '--scrollBarColor': 'transparent'
 };
 
+const SCROLLING_CLASS_NAME = 'scroll';
+
 const mapStyleProperties = (styles) => {
   var root = document.documentElement;
 
@@ -16,8 +18,13 @@ const mapStyleProperties = (styles) => {
   }
 };
 
-const toggleScrollbar = (scrolling) =>
-  scrolling ? mapStyleProperties(SCROLLING_STYLES) : mapStyleProperties(NOT_SCROLLING_STYLES);
+const toggleScrollbar = (element, scrolling) => {
+  if (scrolling) {
+    element.classList.add(SCROLLING_CLASS_NAME);
+  } else {
+    element.classList.remove(SCROLLING_CLASS_NAME);
+  }
+};
 
 const useStyledScrollbar = (delay = 800) => {
   const scrolling = useRef(false);
@@ -34,10 +41,10 @@ const useStyledScrollbar = (delay = 800) => {
       }
 
       clearTimeout(debounce.current);
-      toggleScrollbar(scrolling.current);
+      toggleScrollbar(e.target, scrolling.current);
 
       debounce.current = setTimeout(() => {
-        toggleScrollbar(scrolling.current);
+        toggleScrollbar(e.target, scrolling.current);
       }, delay);
     },
     [delay]
