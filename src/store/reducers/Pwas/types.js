@@ -58,6 +58,7 @@ export const PwaManifestJsonType = {
     persistent: PropTypes.bool,
     service_worker: PropTypes.string
   }),
+  prefer_related_applications: PropTypes.bool,
   related_applications: PropTypes.arrayOf(PropTypes.shape(PwaManifestRelatedApplicationShape)),
   icons: PropTypes.arrayOf(PropTypes.shape(PwaManifestIconShape)),
   keywords: PropTypes.arrayOf(PropTypes.string),

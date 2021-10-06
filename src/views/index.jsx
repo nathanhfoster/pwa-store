@@ -33,7 +33,14 @@ const AppRouter = ({ userIsLoggedIn }) => {
         />
         <Route exact path={[RouteMap.PWA_DETAIL]} render={({ match: { params } }) => <PwaDetail {...params} />} />
         <Route exact path={[RouteMap.PWA_PROFILE]} render={({ match: { params } }) => <PwaProfile {...params} />} />
-        <Route exact path={[RouteMap.PWA_TAG_FILTER]} component={PwasFilteredByTags} />
+        <Route
+          exact
+          path={[RouteMap.PWA_TAG_FILTER]}
+          render={({ location: { search } }) => {
+            const pwaTag = new URLSearchParams(search).get('tagName');
+            return <PwasFilteredByTags pwaTag={pwaTag} />;
+          }}
+        />
         <Route
           exact
           path={[RouteMap.LOGIN, RouteMap.REGISTER]}

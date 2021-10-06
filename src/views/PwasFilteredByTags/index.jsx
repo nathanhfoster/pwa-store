@@ -1,13 +1,16 @@
-import React, { useCallback, lazy } from 'react';
+import React, { useEffect, useCallback, lazy } from 'react';
 import { PwasType } from 'store/reducers/Pwas/types';
 import connect from 'resurrection';
-import usePwaSearchOnQueryChange from 'hooks/usePwaSearchOnQueryChange';
-import { GetPwas } from 'store/reducers/Pwas/actions/api';
+import { GetPwas, SearchPwas } from 'store/reducers/Pwas/actions/api';
 
 const PwasStack = lazy(() => import('../../components/PwasStack'));
 
-const PwasFilteredByTags = ({ pwas, next, GetPwas }) => {
-  const queryString = usePwaSearchOnQueryChange();
+const PwasFilteredByTags = ({ pwas, next, pwaTag, GetPwas, SearchPwas }) => {
+  useEffect(() => {
+    if (pwaTag) {
+      SearchPwas(pwaTag);
+    }
+  }, [pwaTag]);
 
   const loadMoreData = useCallback(() => {
     if (next) {
@@ -15,7 +18,7 @@ const PwasFilteredByTags = ({ pwas, next, GetPwas }) => {
     }
   }, [next]);
 
-  return <PwasStack flexWrap='wrap' title={queryString} data={pwas} loadMoreData={loadMoreData} />;
+  return <PwasStack flexWrap='wrap' title={pwaTag} data={pwas} loadMoreData={loadMoreData} />;
 };
 
 PwasFilteredByTags.propTypes = {
@@ -26,7 +29,10 @@ PwasFilteredByTags.defaultProps = {
   pwas: []
 };
 
-const mapStateToProps = ({ Pwas: { items, next } }) => ({ pwas: items, next });
-const mapDispatchToProps = { GetPwas };
+const mapStateToProps = ({ Pwas: { items, next } }, { pwaTag }) => ({
+  pwas: items.filter((pwa) => pwa.tags.some((tag) => tag.name === pwaTag)),
+  next
+});
+const mapDispatchToProps = { GetPwas, SearchPwas };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PwasFilteredByTags);
