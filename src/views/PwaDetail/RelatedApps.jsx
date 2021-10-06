@@ -4,6 +4,7 @@ import IconButton from '@material-ui/core/IconButton';
 import AndroidIcon from '@material-ui/icons/Android';
 import AppleIcon from '@material-ui/icons/Apple';
 import MicrosoftIcon from '@material-ui/icons/Window';
+import AppsIcon from '@material-ui/icons/Apps';
 import { PwaManifestRelatedApplicationShape } from 'store/reducers/Pwas/types';
 import { getHrefUrlReference } from './utils';
 
@@ -25,8 +26,8 @@ const RelatedApps = ({ related_applications }) => {
         title = 'Windows Store';
         break;
       default:
-        Icon = AndroidIcon;
-        title = 'Google Play Store';
+        Icon = AppsIcon;
+        title = 'App Store';
     }
 
     const hrefUrlReference = getHrefUrlReference(url);
