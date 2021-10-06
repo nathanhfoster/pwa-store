@@ -55,7 +55,6 @@ const PwasStack = ({
       const overscanStopIndex = isDetailedView
         ? getCellIndex(overscanRowStopIndex, overscanColumnStopIndex, columnCount)
         : overscanColumnStopIndex;
-      // if (!loadMoreData) return;
       const bottomOfListIndex = length === 0 ? length : length - 1;
       const reachedOverscan = bottomOfListIndex !== 0 && overscanStopIndex >= bottomOfListIndex;
 
