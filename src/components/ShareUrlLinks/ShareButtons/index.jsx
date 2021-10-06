@@ -13,12 +13,12 @@ import {
 const ShareButtons = () => {
   const { href: url } = window.location
   const Buttons = [
+    <ShareOnMobileOrClipboard url={url} />,
     <ShareOnEmail subject='The app store of the future' body={url} />,
     <ShareOnFaceBook url={url} />,
     <ShareOnWhatsApp text={url} />,
     <ShareOnLinkedIn url={url} />,
-    <ShareOnTwitter text={url} />,
-    <ShareOnMobileOrClipboard url={url} />
+    <ShareOnTwitter text={url} />
   ];
 
   return (
