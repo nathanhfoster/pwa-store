@@ -89,12 +89,14 @@ const Detail = ({
     history.push(GetPwaProfileUrl(slug));
   };
 
+  const hrefUrlReference = useMemo(() => `${url}?ref=pwastore`, [url]);
+
   return (
     <Box sx={{ maxWidth: 500, flexGrow: 1 }}>
       <Grid container spacing={0}>
         <Grid item xs={12} sm container zeroMinWidth>
           <Grid item xs='auto' sm={4} justifyContent='center' alignContent='center'>
-            <ButtonBase href={url} sx={imageButtonStyles}>
+            <ButtonBase href={hrefUrlReference} target='_blank' sx={imageButtonStyles}>
               <Img
                 src={imageSrc}
                 // srcSet={imageSrc}
@@ -158,7 +160,7 @@ const Detail = ({
                 size='small'
                 variant='contained'
                 disabled={!url}
-                href={`${url}?ref=pwastore`}
+                href={hrefUrlReference}
                 target='_blank'
                 sx={{ animation: 'grow 200ms', backgroundColor: 'primary.dark' }}
                 onClick={onLaunch}
