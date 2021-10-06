@@ -1,7 +1,8 @@
 import React from 'react';
 import connect from 'resurrection';
-import { IconButton } from '@material-ui/core';
-import { Favorite as FavoriteSolid, FavoriteBorder } from '@material-ui/icons';
+import IconButton from '@material-ui/core/IconButton';
+import FavoriteSolid from '@material-ui/icons/Favorite';
+import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
 
 import { UpdateFavorite } from '../../store/reducers/User/actions/api';
 
@@ -25,4 +26,5 @@ const mapStateToProps = (
   },
   { slug }
 ) => ({ fav: items.concat(filteredItems).find((item) => item.pwa.slug === slug) });
-export default connect(mapStateToProps, { UpdateFavorite })(Favorite);
+const mapDispatchToProps = { UpdateFavorite };
+export default connect(mapStateToProps, mapDispatchToProps)(Favorite);

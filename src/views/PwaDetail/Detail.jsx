@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, lazy } from 'react';
 import PropTypes from 'prop-types';
 import connect from 'resurrection';
 import { PwaType, PwaAnalyticsType, PwaManifestJsonType } from 'store/reducers/Pwas/types';
@@ -21,6 +21,9 @@ import { useHistory } from 'react-router-dom';
 import { GetPwaTagDetailUrl, GetPwaProfileUrl } from 'utils/RouteMap';
 import Paper from '@material-ui/core/Paper';
 import Favorite from './Favorite';
+import { getHrefUrlReference } from './utils';
+
+const RelatedApps = lazy(() => import('./RelatedApps'));
 
 const Img = styled('img')({
   margin: 'auto',
@@ -59,6 +62,7 @@ const Detail = ({
   background_color,
   theme_color,
   isAuthorOfPwaOrSuperUser,
+  related_applications,
   UpdateAnalytics
 }) => {
   const history = useHistory();
@@ -89,7 +93,7 @@ const Detail = ({
     history.push(GetPwaProfileUrl(slug));
   };
 
-  const hrefUrlReference = useMemo(() => `${url}?ref=pwastore`, [url]);
+  const hrefUrlReference = getHrefUrlReference(url);
 
   return (
     <Box sx={{ maxWidth: 500, flexGrow: 1 }}>
@@ -157,6 +161,7 @@ const Detail = ({
             </Grid>
             <Grid item xs>
               <LaunchButton
+                title={`Launch ${name}`}
                 size='small'
                 variant='contained'
                 disabled={!url}
@@ -168,7 +173,9 @@ const Detail = ({
                 <LaunchIcon sx={{ mr: 1 }} />
                 Launch pwa
               </LaunchButton>
+              {related_applications?.length > 0 && <RelatedApps related_applications={related_applications} />}
             </Grid>
+
             <Grid item xs>
               <ShareButtons />
             </Grid>
@@ -194,7 +201,7 @@ const mapStateToProps = (
     image_url,
     pwa_analytics: { view_count, launch_count, rating_avg, rating_count },
     manifest_url,
-    manifest_json: { background_color, theme_color, icons } = {}
+    manifest_json: { background_color, theme_color, icons, related_applications } = {}
   } = pwa;
   const iconSrc = getManifestIconSrc(manifest_url, icons);
   const imageSrc = image_url || iconSrc;
@@ -212,7 +219,8 @@ const mapStateToProps = (
     background_color,
     theme_color,
     imageSrc,
-    isAuthorOfPwaOrSuperUser
+    isAuthorOfPwaOrSuperUser,
+    related_applications
   };
 };
 
@@ -230,7 +238,8 @@ Detail.propTypes = {
   rating_count: PwaAnalyticsType.rating_count,
   background_color: PwaManifestJsonType.background_color,
   theme_color: PwaManifestJsonType.theme_color,
-  isAuthorOfPwaOrSuperUser: PropTypes.bool.isRequired
+  isAuthorOfPwaOrSuperUser: PropTypes.bool.isRequired,
+  related_applications: PwaManifestJsonType.related_applications
 };
 
 Detail.defaultProps = {
