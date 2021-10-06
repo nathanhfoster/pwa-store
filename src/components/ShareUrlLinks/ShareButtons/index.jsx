@@ -11,7 +11,7 @@ import {
 } from '../';
 
 const ShareButtons = () => {
-  const { href: url } = window.location
+  const { href: url } = window.location;
   const Buttons = [
     <ShareOnMobileOrClipboard url={url} />,
     <ShareOnEmail subject='The app store of the future' body={url} />,

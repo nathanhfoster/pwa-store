@@ -126,7 +126,12 @@ PwasStack.defaultProps = {
 
 const mapStateToProps = (
   {
-    Pwas: { items, filteredItems, isLoading: isLoadingFromStore },
+    Pwas: {
+      items,
+      filteredItems,
+      isLoading: isLoadingFromStore,
+      search: { value: searchValue }
+    },
     Window: {
       breakpoints: { xs, sm, md, lg, xl },
       innerWidth,
@@ -136,7 +141,7 @@ const mapStateToProps = (
   { isLoading: isLoadingFromProps, flexWrap, data: dataFromProps }
 ) => {
   const dataFromStore = items.concat(filteredItems);
-  const isLoading = isLoadingFromProps || isLoadingFromStore || dataFromStore.length === 0;
+  const isLoading = searchValue || isLoadingFromProps || isLoadingFromStore || dataFromStore.length === 0;
   const data = (dataFromProps || dataFromStore).concat(
     isLoadingFromProps || isLoadingFromStore ? getPwasSkeleton() : []
   );

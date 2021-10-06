@@ -89,7 +89,10 @@ export const formReducer = (state, action) => {
         ...state,
         [name]: {
           ...state[name],
-          value: name === 'manifest_json' && typeof payload === 'object' ? JSON.stringify(payload) : payload
+          value:
+            name === 'manifest_json' && typeof payload === 'object'
+              ? JSON.stringify({ ...JSON.parse(state.manifest_json.value), ...payload })
+              : payload
         }
       };
   }

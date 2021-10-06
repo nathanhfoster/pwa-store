@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, lazy, useMemo } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import connect from 'resurrection';
 import CircularProgress from '@material-ui/core/CircularProgress';

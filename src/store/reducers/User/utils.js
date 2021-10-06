@@ -219,7 +219,10 @@ export const mergeManifestWithForm = (form, manifestUrl, manifestJson) => {
       placeholder: newManifestUrl || 'https://pwa.com/manifest.json',
       value: newManifestUrl
     },
-    manifest_json: { ...form.manifest_json, value: JSON.stringify(manifestJson) },
+    manifest_json: {
+      ...form.manifest_json,
+      value: JSON.stringify({ ...JSON.parse(form.manifest_json.value), ...manifestJson })
+    },
     image_url: {
       ...form.image_url,
       value: { ...form.image_url.value, src: newIconUrl },
