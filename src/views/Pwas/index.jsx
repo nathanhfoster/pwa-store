@@ -4,8 +4,13 @@ import { getRandomInt } from 'utils';
 
 const getPwaFeatureWeight = ({ organization }) => organization?.id || 0;
 
-const getPwaAnalyticsWeight = ({ pwa_analytics, related_applications }) =>
-  Object.values(pwa_analytics).reduce((acc, a) => acc + a) * related_applications?.length || 1;
+const getPwaAnalyticsWeight = ({ pwa_analytics, related_applications }) => {
+  const analyticsWeight = Object.values(pwa_analytics).reduce((acc, a) => acc + a);
+
+  const relatedAppsWeight = related_applications?.length > 0 ? related_applications?.length : 1;
+
+  return analyticsWeight * relatedAppsWeight;
+};
 
 const featuredAppsSort = (a, b) => {
   const aWeight = getPwaFeatureWeight(a) + getPwaAnalyticsWeight(a);
