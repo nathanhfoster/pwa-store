@@ -25,6 +25,7 @@ const PwasStack = ({
   data,
   flexWrap,
   isLoading,
+  hasFilteredData,
   columnCount,
   columnWidth,
   rowCount,
@@ -48,7 +49,7 @@ const PwasStack = ({
       visibleColumnStopIndex,
       visibleRowStartIndex
     }) => {
-      if (!loadMoreData || isLoading) {
+      if (!loadMoreData || isLoading || hasFilteredData) {
         return;
       }
       const { length } = data;
@@ -62,7 +63,7 @@ const PwasStack = ({
         loadMoreData();
       }
     },
-    [loadMoreData, isLoading, data, isDetailedView, columnCount]
+    [loadMoreData, isLoading, hasFilteredData, data, isDetailedView, columnCount]
   );
 
   const handleOnScroll = useCallback(
@@ -142,8 +143,8 @@ const mapStateToProps = (
 ) => {
   const dataFromStore = items.concat(filteredItems);
   const hasFilteredData = filteredItems.length > 0 || searchValue;
-  const isLoading = isLoadingFromProps || isLoadingFromStore || dataFromProps?.length === 0 || dataFromStore.length === 0 || hasFilteredData;
-  const data = (dataFromProps || dataFromStore).concat(isLoading && !hasFilteredData ? getPwasSkeleton() : []);
+  const isLoading = isLoadingFromProps || isLoadingFromStore || dataFromProps?.length === 0 || dataFromStore.length === 0;
+  const data = (dataFromProps || dataFromStore).concat(isLoading ? getPwasSkeleton() : []);
 
   const isDetailedView = flexWrap === 'wrap';
 
@@ -158,6 +159,7 @@ const mapStateToProps = (
 
   return {
     isLoading,
+    hasFilteredData,
     data,
     columnCount,
     columnWidth,
