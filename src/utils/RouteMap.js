@@ -9,6 +9,7 @@ export const GetPwaDetailUrl = (slug) => PWA_DETAIL.replace(':pwaSlug', slug);
 export const PWA_PROFILE = '/pwas/profile/:pwaSlug';
 export const GetPwaProfileUrl = (slug) => PWA_PROFILE.replace(':pwaSlug', slug);
 export const PWA_TAG_FILTER = '/pwas:pwaTag?';
-export const GetPwaTagDetailUrl = (tag) => PWA_TAG_FILTER.replace(':pwaTag?', `?tagName=${tag}`);
+export const PWA_TAG_ID = '?tagName=';
+export const GetPwaTagDetailUrl = (tag) => PWA_TAG_FILTER.replace(':pwaTag?', `${PWA_TAG_ID}${tag}`);
 export const LOGIN = '/login';
 export const REGISTER = '/register';

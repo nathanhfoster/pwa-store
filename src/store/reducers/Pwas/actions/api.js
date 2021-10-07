@@ -11,6 +11,7 @@ import {
   FilterPwas
 } from './redux';
 import { cleanPwaPayload } from './utils';
+const { REACT_APP_API_URL } = process.env;
 
 export const GetPwas = (pagination) => (dispatch) => {
   dispatch(ToogleIsLoading(true));
@@ -51,33 +52,32 @@ export const GetPwaTags = () => (dispatch) => {
     });
 };
 
-export const SearchPwas = (category) => (dispatch, getState) => {
-  const {
-    search: { value, next }
-  } = getState().Pwas;
-
-  const query = category || value;
-
-  if (!query) {
-    dispatch(FilterPwas());
-    return Promise.reject;
-  } else {
-    dispatch(FilterPwas(query));
-  }
-
+export const GetSearchPwas = (pagination) => (dispatch) => {
   dispatch(ToogleIsLoading(true));
 
-  return Axios({ pagination: next })
-    .get(next ?? `pwas?search=${query}`)
+  return Axios({ pagination })
+    .get(pagination)
     .then(({ data }) => {
-      dispatch(SetPwasSearchData(data));
       dispatch(ToogleIsLoading(false));
+      dispatch(SetPwasSearchData(data));
       return data;
     })
     .catch((e) => {
       dispatch(ToogleIsLoading(false));
       console.error(e);
     });
+};
+
+export const SearchPwas = (search) => (dispatch, getState) => {
+  const {
+    search: { value, next }
+  } = getState().Pwas;
+
+  if (search) {
+    dispatch(FilterPwas(search));
+  }
+
+  return dispatch(GetSearchPwas(next || `${REACT_APP_API_URL}pwas/?search=${search}`));
 };
 
 export const GetPwaManifest = (url) => (dispatch) =>

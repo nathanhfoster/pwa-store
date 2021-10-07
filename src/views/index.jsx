@@ -4,6 +4,7 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import { RouteMap } from 'utils';
 import Helmet from './Helmet';
 import Box from '@material-ui/core/Box';
+import { PWA_TAG_ID } from 'utils/RouteMap';
 
 const Home = lazy(() => import('./Home'));
 const UserAccount = lazy(() => import('./Account/UserAccount'));
@@ -37,7 +38,14 @@ const AppRouter = ({ userIsLoggedIn }) => {
           exact
           path={[RouteMap.PWA_TAG_FILTER]}
           render={({ location: { search } }) => {
-            const pwaTag = new URLSearchParams(search).get('tagName');
+            let pwaTag = '';
+            if (search.replace(' ', '%').includes('%')) {
+              const found = search.split(PWA_TAG_ID);
+              pwaTag = found[1].replaceAll('%20', ' ');
+            } else {
+              const query = new URLSearchParams(search);
+              pwaTag = query.get('tagName');
+            }
             return <PwasFilteredByTags pwaTag={pwaTag} />;
           }}
         />
