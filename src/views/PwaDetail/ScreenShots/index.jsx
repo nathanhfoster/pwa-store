@@ -38,8 +38,8 @@ const Screenshots = ({ name, pwa_screenshots, manifest_url, manifest_json, heigh
   const getColumnWidth = useCallback(
     (index) => {
       const screenshot = itemData.items[index];
-      const width = getImageDimensions(screenshot.image_url, { height })[0];
-      return width;
+      const result = getImageDimensions(screenshot.image_url, { height });
+      return result[0];
     },
     [height, itemData.items]
   );

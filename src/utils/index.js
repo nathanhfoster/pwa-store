@@ -219,16 +219,25 @@ export const inRange = (obj, min = -Infinity, max = Infinity) => {
 export const calculateAspectRatioFit = (srcWidth, srcHeight, maxWidth = srcWidth, maxHeight = srcHeight) => {
   const ratio = Math.min(maxWidth / srcWidth, maxHeight / srcHeight);
 
-  return [srcWidth * ratio || srcWidth, srcHeight * ratio || srcHeight];
+  const width = srcWidth * ratio || srcWidth;
+
+  const height = srcHeight * ratio || srcHeight;
+
+  // console.log({ width, height });
+
+  return [width, height];
 };
 
 export const getImageDimensions = (imageUrl, options = {}) => {
   const { height, width } = options;
+
   let el = document.createElement('img');
 
   el.setAttribute('src', imageUrl);
 
   const { naturalWidth, naturalHeight } = el;
 
-  return calculateAspectRatioFit(naturalWidth, naturalHeight, width, height);
+  const result = calculateAspectRatioFit(naturalWidth, naturalHeight, width, height);
+
+  return result;
 };
