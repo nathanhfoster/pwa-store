@@ -41,7 +41,7 @@ const RelatedApps = ({ related_applications }) => {
         disabled={!url}
         href={hrefUrlReference}
         target='_blank'
-        sx={{ animation: 'grow 200ms', backgroundColor: 'primary.dark', ml: 2 }}
+        sx={{ animation: 'grow 200ms', backgroundColor: 'primary.dark', ml: 2, p: 1 }}
       >
         <Icon />
       </IconButton>
