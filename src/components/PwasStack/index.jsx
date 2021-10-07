@@ -142,7 +142,7 @@ const mapStateToProps = (
 ) => {
   const dataFromStore = items.concat(filteredItems);
   const hasFilteredData = filteredItems.length > 0 || searchValue;
-  const isLoading = isLoadingFromProps || isLoadingFromStore || dataFromProps?.length === 0 || dataFromStore.length === 0;
+  const isLoading = isLoadingFromProps || isLoadingFromStore || dataFromProps?.length === 0 || dataFromStore.length === 0 || hasFilteredData;
   const data = (dataFromProps || dataFromStore).concat(isLoading && !hasFilteredData ? getPwasSkeleton() : []);
 
   const isDetailedView = flexWrap === 'wrap';
