@@ -16,8 +16,7 @@ const SimilarPwas = ({ pwas, next, pwaSlug, tags, SearchPwas }) => {
 
   useLayoutEffect(() => {
     if (!next && tags?.length > tagIndex.current + 1) {
-          tagIndex.current++;
-        }
+       tagIndex.current++;
     }
   }, [next, tags?.length]);
 
