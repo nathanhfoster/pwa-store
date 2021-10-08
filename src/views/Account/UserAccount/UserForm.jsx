@@ -70,7 +70,7 @@ const UserForm = ({
   );
 };
 
-const mapStateToProps = ({ User }) => ({ ...User });
+const mapStateToProps = ({ User }) => User;
 
 const mapDispatchToProps = { UpdateUser };
 

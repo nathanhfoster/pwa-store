@@ -48,7 +48,9 @@ const BasicForm = ({ title, data, submitTitle, submitJson, disabled, sx, childre
       } else {
         payload = new FormData(event.currentTarget);
         Object.entries(form).forEach(([key, value]) => {
-          payload.set(key, value);
+          if (value !== undefined) {
+            payload.set(key, value);
+          }
         });
       }
 
