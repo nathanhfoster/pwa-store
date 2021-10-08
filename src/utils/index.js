@@ -9,7 +9,7 @@ export const objectToArray = (
   initialValue = []
 ) => Object.values(objectOfObjects).reduce(callback, initialValue);
 
-export const escapeRegExp = (string) => string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+export const escapeRegExp = (string) => string?.replace?.(/[.*+?^${}()|[\]\\]/g, '\\$&') || ''; // $& means the whole matched string
 
 export const stringMatch = (s1, s2, caseSensitive = false) => {
   s1 = s1 || '';

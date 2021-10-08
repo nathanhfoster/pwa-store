@@ -1,6 +1,8 @@
 import UserReducer, { DEFAULT_STATE } from './reducer';
 import * as actionTypes from './actions/types';
+import * as pwasActionsTypes from '../Pwas/actions/types';
 import runReducerTests from 'store/runReducerTests';
+import { applePwa, googlePwa } from '../Pwas/utils.test';
 
 const MOCK_STRING_ID = 'MOCK_STRING_ID';
 const MOCK_NUMBER_ID = 1;
@@ -28,6 +30,27 @@ const tests = [
     expectedState: {
       ...DEFAULT_STATE,
       ...MOCK_USER_PAYLOAD
+    }
+  },
+  {
+    state: {
+      ...DEFAULT_STATE,
+      pwas: { ...DEFAULT_STATE.pwas, items: [applePwa], filteredItems: [googlePwa] },
+      favoritePwas: {
+        ...DEFAULT_STATE.favoritePwas,
+        items: [{ id: 1, pwa: applePwa }],
+        filteredItems: [{ id: 2, pwa: googlePwa }]
+      }
+    },
+    action: { type: pwasActionsTypes.PWAS_MERGE_FILTER, search: 'google' },
+    expectedState: {
+      ...DEFAULT_STATE,
+      pwas: { ...DEFAULT_STATE.pwas, items: [googlePwa], filteredItems: [applePwa] },
+      favoritePwas: {
+        ...DEFAULT_STATE.favoritePwas,
+        items: [{ id: 2, pwa: googlePwa }],
+        filteredItems: [{ id: 1, pwa: applePwa }]
+      }
     }
   }
 ];

@@ -91,7 +91,7 @@ const handleFilterItems = (items, search) => {
         categories = []
       } = {},
       updated_at
-    } = item;
+    } = item.pwa || item;
 
     if (
       match(short_name, search) ||
