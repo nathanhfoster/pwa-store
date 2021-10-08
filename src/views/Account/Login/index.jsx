@@ -13,7 +13,6 @@ import Portal from '@material-ui/core/Portal';
 import { useDispatch } from 'resurrection';
 import { UserLogin, UserSignUp } from 'store/reducers/User/actions/api';
 import BasicForm from 'components/BasicForm';
-import { DEFAULT_PWA_IMAGE_SIZE } from '../../../constants';
 
 const icon = `${process.env.PUBLIC_URL}/assets/android-chrome-512x512.png`;
 

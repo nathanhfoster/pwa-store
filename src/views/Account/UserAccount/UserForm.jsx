@@ -2,7 +2,6 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Box from '@material-ui/core/Box';
 
-import LoadingScreen from 'components/LoadingScreen';
 import BasicForm from 'components/BasicForm';
 import connect from 'resurrection';
 import { UpdateUser } from 'store/reducers/User/actions/api';
