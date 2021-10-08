@@ -38,16 +38,17 @@ const Screenshots = ({ name, pwa_screenshots, manifest_url, manifest_json, heigh
 
   const getColumnWidth = useCallback(
     (index) => {
+      const columnHeight = getColumnHeight(index);
       const { image_url } = itemData.items[index];
-      const [width] = getImageDimensions(image_url, { height });
+      const [width] = getImageDimensions(image_url, { height: columnHeight });
       widthMap.current[image_url] = width;
       if (!width) {
         const widths = Object.values(widthMap.current);
-        return widths.find((w) => w !== 0) || height / 2;
+        return widths.find((w) => w !== 0) || columnHeight / 2;
       }
       return width;
     },
-    [height, itemData.items]
+    [getColumnHeight, itemData.items]
   );
 
   return (
