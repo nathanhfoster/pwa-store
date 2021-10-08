@@ -44,7 +44,8 @@ const Screenshots = ({ name, pwa_screenshots, manifest_url, manifest_json, heigh
       widthMap.current[image_url] = width;
       if (!width) {
         const widths = Object.values(widthMap.current);
-        return widths.find((w) => w !== 0) || columnHeight / 2;
+        const nonZeroWidth = widths.find((w) => w !== 0);
+        return nonZeroWidth || columnHeight / 2;
       }
       return width;
     },

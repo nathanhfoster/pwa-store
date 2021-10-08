@@ -77,6 +77,10 @@ export const SearchPwas = (search) => (dispatch, getState) => {
     dispatch(FilterPwas(search));
   }
 
+  if (!(next || search)) {
+    return Promise.reject;
+  }
+
   return dispatch(GetSearchPwas(next || `${REACT_APP_API_URL}pwas/?search=${search}`));
 };
 
