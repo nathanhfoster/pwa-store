@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { PwaTagType } from 'store/reducers/Pwas/types';
 import { PwasStack } from 'components';
@@ -6,13 +6,13 @@ import connect from 'resurrection';
 import { SearchPwas } from 'store/reducers/Pwas/actions/api';
 
 const SimilarPwas = ({ pwas, tags, SearchPwas }) => {
-  const tag = tags.length > 0 ? tags[0].name || '';
-  const loadMoreData = useCallback(() => {
-     if(tag) {
-       SearchPwas(tag);
-     }
-  }, [tag])
-  return <PwasStack title='Similar Pwas' data={pwas} loadMoreData={loadMoreData} />;
+  const tag = tags?.length > 0 ? tags[0].name : '';
+
+  useEffect(() => {
+    SearchPwas(tag);
+  }, [tag]);
+
+  return <PwasStack title='Similar Pwas' data={pwas} loadMoreData={SearchPwas} />;
 };
 
 SimilarPwas.propTypes = { tags: PropTypes.arrayOf(PropTypes.shape(PwaTagType)) };

@@ -6,6 +6,7 @@ import { PwasType } from 'store/reducers/Pwas/types';
 
 const FavoritePwas = ({ isLoading, userFavoritePwas }) => {
   const pwas = useMemo(() => userFavoritePwas.map(({ pwa }) => pwa), [userFavoritePwas]);
+
   return <PwasStack title='My Favorite Pwas' flexWrap='wrap' data={pwas} isLoading={isLoading} />;
 };
 
