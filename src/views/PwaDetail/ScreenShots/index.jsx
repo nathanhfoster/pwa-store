@@ -1,4 +1,4 @@
-import React, { forwardRef, useMemo, useCallback } from 'react';
+import React, { forwardRef, useRef, useMemo, useCallback } from 'react';
 import { VariableSizeGrid as Grid } from 'react-window';
 import { getManifestIconUrl } from 'store/reducers/User/utils';
 import { styled } from '@material-ui/styles';
@@ -18,6 +18,7 @@ const innerElementType = forwardRef(({ style, ...children }, ref) => {
 const styles = { paddingLeft: GUTTER_SIZE };
 
 const Screenshots = ({ name, pwa_screenshots, manifest_url, manifest_json, height, width }) => {
+  const widthMap = useRef({});
   const itemData = useMemo(() => {
     const manifestScreenshots =
       manifest_json?.screenshots?.map((screenshot) => ({
@@ -37,9 +38,14 @@ const Screenshots = ({ name, pwa_screenshots, manifest_url, manifest_json, heigh
 
   const getColumnWidth = useCallback(
     (index) => {
-      const screenshot = itemData.items[index];
-      const result = getImageDimensions(screenshot.image_url, { height });
-      return result[0];
+      const { image_url } = itemData.items[index];
+      const [width] = getImageDimensions(image_url, { height });
+      widthMap.current[image_url] = width;
+      if (!width) {
+        const widths = Object.values(widthMap.current);
+        return widths.find((w) => w !== 0) || height / 2;
+      }
+      return width;
     },
     [height, itemData.items]
   );

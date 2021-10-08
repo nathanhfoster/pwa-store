@@ -223,8 +223,6 @@ export const calculateAspectRatioFit = (srcWidth, srcHeight, maxWidth = srcWidth
 
   const height = srcHeight * ratio || srcHeight;
 
-  // console.log({ width, height });
-
   return [width, height];
 };
 
