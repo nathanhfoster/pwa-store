@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useRef, useLayoutEffect, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { PwaTagType } from 'store/reducers/Pwas/types';
 import { PwasStack } from 'components';
 import connect from 'resurrection';
 import { SearchPwas } from 'store/reducers/Pwas/actions/api';
 
-const SimilarPwas = ({ pwas, next, tags, SearchPwas }) => {
-  const [tagIndex, setTagIndex] = useState(0);
+const SimilarPwas = ({ pwas, next, pwaSlug, tags, SearchPwas }) => {
+  const tagIndex = useRef(0);
 
-  const tag = tags[tagIndex].name;
+  const tag = tags[tagIndex.current].name;
 
-  useEffect(() => {
-    if (!next) {
-      setTagIndex((index) => {
-        if (tags?.length > index + 1) {
-          return index + 1;
+  useLayoutEffect(() => {
+    tagIndex.current = 0;
+  }, [pwaSlug])
+
+  useLayoutEffect(() => {
+    if (!next && tags?.length > tagIndex.current + 1) {
+          tagIndex.current++;
         }
-        return index;
-      });
     }
   }, [next, tags?.length]);
 
