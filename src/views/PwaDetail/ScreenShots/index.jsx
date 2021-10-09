@@ -1,6 +1,6 @@
-import React, { forwardRef, useEffect, useCallback } from 'react';
+import React, { forwardRef, useLayoutEffect, useCallback } from 'react';
 import { VariableSizeGrid as Grid } from 'react-window';
-import { getManifestIconUrl } from 'store/reducers/User/utils';
+
 import { styled } from '@material-ui/styles';
 import connect, { useSetStateReducer } from 'resurrection';
 import { getImageDimensions } from 'utils';
@@ -20,44 +20,25 @@ const styles = { paddingLeft: GUTTER_SIZE };
 const getInitialItemData = ({ name }) => ({ name, items: [] });
 
 const Screenshots = (props) => {
-  const { name, pwa_screenshots, manifest_url, manifest_json, height, width } = props;
+  const { screenshotSrcs, height, width } = props;
   const [itemData, setItemData] = useSetStateReducer(props, getInitialItemData);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     (async () => {
-      const manifestScreenshots =
-        manifest_json?.screenshots?.map((screenshot) => ({
-          ...screenshot,
-          image_url: getManifestIconUrl(manifest_url, screenshot)
-        })) || [];
-
       const items = await Promise.all(
-        pwa_screenshots.concat(manifestScreenshots).map(async (item) => {
-          const { image_url } = item;
-          const { width } = await getImageDimensions(image_url, { height });
-          return { ...item, width };
+        screenshotSrcs.split(',').map(async (src) => {
+          const { width } = await getImageDimensions(src, { height });
+          return { width, src };
         })
       );
 
       setItemData({ items });
     })();
-  }, [height, pwa_screenshots, manifest_url, manifest_json]);
+  }, [height, screenshotSrcs]);
 
-  const getColumnHeight = useCallback(
-    (index) => {
-      return height;
-    },
-    [height]
-  );
+  const getColumnHeight = useCallback((index) => height, [height]);
 
-  const getColumnWidth = useCallback(
-    (index) => {
-      const { width } = itemData.items[index];
-
-      return width;
-    },
-    [itemData.items]
-  );
+  const getColumnWidth = useCallback((index) => itemData.items[index].width, [itemData.items]);
 
   return (
     <StyledGrid

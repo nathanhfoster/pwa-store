@@ -1,7 +1,6 @@
 import React, { memo } from 'react';
 import { areEqual } from 'react-window';
 import Skeleton from '@material-ui/core/Skeleton';
-
 import Pwa from './Pwa';
 import { DEFAULT_PWA_IMAGE_SIZE } from '../../constants';
 import { GUTTER_SIZE, getCellIndex } from './utils';

@@ -8,6 +8,7 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Typography from '@material-ui/core/Typography';
 import { PwaType } from 'store/reducers/Pwas/types';
 import { GetPwa, UpdateAnalytics, SearchPwas } from 'store/reducers/Pwas/actions/api';
+import { getManifestIconUrl } from 'store/reducers/User/utils';
 import Screenshots from './ScreenShots';
 
 const RatingForm = lazy(() => import('./RatingForm'));
@@ -75,6 +76,17 @@ const PwaDetail = ({
     [ratings]
   );
 
+  const screenshotSrcs = useMemo(() => {
+    const defaultValue = '';
+    return (
+      manifest_json?.screenshots?.reduce?.((acc, screenshot, i, { length }) => {
+        const src = getManifestIconUrl(manifest_url, screenshot);
+        acc += `${src}${i + 1 === length ? '' : ','}`;
+        return acc;
+      }, defaultValue) || defaultValue
+    );
+  }, [manifest_json?.screenshots, manifest_url]);
+
   if (!id) {
     return (
       <Backdrop sx={{ color: 'inherit', zIndex: (theme) => theme.zIndex.drawer + 1 }} open={!id}>
@@ -98,12 +110,7 @@ const PwaDetail = ({
         </Grid>
       </Box>
       {(pwa_screenshots?.length > 0 || manifest_json?.screenshots?.length > 0) && (
-        <Screenshots
-          name={name}
-          pwa_screenshots={pwa_screenshots}
-          manifest_url={manifest_url}
-          manifest_json={manifest_json}
-        />
+        <Screenshots name={name} manifest_url={manifest_url} screenshotSrcs={screenshotSrcs} />
       )}
       <Grid container sx={{ mt: 4 }}>
         <SimilarPwas pwaSlug={pwaSlug} tags={tags} />
