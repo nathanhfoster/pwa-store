@@ -83,7 +83,7 @@ const RatingForm = ({ userName, shouldRender, ratingOwnedByUser, pwa_id, PostRat
             />
           </Grid>
           <Grid item xs={ratingOwnedByUser ? 4 : 12} alignItems='center'>
-            <Button onClick={onSubmit} sx={{ backgroundColor: 'primary.dark' }} variant='contained'>
+            <Button disabled={ratingOwnedByUser?.comment === comment} onClick={onSubmit} sx={{ backgroundColor: 'primary.dark' }} variant='contained'>
               {ratingOwnedByUser ? 'Update' : 'Submit'}
             </Button>
           </Grid>
