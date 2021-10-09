@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 import { PwaRatingShape } from 'store/reducers/Pwas/types';
 import { styled } from '@material-ui/core/styles';
 import { TextareaAutosize, Box, Button, Grid, Paper } from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
 import StarPicker from 'components/StarPicker';
 import DateTime from 'components/DateTime';
 import Avatar from '@material-ui/core/Avatar';
-import { PostRating, UpdateRating } from '../../store/reducers/Pwas/actions/api';
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+import { PostRating, UpdateRating, DeleteRating } from 'store/reducers/Pwas/actions/api';
 import connect from 'resurrection';
 import { getFirstChar } from 'utils';
 
@@ -23,7 +25,7 @@ const TextArea = styled(TextareaAutosize)((props) => ({
   color: props.theme.palette.text.primary
 }));
 
-const RatingForm = ({ userName, shouldRender, ratingOwnedByUser, pwa_id, UpdateRating, PostRating }) => {
+const RatingForm = ({ userName, shouldRender, ratingOwnedByUser, pwa_id, PostRating, UpdateRating, DeleteRating }) => {
   const [rating, updateRating] = useState(0);
   const [comment, updateComment] = useState('');
 
@@ -48,6 +50,13 @@ const RatingForm = ({ userName, shouldRender, ratingOwnedByUser, pwa_id, UpdateR
     }
   };
 
+  const onDelete = (e) => {
+    e.preventDefault();
+    DeleteRating(ratingOwnedByUser.id, pwa_id);
+    updateRating(0);
+    updateComment('');
+  };
+
   return (
     <Box sx={{ flexGrow: 1, overflow: 'hidden', px: 3 }}>
       <Paper sx={{ my: 1, mx: 'auto', p: 2 }}>
@@ -55,9 +64,16 @@ const RatingForm = ({ userName, shouldRender, ratingOwnedByUser, pwa_id, UpdateR
           <Grid item xs={2} md={1}>
             <Avatar>{getFirstChar(userName)}</Avatar>
           </Grid>
-          <Grid item xs={10} md={11} sx={{ mb: 1 }}>
-            <StarPicker onChange={updateRating} noOfStar={rating} />
+          <Grid item xs={ratingOwnedByUser ? 9 : 10} md={ratingOwnedByUser ? 10 : 11} sx={{ mb: 1 }}>
+            <StarPicker onChange={updateRating} data={rating} />
           </Grid>
+          {ratingOwnedByUser && (
+            <Grid item xs={1}>
+              <IconButton onClick={onDelete} color='error' variant='contained' sx={{ float: 'right' }}>
+                <DeleteOutlineIcon />
+              </IconButton>
+            </Grid>
+          )}
           <Grid item xs={12} sx={{ width: '100%', mb: 1 }}>
             <TextArea
               minRows={4}
@@ -96,7 +112,8 @@ const mapStateToProps = (
 
 const mapDispatchToProps = {
   PostRating,
-  UpdateRating
+  UpdateRating,
+  DeleteRating
 };
 
 RatingForm.propTypes = {

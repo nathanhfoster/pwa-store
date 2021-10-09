@@ -370,9 +370,9 @@ export const PostRating = (payload) => (dispatch, getState) => {
       };
       dispatch(PushAlertWithTimeout(alertPayload));
       const { items, filteredItems } = getState().Pwas;
-      const obj = items.concat(filteredItems).find((i) => i.id === payload.pwa_id);
+      const obj = items.concat(filteredItems).find((i) => i.id === payload.pwa);
       const newRatings = [{ ...data }, ...obj.ratings];
-      dispatch(UpdateReduxPwa({ id: payload.pwa_id, ratings: newRatings }));
+      dispatch(UpdateReduxPwa({ id: payload.pwa, ratings: newRatings }));
       return data;
     })
     .catch((e) => {
@@ -395,9 +395,34 @@ export const UpdateRating = (ratingId, payload) => (dispatch, getState) => {
       };
       dispatch(PushAlertWithTimeout(alertPayload));
       const { items, filteredItems } = getState().Pwas;
-      const pwa = items.concat(filteredItems).find((i) => i.id === payload.pwa_id);
+      const allItems = items.concat(filteredItems);
+      const pwa = allItems.find((i) => i.id == payload.pwa);
       const newRatings = pwa.ratings.map((r) => (r.id == ratingId ? { ...r, ...data } : r));
-      dispatch(UpdateReduxPwa({ id: payload.pwa_id, ratings: newRatings }));
+
+      dispatch(UpdateReduxPwa({ id: payload.pwa, ratings: newRatings }));
+      return data;
+    })
+    .catch((e) => {
+      console.log('error', e);
+    });
+};
+
+export const DeleteRating = (ratingId, pwaId) => (dispatch, getState) => {
+  return Axios()
+    .delete(`ratings/${ratingId}/`)
+    .then(({ data }) => {
+      const alertPayload = {
+        title: 'Deleted Rating',
+        message: 'Successfully deleted rating',
+        props: { severity: 'success' }
+      };
+      dispatch(PushAlertWithTimeout(alertPayload));
+      const { items, filteredItems } = getState().Pwas;
+      const allItems = items.concat(filteredItems);
+      const pwa = allItems.find((i) => i.id == pwaId);
+      const newRatings = pwa.ratings.filter((r) => r.id !== ratingId);
+
+      dispatch(UpdateReduxPwa({ id: pwaId, ratings: newRatings }));
       return data;
     })
     .catch((e) => {

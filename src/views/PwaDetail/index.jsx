@@ -9,13 +9,12 @@ import Typography from '@material-ui/core/Typography';
 import { PwaType } from 'store/reducers/Pwas/types';
 import { GetPwa, UpdateAnalytics, SearchPwas } from 'store/reducers/Pwas/actions/api';
 import { getManifestIconUrl } from 'store/reducers/User/utils';
-import Screenshots from './ScreenShots';
 
 const RatingForm = lazy(() => import('./RatingForm'));
 const Detail = lazy(() => import('./Detail'));
 const Rating = lazy(() => import('./Rating'));
 const SimilarPwas = lazy(() => import('./SimilarPwas'));
-// const Screenshots = lazy(() => import('./ScreenShots'));
+const Screenshots = lazy(() => import('./ScreenShots'));
 
 const detailContainerStyles = {
   height: '100%',
@@ -109,12 +108,12 @@ const PwaDetail = ({
           )}
         </Grid>
       </Box>
-      {(pwa_screenshots?.length > 0 || manifest_json?.screenshots?.length > 0) && (
-        <Screenshots name={name} manifest_url={manifest_url} screenshotSrcs={screenshotSrcs} />
+      {screenshotSrcs && <Screenshots name={name} screenshotSrcs={screenshotSrcs} />}
+      {tags.length > 0 && (
+        <Grid container sx={{ mt: 4 }}>
+          <SimilarPwas pwaSlug={pwaSlug} tags={tags} />
+        </Grid>
       )}
-      <Grid container sx={{ mt: 4 }}>
-        <SimilarPwas pwaSlug={pwaSlug} tags={tags} />
-      </Grid>
       <Grid container sx={{ mt: 4 }}>
         <RatingForm pwa_id={id} />
       </Grid>

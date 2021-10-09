@@ -4,12 +4,12 @@ import StarBorder from '@material-ui/icons/StarBorder';
 
 const stars = [1, 2, 3, 4, 5];
 
-const StarPicker = ({ onChange, noOfStar }) => {
+const StarPicker = ({ onChange, data }) => {
   const [hover, setHover] = useState(0);
 
   useEffect(() => {
-    setHover(noOfStar);
-  }, [noOfStar]);
+    setHover(data);
+  }, [data]);
 
   return (
     <>
@@ -20,13 +20,9 @@ const StarPicker = ({ onChange, noOfStar }) => {
             type='button'
             onClick={() => onChange(idx + 1)}
             onMouseOver={() => setHover(idx + 1)}
-            onMouseOut={() => setHover(noOfStar)}
+            onMouseOut={() => setHover(data)}
           >
-            {idx + 1 <= (hover || noOfStar) ? (
-              <Star style={{ fontSize: 40 }} />
-            ) : (
-              <StarBorder style={{ fontSize: 40 }} />
-            )}
+            {idx + 1 <= (hover || data) ? <Star style={{ fontSize: 40 }} /> : <StarBorder style={{ fontSize: 40 }} />}
           </span>
         );
       })}
