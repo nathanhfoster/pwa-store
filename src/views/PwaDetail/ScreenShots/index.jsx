@@ -1,8 +1,8 @@
-import React, { forwardRef, useRef, useMemo, useCallback } from 'react';
+import React, { forwardRef, useEffect, useCallback } from 'react';
 import { VariableSizeGrid as Grid } from 'react-window';
 import { getManifestIconUrl } from 'store/reducers/User/utils';
 import { styled } from '@material-ui/styles';
-import connect from 'resurrection';
+import connect, { useSetStateReducer } from 'resurrection';
 import { getImageDimensions } from 'utils';
 import { IMAGE_HEIGHT, GUTTER_SIZE } from './utils';
 import Screenshot from './Screenshot';
@@ -17,17 +17,31 @@ const innerElementType = forwardRef(({ style, ...children }, ref) => {
 
 const styles = { paddingLeft: GUTTER_SIZE };
 
-const Screenshots = ({ name, pwa_screenshots, manifest_url, manifest_json, height, width }) => {
-  const widthMap = useRef({});
-  const itemData = useMemo(() => {
-    const manifestScreenshots =
-      manifest_json?.screenshots?.map((screenshot) => ({
-        ...screenshot,
-        image_url: getManifestIconUrl(manifest_url, screenshot)
-      })) || [];
-    const items = pwa_screenshots.concat(manifestScreenshots);
-    return { items, name };
-  }, [manifest_json?.screenshots, manifest_url, name, pwa_screenshots]);
+const getInitialItemData = ({ name }) => ({ name, items: [] });
+
+const Screenshots = (props) => {
+  const { name, pwa_screenshots, manifest_url, manifest_json, height, width } = props;
+  const [itemData, setItemData] = useSetStateReducer(props, getInitialItemData);
+
+  useEffect(() => {
+    (async () => {
+      const manifestScreenshots =
+        manifest_json?.screenshots?.map((screenshot) => ({
+          ...screenshot,
+          image_url: getManifestIconUrl(manifest_url, screenshot)
+        })) || [];
+
+      const items = await Promise.all(
+        pwa_screenshots.concat(manifestScreenshots).map(async (item) => {
+          const { image_url } = item;
+          const { width } = await getImageDimensions(image_url, { height });
+          return { ...item, width };
+        })
+      );
+
+      setItemData({ items });
+    })();
+  }, [height, pwa_screenshots, manifest_url, manifest_json]);
 
   const getColumnHeight = useCallback(
     (index) => {
@@ -38,18 +52,11 @@ const Screenshots = ({ name, pwa_screenshots, manifest_url, manifest_json, heigh
 
   const getColumnWidth = useCallback(
     (index) => {
-      const columnHeight = getColumnHeight(index);
-      const { image_url } = itemData.items[index];
-      const [width] = getImageDimensions(image_url, { height: columnHeight });
-      widthMap.current[image_url] = width;
-      if (!width) {
-        const widths = Object.values(widthMap.current);
-        const nonZeroWidth = widths.find((w) => w !== 0);
-        return nonZeroWidth || columnHeight / 2;
-      }
+      const { width } = itemData.items[index];
+
       return width;
     },
-    [getColumnHeight, itemData.items]
+    [itemData.items]
   );
 
   return (

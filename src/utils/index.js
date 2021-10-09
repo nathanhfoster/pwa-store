@@ -212,8 +212,8 @@ export const inRange = (obj, min = -Infinity, max = Infinity) => {
  *
  * @param {number} srcWidth width of source image
  * @param {number} srcHeight height of source image
- * @param {number} maxWidth maximum available width
- * @param {number} maxHeight maximum available height
+ * @param {number} srcWidth maximum available width
+ * @param {number} srcHeight maximum available height
  * @return {array.<number, number>} [width, height]
  */
 export const calculateAspectRatioFit = (srcWidth, srcHeight, maxWidth = srcWidth, maxHeight = srcHeight) => {
@@ -226,16 +226,17 @@ export const calculateAspectRatioFit = (srcWidth, srcHeight, maxWidth = srcWidth
   return [width, height];
 };
 
-export const getImageDimensions = (imageUrl, options = {}) => {
-  const { height, width } = options;
+export const getImageDimensions = (url, options = {}) => {
+  return new Promise((resolve, reject) => {
+    var img = new Image();
+    img.onload = () => {
+      const [newWidth, newHeight] = calculateAspectRatioFit(img.width, img.height, options.width, options.height);
+      img.setAttribute('width', newWidth);
+      img.setAttribute('height', newHeight);
 
-  let el = document.createElement('img');
-
-  el.setAttribute('src', imageUrl);
-
-  const { naturalWidth, naturalHeight } = el;
-
-  const result = calculateAspectRatioFit(naturalWidth, naturalHeight, width, height);
-
-  return result;
+      return resolve(img);
+    };
+    img.onerror = () => reject();
+    img.src = url;
+  });
 };
