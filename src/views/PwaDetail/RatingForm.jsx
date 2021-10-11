@@ -26,15 +26,15 @@ const TextArea = styled(TextareaAutosize)((props) => ({
 }));
 
 const RatingForm = ({ userName, shouldRender, ratingOwnedByUser, pwa_id, PostRating, UpdateRating, DeleteRating }) => {
-  const [rating, updateRating] = useState(ratingOwnedByUser.rating || 0);
-  const [comment, updateComment] = useState(ratingOwnedByUser.comment || '');
+  const [rating, updateRating] = useState(ratingOwnedByUser?.rating || 0);
+  const [comment, updateComment] = useState(ratingOwnedByUser?.comment || '');
 
   useEffect(() => {
-    if (ratingOwnedByUser) {
+    if (ratingOwnedByUser?.comment !== comment || ratingOwnedByUser?.rating !== rating) {
       updateRating(ratingOwnedByUser.rating);
       updateComment(ratingOwnedByUser.comment);
     }
-  }, [ratingOwnedByUser]);
+  }, [ratingOwnedByUser?.rating, ratingOwnedByUser?.comment]);
 
   if (!shouldRender) {
     return null;
