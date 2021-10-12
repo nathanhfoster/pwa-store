@@ -26,15 +26,15 @@ const TextArea = styled(TextareaAutosize)((props) => ({
 }));
 
 const RatingForm = ({ userName, shouldRender, ratingOwnedByUser, pwa_id, PostRating, UpdateRating, DeleteRating }) => {
-  const [rating, updateRating] = useState(0);
-  const [comment, updateComment] = useState('');
+  const [rating, updateRating] = useState(ratingOwnedByUser?.rating || 0);
+  const [comment, updateComment] = useState(ratingOwnedByUser?.comment || '');
 
   useEffect(() => {
-    if (ratingOwnedByUser) {
+    if (ratingOwnedByUser?.rating !== rating || ratingOwnedByUser?.comment !== comment) {
       updateRating(ratingOwnedByUser?.rating);
       updateComment(ratingOwnedByUser?.comment);
     }
-  }, [ratingOwnedByUser]);
+  }, [ratingOwnedByUser?.rating, ratingOwnedByUser?.comment]);
 
   if (!shouldRender) {
     return null;
@@ -83,12 +83,7 @@ const RatingForm = ({ userName, shouldRender, ratingOwnedByUser, pwa_id, PostRat
             />
           </Grid>
           <Grid item xs={ratingOwnedByUser ? 4 : 12} alignItems='center'>
-            <Button
-              disabled={ratingOwnedByUser?.comment === comment}
-              onClick={onSubmit}
-              sx={{ backgroundColor: 'primary.dark' }}
-              variant='contained'
-            >
+            <Button disabled={ratingOwnedByUser?.comment === comment && ratingOwnedByUser?.rating === rating} onClick={onSubmit} sx={{ backgroundColor: 'primary.dark' }} variant='contained'>
               {ratingOwnedByUser ? 'Update' : 'Submit'}
             </Button>
           </Grid>
