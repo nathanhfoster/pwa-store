@@ -72,7 +72,7 @@ export const DEFAULT_STATE = Object.freeze({
         label: 'Custom url',
         placeholder: 'google-photos',
         value: '',
-        error: (props) => !inRange(props?.value, 2, 50)
+        error: (props) => !inRange(props?.value, 3, 50)
       },
       description: {
         type: 'textarea',
