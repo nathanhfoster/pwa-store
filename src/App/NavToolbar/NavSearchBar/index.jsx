@@ -6,7 +6,8 @@ import SearchIcon from '@material-ui/icons/Search';
 import useDebouncedValue from 'hooks/useDebouncedValue';
 import { ResetPwasFilter, SetPwasSearch, SearchPwas, FilterPwas } from 'store/reducers/Pwas/actions';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import { useHistory } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+import * as RouteMap from 'utils/RouteMap';
 
 import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
@@ -45,9 +46,17 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   }
 }));
 
-const NavSearchBar = ({ searchValue, isLoading, ResetPwasFilter, SetPwasSearch, SearchPwas, FilterPwas }) => {
+const NavSearchBar = ({
+  goBack,
+  placeholder,
+  searchValue,
+  isLoading,
+  ResetPwasFilter,
+  SetPwasSearch,
+  SearchPwas,
+  FilterPwas
+}) => {
   const debouncedSearch = useDebouncedValue(searchValue);
-  const history = useHistory();
 
   const onSearch = ({ target: { value } }) => {
     SetPwasSearch(value);
@@ -55,7 +64,7 @@ const NavSearchBar = ({ searchValue, isLoading, ResetPwasFilter, SetPwasSearch, 
 
   const handleBackClick = () => {
     ResetPwasFilter();
-    history.goBack();
+    goBack();
   };
 
   useMountedEffect(() => {
@@ -76,7 +85,7 @@ const NavSearchBar = ({ searchValue, isLoading, ResetPwasFilter, SetPwasSearch, 
         )}
         <StyledInputBase
           fullWidth
-          placeholder='Search…'
+          placeholder={placeholder}
           inputProps={{ type: 'search', 'aria-label': 'search' }}
           onChange={onSearch}
           value={searchValue}
@@ -89,10 +98,44 @@ const NavSearchBar = ({ searchValue, isLoading, ResetPwasFilter, SetPwasSearch, 
 
 const mapStateToProps = ({
   Pwas: {
+    count: allPwasCount,
     search: { value },
     isLoading
+  },
+  User: {
+    pwas: { count: userPwasCount },
+    favoritePwas: { items: userFavoritePwas }
   }
-}) => ({ searchValue: value, isLoading });
+}) => ({ allPwasCount, searchValue: value, isLoading, userPwasCount, userFavoritePwasCount: userFavoritePwas.length });
+
 const mapDispatchToProps = { ResetPwasFilter, SetPwasSearch, SearchPwas, FilterPwas };
 
-export default connect(mapStateToProps, mapDispatchToProps)(NavSearchBar);
+const mergeProps = (stateToProps, dispatchToProps, ownProps) => {
+  const { allPwasCount, userPwasCount, userFavoritePwasCount, ...restOfStateToProps } = stateToProps;
+  const {
+    history: {
+      goBack,
+      location: { pathname }
+    },
+    ...restOfOwnProps
+  } = ownProps;
+  var searchCount = allPwasCount;
+
+  if (pathname.includes(RouteMap.SETTINGS_USER_FAVORITE_PWAS)) {
+    searchCount = userFavoritePwasCount;
+  } else if (pathname.includes(RouteMap.SETTINGS_USER_PWAS)) {
+    searchCount = userPwasCount;
+  }
+
+  const moreThanOnePwa = searchCount > 1;
+
+  const placeholder = `Search${moreThanOnePwa ? ` ${searchCount} ` : ' '}pwas...`;
+  return {
+    ...restOfStateToProps,
+    ...dispatchToProps,
+    ...restOfOwnProps,
+    placeholder,
+    goBack
+  };
+};
+export default withRouter(connect(mapStateToProps, mapDispatchToProps, mergeProps)(NavSearchBar));

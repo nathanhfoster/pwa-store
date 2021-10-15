@@ -1,4 +1,4 @@
-import React, { useEffect, lazy } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import connect from 'resurrection';
 import AppBar from '@material-ui/core/AppBar';
@@ -16,9 +16,8 @@ import useIsPwaInstalled from 'hooks/useIsPwaInstalled';
 import NavToolbar from './NavToolbar';
 import AppRouter from 'views';
 import NavDrawer from './NavDrawer';
+import Alerts from './Alerts';
 import { APP_DRAWER_WIDTH } from '../constants';
-
-const Alerts = lazy(() => import('./Alerts'));
 
 const Container = styled(Box)((props) => ({
   display: 'flex',
