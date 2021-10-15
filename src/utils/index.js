@@ -240,3 +240,5 @@ export const getImageDimensions = (url, options = {}) => {
     img.src = url;
   });
 };
+
+export const isAbsoluteUrl = (url) => /^[a-z][a-z0-9+.-]*:/.test(url);
