@@ -96,6 +96,7 @@ export const handleFilterItems = (items, search) => {
     } = item.pwa || item;
 
     if (
+      match(slug, search) ||
       match(short_name, search) ||
       match(manifestName, search) ||
       match(author, search) ||
