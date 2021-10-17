@@ -68,6 +68,7 @@ const match = (obj, search, key) => {
 };
 
 export const handleFilterItems = (items, search) => {
+  console.log(search)
   if (!search || search === ALL_PWA_TAG) return { items, filteredItems: [] };
 
   var cachedItems = [];

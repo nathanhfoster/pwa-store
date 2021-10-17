@@ -4,7 +4,7 @@ import { styled, alpha } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
-import { ResetPwasFilter, SetPwasSearch, SearchPwas, FilterPwas } from 'store/reducers/Pwas/actions';
+import { ResetPwasFilter, SetPwasSearch, SearchPwas } from 'store/reducers/Pwas/actions';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { withRouter } from 'react-router-dom';
 import * as RouteMap from 'utils/RouteMap';
@@ -51,19 +51,9 @@ const KEYS_THAT_SEARECH = ['Enter'];
 
 const searchIconProps = { animation: 'grow 200ms' };
 
-const NavSearchBar = ({
-  goBack,
-  placeholder,
-  searchValue,
-  isLoading,
-  ResetPwasFilter,
-  SetPwasSearch,
-  SearchPwas,
-  FilterPwas
-}) => {
+const NavSearchBar = ({ goBack, placeholder, searchValue, isLoading, ResetPwasFilter, SetPwasSearch, SearchPwas }) => {
   const search = (value = searchValue) => {
     SearchPwas(value);
-    FilterPwas(value);
   };
 
   const onSearch = ({ target: { value } }) => {
@@ -121,7 +111,7 @@ const mapStateToProps = ({
   }
 }) => ({ allPwasCount, searchValue: value, isLoading, userPwasCount, userFavoritePwasCount: userFavoritePwas.length });
 
-const mapDispatchToProps = { ResetPwasFilter, SetPwasSearch, SearchPwas, FilterPwas };
+const mapDispatchToProps = { ResetPwasFilter, SetPwasSearch, SearchPwas };
 
 const mergeProps = (stateToProps, dispatchToProps, ownProps) => {
   const { allPwasCount, userPwasCount, userFavoritePwasCount, ...restOfStateToProps } = stateToProps;
