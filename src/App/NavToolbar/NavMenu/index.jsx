@@ -19,6 +19,7 @@ const NavMenu = ({
   const handleMobileMenuClose = useCallback(() => {
     ToggleMobileMoreAnchorEl(null);
   }, []);
+
   return (
     <>
       <Menu

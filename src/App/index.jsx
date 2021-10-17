@@ -35,10 +35,10 @@ const App = ({
   GetPwas,
   SetAddToHomeScreenPrompt,
   GetPwaTags,
-  User
+  userSetting
 }) => {
   const [prompt] = useAddToHomescreenPrompt();
-  const appTheme = useTheme(User.setting);
+  const appTheme = useTheme(userSetting);
   const isInstalled = useIsPwaInstalled();
 
   useStyledScrollbar();
@@ -100,7 +100,7 @@ App.propTypes = {
   User: PropTypes.object.isRequired
 };
 
-const mapStateToProps = ({ User }) => ({ User });
+const mapStateToProps = ({ User }) => ({ userSetting: User.setting });
 
 const mapDispatchToProps = {
   ToggleAppIsInstalled,

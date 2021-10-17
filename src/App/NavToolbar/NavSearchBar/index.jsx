@@ -51,16 +51,12 @@ const KEYS_THAT_SEARECH = ['Enter'];
 
 const searchIconProps = { animation: 'grow 200ms' };
 
-const NavSearchBar = ({ goBack, placeholder, searchValue, isLoading, ResetPwasFilter, SetPwasSearch, SearchPwas }) => {
-  const search = (value = searchValue) => {
-    SearchPwas(value);
-  };
-
+const NavSearchBar = ({ goBack, placeholder, isLoading, ResetPwasFilter, SetPwasSearch, SearchPwas }) => {
   const onSearch = ({ target: { value } }) => {
     SetPwasSearch(value);
     // When the 'x' button is clicked in the search field
     if (!value) {
-      search(value);
+      SearchPwas(value);
     }
   };
 
@@ -71,7 +67,7 @@ const NavSearchBar = ({ goBack, placeholder, searchValue, isLoading, ResetPwasFi
 
   const handleOnKeyUp = ({ key }) => {
     if (KEYS_THAT_SEARECH.includes(key)) {
-      search();
+      SearchPwas();
     }
   };
 
@@ -82,7 +78,7 @@ const NavSearchBar = ({ goBack, placeholder, searchValue, isLoading, ResetPwasFi
       </IconButton>
       <SearchContainer>
         {!isLoading && (
-          <SearchIconWrapper onClick={search}>
+          <SearchIconWrapper onClick={SearchPwas}>
             <SearchIcon sx={searchIconProps} />
           </SearchIconWrapper>
         )}
@@ -91,7 +87,7 @@ const NavSearchBar = ({ goBack, placeholder, searchValue, isLoading, ResetPwasFi
           placeholder={placeholder}
           inputProps={inputProps}
           onChange={onSearch}
-          value={searchValue}
+          // value={searchValue}
           onKeyUp={handleOnKeyUp}
         />
         {isLoading && <LinearProgress />}
@@ -101,16 +97,12 @@ const NavSearchBar = ({ goBack, placeholder, searchValue, isLoading, ResetPwasFi
 };
 
 const mapStateToProps = ({
-  Pwas: {
-    count: allPwasCount,
-    search: { value },
-    isLoading
-  },
+  Pwas: { count: allPwasCount, isLoading },
   User: {
     pwas: { count: userPwasCount },
     favoritePwas: { items: userFavoritePwas }
   }
-}) => ({ allPwasCount, searchValue: value, isLoading, userPwasCount, userFavoritePwasCount: userFavoritePwas.length });
+}) => ({ allPwasCount, isLoading, userPwasCount, userFavoritePwasCount: userFavoritePwas.length });
 
 const mapDispatchToProps = { ResetPwasFilter, SetPwasSearch, SearchPwas };
 
