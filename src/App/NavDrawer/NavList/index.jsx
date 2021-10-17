@@ -21,7 +21,7 @@ const Row = memo(({ index, style, data }) => {
   if (!tag) return null;
   return (
     <div style={style}>
-      <NavItem key={tag.name} {...tag} />
+      <NavItem key={tag.name} {...tag} divider={index === 0} />
     </div>
   );
 }, areEqual);

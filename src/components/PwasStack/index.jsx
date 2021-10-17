@@ -8,11 +8,12 @@ import { styled } from '@material-ui/styles';
 import connect from 'resurrection';
 
 import { DEFAULT_PWA_IMAGE_SIZE, APP_DRAWER_HEIGHT, APP_DRAWER_WIDTH, DEFAULT_PAGINATION_SIZE } from '../../constants';
-import { GUTTER_SIZE, getCellIndex, getItemKey, getPwasSkeleton } from './utils';
+import { GUTTER_SIZE_DESKTOP, GUTTER_SIZE_MOBILE, getCellIndex, getItemKey, getPwasSkeleton } from './utils';
 import Cell from './Cell';
 
 const StyledGrid = styled(Grid)((props) => ({
-  paddingLeft: props.isDetailedView ? 0 : GUTTER_SIZE
+  paddingLeft: props.isDetailedView ? 0 : props.gutterSize,
+  justifyContent: 'center'
 }));
 
 const innerElementType = forwardRef(({ style, ...children }, ref) => {
@@ -33,11 +34,12 @@ const PwasStack = ({
   height,
   width,
   isDetailedView,
+  gutterSize,
   loadMoreData
 }) => {
   const itemData = useMemo(
-    () => ({ items: data, columnCount, isLoading, isDetailedView }),
-    [data, columnCount, isDetailedView, isLoading]
+    () => ({ items: data, columnCount, isLoading, isDetailedView, gutterSize }),
+    [data, columnCount, isLoading, isDetailedView, gutterSize]
   );
   const handleOnItemsRendered = useCallback(
     ({
@@ -105,6 +107,7 @@ const PwasStack = ({
         onItemsRendered={handleOnItemsRendered}
         onScroll={handleOnScroll}
         isDetailedView={isDetailedView}
+        gutterSize={gutterSize}
         // itemKey={getItemKey}
       >
         {Cell}
@@ -149,13 +152,15 @@ const mapStateToProps = (
 
   const isDetailedView = flexWrap === 'wrap';
 
-  const width = innerWidth - (xl || lg || md || sm ? APP_DRAWER_WIDTH : 0);
-  const height = isDetailedView ? innerHeight - APP_DRAWER_HEIGHT - 42 - 16 : DEFAULT_PWA_IMAGE_SIZE * 2 + GUTTER_SIZE;
+  const gutterSize = xs ? GUTTER_SIZE_MOBILE : GUTTER_SIZE_DESKTOP;
 
-  const columnWidth = DEFAULT_PWA_IMAGE_SIZE + GUTTER_SIZE;
+  const width = innerWidth - (xl || lg || md || sm ? APP_DRAWER_WIDTH : 0);
+  const height = isDetailedView ? innerHeight - APP_DRAWER_HEIGHT - 42 - 16 : DEFAULT_PWA_IMAGE_SIZE * 2 + gutterSize;
+
+  const columnWidth = DEFAULT_PWA_IMAGE_SIZE + gutterSize;
   const columnCount = isDetailedView ? Math.floor(width / columnWidth) : data.length;
 
-  const rowHeight = DEFAULT_PWA_IMAGE_SIZE + 70 + GUTTER_SIZE;
+  const rowHeight = DEFAULT_PWA_IMAGE_SIZE + 70 + gutterSize;
   const rowCount = isDetailedView ? Math.ceil(data.length / columnCount) : 1;
 
   return {
@@ -168,7 +173,8 @@ const mapStateToProps = (
     rowHeight,
     height,
     width,
-    isDetailedView
+    isDetailedView,
+    gutterSize
   };
 };
 

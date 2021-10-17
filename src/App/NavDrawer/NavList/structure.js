@@ -1,3 +1,4 @@
+import AppsIcon from '@material-ui/icons/Apps';
 import VideogameAssetIcon from '@material-ui/icons/VideogameAsset';
 import BuildIcon from '@material-ui/icons/Build';
 import SentimentVerySatisfiedIcon from '@material-ui/icons/SentimentVerySatisfied';
@@ -20,6 +21,7 @@ import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
 import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
 
 const tagIconMap = {
+  All: AppsIcon,
   Games: VideogameAssetIcon,
   Tools: BuildIcon,
   Social: SentimentVerySatisfiedIcon,

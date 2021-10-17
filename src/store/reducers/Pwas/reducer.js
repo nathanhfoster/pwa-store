@@ -1,6 +1,6 @@
 import * as ActionTypes from './actions/types';
 import * as UserActionTypes from '../User/actions/types';
-import { mergePwas, handleFilterItems } from './utils';
+import { ALL_PWA_TAG, mergePwas, handleFilterItems } from './utils';
 import { toggleBooleanReducer } from 'resurrection';
 import { omit } from 'utils';
 
@@ -13,6 +13,7 @@ export const DEFAULT_STATE = Object.freeze({
   items: [],
   filteredItems: [],
   tags: [
+    { name: ALL_PWA_TAG },
     { name: 'Business' },
     { name: 'Communication' },
     { name: 'Education' },
@@ -59,7 +60,7 @@ const Pwas = (state = DEFAULT_STATE, action) => {
     case ActionTypes.PWAS_SET_TAGS:
       return {
         ...state,
-        tags: payload
+        tags: [{ name: ALL_PWA_TAG}, ...payload]
       };
 
     case ActionTypes.PWAS_SET_SEARCH:

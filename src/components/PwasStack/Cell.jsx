@@ -3,14 +3,14 @@ import { areEqual } from 'react-window';
 import Skeleton from '@material-ui/core/Skeleton';
 import Pwa from './Pwa';
 import { DEFAULT_PWA_IMAGE_SIZE } from '../../constants';
-import { GUTTER_SIZE, getCellIndex } from './utils';
+import { getCellIndex } from './utils';
 
 const Cell = ({
   columnIndex,
   rowIndex,
   style,
   isScrolling,
-  data: { items, columnCount, isLoading, isDetailedView }
+  data: { items, columnCount, isLoading, isDetailedView, gutterSize }
 }) => {
   const index = getCellIndex(rowIndex, columnIndex, columnCount);
   const pwa = items[index];
@@ -20,10 +20,10 @@ const Cell = ({
       key={pwa.id}
       style={{
         ...style,
-        left: style.left + GUTTER_SIZE,
-        top: style.top + GUTTER_SIZE,
-        width: style.width - GUTTER_SIZE,
-        height: style.height - GUTTER_SIZE
+        left: style.left + gutterSize,
+        top: style.top + gutterSize,
+        width: style.width - gutterSize,
+        height: style.height - gutterSize
       }}
     >
       {!pwa.slug ? (

@@ -4,9 +4,9 @@ import { useHistory } from 'react-router-dom';
 import connect from 'resurrection';
 import { ToggleAppNavBar } from 'store/reducers/App/actions';
 import { GetPwaTagDetailUrl } from 'utils/RouteMap';
+import AppsIcon from '@material-ui/icons/Apps';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import AppsIcon from '@material-ui/icons/Apps';
 import ListItemText from '@material-ui/core/ListItemText';
 import { tagIconMap } from './structure';
 
@@ -24,7 +24,7 @@ const listItemStyles = {
 
 const iconStyles = { animation: 'grow 200ms' };
 
-const NavItem = ({ name, navBarIsOpen, ToggleAppNavBar }) => {
+const NavItem = ({ name, navBarIsOpen, divider, ToggleAppNavBar }) => {
   const history = useHistory();
   const Icon = tagIconMap[name] || AppsIcon;
   const onTagClick = () => {
@@ -35,7 +35,7 @@ const NavItem = ({ name, navBarIsOpen, ToggleAppNavBar }) => {
   };
 
   return (
-    <ListItem button sx={listItemStyles} onClick={onTagClick}>
+    <ListItem button divider={divider} sx={listItemStyles} onClick={onTagClick}>
       <ListItemIcon>
         <Icon sx={iconStyles} />
       </ListItemIcon>

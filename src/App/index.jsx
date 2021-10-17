@@ -17,7 +17,7 @@ import NavToolbar from './NavToolbar';
 import AppRouter from 'views';
 import NavDrawer from './NavDrawer';
 import Alerts from './Alerts';
-import { APP_DRAWER_WIDTH } from '../constants';
+import { APP_DRAWER_WIDTH, APP_DRAWER_HEIGHT } from '../constants';
 
 const Container = styled(Box)((props) => ({
   display: 'flex',
@@ -83,7 +83,7 @@ const App = ({
           component='main'
           sx={{
             width: { xs: '100vw', sm: `calc(100vw - ${APP_DRAWER_WIDTH}px)` },
-            height: '100%',
+            // height: `calc(100vh - ${APP_DRAWER_HEIGHT}px)`,
             flexGrow: 1,
             mt: { xs: '56px', sm: '64px' },
             background: 'inherit'

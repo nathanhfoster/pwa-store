@@ -29,11 +29,17 @@ export const GetPwas = (pagination) => (dispatch) => {
     });
 };
 
-export const GetPwasPage = () => (dispatch, getState) => {
+export const GetPwasPage = (search) => (dispatch, getState) => {
   const { count, next, previous, items, filteredItems } = getState().Pwas;
-  if (!next || items.concat(filteredItems).length === count) {
+
+  if (!(next || search) || items.concat(filteredItems).length === count) {
     return;
   }
+
+  if (search) {
+    dispatch(FilterPwas(search));
+  }
+
   return dispatch(GetPwas(next));
 };
 

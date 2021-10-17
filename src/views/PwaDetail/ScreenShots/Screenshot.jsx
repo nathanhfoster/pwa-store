@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import { areEqual } from 'react-window';
-import { IMAGE_HEIGHT, GUTTER_SIZE, getItemSrcs } from './utils';
+import { IMAGE_HEIGHT, GUTTER_SIZE_DESKTOP, getItemSrcs } from './utils';
 
 const ScreenShot = ({ columnIndex, data, style }) => {
   const { items, name } = data;
@@ -19,10 +19,10 @@ const ScreenShot = ({ columnIndex, data, style }) => {
       title={title}
       style={{
         ...style,
-        left: style.left + GUTTER_SIZE,
-        top: style.top + GUTTER_SIZE,
-        width: style.width - GUTTER_SIZE,
-        height: style.height - GUTTER_SIZE
+        left: style.left + GUTTER_SIZE_DESKTOP,
+        top: style.top + GUTTER_SIZE_DESKTOP,
+        width: style.width - GUTTER_SIZE_DESKTOP,
+        height: style.height - GUTTER_SIZE_DESKTOP
       }}
     >
       <img height={IMAGE_HEIGHT} src={src} srcSet={src} alt={title} loading='lazy' onClick={handleOnImageClick} />

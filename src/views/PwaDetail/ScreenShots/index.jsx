@@ -4,18 +4,18 @@ import { VariableSizeGrid as Grid } from 'react-window';
 import { styled } from '@material-ui/styles';
 import connect, { useSetStateReducer } from 'resurrection';
 import { getImageDimensions } from 'utils';
-import { IMAGE_HEIGHT, GUTTER_SIZE } from './utils';
+import { IMAGE_HEIGHT, GUTTER_SIZE_DESKTOP } from './utils';
 import Screenshot from './Screenshot';
 
 const StyledGrid = styled(Grid)((props) => ({
-  paddingLeft: GUTTER_SIZE
+  paddingLeft: GUTTER_SIZE_DESKTOP
 }));
 
 const innerElementType = forwardRef(({ style, ...children }, ref) => {
   return <div ref={ref} style={style} {...children} />;
 });
 
-const styles = { paddingLeft: GUTTER_SIZE };
+const styles = { paddingLeft: GUTTER_SIZE_DESKTOP };
 
 const getInitialItemData = ({ name }) => ({ name, items: [] });
 
@@ -59,8 +59,8 @@ const Screenshots = (props) => {
 };
 
 const mapStateToProps = ({ Window: { innerWidth } }) => ({
-  height: IMAGE_HEIGHT + GUTTER_SIZE,
-  width: innerWidth - GUTTER_SIZE
+  height: IMAGE_HEIGHT + GUTTER_SIZE_DESKTOP,
+  width: innerWidth - GUTTER_SIZE_DESKTOP
 });
 
 export default connect(mapStateToProps)(Screenshots);

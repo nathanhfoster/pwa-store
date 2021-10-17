@@ -1,8 +1,10 @@
 import { objectToArray, stringMatch } from 'utils';
 
+export const ALL_PWA_TAG = 'All';
+
 const getLastModifiedDate = (pwa) => new Date(pwa.updated_at);
 
-const handleItemMerge = (currentStoreItem, newItem) => {
+export const handleItemMerge = (currentStoreItem, newItem) => {
   // When newItem only has partial data merge the new fields with the ones that exits in the currentStoreItem
   if (Object.keys(currentStoreItem).length > Object.keys(newItem).length) {
     return { ...currentStoreItem, ...newItem };
@@ -30,7 +32,7 @@ const handleItemMerge = (currentStoreItem, newItem) => {
   return { ...newItem, ...currentStoreItem };
 };
 
-const mergePwas = (currentStoreItems, newItems, key = 'id') => {
+export const mergePwas = (currentStoreItems, newItems, key = 'id') => {
   // Order matters. You want the currentStoreItems to always be before the newItems so that the handleItemMerge function works
   let mergeMap = {};
   let allData = [...currentStoreItems];
@@ -65,8 +67,8 @@ const match = (obj, search, key) => {
   return stringMatch(obj, search);
 };
 
-const handleFilterItems = (items, search) => {
-  if (!search) return { items, filteredItems: [] };
+export const handleFilterItems = (items, search) => {
+  if (!search || search === ALL_PWA_TAG) return { items, filteredItems: [] };
 
   var cachedItems = [];
 
@@ -119,5 +121,3 @@ const handleFilterItems = (items, search) => {
     items: newItems
   };
 };
-
-export { mergePwas, handleFilterItems };
