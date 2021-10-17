@@ -2,16 +2,16 @@ import React from 'react';
 import { connect } from 'resurrection';
 import { styled, alpha } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
+import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 import { ResetPwasFilter, SetPwasSearch, SearchPwas, FilterPwas } from 'store/reducers/Pwas/actions';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { withRouter } from 'react-router-dom';
 import * as RouteMap from 'utils/RouteMap';
 
-import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
-const Search = styled('div')(({ theme }) => ({
+const SearchContainer = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
   backgroundColor: alpha(theme.palette.common.white, 0.15),
@@ -20,11 +20,11 @@ const Search = styled('div')(({ theme }) => ({
   }
 }));
 
-const SearchIconWrapper = styled('div')(({ theme }) => ({
+const SearchIconWrapper = styled(IconButton)(({ theme }) => ({
   padding: theme.spacing(0, 1),
   height: '100%',
   position: 'absolute',
-  pointerEvents: 'none',
+  pointerEvents: 'auto',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center'
@@ -48,6 +48,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const inputProps = { type: 'search', 'aria-label': 'search' };
 
 const KEYS_THAT_SEARECH = ['Enter'];
+
+const searchIconProps = { animation: 'grow 200ms' };
 
 const NavSearchBar = ({
   goBack,
@@ -87,10 +89,10 @@ const NavSearchBar = ({
       <IconButton onClick={handleBackClick}>
         <ArrowBackIcon />
       </IconButton>
-      <Search>
+      <SearchContainer>
         {!isLoading && (
-          <SearchIconWrapper>
-            <SearchIcon sx={{ animation: 'grow 200ms' }} />
+          <SearchIconWrapper onClick={search}>
+            <SearchIcon sx={searchIconProps} />
           </SearchIconWrapper>
         )}
         <StyledInputBase
@@ -102,7 +104,7 @@ const NavSearchBar = ({
           onKeyUp={handleOnKeyUp}
         />
         {isLoading && <LinearProgress />}
-      </Search>
+      </SearchContainer>
     </>
   );
 };
