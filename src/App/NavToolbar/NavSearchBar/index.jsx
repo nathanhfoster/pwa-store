@@ -1,9 +1,8 @@
 import React from 'react';
-import { connect, useMountedEffect } from 'resurrection';
+import { connect } from 'resurrection';
 import { styled, alpha } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
-import useDebouncedValue from 'hooks/useDebouncedValue';
 import { ResetPwasFilter, SetPwasSearch, SearchPwas, FilterPwas } from 'store/reducers/Pwas/actions';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { withRouter } from 'react-router-dom';
@@ -46,6 +45,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   }
 }));
 
+const inputProps = { type: 'search', 'aria-label': 'search' }
+
+const KEYS_THAT_SEARECH = ['Enter']
+
 const NavSearchBar = ({
   goBack,
   placeholder,
@@ -56,7 +59,6 @@ const NavSearchBar = ({
   SearchPwas,
   FilterPwas
 }) => {
-  const debouncedSearch = useDebouncedValue(searchValue);
 
   const onSearch = ({ target: { value } }) => {
     SetPwasSearch(value);
@@ -67,10 +69,12 @@ const NavSearchBar = ({
     goBack();
   };
 
-  useMountedEffect(() => {
-    SearchPwas(debouncedSearch);
-    FilterPwas(debouncedSearch);
-  }, [debouncedSearch]);
+  const handleOnKeyUp = ({ key }) => {
+    if (KEYS_THAT_SEARECH.includes(key)) {
+      SearchPwas(searchValue);
+      FilterPwas(searchValue);
+    }
+  }
 
   return (
     <>
@@ -86,9 +90,10 @@ const NavSearchBar = ({
         <StyledInputBase
           fullWidth
           placeholder={placeholder}
-          inputProps={{ type: 'search', 'aria-label': 'search' }}
+          inputProps={inputProps}
           onChange={onSearch}
           value={searchValue}
+          onKeyUp={handleOnKeyUp}
         />
         {isLoading && <LinearProgress />}
       </Search>
