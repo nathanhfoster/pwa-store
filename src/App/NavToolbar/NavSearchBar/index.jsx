@@ -58,7 +58,7 @@ const NavSearchBar = ({ goBack, placeholder, searchValue, isLoading, ResetPwasFi
 
   const onSearch = ({ target: { value } }) => {
     if (!value) {
-      search(value);
+      search('');
     }
     SetPwasSearch(value);
   };

@@ -54,13 +54,13 @@ const Pwas = (state = DEFAULT_STATE, action) => {
       return {
         ...state,
         ...omit(payload, ['results']),
-        ...handleFilterItems(nextItems, search || state.search.value)
+        ...handleFilterItems(nextItems, search ?? state.search.value)
       };
 
     case ActionTypes.PWAS_SET_TAGS:
       return {
         ...state,
-        tags: [{ name: ALL_PWA_TAG}, ...payload]
+        tags: [{ name: ALL_PWA_TAG }, ...payload]
       };
 
     case ActionTypes.PWAS_SET_SEARCH:
@@ -74,21 +74,21 @@ const Pwas = (state = DEFAULT_STATE, action) => {
       return {
         ...state,
         search: { ...state.search, ...omit(payload, ['results']) },
-        ...handleFilterItems(nextItems, search || state.search.value)
+        ...handleFilterItems(nextItems, search ?? state.search.value)
       };
 
     case ActionTypes.PWAS_MERGE_FILTER:
       nextItems = mergePwas(state.items.concat(state.filteredItems), payload);
       return {
         ...state,
-        ...handleFilterItems(nextItems, search || state.search.value)
+        ...handleFilterItems(nextItems, search ?? state.search.value)
       };
 
     case UserActionTypes.USER_SET_PWAS:
       nextItems = mergePwas(state.items.concat(state.filteredItems), payload.items);
       return {
         ...state,
-        ...handleFilterItems(nextItems, search || state.search.value)
+        ...handleFilterItems(nextItems, search ?? state.search.value)
       };
 
     default:
