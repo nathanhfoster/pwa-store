@@ -57,11 +57,11 @@ const NavSearchBar = ({ goBack, placeholder, searchValue, isLoading, ResetPwasFi
   };
 
   const onSearch = ({ target: { value } }) => {
+    SetPwasSearch(value);
     // When the 'x' button is clicked in the search field
     if (!value) {
       search(value);
     }
-    SetPwasSearch(value);
   };
 
   const handleBackClick = () => {
