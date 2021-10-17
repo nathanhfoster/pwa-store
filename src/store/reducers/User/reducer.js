@@ -151,7 +151,7 @@ const User = (state = DEFAULT_STATE, action) => {
         state.favoritePwas.items.concat(state.favoritePwas.filteredItems),
         payload.user_favorites || []
       );
-      nextItem = handleFilterItems(nextItems, state.search ?? search);
+      nextItem = handleFilterItems(nextItems, state.search || search);
 
       nextItem = {
         ...state,
@@ -183,7 +183,7 @@ const User = (state = DEFAULT_STATE, action) => {
 
     case ActionTypes.USER_SET_PWAS:
       nextItems = mergePwas(state.pwas.items.concat(state.pwas.filteredItems), payload.items);
-      nextItem = handleFilterItems(nextItems, state.search ?? search);
+      nextItem = handleFilterItems(nextItems, state.search || search);
       nextItem = {
         ...state,
         pwas: {
@@ -260,11 +260,11 @@ const User = (state = DEFAULT_STATE, action) => {
 
     case PwaActionTypes.PWAS_MERGE_FILTER:
       nextItems = state.pwas.items.concat(state.pwas.filteredItems);
-      nextItem = handleFilterItems(nextItems, state.search ?? search);
+      nextItem = handleFilterItems(nextItems, state.search || search);
       nextState = { ...state, pwas: { ...state.pwas, ...nextItem } };
       nextItem = handleFilterItems(
         state.favoritePwas.items.concat(state.favoritePwas.filteredItems),
-        state.search ?? search
+        state.search || search
       );
       nextState = {
         ...nextState,
@@ -289,7 +289,7 @@ const User = (state = DEFAULT_STATE, action) => {
       };
 
     case ActionTypes.USER_SET_FAVORITE:
-      nextItem = handleFilterItems(payload, state.search ?? search);
+      nextItem = handleFilterItems(payload, state.search || search);
 
       nextItem = {
         ...state,
