@@ -45,9 +45,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   }
 }));
 
-const inputProps = { type: 'search', 'aria-label': 'search' }
+const inputProps = { type: 'search', 'aria-label': 'search' };
 
-const KEYS_THAT_SEARECH = ['Enter']
+const KEYS_THAT_SEARECH = ['Enter'];
 
 const NavSearchBar = ({
   goBack,
@@ -59,8 +59,15 @@ const NavSearchBar = ({
   SearchPwas,
   FilterPwas
 }) => {
+  const search = (value = searchValue) => {
+    SearchPwas(value);
+    FilterPwas(value);
+  };
 
   const onSearch = ({ target: { value } }) => {
+    if (!value) {
+      search(value);
+    }
     SetPwasSearch(value);
   };
 
@@ -71,10 +78,9 @@ const NavSearchBar = ({
 
   const handleOnKeyUp = ({ key }) => {
     if (KEYS_THAT_SEARECH.includes(key)) {
-      SearchPwas(searchValue);
-      FilterPwas(searchValue);
+      search();
     }
-  }
+  };
 
   return (
     <>
