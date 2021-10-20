@@ -199,7 +199,8 @@ const User = (state = DEFAULT_STATE, action) => {
 
     case ActionTypes.USER_DELETE:
       deleteUserLocalStorage();
-      return { ...DEFAULT_STATE };
+      nextItem = getUserTokenAndIdLocalStorage();
+      return { ...DEFAULT_STATE, token: nextItem[0], id: nextItem[1] };
 
     case ActionTypes.USER_SET_ERROR:
       return {

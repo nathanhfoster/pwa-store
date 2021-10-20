@@ -43,7 +43,7 @@ const NavMenu = ({
         <MenuItem to={RouteMap.SETTINGS_USER_ACCOUNT}>
           <AccountButton>Account</AccountButton>
         </MenuItem>
-        <MenuItem to={RouteMap.LOGIN}>
+        <MenuItem to={userIsLoggedIn ? undefined : RouteMap.LOGIN}>
           <LoginLogoutButton>{userIsLoggedIn ? 'Logout' : 'Login'}</LoginLogoutButton>
         </MenuItem>
         <MenuItem>

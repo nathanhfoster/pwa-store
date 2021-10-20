@@ -8,13 +8,16 @@ import { DeleteUser } from 'store/reducers/User/actions';
 
 const LoginLogoutButton = ({ userIsLoggedIn, onClick, children }) => {
   const Icon = useMemo(() => (userIsLoggedIn ? LogoutIcon : LoginIcon), [userIsLoggedIn]);
+
+  const buttonTitle = userIsLoggedIn ? 'Logout' : 'Login';
+
+  const buttonTo = userIsLoggedIn ? undefined : RouteMap.LOGIN;
+
+  const buttonOnClick = userIsLoggedIn ? onClick : undefined;
+
   return (
     <>
-      <Base
-        title={userIsLoggedIn ? 'Logout' : 'Login'}
-        to={userIsLoggedIn ? undefined : RouteMap.LOGIN}
-        onClick={userIsLoggedIn ? onClick : undefined}
-      >
+      <Base title={buttonTitle} to={buttonTo} onClick={buttonOnClick}>
         <Icon />
       </Base>
       {children}
