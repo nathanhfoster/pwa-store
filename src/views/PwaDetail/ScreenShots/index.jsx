@@ -1,21 +1,13 @@
-import React, { forwardRef, useLayoutEffect, useCallback } from 'react';
+import React, { forwardRef, useLayoutEffect, useCallback, useMemo } from 'react';
 import { VariableSizeGrid as Grid } from 'react-window';
-
-import { styled } from '@material-ui/styles';
 import connect, { useSetStateReducer } from 'resurrection';
 import { getImageDimensions } from 'utils';
 import { IMAGE_HEIGHT, GUTTER_SIZE_DESKTOP } from './utils';
 import Screenshot from './Screenshot';
 
-const StyledGrid = styled(Grid)((props) => ({
-  paddingLeft: GUTTER_SIZE_DESKTOP
-}));
-
 const innerElementType = forwardRef(({ style, ...children }, ref) => {
   return <div ref={ref} style={style} {...children} />;
 });
-
-const styles = { paddingLeft: GUTTER_SIZE_DESKTOP };
 
 const getInitialItemData = ({ name }) => ({ name, items: [] });
 
@@ -34,14 +26,22 @@ const Screenshots = (props) => {
 
       setItemData({ items });
     })();
-  }, [height, screenshotSrcs]);
+  }, [height, screenshotSrcs, setItemData]);
 
   const getColumnHeight = useCallback((index) => height, [height]);
 
   const getColumnWidth = useCallback((index) => itemData.items[index].width, [itemData.items]);
 
+  const styles = useMemo(() => {
+    if (itemData.items.length) {
+      const { width } = itemData.items[itemData.items.length - 1];
+      return { paddingLeft: width - GUTTER_SIZE_DESKTOP };
+    }
+    return { paddingLeft: GUTTER_SIZE_DESKTOP };
+  }, [itemData.items]);
+
   return (
-    <StyledGrid
+    <Grid
       innerElementType={innerElementType}
       style={styles}
       columnCount={itemData.items.length}
@@ -54,7 +54,7 @@ const Screenshots = (props) => {
       layout='horizontal'
     >
       {Screenshot}
-    </StyledGrid>
+    </Grid>
   );
 };
 

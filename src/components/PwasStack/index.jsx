@@ -4,17 +4,11 @@ import { PwasType } from 'store/reducers/Pwas/types';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { FixedSizeGrid as Grid } from 'react-window';
-import { styled } from '@material-ui/styles';
 import connect from 'resurrection';
 
 import { DEFAULT_PWA_IMAGE_SIZE, APP_DRAWER_HEIGHT, APP_DRAWER_WIDTH, DEFAULT_PAGINATION_SIZE } from '../../constants';
 import { GUTTER_SIZE_DESKTOP, GUTTER_SIZE_MOBILE, getCellIndex, getItemKey, getPwasSkeleton } from './utils';
 import Cell from './Cell';
-
-const StyledGrid = styled(Grid)((props) => ({
-  paddingLeft: props.isDetailedView ? 0 : props.gutterSize,
-  justifyContent: 'center'
-}));
 
 const innerElementType = forwardRef(({ style, ...children }, ref) => {
   return <div ref={ref} style={style} {...children} />;
@@ -73,6 +67,17 @@ const PwasStack = ({
     []
   );
 
+  const styles = useMemo(() => {
+    if (isDetailedView) {
+      return { paddingLeft: 0 };
+    }
+    if (itemData.items.length) {
+      const { width } = itemData.items[itemData.items.length - 1];
+      return { paddingLeft: width - gutterSize };
+    }
+    return { paddingLeft: gutterSize };
+  }, [gutterSize, isDetailedView, itemData.items]);
+
   return (
     <Box
       sx={{
@@ -92,8 +97,9 @@ const PwasStack = ({
           {subtitle}
         </Typography>
       )}
-      <StyledGrid
+      <Grid
         innerElementType={innerElementType}
+        style={styles}
         columnCount={columnCount}
         columnWidth={columnWidth}
         height={height}
@@ -111,7 +117,7 @@ const PwasStack = ({
         // itemKey={getItemKey}
       >
         {Cell}
-      </StyledGrid>
+      </Grid>
     </Box>
   );
 };
