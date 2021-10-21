@@ -40,6 +40,8 @@ export const setUserModeLocalStorage = ({ mode }) => {
   localStorage.setItem(USER_MODE_LOCAL_STORAGE_KEY, mode);
 };
 
+export const getStringifiedManifestJson = (manifest_json) => JSON.stringify(manifest_json, undefined, 1);
+
 export const MANIFEST_TO_FORM_MAP = {
   name: 'name',
   tags: '',
@@ -221,7 +223,7 @@ export const mergeManifestWithForm = (form, manifestUrl, manifestJson) => {
     },
     manifest_json: {
       ...form.manifest_json,
-      value: JSON.stringify({ ...JSON.parse(form.manifest_json.value), ...manifestJson })
+      value: getStringifiedManifestJson({ ...JSON.parse(form.manifest_json.value), ...manifestJson })
     },
     image_url: {
       ...form.image_url,

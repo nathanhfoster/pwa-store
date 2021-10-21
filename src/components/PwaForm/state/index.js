@@ -1,4 +1,9 @@
-import { getManifestIconSrc, getTagsFromManifest, getManifestIconUrl } from 'store/reducers/User/utils';
+import {
+  getManifestIconSrc,
+  getTagsFromManifest,
+  getManifestIconUrl,
+  getStringifiedManifestJson
+} from 'store/reducers/User/utils';
 import { slugify } from 'utils';
 
 export const defaultProps = {
@@ -51,7 +56,7 @@ export const getInitialFormState = ({
         value: { src: imageUrl },
         options: imageIconOptions
       },
-      manifest_json: { type: 'textarea', required: true, value: JSON.stringify(manifest_json) },
+      manifest_json: { type: 'textarea', required: true, value: getStringifiedManifestJson(manifest_json) },
       name: { required: true, value: nameValue },
       slug: { label: 'Unique url', required: true, value: slug || slugify(name) },
       description: { type: 'textarea', value: manifest_json.description || description },
@@ -91,7 +96,7 @@ export const formReducer = (state, action) => {
           ...state[name],
           value:
             name === 'manifest_json' && typeof payload === 'object'
-              ? JSON.stringify({ ...JSON.parse(state.manifest_json.value), ...payload })
+              ? getStringifiedManifestJson({ ...JSON.parse(state.manifest_json.value), ...payload })
               : payload
         }
       };

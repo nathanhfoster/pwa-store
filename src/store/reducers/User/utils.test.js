@@ -1,6 +1,6 @@
 // https://github.com/marak/Faker.js/
 import { deepClone } from 'utils';
-import { mergeManifestWithForm, getManifestIconSrc, getManifestIconUrl } from './utils';
+import { mergeManifestWithForm, getManifestIconSrc, getManifestIconUrl, getStringifiedManifestJson } from './utils';
 import { DEFAULT_STATE } from './reducer';
 
 describe('User reducer utils', () => {
@@ -65,7 +65,7 @@ describe('User reducer utils', () => {
           placeholder: manifestUrl,
           value: manifestUrl
         },
-        manifest_json: { ...form.manifest_json, value: JSON.stringify(manifestJson) },
+        manifest_json: { ...form.manifest_json, value: getStringifiedManifestJson(manifestJson) },
         image_url: {
           ...form.image_url,
           value: { ...form.image_url.value, src: `${form.url.value}${imageThatIsMaskable.src}` },
