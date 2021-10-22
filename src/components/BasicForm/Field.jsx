@@ -4,7 +4,6 @@ import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Autocomplete, { createFilterOptions } from '@material-ui/core/Autocomplete';
-import { useMountedEffect } from 'resurrection';
 import { capitalize } from 'utils';
 
 const filter = createFilterOptions();
@@ -33,12 +32,6 @@ const Field = ({
   setForm
 }) => {
   const isTextArea = type === 'textarea';
-
-  useMountedEffect(() => {
-    if (!onChange) {
-      setForm({ [id]: value });
-    }
-  }, [value, onChange]);
 
   switch (type) {
     case 'checkbox':

@@ -4,28 +4,23 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import { isFunction } from 'utils';
-import { useSetStateReducer, useLazyMemo } from 'resurrection';
+import { useSetStateReducer, useLazyMemo, useMountedEffect } from 'resurrection';
 import Field from './Field';
 
 const getInitialFormState = (data) =>
   Object.entries(data).reduce((acc, [id, { multiple = false, defaultValue, value }]) => {
-    let derivedValue = multiple ? [] : '';
-
-    if (defaultValue !== undefined) {
-      derivedValue = value;
-    }
-
-    if (value !== undefined) {
-      derivedValue = value;
-    }
-
-    acc[id] = derivedValue;
+    const derivedValue = multiple ? [] : '';
+    acc[id] = value ?? defaultValue ?? derivedValue;
     return acc;
   }, {});
 
 const BasicForm = ({ title, data, submitTitle, submitJson, disabled, sx, children, onChange, onSubmit }) => {
   const [form, setForm] = useSetStateReducer(data, getInitialFormState);
   const initialForm = useLazyMemo(() => form);
+
+  useMountedEffect(() => {
+    setForm(getInitialFormState(data));
+  }, [data]);
 
   const handleOnChange = ({ target: { type, name, value, checked } }) => {
     const newValue = type === 'checkbox' ? checked : value;
@@ -60,9 +55,10 @@ const BasicForm = ({ title, data, submitTitle, submitJson, disabled, sx, childre
 
   const renderInputs = useMemo(
     () =>
-      Object.entries(data).reduce((acc, [id, props]) => {
+      Object.entries(form).reduce((acc, [id, formValue]) => {
         if (id) {
-          const { type = 'text', value = form[id], error = false, ...restOfProps } = props;
+          const props = data[id];
+          const { type = 'text', value = formValue, error = false, ...restOfProps } = props;
           const initialValue = initialForm[id];
           const coalescingValue = value ?? '';
           const errorExists = value != initialValue && Boolean(isFunction(error) ? error(props, data) : error);
@@ -82,7 +78,7 @@ const BasicForm = ({ title, data, submitTitle, submitJson, disabled, sx, childre
         }
         return acc;
       }, []),
-    [data, form, setForm, onChange]
+    [form, initialForm, onChange, setForm]
   );
 
   const submitDisabled = useMemo(
