@@ -77,11 +77,9 @@ const NavSearchBar = ({ goBack, placeholder, isLoading, ResetPwasFilter, SetPwas
         <ArrowBackIcon />
       </IconButton>
       <SearchContainer>
-        {!isLoading && (
-          <SearchIconWrapper onClick={SearchPwas}>
-            <SearchIcon sx={searchIconProps} />
-          </SearchIconWrapper>
-        )}
+        <SearchIconWrapper onClick={SearchPwas}>
+          <SearchIcon sx={searchIconProps} />
+        </SearchIconWrapper>
         <StyledInputBase
           fullWidth
           placeholder={placeholder}
