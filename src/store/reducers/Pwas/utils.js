@@ -2,6 +2,21 @@ import { objectToArray, stringMatch } from 'utils';
 
 export const ALL_PWA_TAG = 'All';
 
+export const PWAS_TAGS_LOCAL_STORAGE_KEY = 'PWAS_TAGS_LOCAL_STORAGE_KEY';
+
+export const DEFAULT_TAGS_STRING = `${ALL_PWA_TAG},Business,Communication,Education,Entertainment,Food & Drink,Funny,Games,Lifestyle,Music,News,Offline,Photography,Productivity,Reference,Shopping,Social,Sports,Themed,Tools,Travel`;
+
+export const getTagsFromLocalStorage = () => {
+  const localPwasTags = localStorage.getItem(PWAS_TAGS_LOCAL_STORAGE_KEY);
+  const tagsString = localPwasTags ?? DEFAULT_TAGS_STRING;
+  return tagsString.split(',').map((name) => ({ name }));
+};
+
+export const setTagsFromLocalStorage = (tags) => {
+  const tagsString = tags.map(({ name }) => name).join(',');
+  localStorage.setItem(PWAS_TAGS_LOCAL_STORAGE_KEY, tagsString);
+};
+
 const getLastModifiedDate = (pwa) => new Date(pwa.updated_at);
 
 export const handleItemMerge = (currentStoreItem, newItem) => {

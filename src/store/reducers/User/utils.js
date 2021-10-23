@@ -12,17 +12,17 @@ export const USER_TOKEN_LOCAL_STORAGE_KEY = 'USER_TOKEN_LOCAL_STORAGE_KEY';
 export const USER_MODE_LOCAL_STORAGE_KEY = 'USER_MODE_LOCAL_STORAGE_KEY';
 
 export const getUserTokenAndIdLocalStorage = () => {
-  const lodalUserToken = localStorage.getItem(USER_TOKEN_LOCAL_STORAGE_KEY) || '';
-  const localUserId = parseInt(localStorage.getItem(USER_ID_LOCAL_STORAGE_KEY)) || null;
+  const localUserToken = localStorage.getItem(USER_TOKEN_LOCAL_STORAGE_KEY) ?? '';
+  const localUserId = parseInt(localStorage.getItem(USER_ID_LOCAL_STORAGE_KEY)) ?? null;
 
-  return [lodalUserToken, localUserId];
+  return [localUserToken, localUserId];
 };
 
 export const getUserModeLocalStorage = () => {
   const userPrefersDark = window?.matchMedia?.('(prefers-color-scheme: dark)').matches;
   const defaultMode = userPrefersDark ? 'dark' : 'light';
   const localMode = localStorage.getItem(USER_MODE_LOCAL_STORAGE_KEY);
-  return localMode || defaultMode;
+  return localMode ?? defaultMode;
 };
 
 export const setUserTokenAndIdLocalStorage = ({ id, token }) => {

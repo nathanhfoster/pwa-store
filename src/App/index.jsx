@@ -55,9 +55,11 @@ const App = ({
   }, [prompt]);
 
   useEffect(() => {
-    GetUserSettings();
-    GetPwas();
-    GetPwaTags();
+    (async () => {
+      await GetUserSettings();
+      await GetPwas();
+      GetPwaTags();
+    })();
   }, []);
 
   return (

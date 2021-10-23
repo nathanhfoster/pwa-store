@@ -1,8 +1,17 @@
 import * as ActionTypes from './actions/types';
 import * as UserActionTypes from '../User/actions/types';
-import { ALL_PWA_TAG, mergePwas, handleFilterItems } from './utils';
+import {
+  ALL_PWA_TAG,
+  mergePwas,
+  handleFilterItems,
+  PWAS_TAGS_LOCAL_STORAGE_KEY,
+  setTagsFromLocalStorage,
+  getTagsFromLocalStorage
+} from './utils';
 import { toggleBooleanReducer } from 'resurrection';
 import { omit } from 'utils';
+
+const tags = getTagsFromLocalStorage();
 
 export const DEFAULT_STATE = Object.freeze({
   search: { count: null, next: null, previous: null, value: '' },
@@ -12,33 +21,12 @@ export const DEFAULT_STATE = Object.freeze({
   previous: null,
   items: [],
   filteredItems: [],
-  tags: [
-    { name: ALL_PWA_TAG },
-    { name: 'Business' },
-    { name: 'Communication' },
-    { name: 'Education' },
-    { name: 'Entertainment' },
-    { name: 'Food & Drink' },
-    { name: 'Games' },
-    { name: 'Lifestyle' },
-    { name: 'Music' },
-    { name: 'News' },
-    { name: 'Offline' },
-    { name: 'Photography' },
-    { name: 'Productivity' },
-    { name: 'Reference' },
-    { name: 'Shopping' },
-    { name: 'Social' },
-    { name: 'Sports' },
-    { name: 'Themed' },
-    { name: 'Tools' },
-    { name: 'Travel' }
-  ]
+  tags
 });
 
 const Pwas = (state = DEFAULT_STATE, action) => {
   const { type, search, payload } = action;
-  let nextItems;
+  let nextItem, nextItems;
 
   switch (type) {
     case ActionTypes.PWAS_TOGGLE_IS_LOADING:
@@ -58,9 +46,11 @@ const Pwas = (state = DEFAULT_STATE, action) => {
       };
 
     case ActionTypes.PWAS_SET_TAGS:
+      nextItems = [{ name: ALL_PWA_TAG }, ...payload];
+      setTagsFromLocalStorage(nextItems);
       return {
         ...state,
-        tags: [{ name: ALL_PWA_TAG }, ...payload]
+        tags: nextItems
       };
 
     case ActionTypes.PWAS_SET_SEARCH:
@@ -76,16 +66,10 @@ const Pwas = (state = DEFAULT_STATE, action) => {
         search: { ...state.search, ...omit(payload, ['results']) },
         ...handleFilterItems(nextItems, search ?? state.search.value)
       };
-
     case ActionTypes.PWAS_MERGE_FILTER:
-      nextItems = mergePwas(state.items.concat(state.filteredItems), payload);
-      return {
-        ...state,
-        ...handleFilterItems(nextItems, search ?? state.search.value)
-      };
-
     case UserActionTypes.USER_SET_PWAS:
-      nextItems = mergePwas(state.items.concat(state.filteredItems), payload.items);
+      nextItem = payload?.items ?? payload;
+      nextItems = mergePwas(state.items.concat(state.filteredItems), nextItem);
       return {
         ...state,
         ...handleFilterItems(nextItems, search ?? state.search.value)

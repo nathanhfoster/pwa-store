@@ -151,7 +151,7 @@ const mapStateToProps = (
   { isLoading: isLoadingFromProps, flexWrap, data: dataFromProps }
 ) => {
   const dataFromStore = items.concat(filteredItems);
-  const hasFilteredData = filteredItems.length > 0 || searchValue;
+  const hasFilteredData = Boolean(filteredItems.length > 0 || searchValue);
   const isLoading = isLoadingFromProps || isLoadingFromStore;
 
   const data = (dataFromProps || dataFromStore).concat(isLoading ? getPwasSkeleton() : []);

@@ -1,14 +1,15 @@
 import React, { lazy, memo } from 'react';
 import PropTypes from 'prop-types';
-import connect from 'resurrection';
+import connect, { shallowEquals } from 'resurrection';
 import { ToggleAppNavBar } from 'store/reducers/App/actions';
 import { ResetPwasFilter } from 'store/reducers/Pwas/actions/redux';
 import { styled } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
-import { HOME, SETTINGS_USER_FAVORITE_PWAS } from 'utils/RouteMap';
+import { HOME, SETTINGS_USER_PWAS, SETTINGS_USER_FAVORITE_PWAS } from 'utils/RouteMap';
 import Toolbar from '@material-ui/core/Toolbar';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
+import AppsIcon from '@material-ui/icons/Apps';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import HomeIcon from '@material-ui/icons/StoreMallDirectory';
 import { FixedSizeList as List, areEqual } from 'react-window';
@@ -45,28 +46,34 @@ const iconStyles = {
 const NavList = ({ height, tags, ResetPwasFilter, ToggleAppNavBar }) => {
   const history = useHistory();
 
-  const handleResetNavBar = () => {
+  const handleNavigate = (route) => {
+    history.push(route);
     ResetPwasFilter();
     ToggleAppNavBar(false);
   };
 
   const handleHomeClick = () => {
-    history.push(HOME);
-    handleResetNavBar();
+    handleNavigate(HOME);
+  };
+
+  const handleAppsClick = () => {
+    handleNavigate(SETTINGS_USER_PWAS);
   };
 
   const handleFavoriteClick = () => {
-    history.push(SETTINGS_USER_FAVORITE_PWAS);
-    handleResetNavBar();
+    handleNavigate(SETTINGS_USER_FAVORITE_PWAS);
   };
 
   return (
     <>
       <StyledToolbar>
-        <IconButton edge='start' onClick={handleHomeClick}>
+        <IconButton title='Home' edge='start' onClick={handleHomeClick}>
           <HomeIcon sx={iconStyles} />
         </IconButton>
-        <IconButton edge='start' onClick={handleFavoriteClick}>
+        <IconButton title='My Pwas' edge='start' onClick={handleAppsClick}>
+          <AppsIcon sx={iconStyles} />
+        </IconButton>
+        <IconButton title='My Favorites' edge='start' onClick={handleFavoriteClick}>
           <FavoriteIcon sx={iconStyles} />
         </IconButton>
       </StyledToolbar>
@@ -84,4 +91,21 @@ const mapStateToProps = ({ Pwas: { tags }, Window: { innerHeight } }) => ({
 });
 const mapDispatchToProps = { ResetPwasFilter, ToggleAppNavBar };
 
-export default connect(mapStateToProps, mapDispatchToProps)(NavList);
+const options = {
+  areMergedPropsEqual: (prevProps, nextProps) => {
+    const { tags: prevTags, ...restOfPrevProps } = prevProps;
+    const { tags: nextTags, ...restOfNextProps } = nextProps;
+
+    const prevTagsString = prevTags.reduce((acc, { name }) => (acc += name), '');
+
+    const nextTagsString = nextTags.reduce((acc, { name }) => (acc += name), '');
+
+    if (prevTagsString !== nextTagsString) {
+      return false;
+    }
+
+    return shallowEquals(restOfPrevProps, restOfNextProps);
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps, undefined, options)(NavList);
