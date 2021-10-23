@@ -7,9 +7,9 @@ import { ALL_PWA_TAG } from 'store/reducers/Pwas/utils';
 const PwasStack = lazy(() => import('../../components/PwasStack'));
 
 const PwasFilteredByTags = ({ pwas, pwaTag, GetNextPwas }) => {
-  const loadMoreData = useCallback(() => {
+  const loadMoreData = useCallback(async () => {
     if (pwaTag) {
-      GetNextPwas(pwaTag);
+      await GetNextPwas(pwaTag);
     }
   }, [pwaTag]);
 
