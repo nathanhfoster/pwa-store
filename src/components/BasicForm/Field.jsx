@@ -45,7 +45,7 @@ const Field = ({
       return (
         <FormControlLabel
           key={id}
-          control={<Checkbox type={type} id={id} name={id} color={color} checked={value} />}
+          control={<Checkbox inputRef={inputRef} id={id} name={id} type={type} color={color} checked={value} />}
           label={label}
         />
       );
@@ -105,6 +105,7 @@ const Field = ({
           renderInput={(params) => (
             <TextField
               {...params}
+              inputRef={inputRef}
               required={required}
               variant='outlined'
               margin={margin}
@@ -151,8 +152,10 @@ const Field = ({
     default:
       return (
         <TextField
-          inputRef={inputRef}
           key={id}
+          id={id}
+          name={id}
+          inputRef={inputRef}
           type={type}
           margin={margin}
           multiline={isTextArea}
@@ -160,9 +163,7 @@ const Field = ({
           maxRows={isTextArea ? 8 : 'auto'}
           required={required}
           fullWidth={fullWidth}
-          id={id}
           label={label}
-          name={id}
           autoComplete={autoComplete}
           autoFocus={autoFocus}
           color={color}
