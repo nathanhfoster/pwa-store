@@ -7,6 +7,7 @@ import {
   slugify,
   isValidManifestJsonStringOrObject
 } from 'utils';
+import { ALL_PWA_TAG } from 'store/reducers/Pwas/utils';
 export const USER_ID_LOCAL_STORAGE_KEY = 'USER_ID_LOCAL_STORAGE_KEY';
 export const USER_TOKEN_LOCAL_STORAGE_KEY = 'USER_TOKEN_LOCAL_STORAGE_KEY';
 export const USER_MODE_LOCAL_STORAGE_KEY = 'USER_MODE_LOCAL_STORAGE_KEY';
@@ -119,7 +120,7 @@ export const getTagsFromManifest = (manifest) => {
     [
       ...keywords,
       ...categories,
-      ...tags.map(({ name }) => name),
+      ...tags.map(({ name }) => name).filter(tag => tag !== ALL_PWA_TAG),
       ...getSplitWhiteSpace(description),
       ...getSplitWhiteSpace(name),
       ...getSplitWhiteSpace(short_name),
