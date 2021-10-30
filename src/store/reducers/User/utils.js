@@ -120,7 +120,12 @@ export const getTagsFromManifest = (manifest) => {
     [
       ...keywords,
       ...categories,
-      ...tags.map(({ name }) => name).filter(tag => tag !== ALL_PWA_TAG),
+      ...tags.reduce((acc, { name }) => {
+        if (name !== ALL_PWA_TAG) {
+          acc.push(name);
+        }
+        return acc;
+      }, []),
       ...getSplitWhiteSpace(description),
       ...getSplitWhiteSpace(name),
       ...getSplitWhiteSpace(short_name),

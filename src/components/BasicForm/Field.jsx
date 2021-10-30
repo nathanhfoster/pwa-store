@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { useRef, useLayoutEffect, memo } from 'react';
 import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -31,7 +31,14 @@ const Field = ({
   onChange,
   setForm
 }) => {
+  const inputRef = useRef(null);
   const isTextArea = type === 'textarea';
+
+  useLayoutEffect(() => {
+    if (isTextArea && inputRef.current?.style) {
+      inputRef.current.style.resize = 'vertical';
+    }
+  }, [isTextArea]);
 
   switch (type) {
     case 'checkbox':
@@ -144,6 +151,7 @@ const Field = ({
     default:
       return (
         <TextField
+          inputRef={inputRef}
           key={id}
           type={type}
           margin={margin}
