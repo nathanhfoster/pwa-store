@@ -25,6 +25,7 @@ export const getInitialFormState = ({
   form,
   pwa: {
     id,
+    published,
     name,
     slug,
     description,
@@ -48,6 +49,11 @@ export const getInitialFormState = ({
   ];
   return (
     form || {
+      published: {
+        type: 'checkbox',
+        value: published,
+        label: 'Published'
+      },
       url: { type: 'search', required: true, value: url },
       manifest_url: { required: true, value: manifest_url },
       image_url: {

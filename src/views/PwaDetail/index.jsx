@@ -62,7 +62,9 @@ const PwaDetail = ({
   }, [pwaSlug]);
 
   useEffect(() => {
-    UpdateAnalytics({ incr_view: true, slug: pwaSlug });
+    if (pwaSlug) {
+      UpdateAnalytics({ incr_view: true, slug: pwaSlug });
+    }
   }, [pwaSlug]);
 
   const renderRatings = useMemo(
