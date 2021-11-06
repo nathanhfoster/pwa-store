@@ -58,11 +58,8 @@ const PwaDetail = ({
   }, [mainCategory]);
 
   useEffect(() => {
-    GetPwa(pwaSlug);
-  }, [pwaSlug]);
-
-  useEffect(() => {
     if (pwaSlug) {
+      GetPwa(pwaSlug);
       UpdateAnalytics({ incr_view: true, slug: pwaSlug });
     }
   }, [pwaSlug]);
