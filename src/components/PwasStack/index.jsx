@@ -139,8 +139,7 @@ const mapStateToProps = (
     Pwas: {
       items,
       filteredItems,
-      isLoading: isLoadingFromStore,
-      search: { value: searchValue }
+      isLoading: isLoadingFromStore
     },
     Window: {
       breakpoints: { xs, sm, md, lg, xl },
@@ -151,7 +150,7 @@ const mapStateToProps = (
   { isLoading: isLoadingFromProps, flexWrap, data: dataFromProps }
 ) => {
   const dataFromStore = items.concat(filteredItems);
-  const hasFilteredData = Boolean(filteredItems.length > 0 || searchValue);
+  const hasFilteredData = filteredItems.length > 0;
   const isLoading = isLoadingFromProps || isLoadingFromStore;
 
   const data = (dataFromProps || dataFromStore).concat(isLoading ? getPwasSkeleton() : []);
