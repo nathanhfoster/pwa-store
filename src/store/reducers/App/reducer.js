@@ -3,7 +3,7 @@ import { toggleBooleanReducer } from 'resurrection';
 
 export const DEFAULT_STATE = Object.freeze({
   version: '1.0',
-  isInstalled: window.matchMedia?.('(display-mode: standalone)').matches,
+  isInstalled: typeof window !== "undefined" && window.matchMedia?.('(display-mode: standalone)').matches,
   navBarIsOpen: false,
   mobileMenuId: 'MobileMenu',
   mobileMoreAnchorEl: null,

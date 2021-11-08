@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
-import connect from 'resurrection';
+import { connect } from 'resurrection';
 import { useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
-const Logo = `%PUBLIC_URL%/assets/icon-maskable.png`;
+const Logo = `%NEXT_NEXT_PUBLIC_URL%/assets/icon-maskable.png`;
 
 const HelmetContainer = ({}) => {
   const { pathname } = useLocation();
@@ -50,9 +50,9 @@ const HelmetContainer = ({}) => {
       <meta name='description' content={description} />
       <meta property='og:description' content={description} />
       <meta property='og:image' content={image} />
-      <meta property='og:image:secure_url' content='%PUBLIC_URL%/assets/android-chrome-512x512.png' />
+      <meta property='og:image:secure_url' content='%NEXT_NEXT_PUBLIC_URL%/assets/android-chrome-512x512.png' />
       <link rel='canonical' href={url} />
-      <link rel='mask-icon' href='%PUBLIC_URL%/assets/safari-pinned-tab.svg' color={themeColor} />
+      <link rel='mask-icon' href='%NEXT_NEXT_PUBLIC_URL%/assets/safari-pinned-tab.svg' color={themeColor} />
     </Helmet>
   );
 };

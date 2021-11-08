@@ -1,4 +1,4 @@
-import connect from 'resurrection';
+import { connect } from 'resurrection';
 import { StateContext, DispatchContext } from './context';
 
 const options = {

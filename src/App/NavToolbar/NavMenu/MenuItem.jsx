@@ -2,18 +2,20 @@ import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import MaterialMenuItem from '@material-ui/core/MenuItem';
 import { ToggleMobileMoreAnchorEl } from 'store/reducers/App/actions';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { useDispatch } from 'resurrection';
 
-const MenuItem = ({ children, ...restOfProps }) => {
+const MenuItem = ({ children, to, ...restOfProps }) => {
   const dispatch = useDispatch();
   const handleOnClick = () => {
     dispatch(ToggleMobileMoreAnchorEl(null));
   };
 
   return (
-    <MaterialMenuItem {...restOfProps} component={Link} onClick={handleOnClick}>
-      {children}
+    <MaterialMenuItem {...restOfProps} onClick={handleOnClick}>
+      <Link href={to}>
+        {children}
+      </Link>
     </MaterialMenuItem>
   );
 };

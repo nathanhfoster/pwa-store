@@ -15,7 +15,7 @@ import { UserLogin, UserSignUp } from 'store/reducers/User/actions/api';
 import BasicForm from 'components/BasicForm';
 import { DEFAULT_PWA_IMAGE_SIZE } from '../../../constants';
 
-const icon = `${process.env.PUBLIC_URL}/assets/android-chrome-512x512.png`;
+const icon = `${process.env.NEXT_NEXT_PUBLIC_URL}/assets/android-chrome-512x512.png`;
 
 const AppIcon = styled('img')((props) => ({
   display: 'block',

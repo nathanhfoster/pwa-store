@@ -1,11 +1,17 @@
 import React, { cloneElement } from 'react';
 import PropTypes from 'prop-types';
-import Link from 'react-router-dom/Link';
+import Link from 'next/link';
 import IconButton from '@material-ui/core/IconButton';
 
 const Base = ({ href, to, children, ...restOfProps }) => (
-  <IconButton component={to ? Link : href ? 'a' : 'button'} {...restOfProps} to={href || to}>
-    {cloneElement(children, { sx: { animation: 'grow 200ms' } })}
+  <IconButton { ...restOfProps } component={href ? 'a' : 'button'}>
+    {
+      to ? (
+        <Link href={to}>
+          {cloneElement(children, { sx: { animation: 'grow 200ms' } })}
+        </Link> 
+      ) : cloneElement(children, { sx: { animation: 'grow 200ms' } })
+    }
   </IconButton>
 );
 

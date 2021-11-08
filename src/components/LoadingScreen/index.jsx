@@ -20,9 +20,9 @@ const imageStyles = {
   transform: 'translateY(-50%)'
 };
 
-const { PUBLIC_URL } = process.env;
+const { NEXT_NEXT_PUBLIC_URL } = process.env;
 
-const AppIcon = `${PUBLIC_URL}/assets/icon-maskable.png`;
+const AppIcon = `${NEXT_NEXT_PUBLIC_URL}/assets/icon-maskable.png`;
 
 const LoadingScreen = () => (
   <Box sx={containerStyles}>

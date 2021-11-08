@@ -3,7 +3,7 @@ import Base from './Base';
 import LoginIcon from '@material-ui/icons/Login';
 import LogoutIcon from '@material-ui/icons/Logout';
 import { RouteMap } from 'utils';
-import connect from 'resurrection';
+import { connect } from 'resurrection';
 import { DeleteUser } from 'store/reducers/User/actions';
 
 const LoginLogoutButton = ({ userIsLoggedIn, onClick, children }) => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import connect from 'resurrection';
+import { connect } from 'resurrection';
 import { IconButton } from '@material-ui/core';
 import { Favorite as FavoriteSolid, FavoriteBorder } from '@material-ui/icons';
 

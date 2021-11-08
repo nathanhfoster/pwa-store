@@ -46,6 +46,7 @@ export const GetPwaTags = () => (dispatch) => {
       return data;
     })
     .catch((e) => {
+      console.log('except', e)
       dispatch(ToogleIsLoading(false));
       console.error(e);
     });

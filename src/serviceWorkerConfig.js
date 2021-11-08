@@ -1,6 +1,6 @@
 import { storeFactory } from 'resurrection';
 import { SetServiceWorkerRegistration, PushAlert } from 'store/reducers/App/actions';
-const { PUBLIC_URL } = process.env;
+const { NEXT_NEXT_PUBLIC_URL } = process.env;
 
 const receivePushNotification = (event, registration) => {
   console.log('[Service Worker] Push Received.');
@@ -11,7 +11,7 @@ const receivePushNotification = (event, registration) => {
 
   const image = 'https://via.placeholder.com/128/ff0000';
   const tag = 'tag';
-  const url = PUBLIC_URL;
+  const url = NEXT_NEXT_PUBLIC_URL;
   const title = 'title';
   const text = 'text';
 

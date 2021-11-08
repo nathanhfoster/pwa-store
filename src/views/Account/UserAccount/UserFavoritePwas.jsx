@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import PwasStack from 'components/PwasStack';
-import connect from 'resurrection';
+import { connect } from 'resurrection';
 import { PwasType } from 'store/reducers/Pwas/types';
 
 const FavoritePwas = ({ isLoading, userFavoritePwas }) => {

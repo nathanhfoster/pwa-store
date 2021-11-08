@@ -1,13 +1,12 @@
-import React, { lazy } from 'react';
+import React from 'react';
 import Drawer from '@material-ui/core/Drawer';
-import connect from 'resurrection';
+import { connect } from 'resurrection';
 import { ToggleAppNavBar } from 'store/reducers/App/actions';
+import NavList from './NavList';
 
-const NavList = lazy(() => import('./NavList'));
 
 const NavDrawer = ({ drawerWidth, navBarIsOpen, ToggleAppNavBar, window }) => {
   const container = () => window?.().document.body;
-
   return (
     <>
       {navBarIsOpen && (

@@ -1,7 +1,7 @@
 import React from 'react';
 import Base from './Base';
 import SystemUpdateIcon from '@material-ui/icons/SystemUpdate';
-import connect from 'resurrection';
+import { connect } from 'resurrection';
 import { PromptAddToHomeScreenPrompt } from 'store/reducers/App/actions';
 
 const AddToHomeScreenButton = ({ disabled, onClick, children }) => {

@@ -6,7 +6,7 @@ import { SetInDropZone as SetInDropZoneAction, SetValidatedFiles as SetValidated
 import FileImages from './FileImages';
 import DefaultLabel from './DefaultLabel';
 import { getStylesFromProps, LIGHT_GREY, DROP_ZONE_MIN_HEIGHT, DROP_ZONE_MAX_HEIGHT, preventDefaults } from '../utils';
-import connect from 'resurrection';
+import { connect } from 'resurrection';
 import { childrenPropTypes } from '../state/propTypes';
 
 const useStyles = makeStyles({

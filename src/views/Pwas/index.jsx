@@ -1,13 +1,12 @@
-import React, { lazy } from 'react';
+import React from 'react';
+import dynamic from 'next/dynamic';
 import { PwasType } from 'store/reducers/Pwas/types';
-import connect from 'resurrection';
-import usePwaSearchOnQueryChange from 'hooks/usePwaSearchOnQueryChange';
+import { connect } from 'resurrection';
 import { GetPwasPage } from 'store/reducers/Pwas/actions/api';
 
-const PwasStack = lazy(() => import('../../components/PwasStack'));
+const PwasStack = dynamic(() => import('../../components/PwasStack'), { ssr: false });
 
 const Pwas = ({ pwas, GetPwasPage }) => {
-  const queryString = usePwaSearchOnQueryChange();
   return (
     <>
       <PwasStack

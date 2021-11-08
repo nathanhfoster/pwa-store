@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { PwaTagType } from 'store/reducers/Pwas/types';
 import { PwasStack } from 'components';
-import connect from 'resurrection';
+import { connect } from 'resurrection';
 import { SearchPwas } from 'store/reducers/Pwas/actions/api';
 
 const SimilarPwas = ({ pwas, next, pwaSlug, tags, SearchPwas }) => {

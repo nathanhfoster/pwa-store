@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import connect from 'resurrection';
+import { connect } from 'resurrection';
 import PwaFormComponent from 'components/PwaForm';
 import { SetUserPwaForm, SetUserPwaFormManifest, PostUserPwa } from 'store/reducers/User/actions';
 

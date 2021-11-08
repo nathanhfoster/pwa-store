@@ -1,6 +1,6 @@
 import React, { useReducer, useState, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import connect from 'resurrection';
+import { connect } from 'resurrection';
 import Box from '@material-ui/core/Box';
 import Stack from '@material-ui/core/Stack';
 import Avatar from '@material-ui/core/Avatar';

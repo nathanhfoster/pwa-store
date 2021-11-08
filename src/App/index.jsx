@@ -1,6 +1,6 @@
 import React, { useEffect, lazy } from 'react';
 import PropTypes from 'prop-types';
-import connect from 'resurrection';
+import { connect } from 'resurrection';
 import AppBar from '@material-ui/core/AppBar';
 import Box from '@material-ui/core/Box';
 import { ThemeProvider, styled } from '@material-ui/core/styles';

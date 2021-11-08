@@ -1,8 +1,10 @@
 import React, { useMemo, memo } from 'react';
 import PropTypes from 'prop-types';
 import { PwaType } from 'store/reducers/Pwas/types';
+import MaterialUiLink from '@material-ui/core/Link';
 import Tags from './Tags';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { styled } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -53,26 +55,29 @@ const Pwa = ({
   );
 
   const pwaRoute = GetPwaDetailUrl(slug);
-
   return (
-    <StyledCard component={Link} to={pwaRoute} title={name}>
-      <CardMedia
-        component='img'
-        sx={{ m: '0 auto', width: imageSize, height: imageSize, animation: 'grow 100ms' }}
-        image={imageSrc}
-        title={name}
-        onError={(source) => {
-          source.target.src = DEFAULT_PWA_IMAGE;
-        }}
-      />
-      <CardContent>
-        <Typography gutterBottom variant='span' component='div' style={nameStyles}>
-          {name}
-        </Typography>
-        <Typography variant='subtitle2' color='text.secondary' style={noWrapStyles}>
-          <Tags tags={tags} />
-        </Typography>
-      </CardContent>
+    <StyledCard title={name}>
+      <Link href={pwaRoute}>
+        <MaterialUiLink>
+          <CardMedia
+            component='img'
+            sx={{ m: '0 auto', width: imageSize, height: imageSize, animation: 'grow 100ms' }}
+            image={imageSrc}
+            title={name}
+            onError={(source) => {
+              source.target.src = DEFAULT_PWA_IMAGE;
+            }}
+          />
+          <CardContent>
+            <Typography gutterBottom variant='span' component='div' style={nameStyles}>
+              {name}
+            </Typography>
+            <Typography variant='subtitle2' color='text.secondary' style={noWrapStyles}>
+              <Tags tags={tags} />
+            </Typography>
+          </CardContent>
+        </MaterialUiLink>
+      </Link>
     </StyledCard>
   );
 };

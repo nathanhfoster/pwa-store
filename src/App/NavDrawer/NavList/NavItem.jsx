@@ -1,13 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
-import connect from 'resurrection';
+import { connect } from 'resurrection';
 import { ToggleAppNavBar } from 'store/reducers/App/actions';
 import { GetPwaTagDetailUrl } from 'utils/RouteMap';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import AppsIcon from '@material-ui/icons/Apps';
 import ListItemText from '@material-ui/core/ListItemText';
+import { useRouter } from 'next/router';
 import { tagIconMap } from './structure';
 
 const listItemStyles = {
@@ -25,10 +24,10 @@ const listItemStyles = {
 const iconStyles = { animation: 'grow 200ms' };
 
 const NavItem = ({ name, navBarIsOpen, ToggleAppNavBar }) => {
-  const history = useHistory();
+  const router = useRouter();
   const Icon = tagIconMap[name] || AppsIcon;
   const onTagClick = () => {
-    history.push(GetPwaTagDetailUrl(name));
+    router.push(GetPwaTagDetailUrl(name));
     if (navBarIsOpen) {
       ToggleAppNavBar(false);
     }

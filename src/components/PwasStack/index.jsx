@@ -5,7 +5,7 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { FixedSizeGrid as Grid } from 'react-window';
 import { styled } from '@material-ui/styles';
-import connect from 'resurrection';
+import { connect } from 'resurrection';
 
 import { DEFAULT_PWA_IMAGE_SIZE, APP_DRAWER_HEIGHT, APP_DRAWER_WIDTH, DEFAULT_PAGINATION_SIZE } from '../../constants';
 import { GUTTER_SIZE, getCellIndex, getItemKey, getPwasSkeleton } from './utils';

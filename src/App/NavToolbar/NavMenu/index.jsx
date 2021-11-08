@@ -1,13 +1,13 @@
 import React, { useCallback } from 'react';
 import MenuItem from './MenuItem';
 import Menu from '@material-ui/core/Menu';
-import { RouteMap } from 'utils';
+import { LOGIN, SETTINGS_USER_ACCOUNT } from 'utils';
 import { ToggleMobileMoreAnchorEl } from 'store/reducers/App/actions';
 import NotificationsButton from '../Buttons/NotificationsButton';
 import LoginLogoutButton from '../Buttons/LoginLogoutButton';
 import AccountButton from '../Buttons/AccountButton';
 import ThemeButton from '../Buttons/ThemeButton';
-import connect from 'resurrection';
+import { connect } from 'resurrection';
 
 const NavMenu = ({
   mobileMenuId,
@@ -39,10 +39,10 @@ const NavMenu = ({
         <MenuItem>
           <NotificationsButton>Notifications</NotificationsButton>
         </MenuItem>
-        <MenuItem to={RouteMap.SETTINGS_USER_ACCOUNT}>
+        <MenuItem to={SETTINGS_USER_ACCOUNT}>
           <AccountButton>Account</AccountButton>
         </MenuItem>
-        <MenuItem to={RouteMap.LOGIN}>
+        <MenuItem to={LOGIN}>
           <LoginLogoutButton>{userIsLoggedIn ? 'Logout' : 'Login'}</LoginLogoutButton>
         </MenuItem>
         <MenuItem>

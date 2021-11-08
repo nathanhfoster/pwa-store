@@ -4,7 +4,7 @@ const defaultCallback = () => {};
 
 const useOnlineStatus = (callback = defaultCallback) => {
   // Check if required functionality is present
-  const isNavigatorOnLinePresent = typeof window?.navigator?.onLine === 'boolean';
+  const isNavigatorOnLinePresent = typeof window !== 'undefined' && typeof window?.navigator?.onLine === 'boolean';
   const [isAssumedStatus, setIsAssumedStatus] = useState(!isNavigatorOnLinePresent);
   // If no navigator.onLine, assume true
   const [isOnline, setIsOnline] = useState(isNavigatorOnLinePresent ? window?.navigator?.onLine : true);

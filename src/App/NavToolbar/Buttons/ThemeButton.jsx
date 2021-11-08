@@ -1,7 +1,7 @@
 import React from 'react';
 import WbSunny from '@material-ui/icons/WbSunny';
 import Brightness3Icon from '@material-ui/icons/Brightness3';
-import connect from 'resurrection';
+import { connect } from 'resurrection';
 import Base from './Base';
 import { ToggleUserMode } from '../../../store/reducers/User/actions/api';
 

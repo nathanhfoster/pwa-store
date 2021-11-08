@@ -7,7 +7,7 @@ import StarPicker from 'components/StarPicker';
 import DateTime from 'components/DateTime';
 import Avatar from '@material-ui/core/Avatar';
 import { PostRating, UpdateRating } from '../../store/reducers/Pwas/actions/api';
-import connect from 'resurrection';
+import { connect } from 'resurrection';
 import { getFirstChar } from 'utils';
 
 const TextArea = styled(TextareaAutosize)((props) => ({

@@ -1,20 +1,18 @@
-import React, { lazy, memo } from 'react';
-import PropTypes from 'prop-types';
-import connect from 'resurrection';
+import React, { memo } from 'react';
+import { connect } from 'resurrection';
 import { ToggleAppNavBar } from 'store/reducers/App/actions';
 import { ResetPwasFilter } from 'store/reducers/Pwas/actions/redux';
 import { styled } from '@material-ui/core/styles';
-import { useHistory } from 'react-router-dom';
-import { HOME, SETTINGS_USER_FAVORITE_PWAS } from 'utils/RouteMap';
+import { ROOT, SETTINGS_USER_FAVORITE_PWAS } from 'utils/RouteMap';
 import Toolbar from '@material-ui/core/Toolbar';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import HomeIcon from '@material-ui/icons/StoreMallDirectory';
 import { FixedSizeList as List, areEqual } from 'react-window';
+import { useRouter } from 'next/router';
 import { APP_DRAWER_WIDTH, APP_DRAWER_HEIGHT } from '../../../constants';
-
-const NavItem = lazy(() => import('./NavItem'));
+import NavItem from './NavItem';
 
 const Row = memo(({ index, style, data }) => {
   const tag = data[index];
@@ -43,20 +41,19 @@ const iconStyles = {
 };
 
 const NavList = ({ height, tags, ResetPwasFilter, ToggleAppNavBar }) => {
-  const history = useHistory();
-
+  const router = useRouter();
   const handleResetNavBar = () => {
     ResetPwasFilter();
     ToggleAppNavBar(false);
   };
 
   const handleHomeClick = () => {
-    history.push(HOME);
+    router.push(ROOT);
     handleResetNavBar();
   };
 
   const handleFavoriteClick = () => {
-    history.push(SETTINGS_USER_FAVORITE_PWAS);
+    router.push(SETTINGS_USER_FAVORITE_PWAS);
     handleResetNavBar();
   };
 
@@ -78,6 +75,7 @@ const NavList = ({ height, tags, ResetPwasFilter, ToggleAppNavBar }) => {
     </>
   );
 };
+
 const mapStateToProps = ({ Pwas: { tags }, Window: { innerHeight } }) => ({
   height: innerHeight - APP_DRAWER_HEIGHT,
   tags

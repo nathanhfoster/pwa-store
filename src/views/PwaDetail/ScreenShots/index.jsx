@@ -2,7 +2,7 @@ import React, { forwardRef, useMemo, useCallback } from 'react';
 import { VariableSizeGrid as Grid } from 'react-window';
 import { getManifestIconUrl } from 'store/reducers/User/utils';
 import { styled } from '@material-ui/styles';
-import connect from 'resurrection';
+import { connect } from 'resurrection';
 import { getImageDimensions } from 'utils';
 import { IMAGE_HEIGHT, GUTTER_SIZE } from './utils';
 import Screenshot from './Screenshot';

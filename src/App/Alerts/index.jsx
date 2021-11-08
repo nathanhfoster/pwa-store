@@ -1,6 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import connect from 'resurrection';
+import { connect } from 'resurrection';
 
 import Stack from '@material-ui/core/Stack';
 import Alert from './Alert';

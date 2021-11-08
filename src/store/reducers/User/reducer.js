@@ -28,7 +28,7 @@ export const DEFAULT_STATE = Object.freeze({
   last_login: '',
   date_joined: '',
   // Store
-  isOnline: Boolean(typeof window?.navigator?.onLine === 'boolean' ? window?.navigator?.onLine : true),
+  isOnline: typeof window !== 'undefined' && Boolean(typeof window?.navigator?.onLine === 'boolean' ? window?.navigator?.onLine : true),
   isLoading: false,
   pwaToUpload: {
     form: {

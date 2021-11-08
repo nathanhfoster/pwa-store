@@ -13,7 +13,7 @@ import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
 import { StaleWhileRevalidate } from 'workbox-strategies';
 
-const { PUBLIC_URL } = process.env;
+const { NEXT_NEXT_PUBLIC_URL } = process.env;
 
 clientsClaim();
 
@@ -45,7 +45,7 @@ registerRoute(
 
     return true;
   },
-  createHandlerBoundToURL(`${PUBLIC_URL}/index.html`)
+  createHandlerBoundToURL(`${NEXT_NEXT_PUBLIC_URL}/index.html`)
 );
 
 // An example runtime caching route for requests that aren't handled by the

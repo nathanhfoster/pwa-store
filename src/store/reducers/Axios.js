@@ -9,10 +9,8 @@ import { PushAlertWithTimeout } from 'store/reducers/App/actions';
 axios.defaults.xsrfHeaderName = 'X-CSRFToken';
 axios.defaults.xsrfCookieName = 'csrftoken';
 
-const { REACT_APP_API_URL } = process.env;
-
 const axiosDefaults = {
-  baseURL: REACT_APP_API_URL,
+  baseURL: process.env.NEXT_PUBLIC_REACT_APP_API_URL,
   timeout: 0,
   xsrfHeaderName: 'X-CSRFTOKEN',
   xsrfCookieName: 'csrftoken'

@@ -1,20 +1,20 @@
-import React, { useEffect, lazy, useMemo } from 'react';
-import PropTypes from 'prop-types';
-import connect from 'resurrection';
+import React, { useEffect, useMemo } from 'react';
+import dynamic from 'next/dynamic';
+import { connect } from 'resurrection';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Backdrop from '@material-ui/core/Backdrop';
 import Typography from '@material-ui/core/Typography';
 import { PwaType } from 'store/reducers/Pwas/types';
-import { GetPwa, UpdateAnalytics, SearchPwas } from 'store/reducers/Pwas/actions/api';
-import Screenshots from './ScreenShots';
+import { UpdateAnalytics, SearchPwas } from 'store/reducers/Pwas/actions/api';
+import { UpdateReduxPwa } from 'store/reducers/Pwas/actions/redux';
 
-const RatingForm = lazy(() => import('./RatingForm'));
-const Detail = lazy(() => import('./Detail'));
-const Rating = lazy(() => import('./Rating'));
-const SimilarPwas = lazy(() => import('./SimilarPwas'));
-// const Screenshots = lazy(() => import('./ScreenShots'));
+const Screenshots = dynamic(() => import('./ScreenShots'), { ssr: false });
+const RatingForm = dynamic(() => import('./RatingForm'), { ssr: false });
+const Detail = dynamic(() => import('./Detail'), { ssr: false });
+const Rating = dynamic(() => import('./Rating'), { ssr: false });
+const SimilarPwas = dynamic(() => import('./SimilarPwas'), { ssr: false });
 
 const detailContainerStyles = {
   height: '100%',
@@ -25,45 +25,42 @@ const detailContainerStyles = {
   mb: 3
 };
 
-const PwaDetail = ({
-  pwaSlug, // From react-router
-  id,
-  name,
-  slug,
-  description,
-  url,
-  image_url,
-  pwa_screenshots,
-  pwa_analytics,
-  ratings,
-  organization,
-  tags,
-  updated_at,
-  manifest_url,
-  manifest_json,
-  GetPwa,
-  UpdateAnalytics,
-  SearchPwas
-}) => {
-  const mainCategory = useMemo(() => {
-    let categoryName = '';
-    if (tags?.length > 0) {
-      categoryName = tags[0].name;
-    }
-    return categoryName;
-  }, [tags]);
+const PwaDetail = (props) => {
+  const { pwaDetail, dispatch, UpdateAnalytics } = props;
+  const {
+    id,
+    name,
+    slug,
+    description,
+    url,
+    image_url,
+    pwa_screenshots,
+    pwa_analytics,
+    ratings,
+    organization,
+    tags,
+    updated_at,
+    manifest_url,
+    manifest_json,
+    GetPwa,
+    SearchPwas,
+  } = pwaDetail;
+  // const mainCategory = useMemo(() => {
+  //   let categoryName = '';
+  //   if (tags?.length > 0) {
+  //     categoryName = tags[0].name;
+  //   }
+  //   return categoryName;
+  // }, [tags]);
+
+  // useEffect(() => {
+  //   SearchPwas(mainCategory);
+  // }, [mainCategory]);
 
   useEffect(() => {
-    SearchPwas(mainCategory);
-  }, [mainCategory]);
-
-  useEffect(() => {
-    GetPwa(pwaSlug);
-  }, [pwaSlug]);
-
-  useEffect(() => {
-    UpdateAnalytics({ incr_view: true, slug: pwaSlug });
-  }, [pwaSlug]);
+    dispatch(UpdateReduxPwa(pwaDetail));
+    UpdateAnalytics({ incr_view: true, slug });
+  }, []);
 
   const renderRatings = useMemo(
     () =>
@@ -88,7 +85,7 @@ const PwaDetail = ({
       <Box sx={detailContainerStyles}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <Detail pwaSlug={pwaSlug} />
+            <Detail pwaSlug={slug} />
           </Grid>
           {description && (
             <Grid item xs={12}>
@@ -106,7 +103,7 @@ const PwaDetail = ({
         />
       )}
       <Grid container sx={{ mt: 4 }}>
-        <SimilarPwas pwaSlug={pwaSlug} tags={tags} />
+        <SimilarPwas pwaSlug={slug} tags={tags} />
       </Grid>
       <Grid container sx={{ mt: 4 }}>
         <RatingForm pwa_id={id} />
@@ -125,14 +122,10 @@ const PwaDetail = ({
   );
 };
 
-const mapStateToProps = ({ Pwas: { items, filteredItems } }, { pwaSlug }) => {
-  const pwa = items.concat(filteredItems).find(({ slug }) => slug === pwaSlug) || {};
-  return pwa;
-};
+const mapStateToProps = {};
+const mapDispatchToProps = { UpdateAnalytics, SearchPwas };
 
-const mapDispatchToProps = { GetPwa, UpdateAnalytics, SearchPwas };
-
-PwaDetail.propTypes = { pwaSlug: PropTypes.string.isRequired, ...PwaType };
+PwaDetail.propTypes = { ...PwaType };
 
 PwaDetail.defaultProps = {
   ratings: [],

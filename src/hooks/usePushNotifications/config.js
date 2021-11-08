@@ -2,10 +2,10 @@ import { getSHA256 } from '../../utils';
 
 const pushServerPublicKey = 'BIN2Jc5Vmkmy-S3AUrcMlpKxJpLeVRAfu9WBqUbJ70SJOCWGCGXKY-Xzyh7HDr6KbRDGYHjqZ06OcS3BjD7uAm8';
 
-const { PUBLIC_URL } = process.env;
+const { NEXT_NEXT_PUBLIC_URL } = process.env;
 
-const Logo = `${PUBLIC_URL}/assets/icon-maskable.png`;
-const swUrl = `${PUBLIC_URL}/service-worker.js`;
+const Logo = `${NEXT_NEXT_PUBLIC_URL}/assets/icon-maskable.png`;
+const swUrl = `${NEXT_NEXT_PUBLIC_URL}/service-worker.js`;
 
 /**
  * checks if Push notification and service workers are supported by your browser
