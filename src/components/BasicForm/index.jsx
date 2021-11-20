@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import { isFunction } from 'utils';
-import { useSetStateReducer, useLazyMemo, useMountedEffect } from 'resurrection';
+import { useSetStateReducer, useLazyMemo, useEffectAfterMount } from 'resurrection';
 import Field from './Field';
 
 const getInitialFormState = (data) =>
@@ -18,7 +18,7 @@ const BasicForm = ({ title, data, submitTitle, submitJson, disabled, sx, childre
   const [form, setForm] = useSetStateReducer(data, getInitialFormState);
   const initialForm = useLazyMemo(() => form);
 
-  useMountedEffect(() => {
+  useEffectAfterMount(() => {
     setForm(getInitialFormState(data));
   }, [data]);
 

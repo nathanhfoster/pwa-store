@@ -5,7 +5,7 @@ import Box from '@material-ui/core/Box';
 import Stack from '@material-ui/core/Stack';
 import Avatar from '@material-ui/core/Avatar';
 import useDebouncedValue from 'hooks/useDebouncedValue';
-import { useMountedEffect } from 'resurrection';
+import { useEffectAfterMount } from 'resurrection';
 import BasicForm from 'components/BasicForm';
 import { PwaType } from 'store/reducers/Pwas/types';
 import { GetPwaManifest } from '../../store/reducers/Pwas/actions/api';
@@ -33,17 +33,17 @@ const PwaForm = (props) => {
 
   const data = formFromProps || form;
 
-  useMountedEffect(() => {
+  useEffectAfterMount(() => {
     if (!onChange) {
       setForm({ type: 'SET_FORM', payload: props });
     }
   }, [onChange, props, pwa]);
 
-  useMountedEffect(() => {
+  useEffectAfterMount(() => {
     setForm({ type: 'SET_TAGS', payload: { manifest_json: pwa.manifest_json, pwaTags } });
   }, [onChange, pwa.manifest_json, pwaTags]);
 
-  useMountedEffect(() => {
+  useEffectAfterMount(() => {
     (async () => {
       if (debouncedPotentialManifestUrl) {
         await GetPwaManifest(debouncedPotentialManifestUrl)
