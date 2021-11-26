@@ -1,3 +1,6 @@
+import React, { memo } from 'react';
+import PropTypes from 'prop-types';
+import CardMedia from '@material-ui/core/CardMedia';
 
 const imgCache = {
   __cache: {},
@@ -21,13 +24,13 @@ const imgCache = {
   }
 };
 
-const SuspenseImg = ({ src, component: Component, ...rest }) => {
+const SuspenseImg = ({ src, ...restOfProps }) => {
   imgCache.read(src);
-  return <Component src={src} {...rest} />;
+  return <CardMedia src={src} {...restOfProps} />;
 };
 
 SuspenseImg.propTypes = {};
 
 SuspenseImg.defaultProps = { component: 'img' };
 
-export default SuspenseImg;
+export default memo(SuspenseImg);
