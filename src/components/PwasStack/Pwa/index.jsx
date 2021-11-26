@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { styled } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
+import SuspenseImg from './SuspenseImg';
 import Typography from '@material-ui/core/Typography';
 import { getManifestIconSrc } from 'store/reducers/User/utils';
 import { GetPwaDetailUrl } from 'utils/RouteMap';
@@ -56,14 +56,10 @@ const Pwa = ({
 
   return (
     <StyledCard component={Link} to={pwaRoute} title={name}>
-      <CardMedia
-        component='img'
-        sx={{ m: '0 auto', width: imageSize, height: imageSize, animation: 'grow 100ms' }}
+      <SuspenseImg
+        size={imageSize}
         image={imageSrc}
         title={name}
-        onError={(source) => {
-          source.target.src = DEFAULT_PWA_IMAGE;
-        }}
       />
       <CardContent>
         <Typography gutterBottom variant='span' component='div' style={nameStyles}>
