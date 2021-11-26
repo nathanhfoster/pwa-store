@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import CardMedia from '@material-ui/core/CardMedia';
+import { DEFAULT_PWA_IMAGE } from '../../../constants';
 
 const imgCache = {
   __cache: {},
@@ -24,9 +25,16 @@ const imgCache = {
   }
 };
 
-const SuspenseImg = ({ src, ...restOfProps }) => {
-  imgCache.read(src);
-  return <CardMedia src={src} {...restOfProps} />;
+const SuspenseImg = ({ image, size, ...restOfProps }) => {
+  imgCache.read(image);
+  return <CardMedia
+           image={image}
+           sx={{ m: '0 auto', width: size, height: size, animation: 'grow 100ms' }}
+           onError={(source) => {
+            source.target.src = DEFAULT_PWA_IMAGE;
+           }}
+           {...restOfProps} 
+ />;
 };
 
 SuspenseImg.propTypes = {};
