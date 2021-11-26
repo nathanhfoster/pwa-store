@@ -26,7 +26,7 @@ const imgCache = {
 };
 
 const SuspenseImg = ({ image, size, ...restOfProps }) => {
-  imgCache.read(image);
+  // imgCache.read(image);
   return <CardMedia
            image={image}
            sx={{ m: '0 auto', width: size, height: size, animation: 'grow 100ms' }}
