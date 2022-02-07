@@ -26,5 +26,7 @@ const mapStateToProps = (
   },
   { slug }
 ) => ({ fav: items.concat(filteredItems).find((item) => item.pwa.slug === slug) });
+
 const mapDispatchToProps = { UpdateFavorite };
+
 export default connect(mapStateToProps, mapDispatchToProps)(Favorite);
