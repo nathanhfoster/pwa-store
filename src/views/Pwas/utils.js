@@ -1,3 +1,5 @@
+import { getRandomInt } from 'utils';
+
 export const getPwaFeatureWeight = ({ organization }) => organization?.id ?? 0;
 
 export const getPwaAnalyticsWeight = ({ pwa_analytics, related_applications }) => {
