@@ -1,6 +1,5 @@
 import React from 'react';
 import FilteredPwas from './FilteredPwas';
-import { getRandomInt } from 'utils';
 import { featuredAppsSort, topAppsSort, newAppsSort, randomAppsSort } from './utils';
 
 const Pwas = () => {
