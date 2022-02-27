@@ -96,7 +96,7 @@ const Detail = ({
   const hrefUrlReference = getHrefUrlReference(url);
 
   return (
-    <Box sx={{ maxWidth: 500, flexGrow: 1 }}>
+    <Box component="section" title={name} sx={{ maxWidth: 500, flexGrow: 1 }}>
       <Grid container spacing={0}>
         <Grid item xs={12} sm container zeroMinWidth>
           <Grid item xs='auto' sm={4} justifyContent='center' alignContent='center'>
